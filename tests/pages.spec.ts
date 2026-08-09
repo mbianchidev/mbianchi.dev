@@ -302,6 +302,7 @@ test.describe('Static route experience', () => {
   test('publishes the complete English blog archive', async ({ page }) => {
     const expectedBlogRoutes = [
       '/blog/2023-devops-is-terrible/',
+      '/blog/2026-ai-sucks/',
       '/blog/apple-pays-4-15-apy-on-saving-accounts/',
       '/blog/cloud-native-rejekts-kubecon-na-2024/',
       '/blog/community-101/',
@@ -332,7 +333,7 @@ test.describe('Static route experience', () => {
 
     await page.goto('/blog', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByText('27 field notes', { exact: true })).toBeVisible();
+    await expect(page.getByText('28 field notes', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Field notes from the workbench.' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'Latest field note' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'The reading desk' })).toBeVisible();
@@ -354,6 +355,20 @@ test.describe('Static route experience', () => {
       ].sort()
     );
     expect(publishedRoutes).toEqual(expectedBlogRoutes.sort());
+
+    await page.goto('/blog/2026-ai-sucks', { waitUntil: 'domcontentloaded' });
+    await expect(page).toHaveTitle('2026 AI sucks. — Matteo');
+    await expect(page.getByRole('heading', { name: 'AI in 2026 sucks.' })).toBeVisible();
+    await expect(page.getByText('Photo © AFP', { exact: true })).toBeVisible();
+    await expect(page.locator('article img')).toHaveCount(2);
+    await expect(page.locator('article img').nth(0)).toHaveAttribute(
+      'src',
+      '/images/Amodei-Altman.jpg'
+    );
+    await expect(page.locator('article img').nth(1)).toHaveAttribute(
+      'src',
+      '/images/OpenAI-circle-investing.jpg'
+    );
 
     await page.goto('/blog/i-dont-like-chatgpt', { waitUntil: 'domcontentloaded' });
     await expect(page).toHaveTitle('I don’t like ChatGPT. — Matteo');
