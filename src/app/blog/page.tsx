@@ -170,7 +170,6 @@ export default function BlogPage() {
               <Link
                 href={`/blog/${featuredPost.slug}`}
                 className={styles.leadMedia}
-                aria-label={`Read ${featuredPost.title}`}
               >
                 <PostCover
                   post={featuredPost}
@@ -217,7 +216,6 @@ export default function BlogPage() {
                 <Link
                   href={`/blog/${deskFeature.slug}`}
                   className={styles.deskFeatureMedia}
-                  aria-label={`Read ${deskFeature.title}`}
                 >
                   <PostCover
                     post={deskFeature}
@@ -248,7 +246,6 @@ export default function BlogPage() {
                   <Link
                     href={`/blog/${post.slug}`}
                     className={styles.deskRowMedia}
-                    aria-label={`Read ${post.title}`}
                   >
                     <PostCover
                       post={post}
@@ -311,7 +308,6 @@ export default function BlogPage() {
                   <Link
                     href={`/blog/${post.slug}`}
                     className={styles.archiveMedia}
-                    aria-label={`Read ${post.title}`}
                   >
                     <PostCover
                       post={post}
