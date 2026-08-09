@@ -3,8 +3,8 @@ title: "My 2024 wrapped"
 date: "2024-12-20"
 author: "Matteo Bianchi"
 category: "Personal"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/my-2024-wrapped.webp"
+imageAlt: "Matteo Bianchi presenting on stage at KCD Denmark"
 excerpt: "This is a series at the third episode, at least.My usual odd year-end blog post where I reflect on my year and I’m being public with it to have some degree of accountability.So… 2024 has come to an end, one of the most difficult but also beautiful..."
 ---
 

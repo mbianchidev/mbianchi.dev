@@ -3,8 +3,8 @@ title: "Yet Another Monumentally Long Year in Review: 2025"
 date: "2025-12-29"
 author: "Matteo Bianchi"
 category: "Personal"
-image: "../../public/brand/matteo-mark.png"
-imageAlt: "Matteo human platform brand mark"
+image: "/images/blog/yet-another-monumentally-long-year-in-review-2025.webp"
+imageAlt: "Matteo Bianchi and guitarist Lorenzo after a recording session"
 excerpt: "I just wanted the title to spell YAML, fool.Why I write these reviewsWelcome to my usual “year in review” blog. If you’re new here, let me explain: every year, I commit to sharing my experiences, wins, and failures in public. Why? Because I believe..."
 ---
 

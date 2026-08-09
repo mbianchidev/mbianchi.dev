@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test';
 import pathRedirects from '../src/data/redirects.json';
 import { getAllPostSlugs, getSortedPostsData } from '../src/lib/markdown';
-import { createAbsoluteImageUrl, withBasePath } from '../src/lib/siteMetadata';
+import {
+  createAbsoluteImageUrl,
+  getSocialImageDefinition,
+  withBasePath,
+} from '../src/lib/siteMetadata';
 import vercelConfig from '../vercel.json';
 
 const pages = [
@@ -190,7 +194,7 @@ test.describe('Static route experience', () => {
     const expectedUrl =
       'https://mbianchi.dev/blog/yet-another-monumentally-long-year-in-review-2025/';
     const expectedImage =
-      'https://mbianchi.dev/blog-social-images/yet-another-monumentally-long-year-in-review-2025/matteo-mark.png';
+      'https://mbianchi.dev/images/blog/yet-another-monumentally-long-year-in-review-2025.webp';
 
     await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', expectedUrl);
@@ -200,15 +204,15 @@ test.describe('Static route experience', () => {
     );
     await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
       'content',
-      'Matteo human platform brand mark'
+      'Matteo Bianchi and guitarist Lorenzo after a recording session'
     );
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
       'content',
-      '1024'
+      '675'
     );
     await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute(
       'content',
-      '1024'
+      '900'
     );
     await expect(page.locator('meta[property="article:published_time"]')).toHaveAttribute(
       'content',
@@ -233,7 +237,31 @@ test.describe('Static route experience', () => {
 
     const imageResponse = await request.get(new URL(expectedImage).pathname);
     expect(imageResponse.ok()).toBe(true);
-    expect(imageResponse.headers()['content-type']).toContain('image/png');
+    expect(imageResponse.headers()['content-type']).toContain('image/webp');
+  });
+
+  test('shows every post social image in the blog archive', async ({ page, request }) => {
+    const posts = getSortedPostsData();
+
+    await page.goto('/blog', { waitUntil: 'domcontentloaded' });
+
+    for (const post of posts) {
+      const image = getSocialImageDefinition(post.image, post.imageAlt);
+      const expectedPath = `/images/blog/${post.slug}.webp`;
+      const archiveRow = page.locator(`[data-blog-slug="${post.slug}"]`);
+      const cover = archiveRow.getByRole('img', { name: post.imageAlt });
+
+      expect(image.src).toBe(expectedPath);
+      expect(image.width).toBeGreaterThan(0);
+      expect(image.height).toBeGreaterThan(0);
+      await expect(archiveRow).toBeVisible();
+      await expect(cover).toBeVisible();
+      await expect(cover).toHaveAttribute('src', withBasePath(expectedPath));
+
+      const imageResponse = await request.get(expectedPath);
+      expect(imageResponse.ok(), expectedPath).toBe(true);
+      expect(imageResponse.headers()['content-type']).toContain('image/webp');
+    }
   });
 
   test('keeps social image URLs absolute and independent of an export base path', () => {

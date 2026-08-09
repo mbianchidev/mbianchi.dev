@@ -3,8 +3,8 @@ title: "Wtf is DevRel?"
 date: "2024-01-05"
 author: "Matteo Bianchi"
 category: "DevRel"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/wtf-is-devrel.webp"
+imageAlt: "A confused cat surrounded by question marks and the word DevRel"
 excerpt: "Digging into the role and how blogging helped me becoming one for a Silicon Valley startup."
 ---
 

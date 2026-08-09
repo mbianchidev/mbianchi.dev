@@ -3,8 +3,8 @@ title: "Surviving KubeCon EU 2024 (attendee edition)"
 date: "2024-03-15"
 author: "Matteo Bianchi"
 category: "Cloud Native"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/surviving-kubecon-eu-2024-attendee-edition.webp"
+imageAlt: "An exhausted conference attendee sitting in a chair"
 excerpt: "Just a veeeery quick blog/survival guide that could be useful for new KubeCon attendees or for experienced ones that still need some hints.This is how I’ll look like during the conference by the way :DLet’s start:Build your schedule aheadPlease, do..."
 ---
 

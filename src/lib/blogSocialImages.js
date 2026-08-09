@@ -4,6 +4,7 @@ const path = require('node:path')
 const generatedDirectory = path.join(process.cwd(), '.generated')
 const generatedManifestPath = path.join(generatedDirectory, 'blog-social-images.json')
 const publicDirectory = path.join(process.cwd(), 'public', 'blog-social-images')
+const publicRootDirectory = path.join(process.cwd(), 'public')
 const supportedExtensions = new Set(['.avif', '.jpeg', '.jpg', '.png', '.webp'])
 
 function isPublishedBlogPostFile(fileName) {
@@ -15,26 +16,40 @@ function isPublishedBlogPostFile(fileName) {
 }
 
 function isLocalBlogImageReference(value) {
-  return typeof value === 'string' && (value.startsWith('./') || value.startsWith('../'))
+  return (
+    typeof value === 'string'
+    && (value.startsWith('/') || value.startsWith('./') || value.startsWith('../'))
+  )
+}
+
+function isPublicBlogImageReference(value) {
+  return typeof value === 'string' && value.startsWith('/')
 }
 
 function resolveLocalBlogImage(postFile, imageReference) {
   if (!isLocalBlogImageReference(imageReference)) {
-    throw new Error(`Blog social images must use a catalog key or relative path: ${imageReference}`)
+    throw new Error(`Blog social images must use a catalog key or local path: ${imageReference}`)
   }
 
-  const sourcePath = path.resolve(path.dirname(postFile), imageReference)
-  const repositoryRoot = fs.realpathSync(process.cwd())
+  const sourcePath = isPublicBlogImageReference(imageReference)
+    ? path.resolve(publicRootDirectory, `.${imageReference}`)
+    : path.resolve(path.dirname(postFile), imageReference)
+  const allowedRoot = fs.realpathSync(
+    isPublicBlogImageReference(imageReference) ? publicRootDirectory : process.cwd()
+  )
 
   if (!fs.existsSync(sourcePath) || !fs.statSync(sourcePath).isFile()) {
     throw new Error(`Blog social image does not exist: ${imageReference}`)
   }
 
   const realSourcePath = fs.realpathSync(sourcePath)
-  const relativeSourcePath = path.relative(repositoryRoot, realSourcePath)
+  const relativeSourcePath = path.relative(allowedRoot, realSourcePath)
 
   if (relativeSourcePath.startsWith('..') || path.isAbsolute(relativeSourcePath)) {
-    throw new Error(`Blog social image must stay inside the repository: ${imageReference}`)
+    const location = isPublicBlogImageReference(imageReference)
+      ? 'the public directory'
+      : 'the repository'
+    throw new Error(`Blog social image must stay inside ${location}: ${imageReference}`)
   }
 
   const extension = path.extname(realSourcePath).toLowerCase()
@@ -86,6 +101,7 @@ module.exports = {
   getBlogSocialImageOutput,
   getGeneratedBlogSocialImage,
   isLocalBlogImageReference,
+  isPublicBlogImageReference,
   isPublishedBlogPostFile,
   publicDirectory,
   resolveLocalBlogImage,

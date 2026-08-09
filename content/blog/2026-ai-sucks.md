@@ -5,7 +5,7 @@ updated: "2026-08-10"
 author: "Matteo Bianchi"
 category: "AI"
 excerpt: "My previous blog on AI started with me complaining: I cannot take it anymore, ChatGPT is everywhere. Let me rephrase: I cannot take it anymore, AI is everywhere."
-image: "../images/Amodei-Altman.jpg"
+image: "/images/blog/2026-ai-sucks.webp"
 imageAlt: "Dario Amodei (Anthropic) and Sam Altman (OpenAI)"
 tags:
   - AI

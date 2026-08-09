@@ -24,8 +24,8 @@ title: "Your Post Title"
 date: "YYYY-MM-DD"
 author: "Matteo Bianchi"
 category: "Category Name"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/my-awesome-post.webp"
+imageAlt: "A concise description of the selected cover image"
 excerpt: "A brief description of your post (used in listing page)"
 ---
 
@@ -38,7 +38,7 @@ Your markdown content goes here...
 - **date**: Publication date in YYYY-MM-DD format
 - **author**: Use `Matteo Bianchi` for every post
 - **category**: Post category (e.g., "Cloud Native", "Kubernetes", "Security")
-- **image**: A built-in image key (`profile` or `brand`), or a local image path relative to the post file
+- **image**: A local image under `public/images/blog/`, referenced from `/images/blog/`, or a built-in image key (`profile` or `brand`)
 - **imageAlt**: Concise alternative text describing the selected social preview image
 - **excerpt**: A short summary (1-2 sentences) displayed on the blog listing page
 
@@ -48,20 +48,21 @@ Your markdown content goes here...
 - **updated**: Last substantial update date in YYYY-MM-DD format. When present, it is published as the article modification time.
 - **tags**: YAML list of article tags. When omitted, the post category is used as the social metadata tag.
 
-For a post-specific image, keep the file in the repository and reference it
-relative to the Markdown file:
+For a post-specific image, keep the file under `public/images/blog/` and
+reference its public path:
 
 ```yaml
-image: "./images/my-post-cover.jpg"
+image: "/images/blog/my-post-cover.webp"
 imageAlt: "Description of the post cover"
 ```
 
 `npm run dev`, `npm run build`, and the Playwright test command validate the
-image, read its dimensions, and copy it to
-`public/blog-social-images/<post-slug>/` before Next.js starts. The emitted
-Open Graph and Twitter URL is absolute and production-safe. Supported formats
-are AVIF, JPEG, PNG, and WebP. Remote URLs and paths outside the repository are
-rejected, and missing or invalid images fail loudly.
+image and read its dimensions before Next.js starts. The same file appears in
+the `/blog` archive and in the post's Open Graph and Twitter metadata. The
+emitted social URL is absolute and production-safe. Supported formats are AVIF,
+JPEG, PNG, and WebP. Remote URLs and paths outside `public/` are rejected, and
+missing or invalid images fail loudly. Relative repository paths remain
+supported for migrated content and are exported to `public/blog-social-images/`.
 
 ## Markdown Support
 
