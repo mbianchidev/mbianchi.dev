@@ -187,7 +187,7 @@ I honestly feel betrayed by those.
 I like when companies, use AI for what is good and understand that engineering has never (ever) been about writing code, but a lot about understanding reality, codifying it into abstracts, human and system interactions, design, integrations and finding patterns in data. Possibly without selling them on the black market. Right, Meta?
 
 I always hear this phrase and it sickens me: _"Humans in the loop"_.
-Humans are not in the loop, they must be loop.
+Humans are not in the loop, they must be _the_ loop.
 What do you mean you gave access to OpenClaw to your entire machine?
 What do you mean you named your agent and you TALK to it and address it as a friend? Maybe about your (mental) health too?
 
