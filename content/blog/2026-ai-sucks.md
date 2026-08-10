@@ -13,7 +13,7 @@ tags:
 readTime: "10 min read"
 ---
 
-# AI in 2026 sucks.
+# 2026 AI sucks.
 
 My [previous blog on AI](https:/mbianchi.dev/i-dont-like-chatgpt) started with me complaining: I cannot take it anymore, ChatGPT is everywhere.
 
