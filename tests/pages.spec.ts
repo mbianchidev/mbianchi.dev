@@ -386,7 +386,7 @@ test.describe('Static route experience', () => {
 
     await page.goto('/blog/2026-ai-sucks', { waitUntil: 'domcontentloaded' });
     await expect(page).toHaveTitle('2026 AI sucks. — Matteo');
-    await expect(page.getByRole('heading', { name: 'AI in 2026 sucks.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '2026 AI sucks.' })).toBeVisible();
     await expect(page.getByText('Photo © AFP', { exact: true })).toBeVisible();
     await expect(page.locator('article img')).toHaveCount(2);
     await expect(page.locator('article img').nth(0)).toHaveAttribute(
