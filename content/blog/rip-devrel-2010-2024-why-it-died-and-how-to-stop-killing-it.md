@@ -3,8 +3,8 @@ title: "RIP DevRel (2010–2024): Why it died — and how to stop killing it
 date: "2024-12-06"
 author: "Matteo Bianchi"
 category: "DevRel"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/rip-devrel-2010-2024-why-it-died-and-how-to-stop-killing-it.webp"
+imageAlt: "The Chill Guy meme standing in a sunset field"
 excerpt: "RIP DevRel (2010–2024)Pour one out for Developer Relations, cause it’s about to be gone, for good.Forget everything I did last year as a DevRel in the Cloud Native space for a second — this blog has nothing to do with that.Instead, it’s both:- A..."
 ---
 

@@ -3,8 +3,8 @@ title: "Kubernetes v1.31, Elli: an insider view!"
 date: "2024-08-21"
 author: "Matteo Bianchi"
 category: "Kubernetes"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/kubernetes-v1-31-elli-an-insider-view.webp"
+imageAlt: "The Kubernetes v1.31 release mascot Elli beside the Kubernetes logo"
 excerpt: "Kubernetes has had a community-driven release lifecycle since forever now and I took part of it as Comms Shadow for v1.31, here’s how it went and what I have learnt in the process.Elli, the release lead doggo, how cute!The Story So FarI knew about..."
 ---
 

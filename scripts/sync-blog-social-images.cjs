@@ -8,6 +8,7 @@ const {
   generatedManifestPath,
   getBlogSocialImageOutput,
   isLocalBlogImageReference,
+  isPublicBlogImageReference,
   isPublishedBlogPostFile,
   publicDirectory,
   resolveLocalBlogImage,
@@ -51,7 +52,9 @@ async function syncBlogSocialImages() {
     }
 
     const sourcePath = resolveLocalBlogImage(postFile, image)
-    const { destinationPath, publicPath } = getBlogSocialImageOutput(slug, sourcePath)
+    const output = isPublicBlogImageReference(image)
+      ? { publicPath: image }
+      : getBlogSocialImageOutput(slug, sourcePath)
     const metadata = await sharp(sourcePath).metadata()
     const type = metadata.format ? imageTypes[metadata.format] : undefined
 
@@ -59,11 +62,13 @@ async function syncBlogSocialImages() {
       throw new Error(`Could not read blog social image metadata: ${image}`)
     }
 
-    fs.mkdirSync(path.dirname(destinationPath), { recursive: true })
-    fs.copyFileSync(sourcePath, destinationPath)
+    if ('destinationPath' in output) {
+      fs.mkdirSync(path.dirname(output.destinationPath), { recursive: true })
+      fs.copyFileSync(sourcePath, output.destinationPath)
+    }
 
     manifest[slug] = {
-      src: publicPath,
+      src: output.publicPath,
       width: metadata.width,
       height: metadata.height,
       type,

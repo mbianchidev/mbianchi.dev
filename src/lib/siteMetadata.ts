@@ -17,6 +17,19 @@ export interface SocialImageDefinition {
 
 export type SocialImageSource = SocialImageKey | SocialImageDefinition
 
+export function getSocialImageDefinition(
+  image: SocialImageSource,
+  imageAlt?: string
+): SocialImageDefinition {
+  const selectedImage = typeof image === 'string' ? socialImages[image] : image
+  const alt = imageAlt ?? selectedImage.alt
+
+  return {
+    ...selectedImage,
+    ...(alt ? { alt } : {}),
+  }
+}
+
 export function getBasePath() {
   const configuredBasePath = process.env.NEXT_BASE_PATH?.trim()
 
@@ -67,14 +80,13 @@ export function createAbsoluteImageUrl(pathname: string) {
 }
 
 export function resolveSocialImage(image: SocialImageSource, imageAlt?: string) {
-  const selectedImage = typeof image === 'string' ? socialImages[image] : image
-  const alt = imageAlt ?? selectedImage.alt
+  const selectedImage = getSocialImageDefinition(image, imageAlt)
 
   return {
     url: createAbsoluteImageUrl(selectedImage.src),
     ...(selectedImage.width ? { width: selectedImage.width } : {}),
     ...(selectedImage.height ? { height: selectedImage.height } : {}),
-    ...(alt ? { alt } : {}),
+    ...(selectedImage.alt ? { alt: selectedImage.alt } : {}),
     ...(selectedImage.type ? { type: selectedImage.type } : {}),
   }
 }

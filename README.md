@@ -188,13 +188,15 @@ The built-in icon values are `mentor`, `youtube`, and `github`. To add another
 icon, extend `PublicLinkIcon` in `src/data/links.ts` and add its SVG case to
 `LinkIcon` in `src/app/links/page.tsx`.
 
-Blog posts select their social preview image with the required `image` and
-`imageAlt` frontmatter fields. See `content/blog/README.md` for the supported
-catalog keys and validation rules.
+Blog posts select one local cover with the required `image` and `imageAlt`
+frontmatter fields. Covers live in `public/images/blog/` and the same image is
+used for social previews and the `/blog` archive. See `content/blog/README.md`
+for the supported paths, catalog keys, and validation rules.
 
 ## 🔧 Available Scripts
 
 - `npm run dev` - Clear stale `.next` artifacts and start the development server
+- `npm run blog:images` - Validate blog covers and generate the social image manifest
 - `npm run build` - Build for production
 - `npm run images:optimize` - Regenerate responsive AVIF and WebP portrait variants
 - `npm run start` - Start production server

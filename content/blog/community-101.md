@@ -3,8 +3,8 @@ title: "Community 101"
 date: "2024-08-09"
 author: "Matteo Bianchi"
 category: "Community"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/community-101.webp"
+imageAlt: "A collage from the Vans Warped Tour documentary No Room for Rockstars"
 excerpt: "My story with communities and my view about how healthy tech communities should work.Let’s start with the definition of community:“A community is a social unit with a shared socially significant characteristic, such as place, set of norms, culture,..."
 ---
 

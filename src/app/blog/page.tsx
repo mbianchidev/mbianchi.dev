@@ -1,8 +1,13 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { PageHero } from '@/components/PageHero'
 import type { BlogPostMetadata } from '@/lib/markdown'
 import { getSortedPostsData } from '@/lib/markdown'
-import { createPageMetadata } from '@/lib/siteMetadata'
+import {
+  createPageMetadata,
+  getSocialImageDefinition,
+  withBasePath,
+} from '@/lib/siteMetadata'
 import innerStyles from '@/app/inner.module.css'
 import styles from './blog.module.css'
 
@@ -63,6 +68,33 @@ function makeExcerpt(post: BlogPostMetadata, maxLength = 210) {
   const lastSpace = shortened.lastIndexOf(' ')
 
   return `${shortened.slice(0, lastSpace > maxLength * 0.7 ? lastSpace : maxLength).trim()}…`
+}
+
+interface PostCoverProps {
+  post: BlogPostMetadata
+  className: string
+  sizes: string
+  priority?: boolean
+}
+
+function PostCover({ post, className, sizes, priority = false }: PostCoverProps) {
+  const image = getSocialImageDefinition(post.image, post.imageAlt)
+
+  if (!image.width || !image.height) {
+    throw new Error(`Blog post "${post.slug}" requires image dimensions`)
+  }
+
+  return (
+    <Image
+      src={withBasePath(image.src)}
+      alt={image.alt ?? post.imageAlt}
+      width={image.width}
+      height={image.height}
+      className={className}
+      sizes={sizes}
+      priority={priority}
+    />
+  )
 }
 
 export default function BlogPage() {
@@ -134,18 +166,31 @@ export default function BlogPage() {
               <span>Latest</span>
               <strong>{featuredPost.date.slice(0, 4)}</strong>
             </div>
-            <div className={styles.leadCopy}>
-              <div className={styles.storyMeta}>
-                <span>{featuredPost.category}</span>
-                <time dateTime={featuredPost.date}>{formatDate(featuredPost.date)}</time>
-                <span>{featuredPost.readTime}</span>
-              </div>
-              <h2 id="latest-note">{featuredPost.title}</h2>
-              <p>{makeExcerpt(featuredPost, 250)}</p>
-              <Link href={`/blog/${featuredPost.slug}`}>
-                Read the latest field note
-                <span aria-hidden="true">↗</span>
+            <div className={styles.leadBody}>
+              <Link
+                href={`/blog/${featuredPost.slug}`}
+                className={styles.leadMedia}
+              >
+                <PostCover
+                  post={featuredPost}
+                  className={styles.coverImage}
+                  sizes="(max-width: 980px) 100vw, 44vw"
+                  priority
+                />
               </Link>
+              <div className={styles.leadCopy}>
+                <div className={styles.storyMeta}>
+                  <span>{featuredPost.category}</span>
+                  <time dateTime={featuredPost.date}>{formatDate(featuredPost.date)}</time>
+                  <span>{featuredPost.readTime}</span>
+                </div>
+                <h2 id="latest-note">{featuredPost.title}</h2>
+                <p>{makeExcerpt(featuredPost, 250)}</p>
+                <Link href={`/blog/${featuredPost.slug}`}>
+                  Read the latest field note
+                  <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
             </div>
           </article>
         </section>
@@ -168,24 +213,46 @@ export default function BlogPage() {
           <div className={styles.deskGrid}>
             {deskFeature && (
               <article className={styles.deskFeature}>
-                <div className={styles.storyMeta}>
-                  <span>{deskFeature.category}</span>
-                  <time dateTime={deskFeature.date}>{formatDate(deskFeature.date)}</time>
-                </div>
-                <h3>{deskFeature.title}</h3>
-                <p>{makeExcerpt(deskFeature, 190)}</p>
                 <Link
                   href={`/blog/${deskFeature.slug}`}
-                  aria-label={`Read ${deskFeature.title}`}
+                  className={styles.deskFeatureMedia}
                 >
-                  <span>{deskFeature.readTime}</span>
-                  <span aria-hidden="true">↗</span>
+                  <PostCover
+                    post={deskFeature}
+                    className={styles.coverImage}
+                    sizes="(max-width: 980px) 100vw, 52vw"
+                  />
                 </Link>
+                <div className={styles.deskFeatureCopy}>
+                  <div className={styles.storyMeta}>
+                    <span>{deskFeature.category}</span>
+                    <time dateTime={deskFeature.date}>{formatDate(deskFeature.date)}</time>
+                  </div>
+                  <h3>{deskFeature.title}</h3>
+                  <p>{makeExcerpt(deskFeature, 190)}</p>
+                  <Link
+                    href={`/blog/${deskFeature.slug}`}
+                    aria-label={`Read ${deskFeature.title}`}
+                  >
+                    <span>{deskFeature.readTime}</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
               </article>
             )}
             <div className={styles.deskRail}>
               {deskRail.map((post) => (
                 <article key={post.slug} className={styles.deskRow}>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className={styles.deskRowMedia}
+                  >
+                    <PostCover
+                      post={post}
+                      className={styles.coverImage}
+                      sizes="(max-width: 700px) 38vw, 140px"
+                    />
+                  </Link>
                   <div className={styles.storyMeta}>
                     <span>{post.category}</span>
                     <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -233,10 +300,21 @@ export default function BlogPage() {
                   key={post.slug}
                   id={isCategoryAnchor ? `topic-${slugify(post.category)}` : undefined}
                   className={styles.archiveRow}
+                  data-blog-slug={post.slug}
                 >
                   <div className={styles.archiveNumber}>
                     {String(posts.length - index).padStart(3, '0')}
                   </div>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className={styles.archiveMedia}
+                  >
+                    <PostCover
+                      post={post}
+                      className={styles.coverImage}
+                      sizes="(max-width: 700px) calc(100vw - 82px), (max-width: 980px) 150px, 180px"
+                    />
+                  </Link>
                   <div className={styles.archiveDate}>
                     <time dateTime={post.date}>{formatDate(post.date)}</time>
                     <span>{post.category}</span>

@@ -5,7 +5,7 @@ updated: "2026-01-02"
 author: "Matteo Bianchi"
 category: "Engineering"
 excerpt: "One short sentence used in listings and social previews."
-image: "../images/post-cover.jpg"
+image: "/images/blog/post-cover.webp"
 imageAlt: "Describe the social preview image"
 tags:
   - Engineering
@@ -19,10 +19,11 @@ This underscore-prefixed file is a template and is never published.
 Social image options:
   image: "profile"
   image: "brand"
-  image: "../images/post-cover.jpg"  # local file in content/images/
+  image: "/images/blog/post-cover.webp"  # local file in public/images/blog/
 
 Remote social image URLs are intentionally rejected. Local social images are
-validated, measured, and exported automatically.
+validated and measured automatically. The selected image is used both in social
+metadata and on the main blog archive.
 
 Optional frontmatter: updated, tags, readTime. Remove any you do not need.
 imageAlt is always required.

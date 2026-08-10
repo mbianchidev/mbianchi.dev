@@ -3,8 +3,8 @@ title: "KubeCon + Rejekts + KubeTrain + KCD = ❤"
 date: "2024-03-28"
 author: "Matteo Bianchi"
 category: "Cloud Native"
-image: "profile"
-imageAlt: "Matteo Bianchi speaking on stage at KCD Denmark"
+image: "/images/blog/kubecon-rejekts-kubetrain-kcd.webp"
+imageAlt: "Matteo Bianchi with Cloud Native community members at KubeCon EU"
 excerpt: "Organizing KubeTrain, attending Cloud Native Rejekts and KubeCon EU, meeting a ton of KCD people in Paris last week, has been an amazing experience. So many (community) things to do and so little time!From zero to having a panel at KubeCon? ChooChoo..."
 ---
 

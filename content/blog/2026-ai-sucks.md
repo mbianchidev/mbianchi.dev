@@ -5,7 +5,7 @@ updated: "2026-08-10"
 author: "Matteo Bianchi"
 category: "AI"
 excerpt: "My previous blog on AI started with me complaining: I cannot take it anymore, ChatGPT is everywhere. Let me rephrase: I cannot take it anymore, AI is everywhere."
-image: "../images/Amodei-Altman.jpg"
+image: "/images/blog/2026-ai-sucks.webp"
 imageAlt: "Dario Amodei (Anthropic) and Sam Altman (OpenAI)"
 tags:
   - AI
@@ -75,11 +75,13 @@ There are many harnesses out there, some I quoted already, some are open source 
 
 First of all, I do not use AI and do not support its usage for:
 
-- Human interactions - At least in our private life, while at work I understand it could happen and to me it does. Especially if I'm requested detailed report involving multiple sources including Salesforce data. Everything still gets double checked by me.
-- Music - Fuck whoever composes music exclusively with AI. I personally will never use it to compose music or write lyrics. I am using it to develop systems like a VST (plugin for a Digital Audio Workstation), a software to split track for vocal covers, extracting instrumentals from YouTube and such, but never to directly create music.
-- Art - Fuck AI art. Even if I am developing a videogame with the aid of AI, it's an experiment. For any artwork in case I ever publish a proper game I would ALWAYS pay an artist. I don't draw/paint but I would not use it for that either. I would also not buy an AI generated painting. Different is if someone uses AI to get a draft/guideline but then they paint on a canva, that can be fair.
+- **Human interactions** - At least in our private life, while at work I understand it could happen and to me it does. Especially if I'm requested detailed report involving multiple sources including Salesforce data. Everything still gets double checked by me.
+- **Music** - Fuck whoever composes music exclusively with AI. I personally will never use it to compose music or write lyrics. I am using it to develop systems like a VST (plugin for a Digital Audio Workstation), a software to split track for vocal covers, extracting instrumentals from YouTube and such, but never to directly create music.
+- **Art** - Fuck AI art. Even if I am developing a videogame with the aid of AI, it's an experiment. For any artwork in case I ever publish a proper game I would ALWAYS pay an artist. I don't draw/paint but I would not use it for that either. I would also not buy an AI generated painting. Different is if someone uses AI to get a draft/guideline but then they paint on a canva, that can be fair.
 
-![Dario Amodei (Anthropic) and Sam Altman (OpenAI)](../images/Amodei-Altman.jpg)
+![Dario Amodei (Anthropic) and Sam Altman (OpenAI)](/images/Amodei-Altman.jpg)
+
+*Photo © AFP*
 
 This is despite what the two AI Overlords above think.
 You are not gonna substitute any profession, you are not gonna take any jobs.
@@ -92,12 +94,12 @@ Education can benefit from AI, when used wisely, scientific reasearch surely doe
 
 My main use case is coding, in different ways, but mainly for:
 
-- Maintaining my side-projects
-- creating MVPs based on ideas I have had for years but had not time to develop
-- Enable me to contribute on the engineering side, despite my current role is Sales
-- Generally to get more things done quicker, compromising just a tiny bit on quality and maybe a bit more on direct code knowledge.
+- **Maintaining** my side-projects.
+- **Creating MVPs** based on ideas I have had for years but had not time to develop.
+- **Enable** me to contribute more on the engineering side, since my current role is Sales and I do not get time for doing that.
+- Generally to get **more things done quicker**, compromising just a tiny bit on quality and maybe a bit more on direct code knowledge.
 
-I can only talk for code, I am an office worker in that domain, but I genuinely think AI is also changing how lawyers look stuff up for their cases, how doctors look in their patients folders (assuming they digitalized them, but not every country has that)...
+I can only talk for code, I am an office worker in that domain, but I genuinely think AI is also changing how lawyers look stuff up for their cases, how doctors look in their patients folders - assuming they digitalized them, but not every country has that priviledge...
 
 In short. The following chapter is mainly about code and it is my very personal experience and view on coding agents.
 I tried many tools, from Claude Code, to Codex, OpenCode and also, obviously, GitHub Copilot, since I get it to do my job and because I'm an open source maintainer I also had it before joining GitHub in late 2024.
@@ -111,39 +113,39 @@ I developed my own method, possibly shared with other tech workers, to direct ag
 
 I tend to adopt these ten phases whenever I get AI to perform a non-trivial coding task:
 
-0. Instructions, AGENTS.md drafting, context gathering/cleaning
+0. **Instructions**, AGENTS.md drafting, context gathering/cleaning
    Stating the obvious here, but what I tend to do is ensure that any coding agent has a breakdown of the composition of the current code, tech stack, aim, features, particular patterns, architectural choices, or that the agents generates it, when I work on greenfield projects.
    
-1. Idea / Brainstorming
+1. **Idea / Brainstorming**
    I do the so called rubber-ducking with the agent, which has been possible only with frontier models, since the older ones where basically a bunch of sycophants.
    New models seem to know how to be adversarial and contest wrong assumptions.
    
-2. Planning
+2. **Planning**
    This is one of the phases where I iterate the most and I interact with the agent asking to get clarifying questions. For one project I actually got 200 questions and I've spent over a day in the planning phase. 
    
-3. Tests creation
+3. **Tests creation**
    The first code I get the agent to write is backend tests, in whichever language, even if I tend to prefer one that I am proficient in so Golang or Python, I can still read pretty well Rust test code.
    Interface is usually not in scope, I avoid implementing frontend until I actually see green tests in the backend.
    
-4. Tests review
+4. **Tests review**
    After I review carefully the test cases, correct them and explain my aim better, I get another review pass and I feel confident at this point that the results of the workflow are going to be satisfying.
    
-5. Execution
+5. **Execution**
    Since I use agents either via my work laptop, in a cloud virtual machine or in a local [sendbox](https://github.com/mbianchidev/sendbox) (it's not a typo, it's a sandbox for agents that I am building... with agents) I leave the coding agent to just execute freely in "yolo mode" or autopilot, whatever that is called by the tool I am leveraging.
    
-6. Automated checks
+6. **Automated checks**
    I heavily use CI (lint, build, test) and automated code review, to surface findings. These are all reviewed by hand, slightly corrected if needed and applied to the current code.
    
-7. Human code review (for highlights part of the code)
+7. **Human code review**
    After every check is green and I'm happy with the result, I perform a human code review, focused on the core parts of the code, especially anything touching cryptography/network or manipulating data.
    
-8. End to end testing
+8. **End to end testing**
    I then make sure to either add automated e2e tests or launch a Playwright session where I make the coding agent itself actually try the feature and catch any UI/UX (minor at this point) problem.
    
-9. Manual testing
+9. **Manual testing**
    Round of manual testing for a couple of uses of the feature/product that the coding agent has built.
    
-10. Merge
+10. **Merge**
     Last but not least: merging and starting again from number one.
 
 This is how I've built a bunch of different projects since March, some of which I use daily:
@@ -167,7 +169,7 @@ I would be a hypocrite, I sell AI for a living (for now).
 I just do not think it's magic and it's going to solve all the problems in the world in a whiff.
 Sure, it has benefits, but there's another side of the coin as well and nobody talks about it (enough).
 
-> Full disclosure: I work for GitHub (Microsoft) and what I write is only my personal views, this does not reflect the views of the company I work for, clearly. 
+> **Full disclosure**: I work for GitHub (Microsoft) and what I write is only my personal views, this does not reflect the views of the company I work for, clearly. 
 > Hi colleagues, if you are reading this!
 
 I hate when people use AI blindly, for everything, almost stopping to user their once functioning brains.
@@ -177,14 +179,14 @@ I like when it's used for refactoring a legacy project or porting a library from
 I like it when it's used as a tool.
 
 _BUT I would still like software that is deployed on airplanes, self-driving cars, banking systems or healthcare apparatuses to actually be carefully written by humans, and well qualified ones, thanks a lot._
-Your webapp will not save the world, we can afford an impossible-to-find bug that is so well written to actually seem pretty ok even to an experienced engineer reviewing _been there, approved that_.
+Your webapp will not save the world, we can afford an impossible-to-find bug that is so well written to actually seem pretty ok, even to an experienced engineer reviewing _been there, approved that_.
 
 I hate when companies, even good ones, have been convinced that changing their copy to include AI in every single sentence in their website will make it better for them.
-I feel betrayed.
+I honestly feel betrayed by those.
 
 I like when companies, use AI for what is good and understand that engineering has never (ever) been about writing code, but a lot about understanding reality, codifying it into abstracts, human and system interactions, design, integrations and finding patterns in data. Possibly without selling them on the black market. Right, Meta?
 
-I always hear this phrase and it sickens me: "Humans in the loop".
+I always hear this phrase and it sickens me: _"Humans in the loop"_.
 Humans are not in the loop, they must be loop.
 What do you mean you gave access to OpenClaw to your entire machine?
 What do you mean you named your agent and you TALK to it and address it as a friend? Maybe about your (mental) health too?
@@ -205,7 +207,7 @@ Oh an please repeat after me: the Open Source AI Definition (OSAID) is a joke an
 
 Another issue of closed source AI is the environmental price of training, which seems pretty massive if compared with some of the open weight models and the actual price people are supposed to pay, which is currently fully sponsored by VC money or NVidia money which comes back in a fake accounting trick, not so different to what Lucent Technology and Cisco did back in the days.
 
-![A schema showing the 2026 circular investment schema between various companies: Microsoft, OpenAI, NVidia, Oracle, AMD...](../images/OpenAI-circle-investing.jpg)
+![A schema showing the 2026 circular investment schema between various companies: Microsoft, OpenAI, NVidia, Oracle, AMD...](/images/OpenAI-circle-investing.jpg)
 
 Marvellous. I am very very interested in seeing where the open road brings us in the future and how does the investment-jerking ends up.
 
@@ -273,4 +275,3 @@ We need to stay vigilant and we need to stay human.
 Find all my links 👉 [**here**](https://mbianchi.dev/links).
 
 Ciao for now.
-
