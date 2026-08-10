@@ -32,7 +32,7 @@ This blog has not been drafted nor reviewed by AI, it has been written by me, a 
 
 > Note: You can skip this part if you work in tech and know about AI, but read if it not.
 
-**Artificial Intelligence (AI}**, the all encompassing term, do not use it unless you refer to the industry as a whole or you use it as a specifier for what comes next. 
+**Artificial Intelligence (AI)**, the all encompassing term, do not use it unless you refer to the industry as a whole or you use it as a specifier for what comes next. 
 
 Example: AI (powered? infused? assisted?) Software Engineering.
 
@@ -45,7 +45,7 @@ _So no, Billy, AI was not born yesterday, it was born a couple of decades before
 **Training** it's the loop that Machine Learning engineers use to make better AI models, it takes data (big data), lots of GPUs or TPUs (TensorFlow Processor Unit - which is a very fancy GPU but for AI, owned by Google), takes a lot of resources - _yes, water, electricity and all that a datacenter needs_ and lots of time.
 I'm not going to venture into the environmental implication of AI training, or usage.
 
-**Large Language Model** also known as LLMs, these are AI models, mostly neural networks which are trained on a giant amount of copyrighted text, the aim was to making them good at Natural Language Processing (NLP) which boils down to: language generation. This branch of Machine Learning studies exploded quietly when in 2017 Google DeepMind released the infamous paper "Attention is All You Need", which is an ironic choice of names since AI is basically destroying the concept of attention for most office workers.
+**Large Language Model** also known as LLMs, these are AI models, mostly neural networks which are trained on a giant amount of copyrighted text, the aim was to make them be better at Natural Language Processing (NLP) which boils down to: language generation. This branch of Machine Learning studies exploded quietly when in 2017 Google DeepMind released the infamous paper "Attention is All You Need", which is an ironic choice of names since AI is basically destroying the concept of attention for most office workers.
 Anyway, after that it was a slippery slope. OpenAI took the concept of transformer, which, not to go too in depth, made sure that once stupid language models could actually ""focus"" and read entire words (if you ever hear token, tokenizer, imagine those as syllables) and created their first GPT model. GPT-1.
 GPT should mean Generative Pre-trained Transformer, or something, it's not so relevant.
 This gave birth to the name GenAI, which is so 2023. We don't use that.
