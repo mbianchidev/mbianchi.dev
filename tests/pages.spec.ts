@@ -55,11 +55,10 @@ test.describe('Short links', () => {
 });
 
 test.describe('Static route experience', () => {
-  test('does not publish underscore-prefixed blog templates', () => {
+  test('does not publish underscore-prefixed blog files', () => {
     const slugs = getAllPostSlugs();
 
     expect(slugs).not.toContain('_template');
-    expect(slugs).not.toContain('_welcome-to-markdown-engineering-town');
     expect(slugs.every((slug) => !slug.startsWith('_'))).toBe(true);
   });
 
