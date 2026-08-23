@@ -11,6 +11,34 @@
       "story": "Enabling GitHub's Corporate customers to adopt the developer platform, to build, scale, and deliver secure software. Enabling faster innovation through GitHub Copilot, GitHub Advanced Security, and GitHub Enterprise offerings.",
       "year": "2024-now",
       "show": true,
+      "achievements": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "text": "FY2026 President's Club"
+            },
+            {
+              "text": "Built an OpenClaw-like assistant"
+            },
+            {
+              "text": "Represented GitHub at 5+ international events"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "ING",
+      "companyName": "ING",
+      "countryFlag": "🇳🇱",
+      "companyType": "Enterprise",
+      "companySector": "Banking",
+      "companyUrl": "https://www.ing.com/",
+      "role": "Kubernetes Enablement Consultant",
+      "story": "Supported Kubernetes enablement.",
+      "year": "2025",
+      "show": true,
       "achievements": []
     },
     {
@@ -162,6 +190,12 @@
           "items": [
             {
               "text": "Trained AI models on biopsy data"
+            },
+            {
+              "text": "Deployed trained models on Azure to serve research centers across the Netherlands"
+            },
+            {
+              "text": "Supported infrastructure for an educational game that turned users into tumor marker annotators"
             }
           ]
         }
@@ -184,6 +218,9 @@
           "items": [
             {
               "text": "Increased deployment speed by 100%"
+            },
+            {
+              "text": "Created platform engineering processes and an AKS-based internal developer platform"
             }
           ]
         }
@@ -241,6 +278,9 @@
           "items": [
             {
               "text": "Solved data leak on AWS Lambda"
+            },
+            {
+              "text": "Steered the company's technology through a leadership and ownership change"
             }
           ]
         }
@@ -249,7 +289,7 @@
     },
     {
       "code": "GDF",
-      "companyName": "Italian Ministery of Economics and Finance",
+      "companyName": "Italian Ministry of Economy and Finance",
       "companyType": "Public Sector",
       "companySector": "Government Agency",
       "companyUrl": "https://www.gdf.gov.it/",
@@ -257,7 +297,16 @@
       "story": "Helped their IT joint command in Rome to improve DevOps practices by delivering a tailored DevOps course and an in-depth technical workshop on Azure cloud and Azure DevOps.",
       "year": "2021",
       "show": true,
-      "achievements": [],
+      "achievements": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "text": "Trained 30+ engineers on Azure and AKS best practices"
+            }
+          ]
+        }
+      ],
       "countryFlag": "🇮🇹"
     },
     {
@@ -288,7 +337,10 @@
           "type": "list",
           "items": [
             {
-              "text": "Mitigated a DDoS attack with 100% downtime"
+              "text": "Mitigated a DDoS attack with zero downtime"
+            },
+            {
+              "text": "Managed infrastructure behind Italy's biggest news websites with a 99.9% SLA"
             }
           ]
         }
@@ -478,7 +530,7 @@
     },
     {
       "code": "TEN",
-      "companyName": "Tenutabene (now Unipol)",
+      "companyName": "Tenutabene (formerly CambioMarcia, now Unipol)",
       "companyType": "Startup",
       "companySector": "Automotive",
       "companyUrl": "https://www.unipol.com/en",
@@ -486,7 +538,16 @@
       "story": "I discovered how a startup works and scales up. This experience was the best part in my journey in the web development world. Contributed to an (authorized) scraping-powered price estimation engine for second hand cars and a backoffice ERP web app for the management of the company's car fleet, written in Laravel (PHP).",
       "year": "2017",
       "show": true,
-      "achievements": [],
+      "achievements": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "text": "Founding (and sole) Engineer"
+            }
+          ]
+        }
+      ],
       "countryFlag": "🇮🇹"
     },
     {
