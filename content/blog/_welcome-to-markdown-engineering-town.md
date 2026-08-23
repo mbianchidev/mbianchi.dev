@@ -4,8 +4,8 @@ date: "YYYY-MM-DDT09:00:00+02:00"
 author: "Matteo Bianchi"
 category: "AI"
 excerpt: "Markdown still documents software. Now it also tells coding agents how to work, where to look, what not to touch, and when to stop."
-image: "brand"
-imageAlt: "Matteo human platform brand mark"
+image: "TODO"
+imageAlt: "TODO"
 tags:
   - AI
   - Engineering
