@@ -688,9 +688,35 @@ test.describe('Static route experience', () => {
 
   test('uses the requested customer, blog, and careers copy', async ({ page }) => {
     await page.goto('/customers', { waitUntil: 'domcontentloaded' });
-    await expect(page.getByText('30 recorded deployments', { exact: true })).toBeVisible();
+    await expect(page.getByText('31 recorded deployments', { exact: true })).toBeVisible();
     await expect(page.getByText('19 domains', { exact: true })).toBeVisible();
     await expect(page.getByText('GitHub (Microsoft)', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'ING 🇳🇱', exact: true })).toBeVisible();
+    const initialCustomers = page.locator('main section ol > li');
+    await expect(initialCustomers.nth(3)).toContainText('Omnistrate');
+    await expect(initialCustomers.nth(4)).toContainText('ING');
+
+    const loadMoreHistory = page.getByRole('button', {
+      name: /Load \d+ more deployment history entries/,
+    });
+    while (await loadMoreHistory.count()) {
+      await loadMoreHistory.click();
+    }
+
+    for (const achievement of [
+      "FY2026 President's Club",
+      'Built an OpenClaw-like assistant',
+      'Represented GitHub at 5+ international events',
+      'Deployed trained models on Azure to serve research centers across the Netherlands',
+      'Supported infrastructure for an educational game that turned users into tumor marker annotators',
+      'Created platform engineering processes and an AKS-based internal developer platform',
+      "Steered the company's technology through a leadership and ownership change",
+      'Trained 30+ engineers on Azure and AKS best practices',
+      "Managed infrastructure behind Italy's biggest news websites with a 99.9% SLA",
+      'Founding (and sole) Engineer',
+    ]) {
+      await expect(page.getByText(achievement, { exact: true })).toBeVisible();
+    }
 
     await page.goto('/blog', { waitUntil: 'domcontentloaded' });
     for (const removedPost of [
@@ -939,6 +965,7 @@ test.describe('Static route experience', () => {
     await expect(historyEntries).toHaveCount(7);
     await expect(historyLogos).toHaveCount(7);
     await expect(historyImages).toHaveCount(6);
+    await expect(page.locator('[data-customer-logo="ING"] img')).toBeVisible();
 
     await page.getByRole('button', { name: 'Load 7 more deployment history entries' }).click();
     await expect(historyEntries).toHaveCount(14);
