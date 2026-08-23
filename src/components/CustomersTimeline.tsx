@@ -17,13 +17,8 @@ function getFallbackLabel(company: Company) {
     return 'KubeLab'
   }
 
-  const displayName = company.companyName.replace(/\([^)]*\)/g, '').trim()
-
-  if (/^[A-Z0-9]{2,5}$/.test(displayName)) {
-    return displayName
-  }
-
-  return displayName
+  return company.companyName
+    .replace(/\([^)]*\)/g, '')
     .split(/[\s-]+/)
     .filter(Boolean)
     .slice(0, 2)

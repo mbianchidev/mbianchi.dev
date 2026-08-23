@@ -29,19 +29,6 @@
       ]
     },
     {
-      "code": "ING",
-      "companyName": "ING",
-      "countryFlag": "🇳🇱",
-      "companyType": "Enterprise",
-      "companySector": "Banking",
-      "companyUrl": "https://www.ing.com/",
-      "role": "Kubernetes Enablement Consultant",
-      "story": "Supported Kubernetes enablement.",
-      "year": "2025",
-      "show": true,
-      "achievements": []
-    },
-    {
       "code": "FREE",
       "companyName": "SyncTune",
       "countryFlag": "🌐",
@@ -118,6 +105,19 @@
           ]
         }
       ]
+    },
+    {
+      "code": "ING",
+      "companyName": "ING",
+      "countryFlag": "🇳🇱",
+      "companyType": "Enterprise",
+      "companySector": "Banking",
+      "companyUrl": "https://www.ing.com/",
+      "role": "Kubernetes Enablement Consultant",
+      "story": "Supported Kubernetes enablement.",
+      "year": "2025",
+      "show": true,
+      "achievements": []
     },
     {
       "code": "KLB",

@@ -15,6 +15,7 @@ import generali from '@/assets/customer-logos/gen.webp'
 import github from '@/assets/customer-logos/ghb.webp'
 import greenChic from '@/assets/customer-logos/grnc.webp'
 import infocert from '@/assets/customer-logos/ice.webp'
+import ing from '@/assets/customer-logos/ing.webp'
 import leonardo from '@/assets/customer-logos/leo.webp'
 import mentorCruise from '@/assets/customer-logos/mntcrs.webp'
 import mvcTechnology from '@/assets/customer-logos/mvctch.webp'
@@ -46,6 +47,7 @@ export const customerLogos: Record<string, StaticImageData> = {
   GHB: github,
   GRNC: greenChic,
   ICE: infocert,
+  ING: ing,
   LEO: leonardo,
   MNTCRS: mentorCruise,
   MVCTCH: mvcTechnology,

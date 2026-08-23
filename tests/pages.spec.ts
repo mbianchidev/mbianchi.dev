@@ -692,6 +692,9 @@ test.describe('Static route experience', () => {
     await expect(page.getByText('19 domains', { exact: true })).toBeVisible();
     await expect(page.getByText('GitHub (Microsoft)', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'ING 🇳🇱', exact: true })).toBeVisible();
+    const initialCustomers = page.locator('main section ol > li');
+    await expect(initialCustomers.nth(3)).toContainText('Omnistrate');
+    await expect(initialCustomers.nth(4)).toContainText('ING');
 
     const loadMoreHistory = page.getByRole('button', {
       name: /Load \d+ more deployment history entries/,
@@ -961,13 +964,13 @@ test.describe('Static route experience', () => {
     const historyImages = historyLogos.locator('img');
     await expect(historyEntries).toHaveCount(7);
     await expect(historyLogos).toHaveCount(7);
-    await expect(historyImages).toHaveCount(5);
-    await expect(page.locator('[data-customer-logo="ING"]')).toContainText('ING');
+    await expect(historyImages).toHaveCount(6);
+    await expect(page.locator('[data-customer-logo="ING"] img')).toBeVisible();
 
     await page.getByRole('button', { name: 'Load 7 more deployment history entries' }).click();
     await expect(historyEntries).toHaveCount(14);
     await expect(historyLogos).toHaveCount(14);
-    await expect(historyImages).toHaveCount(12);
+    await expect(historyImages).toHaveCount(13);
 
     const loadedWidths = await historyImages.evaluateAll((images) =>
       images.map((image) => (image as HTMLImageElement).naturalWidth)
