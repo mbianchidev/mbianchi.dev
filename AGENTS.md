@@ -91,6 +91,7 @@ Treat the existing components and CSS tokens as the implementation source of tru
 - Prefer structured data changes in `src/data/` over duplicating content inside components.
 - Keep redirect declarations in `src/data/redirects.json` and their static fallback pages synchronized. The build validates this contract.
 - Blog posts belong in `content/blog/` and require `title`, `date`, `author`, `category`, and `excerpt` front matter.
+- Keep new blog tests data-driven and archive-wide. Never add tests tied to one post's slug, title, metadata, or content.
 - If a new external origin is required, update the relevant directive in `vercel.json` instead of weakening the whole CSP.
 - Do not commit generated `.next/`, `out/`, `playwright-report/`, `test-results/`, or `tests/screenshots/` files.
 

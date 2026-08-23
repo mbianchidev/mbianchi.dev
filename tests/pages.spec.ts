@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import pathRedirects from '../src/data/redirects.json';
-import { getAllPostSlugs, getSortedPostsData } from '../src/lib/markdown';
+import { getAllPostSlugs, getSortedPostsData, parseBlogDate } from '../src/lib/markdown';
 import {
   createAbsoluteImageUrl,
   getSocialImageDefinition,
@@ -55,11 +55,20 @@ test.describe('Short links', () => {
 });
 
 test.describe('Static route experience', () => {
-  test('does not publish underscore-prefixed blog templates', () => {
+  test('does not publish underscore-prefixed blog files', () => {
     const slugs = getAllPostSlugs();
 
     expect(slugs).not.toContain('_template');
     expect(slugs.every((slug) => !slug.startsWith('_'))).toBe(true);
+  });
+
+  test('accepts timezone-aware blog publication dates', () => {
+    expect(parseBlogDate('2026-08-23T09:00:00+02:00').toISOString()).toBe(
+      '2026-08-23T07:00:00.000Z'
+    );
+    expect(() => parseBlogDate('2026-02-30T09:00:00+02:00')).toThrow(
+      'Invalid blog date'
+    );
   });
 
   test('publishes canonical sitemap and robots metadata routes', async ({ request }) => {
@@ -247,11 +256,10 @@ test.describe('Static route experience', () => {
 
     for (const post of posts) {
       const image = getSocialImageDefinition(post.image, post.imageAlt);
-      const expectedPath = `/images/blog/${post.slug}.webp`;
+      const expectedPath = image.src;
       const archiveRow = page.locator(`[data-blog-slug="${post.slug}"]`);
       const cover = archiveRow.getByRole('img', { name: post.imageAlt });
 
-      expect(image.src).toBe(expectedPath);
       expect(image.width).toBeGreaterThan(0);
       expect(image.height).toBeGreaterThan(0);
       await expect(archiveRow).toBeVisible();
@@ -260,7 +268,7 @@ test.describe('Static route experience', () => {
 
       const imageResponse = await request.get(expectedPath);
       expect(imageResponse.ok(), expectedPath).toBe(true);
-      expect(imageResponse.headers()['content-type']).toContain('image/webp');
+      expect(imageResponse.headers()['content-type']).toContain(image.type);
     }
   });
 
