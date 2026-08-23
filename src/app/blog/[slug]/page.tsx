@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PageHero } from '@/components/PageHero'
-import { getPostData, getAllPostSlugs } from '@/lib/markdown'
+import { getPostData, getAllPostSlugs, parseBlogDate } from '@/lib/markdown'
 import {
   createArticleMetadata,
   createPageMetadata,
@@ -37,9 +37,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     path: `/blog/${post.slug}/`,
     image: post.image,
     imageAlt: post.imageAlt,
-    publishedTime: new Date(`${post.date}T00:00:00.000Z`).toISOString(),
+    publishedTime: parseBlogDate(post.date).toISOString(),
     ...(post.updated
-      ? { modifiedTime: new Date(`${post.updated}T00:00:00.000Z`).toISOString() }
+      ? { modifiedTime: parseBlogDate(post.updated).toISOString() }
       : {}),
     authors: [post.author],
     tags: post.tags ?? [post.category],
@@ -54,10 +54,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound()
   }
 
-  const published = new Date(post.date).toLocaleDateString('en-US', {
+  const published = new Date(
+    `${post.date.slice(0, 10)}T00:00:00.000Z`
+  ).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   })
 
   return (

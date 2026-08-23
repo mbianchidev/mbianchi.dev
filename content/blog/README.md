@@ -21,7 +21,7 @@ Each blog post must include frontmatter at the top with the following fields:
 ```markdown
 ---
 title: "Your Post Title"
-date: "YYYY-MM-DD"
+date: "YYYY-MM-DDT09:00:00+02:00"
 author: "Matteo Bianchi"
 category: "Category Name"
 image: "/images/blog/my-awesome-post.webp"
@@ -35,7 +35,7 @@ Your markdown content goes here...
 ### Required Fields
 
 - **title**: The title of your blog post
-- **date**: Publication date in YYYY-MM-DD format
+- **date**: Publication date as `YYYY-MM-DD` or an ISO 8601 timestamp. New drafts default to `09:00:00+02:00`.
 - **author**: Use `Matteo Bianchi` for every post
 - **category**: Post category (e.g., "Cloud Native", "Kubernetes", "Security")
 - **image**: A local image under `public/images/blog/`, referenced from `/images/blog/`, or a built-in image key (`profile` or `brand`)
@@ -45,7 +45,7 @@ Your markdown content goes here...
 ### Optional Fields
 
 - **readTime**: Reading time estimate (e.g., "5 min read"). If not provided, it will be calculated automatically.
-- **updated**: Last substantial update date in YYYY-MM-DD format. When present, it is published as the article modification time.
+- **updated**: Last substantial update date as `YYYY-MM-DD` or an ISO 8601 timestamp. When present, it is published as the article modification time.
 - **tags**: YAML list of article tags. When omitted, the post category is used as the social metadata tag.
 
 For a post-specific image, keep the file under `public/images/blog/` and
@@ -158,6 +158,6 @@ The system will automatically:
 - Sort posts by date
 - Create individual post pages
 
-The in-site archive currently contains the 27 English-language posts published
+The in-site archive currently contains the 28 English-language posts published
 from **I don’t like ChatGPT.** on December 23, 2022 through the latest post.
 Italian-language posts are intentionally excluded.

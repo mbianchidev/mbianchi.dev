@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import pathRedirects from '../src/data/redirects.json';
-import { getAllPostSlugs, getSortedPostsData } from '../src/lib/markdown';
+import { getAllPostSlugs, getSortedPostsData, parseBlogDate } from '../src/lib/markdown';
 import {
   createAbsoluteImageUrl,
   getSocialImageDefinition,
@@ -59,7 +59,17 @@ test.describe('Static route experience', () => {
     const slugs = getAllPostSlugs();
 
     expect(slugs).not.toContain('_template');
+    expect(slugs).not.toContain('_welcome-to-markdown-engineering-town');
     expect(slugs.every((slug) => !slug.startsWith('_'))).toBe(true);
+  });
+
+  test('accepts timezone-aware blog publication dates', () => {
+    expect(parseBlogDate('2026-08-23T09:00:00+02:00').toISOString()).toBe(
+      '2026-08-23T07:00:00.000Z'
+    );
+    expect(() => parseBlogDate('2026-02-30T09:00:00+02:00')).toThrow(
+      'Invalid blog date'
+    );
   });
 
   test('publishes canonical sitemap and robots metadata routes', async ({ request }) => {
@@ -354,14 +364,13 @@ test.describe('Static route experience', () => {
       '/blog/terraform-wtf/',
       '/blog/the-end-of-my-first-journey-in-the-startup-world/',
       '/blog/when-everything-is-urgent-then-nothing-is-urgent/',
-      '/blog/welcome-to-markdown-engineering-town/',
       '/blog/wtf-is-devrel/',
       '/blog/yet-another-monumentally-long-year-in-review-2025/',
     ];
 
     await page.goto('/blog', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByText('29 field notes', { exact: true })).toBeVisible();
+    await expect(page.getByText('28 field notes', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Field notes from the workbench.' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'Latest field note' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'The reading desk' })).toBeVisible();

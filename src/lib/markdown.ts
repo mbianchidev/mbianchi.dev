@@ -49,14 +49,40 @@ function requiredString(
   return value.trim()
 }
 
-function validDate(value: string, field: string, fileName: string) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    throw new Error(`Blog post "${fileName}" has an invalid "${field}" date: ${value}`)
+const dateOnlyPattern = /^\d{4}-\d{2}-\d{2}$/
+const dateTimePattern =
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/
+
+function hasValidCalendarDate(value: string) {
+  const calendarDate = value.slice(0, 10)
+
+  if (!dateOnlyPattern.test(calendarDate)) {
+    return false
   }
 
-  const parsedDate = new Date(`${value}T00:00:00.000Z`)
+  return new Date(`${calendarDate}T00:00:00.000Z`).toISOString().slice(0, 10) === calendarDate
+}
 
-  if (Number.isNaN(parsedDate.getTime()) || parsedDate.toISOString().slice(0, 10) !== value) {
+export function parseBlogDate(value: string) {
+  const dateOnly = dateOnlyPattern.test(value)
+  const dateTime = dateTimePattern.test(value)
+  const parsedDate = new Date(dateOnly ? `${value}T00:00:00.000Z` : value)
+
+  if (
+    (!dateOnly && !dateTime)
+    || !hasValidCalendarDate(value)
+    || Number.isNaN(parsedDate.getTime())
+  ) {
+    throw new Error(`Invalid blog date: ${value}`)
+  }
+
+  return parsedDate
+}
+
+function validDate(value: string, field: string, fileName: string) {
+  try {
+    parseBlogDate(value)
+  } catch {
     throw new Error(`Blog post "${fileName}" has an invalid "${field}" date: ${value}`)
   }
 
@@ -148,13 +174,9 @@ export function getSortedPostsData(): BlogPostMetadata[] {
       )
     })
 
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1
-    } else {
-      return -1
-    }
-  })
+  return allPostsData.sort(
+    (a, b) => parseBlogDate(b.date).getTime() - parseBlogDate(a.date).getTime()
+  )
 }
 
 export function getAllPostSlugs(): string[] {

@@ -1,6 +1,6 @@
 ---
 title: "Post title"
-date: "2026-01-01"
+date: "YYYY-MM-DDT09:00:00+02:00"
 updated: "2026-01-02"
 author: "Matteo Bianchi"
 category: "Engineering"

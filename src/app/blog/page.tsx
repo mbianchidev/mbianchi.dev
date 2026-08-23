@@ -18,7 +18,7 @@ export const metadata = createPageMetadata({
 })
 
 function dateFromPost(date: string) {
-  return new Date(`${date}T00:00:00Z`)
+  return new Date(`${date.slice(0, 10)}T00:00:00Z`)
 }
 
 function formatDate(date: string) {
