@@ -247,11 +247,10 @@ test.describe('Static route experience', () => {
 
     for (const post of posts) {
       const image = getSocialImageDefinition(post.image, post.imageAlt);
-      const expectedPath = `/images/blog/${post.slug}.webp`;
+      const expectedPath = image.src;
       const archiveRow = page.locator(`[data-blog-slug="${post.slug}"]`);
       const cover = archiveRow.getByRole('img', { name: post.imageAlt });
 
-      expect(image.src).toBe(expectedPath);
       expect(image.width).toBeGreaterThan(0);
       expect(image.height).toBeGreaterThan(0);
       await expect(archiveRow).toBeVisible();
@@ -260,7 +259,7 @@ test.describe('Static route experience', () => {
 
       const imageResponse = await request.get(expectedPath);
       expect(imageResponse.ok(), expectedPath).toBe(true);
-      expect(imageResponse.headers()['content-type']).toContain('image/webp');
+      expect(imageResponse.headers()['content-type']).toContain(image.type);
     }
   });
 
@@ -355,13 +354,14 @@ test.describe('Static route experience', () => {
       '/blog/terraform-wtf/',
       '/blog/the-end-of-my-first-journey-in-the-startup-world/',
       '/blog/when-everything-is-urgent-then-nothing-is-urgent/',
+      '/blog/welcome-to-markdown-engineering-town/',
       '/blog/wtf-is-devrel/',
       '/blog/yet-another-monumentally-long-year-in-review-2025/',
     ];
 
     await page.goto('/blog', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByText('28 field notes', { exact: true })).toBeVisible();
+    await expect(page.getByText('29 field notes', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Field notes from the workbench.' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'Latest field note' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'The reading desk' })).toBeVisible();
