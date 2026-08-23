@@ -2,6 +2,7 @@
 title: "2026 AI sucks."
 date: "2026-08-10"
 updated: "2026-08-10"
+editedAt: "2026-08-23T16:42:46+02:00"
 author: "Matteo Bianchi"
 category: "AI"
 excerpt: "My previous blog on AI started with me complaining: I cannot take it anymore, ChatGPT is everywhere. Let me rephrase: I cannot take it anymore, AI is everywhere."
@@ -79,7 +80,7 @@ First of all, I do not use AI and do not support its usage for:
 - **Music** - Fuck whoever composes music exclusively with AI. I personally will never use it to compose music or write lyrics. I am using it to develop systems like a VST (plugin for a Digital Audio Workstation), a software to split track for vocal covers, extracting instrumentals from YouTube and such, but never to directly create music.
 - **Art** - Fuck AI art. Even if I am developing a videogame with the aid of AI, it's an experiment. For any artwork in case I ever publish a proper game I would ALWAYS pay an artist. I don't draw/paint but I would not use it for that either. I would also not buy an AI generated painting. Different is if someone uses AI to get a draft/guideline but then they paint on a canva, that can be fair.
 
-![Dario Amodei (Anthropic) and Sam Altman (OpenAI)](/images/Amodei-Altman.jpg)
+![Dario Amodei (Anthropic) and Sam Altman (OpenAI)](/images/blog/Amodei-Altman.jpg)
 
 *Photo © AFP*
 
@@ -207,7 +208,7 @@ Oh an please repeat after me: the Open Source AI Definition (OSAID) is a joke an
 
 Another issue of closed source AI is the environmental price of training, which seems pretty massive if compared with some of the open weight models and the actual price people are supposed to pay, which is currently fully sponsored by VC money or NVidia money which comes back in a fake accounting trick, not so different to what Lucent Technology and Cisco did back in the days.
 
-![A schema showing the 2026 circular investment schema between various companies: Microsoft, OpenAI, NVidia, Oracle, AMD...](/images/OpenAI-circle-investing.jpg)
+![A schema showing the 2026 circular investment schema between various companies: Microsoft, OpenAI, NVidia, Oracle, AMD...](/images/blog/OpenAI-circle-investing.jpg)
 
 Marvellous. I am very very interested in seeing where the open road brings us in the future and how does the investment-jerking ends up.
 

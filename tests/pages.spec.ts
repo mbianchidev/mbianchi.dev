@@ -71,6 +71,37 @@ test.describe('Static route experience', () => {
     );
   });
 
+  test('renders blog edit timestamps only when frontmatter declares them', async ({ request }) => {
+    const posts = getSortedPostsData();
+    const editedPosts = posts.flatMap((post) =>
+      post.editedAt === null ? [] : [{ ...post, editedAt: post.editedAt }]
+    );
+    const uneditedPost = posts.find((post) => post.editedAt === null);
+    const editHistoryLabel = 'aria-label="Article edit history"';
+
+    expect(editedPosts.length).toBeGreaterThan(0);
+    expect(uneditedPost).toBeDefined();
+
+    for (const post of editedPosts) {
+      const response = await request.get(`/blog/${post.slug}/`);
+      expect(response.ok(), post.slug).toBe(true);
+
+      const html = await response.text();
+      expect(html, post.slug).toContain(editHistoryLabel);
+      expect(html, post.slug).toContain(
+        `dateTime="${parseBlogDate(post.editedAt).toISOString()}"`
+      );
+    }
+
+    if (!uneditedPost) {
+      throw new Error('Expected at least one blog post without an edit timestamp');
+    }
+
+    const response = await request.get(`/blog/${uneditedPost.slug}/`);
+    expect(response.ok(), uneditedPost.slug).toBe(true);
+    expect(await response.text(), uneditedPost.slug).not.toContain(editHistoryLabel);
+  });
+
   test('publishes canonical sitemap and robots metadata routes', async ({ request }) => {
     const sitemapResponse = await request.get('/sitemap.xml');
     expect(sitemapResponse.ok()).toBe(true);
@@ -401,11 +432,11 @@ test.describe('Static route experience', () => {
     await expect(page.locator('article img')).toHaveCount(2);
     await expect(page.locator('article img').nth(0)).toHaveAttribute(
       'src',
-      '/images/Amodei-Altman.jpg'
+      '/images/blog/Amodei-Altman.jpg'
     );
     await expect(page.locator('article img').nth(1)).toHaveAttribute(
       'src',
-      '/images/OpenAI-circle-investing.jpg'
+      '/images/blog/OpenAI-circle-investing.jpg'
     );
 
     await page.goto('/blog/i-dont-like-chatgpt', { waitUntil: 'domcontentloaded' });

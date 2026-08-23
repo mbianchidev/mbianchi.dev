@@ -27,6 +27,7 @@ export interface BlogPostMetadata {
   image: SocialImageSource
   imageAlt: string
   updated?: string
+  editedAt: string | null
   tags?: string[]
   readTime?: string
 }
@@ -89,6 +90,16 @@ function validDate(value: string, field: string, fileName: string) {
   return value
 }
 
+function validDateTime(value: string, field: string, fileName: string) {
+  if (!dateTimePattern.test(value)) {
+    throw new Error(
+      `Blog post "${fileName}" has an invalid "${field}" timestamp: ${value}`
+    )
+  }
+
+  return validDate(value, field, fileName)
+}
+
 function parseTags(value: unknown, fileName: string) {
   if (value === undefined) {
     return undefined
@@ -130,6 +141,15 @@ function parsePostMetadata(
     updatedValue === undefined
       ? undefined
       : validDate(requiredString(data, 'updated', fileName), 'updated', fileName)
+  const editedAtValue = data.editedAt
+  const editedAt =
+    editedAtValue === undefined || editedAtValue === null
+      ? null
+      : validDateTime(
+          requiredString(data, 'editedAt', fileName),
+          'editedAt',
+          fileName
+        )
   const readTimeValue = data.readTime
   const readTime =
     readTimeValue === undefined
@@ -147,6 +167,7 @@ function parsePostMetadata(
     image: socialImage,
     imageAlt: requiredString(data, 'imageAlt', fileName),
     ...(updated ? { updated } : {}),
+    editedAt,
     ...(tags ? { tags } : {}),
     readTime,
   }

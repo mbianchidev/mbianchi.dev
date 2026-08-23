@@ -15,6 +15,16 @@ interface BlogPostPageProps {
   }>
 }
 
+const editedAtFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: '2-digit',
+  timeZone: 'UTC',
+  timeZoneName: 'short',
+})
+
 export function generateStaticParams() {
   return getAllPostSlugs().map((slug) => ({ slug }))
 }
@@ -31,6 +41,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     })
   }
 
+  const modifiedAt = post.editedAt ?? post.updated
+
   return createArticleMetadata({
     title: `${post.title} — Matteo`,
     description: post.excerpt,
@@ -38,8 +50,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     image: post.image,
     imageAlt: post.imageAlt,
     publishedTime: parseBlogDate(post.date).toISOString(),
-    ...(post.updated
-      ? { modifiedTime: parseBlogDate(post.updated).toISOString() }
+    ...(modifiedAt
+      ? { modifiedTime: parseBlogDate(modifiedAt).toISOString() }
       : {}),
     authors: [post.author],
     tags: post.tags ?? [post.category],
@@ -62,6 +74,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     day: 'numeric',
     timeZone: 'UTC',
   })
+  const editedAt = post.editedAt ? parseBlogDate(post.editedAt) : null
 
   return (
     <div className={styles.page}>
@@ -103,6 +116,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           className={styles.prose}
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+        {editedAt ? (
+          <p
+            className={styles.articleEditHistory}
+            aria-label="Article edit history"
+          >
+            Edited at{' '}
+            <time dateTime={editedAt.toISOString()}>
+              {editedAtFormatter.format(editedAt)}
+            </time>
+          </p>
+        ) : null}
       </article>
 
       <section className={styles.articleFooter} aria-label="Article navigation">
