@@ -22,6 +22,7 @@ Each blog post must include frontmatter at the top with the following fields:
 ---
 title: "Your Post Title"
 date: "YYYY-MM-DDT09:00:00+02:00"
+editedAt: null
 author: "Matteo Bianchi"
 category: "Category Name"
 image: "/images/blog/my-awesome-post.webp"
@@ -46,6 +47,7 @@ Your markdown content goes here...
 
 - **readTime**: Reading time estimate (e.g., "5 min read"). If not provided, it will be calculated automatically.
 - **updated**: Last substantial update date as `YYYY-MM-DD` or an ISO 8601 timestamp. When present, it is published as the article modification time.
+- **editedAt**: Exact edit time as an ISO 8601 timestamp. It defaults to `null`; a timestamp is shown below the article and becomes its modification time.
 - **tags**: YAML list of article tags. When omitted, the post category is used as the social metadata tag.
 
 For a post-specific image, keep the file under `public/images/blog/` and
