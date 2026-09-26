@@ -9,9 +9,9 @@ const scenarios = [
     id: 'platform',
     label: 'Platform adoption',
     signal: 'MATCH CONFIRMED / HIGH CONFIDENCE',
-    title: 'Build a paved road developers trust enough to take.',
+    title: 'Build a platform developers stop working around.',
     summary:
-      'Matteo treats the platform as a product: clear users, opinionated defaults, useful feedback loops, and infrastructure choices tied to real developer work.',
+      'Matteo starts with the developers using it, picks sensible defaults, and checks whether anyone adopts it. The infrastructure is the easy part.',
     proof: [
       'Built platform APIs and zero-touch onboarding for 70+ engineers',
       'Led infrastructure and built APIs serving 10M+ daily users to this day',
@@ -24,9 +24,9 @@ const scenarios = [
     id: 'ai-automation',
     label: 'Automation backlog',
     signal: 'MATCH CONFIRMED / HUMAN JUDGMENT RETAINED',
-    title: 'Automate repeated work without automating responsibility.',
+    title: 'Automate the boring work. Keep a human responsible.',
     summary:
-      'AI is useful when it removes measurable friction. Matteo builds agents, internal assistants, and developer tooling around a defined workflow—not a demo looking for a problem.',
+      'Matteo builds agents when a repeated workflow deserves one. No AI demo in search of a problem, and no “the model decided” when something breaks.',
     proof: [
       'Built an internal assistant that automated 20–25% of Solutions Engineering work',
       'Built the assistant around real Solutions Engineering workflows and internal tools',
@@ -38,10 +38,10 @@ const scenarios = [
   {
     id: 'solutions',
     label: 'Customer-product gap',
-    signal: 'MATCH CONFIRMED / FIELD SIGNAL CONNECTED',
-    title: 'Translate field reality into a product path people can buy and build.',
+    signal: 'MATCH CONFIRMED / PRODUCT FEEDBACK ATTACHED',
+    title: 'Turn customer pain into something product and engineering can use.',
     summary:
-      'Technical discovery, architecture, demos, implementation, and product feedback stay connected. The customer gets an honest path forward; the product team gets signal it can use.',
+      'Discovery, architecture, demos, implementation, and product feedback stay in the same thread. Customers get an honest answer. Product gets enough detail to act.',
     proof: [
       'Won Club FY26 after reaching 180% quota at GitHub',
       'Worked across Sales, Product, Field Marketing, and OSPO',
@@ -54,9 +54,9 @@ const scenarios = [
     id: 'open-source',
     label: 'Expertise trapped in heads',
     signal: 'MATCH CONFIRMED / BROADCAST ENABLED',
-    title: 'Make hard-won expertise travel farther than one team.',
+    title: 'Get useful knowledge out of one person’s head.',
     summary:
-      'Technical communication is part of the architecture. Matteo turns implementation lessons into upstream contributions, strategy, training, talks, and documentation people can reuse.',
+      'Matteo writes down what worked, contributes upstream, teaches it, and talks about the failures too. Hoarding knowledge is boring.',
     proof: [
       '40+ merged Kubernetes pull requests',
       'Kubernetes release engineering maintainer',
@@ -83,8 +83,8 @@ export function CompatibilityLab() {
       <div className={styles.compatibilityIntro}>
         <h2 id="compatibility-title">Run a compatibility check.</h2>
         <p>
-          Select the problem currently haunting your roadmap. The diagnosis
-          changes; the senior engineer remains suspiciously reusable.
+          Pick the problem currently ruining your roadmap. The diagnosis changes.
+          The same suspiciously reusable engineer appears.
         </p>
       </div>
 

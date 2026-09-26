@@ -22,14 +22,14 @@ export function Benchmarks() {
   return (
     <section className={styles.benchmarks} aria-labelledby="benchmarks-title">
       <div className={styles.benchmarkIntro}>
-        <h2 id="benchmarks-title">Field report, not vanity dashboard.</h2>
-        <p>Selected outcomes from the current production history.</p>
+        <h2 id="benchmarks-title">Some numbers I can actually defend.</h2>
+        <p>No fictional ARR. Just work that happened.</p>
       </div>
       <div className={styles.report}>
         <div className={styles.primaryBenchmark}>
           <span>20–25%</span>
           <p>recurring Solutions Engineering work automated</p>
-          <small>Internal AI assistant. Human judgment and customer ownership retained.</small>
+          <small>Built for a real internal workflow. Humans still own the decisions and the customer.</small>
         </div>
         <dl className={styles.benchmarkList}>
           {benchmarks.map((benchmark) => (

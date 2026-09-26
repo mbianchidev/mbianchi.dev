@@ -450,10 +450,10 @@ test.describe('Static route experience', () => {
     await expect(page.locator('article img')).toHaveCount(3);
   });
 
-  test('renders the main-branch loved-by logo set', async ({ page }) => {
+  test('renders the company logo set', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const lovedBy = page.getByRole('region', { name: 'Loved and trusted by people at' });
+    const lovedBy = page.getByRole('region', { name: 'Worked with people at' });
     await expect(lovedBy).toBeVisible();
 
     for (const company of ['GitHub', 'Google', 'Microsoft', 'Uber', 'Amazon', 'Meta', 'Apple', 'Netflix', 'Tesla', 'NVIDIA', 'Adobe', 'Edera', 'Replit', 'OpenAI', 'Anthropic']) {
@@ -474,7 +474,7 @@ test.describe('Static route experience', () => {
 
     await expect(automationBacklog).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('#compatibility-result')).toContainText(
-      'Automate repeated work without automating responsibility.'
+      'Automate the boring work. Keep a human responsible.'
     );
   });
 
@@ -620,7 +620,7 @@ test.describe('Static route experience', () => {
     await expect(page.getByRole('heading', { name: 'Service status' })).toBeVisible();
     await expect(page.getByText('99.99%', { exact: true })).toBeVisible();
     await expect(page.getByText('3 minutes - PTO', { exact: true })).toBeVisible();
-    await expect(page.getByText('All systems operational. Human included.')).toBeVisible();
+    await expect(page.getByText('Everything works. Even the human.')).toBeVisible();
     await expect(page.getByText('No active incidents reported.')).toBeVisible();
     await expect(page.locator('[data-uptime-day]')).toHaveCount(360);
   });
@@ -633,13 +633,13 @@ test.describe('Static route experience', () => {
     await expect(page.getByText('K-Lab CLI', { exact: true })).toHaveCount(0);
   });
 
-  test('uses the requested homepage copy and balanced proof layout', async ({ page }) => {
+  test('uses the homepage copy and balanced proof layout', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     await expect(page.getByRole('heading', { name: 'Platform as a Human' })).toBeVisible();
     await expect(
       page.getByText(
-        'Matteo turns customer pain into cloud systems, developer platforms, and AI automation people actually adopt - then tells the story to engineers, leaders and the open source community.'
+        'Matteo builds developer platforms, ships software, works with customers, and automates the boring parts. Then he writes it down, contributes upstream, or explains it on stage.'
       )
     ).toBeVisible();
     await expect(page.getByRole('link', { name: 'Start trial' }).first()).toBeVisible();
@@ -649,12 +649,12 @@ test.describe('Static route experience', () => {
     );
     await expect(
       page.getByText(
-        'Human infrastructure for teams that need platforms, AI automation, customer outcomes, and clear technical communication to reinforce each other.'
+        'I build platforms, software, and automation. I also work with customers and explain things without a 90-slide deck.'
       )
     ).toBeVisible();
     await expect(
       page.getByText(
-        'Repeated work tends to become a script, agent, or internal product. Humans keep the judgment and the reclaimed time.'
+        'If I do the same thing twice, the third attempt may be a script, agent, or internal tool.'
       )
     ).toBeVisible();
 
@@ -674,7 +674,9 @@ test.describe('Static route experience', () => {
     expect(Math.abs(featuredBox!.height - sendboxBox!.height)).toBeLessThan(2);
 
     const integrations = page
-      .getByRole('heading', { name: 'Native integrations. Human judgment included.' })
+      .getByRole('heading', {
+        name: 'Tools I can use without turning them into a personality.',
+      })
       .locator('xpath=ancestor::section');
     const integrationsColors = await integrations.evaluate((section) => {
       const computed = getComputedStyle(section);
@@ -694,8 +696,12 @@ test.describe('Static route experience', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     await expect(page.getByText('LIVE SYSTEM', { exact: true })).toBeVisible();
-    await expect(page.getByText('Stuff Engineering + customer empathy', { exact: true })).toBeVisible();
-    await expect(page.getByText('Platform - Solutions - Open Source - AI', { exact: true })).toBeVisible();
+    await expect(
+      page.getByText('Software engineering with customer-facing side effects', { exact: true })
+    ).toBeVisible();
+    await expect(
+      page.getByText('Platforms / Solutions / Open Source / AI', { exact: true })
+    ).toBeVisible();
     await expect(page.locator('#compatibility-result')).toContainText(
       'Led infrastructure and built APIs serving 10M+ daily users to this day'
     );
@@ -769,10 +775,10 @@ test.describe('Static route experience', () => {
     await page.goto('/careers', { waitUntil: 'domcontentloaded' });
     const close = page
       .getByRole('heading', {
-        name: 'If these capabilities need to reinforce each other, test the human interface.',
+        name: 'If you need someone who can move between customer calls and production code, let’s talk.',
       })
       .locator('xpath=ancestor::section');
-    const deploy = close.getByRole('link', { name: 'Deploy' });
+    const deploy = close.getByRole('link', { name: 'Book a call' });
     const [headingBox, deployBox] = await Promise.all([
       close.getByRole('heading').boundingBox(),
       deploy.boundingBox(),
@@ -789,7 +795,7 @@ test.describe('Static route experience', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const benchmarks = page
-      .getByRole('heading', { name: 'Field report, not vanity dashboard.' })
+      .getByRole('heading', { name: 'Some numbers I can actually defend.' })
       .locator('xpath=ancestor::section');
     const metricRows = benchmarks.locator('dl > div');
     await expect(metricRows).toHaveCount(3);

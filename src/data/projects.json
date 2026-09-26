@@ -2,7 +2,7 @@
   "projects": [
     {
       "name": "Platform Engineering Roadmap",
-      "description": "An opinionated, interactive roadmap that helps engineers navigate the platform engineering landscape",
+      "description": "An opinionated interactive roadmap for engineers trying to make sense of platform engineering",
       "url": "https://github.com/mbianchidev/platform-engineering-roadmap",
       "stars": "140+",
       "techStack": [
@@ -14,7 +14,7 @@
     },
     {
       "name": "Sendbox",
-      "description": "An all-in-one sandbox for agentic CLI development, built to isolate AI agents with container-based environments",
+      "description": "A container-based sandbox for running agentic CLI tools without trusting them with the host",
       "url": "https://github.com/mbianchidev/sendbox",
       "stars": "1",
       "techStack": [
@@ -26,7 +26,7 @@
     },
     {
       "name": "Engineering Interviews",
-      "description": "A learning product with interview questions and coding challenge solutions for engineers preparing for technical interviews",
+      "description": "Interview questions, coding challenges, and explanations for engineers preparing for technical interviews",
       "url": "https://github.com/mbianchidev/engineering-interviews",
       "stars": "9",
       "techStack": [
@@ -38,7 +38,7 @@
     },
     {
       "name": "Kubernetes",
-      "description": "Production-Grade Container Scheduling and Management - the world's most popular container orchestration platform",
+      "description": "The open-source system for deploying and managing containerized applications at scale",
       "url": "https://github.com/kubernetes/kubernetes",
       "stars": "113k+",
       "techStack": [
@@ -50,7 +50,7 @@
     },
     {
       "name": "Helm",
-      "description": "The Kubernetes Package Manager - the standard way to package and deploy applications on Kubernetes",
+      "description": "The package manager used to install and upgrade applications on Kubernetes",
       "url": "https://github.com/helm/helm",
       "stars": "27k+",
       "techStack": [
@@ -62,7 +62,7 @@
     },
     {
       "name": "OpenTofu",
-      "description": "OpenTofu lets you declaratively manage your cloud infrastructure - the open source Terraform alternative",
+      "description": "An open-source infrastructure-as-code tool for managing cloud resources declaratively",
       "url": "https://github.com/opentofu/opentofu",
       "stars": "24k+",
       "techStack": [

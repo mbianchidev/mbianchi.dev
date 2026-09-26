@@ -13,11 +13,11 @@ export function ProofLedger() {
     <section id="proof" className={styles.proof} aria-labelledby="proof-title">
       <div className={styles.proofHeader}>
         <div>
-          <h2 id="proof-title">Do not trust the landing page.</h2>
-          <p>Open the source. The claims become significantly less fictional.</p>
+          <h2 id="proof-title">Do not take the landing page’s word for it.</h2>
+          <p>The code is public. Unfortunately, so is the commit history.</p>
         </div>
         <Link href="/portfolio" className={styles.textLink}>
-          Full OSS portfolio
+          See all the code
           <span aria-hidden="true">↗</span>
         </Link>
       </div>
