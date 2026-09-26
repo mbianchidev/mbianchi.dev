@@ -19,7 +19,7 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'advisory',
     name: 'Advisory',
-    description: 'Focused Kubernetes and open-source decisions for teams that need an experienced second brain before they need another implementation team.',
+    description: 'Bring me the Kubernetes or open-source decision before it becomes a six-month programme and a regrettable diagram.',
     price: '€100',
     hourlyRate: 100,
     period: '/hour',
@@ -35,7 +35,7 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'delivery',
     name: 'Delivery',
-    description: 'Hands-on Kubernetes work, technical education, and adoption support for teams that need the recommendation implemented and understood.',
+    description: 'I implement the recommendation, teach the team, and leave enough documentation that I do not become permanent infrastructure.',
     price: '€150',
     hourlyRate: 150,
     period: '/hour',
@@ -51,7 +51,7 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'full-time',
     name: 'Full-time',
-    description: 'The primary human-platform deployment for companies adding a senior engineer across platforms, solutions, software, and AI.',
+    description: 'For a company that wants one senior engineer who can move between platforms, software, customers, and AI without opening four roles.',
     price: 'Let’s talk',
     period: '',
     recommended: true,
@@ -60,7 +60,7 @@ const pricingPlans: PricingPlan[] = [
       'Long-term product, customer, and system ownership',
       'Platform, cloud, software, and AI delivery',
       'Solutions Engineering and field feedback',
-      'Open-source, education, and community leverage',
+      'Open source, education, and community work',
       'No seat-based pricing',
       'Coffee dependency remains customer-managed',
     ],
@@ -95,8 +95,8 @@ export default function Pricing() {
     <div className={styles.page}>
       <PageHero
         path="/pricing"
-        title="Full-time first. Consulting endpoints still available."
-        description="The primary deployment is a senior full-time role. Limited consulting remains available for Kubernetes, open-source strategy, mentorship, training, and speaking."
+        title="Full-time first. Consulting when it is a good fit."
+        description="I am mainly looking for a senior full-time role. I still take selected Kubernetes, open-source, mentorship, training, and speaking work."
         tone="dark"
         actions={
           <a
@@ -130,8 +130,8 @@ export default function Pricing() {
       <section className={styles.sectionLight} aria-labelledby="plans-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="plans-title">Choose a deployment model.</h2>
-            <p>Full-time is the default. The consulting tiers are deliberately narrower.</p>
+          <h2 id="plans-title">Pick the arrangement.</h2>
+          <p>Full-time is the default. Consulting is narrower on purpose.</p>
           </div>
           <div className={styles.pricingGrid}>
             {pricingPlans.map((plan) => {
@@ -195,8 +195,8 @@ export default function Pricing() {
       <section className={styles.quoteSection} aria-labelledby="quote-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="quote-title">Generate a rough quote.</h2>
-            <p>Calculator accuracy: mathematically correct, commercially incomplete.</p>
+            <h2 id="quote-title">Do the rough maths.</h2>
+            <p>This multiplies hours by rate. Sales sophistication ends there.</p>
           </div>
           <div className={styles.calculator}>
             <div className={styles.calculatorControls}>

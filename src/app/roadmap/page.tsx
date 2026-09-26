@@ -5,7 +5,7 @@ import styles from '@/app/inner.module.css'
 
 export const metadata = createPageMetadata({
   title: 'Changelog — Matteo',
-  description: 'A release history of platform work, open source, products, speaking, and community impact.',
+  description: 'Matteo’s work history across software, platforms, open source, products, speaking, and community work.',
   path: '/roadmap/',
 })
 
@@ -14,7 +14,7 @@ const releases = [
     year: '2026',
     title: 'KubeCon EU Amsterdam 2026',
     summary:
-      'Speaking with one session on Pull Request Wars: The Flux Awakens - Ephemeral Kubernetes Environments Strike Back.',
+      'Speaking about ephemeral Kubernetes environments in Pull Request Wars: The Flux Awakens.',
     signal: 'KubeCon EU · public speaking',
     links: [
       {
@@ -54,7 +54,7 @@ const releases = [
     year: '2025',
     title: 'Release leadership and bigger stages',
     summary:
-      'Served in Kubernetes release communications leadership and delivered three sessions at KubeCon EU London, including the first keynote-sized milestone at KCD Denmark.',
+      'Worked in Kubernetes release communications leadership, spoke three times at KubeCon EU London, and reached a keynote-sized stage at KCD Denmark.',
     signal: 'Release work · public speaking',
     links: [],
   },
@@ -62,7 +62,7 @@ const releases = [
     year: '2024–2025',
     title: 'Cloud-native recognition',
     summary:
-      'Recognised as a CNCF Ambassador and led communications work for the Kubernetes v1.32 release while serving conference programmes across regions.',
+      'Became a CNCF Ambassador, led communications for Kubernetes v1.32, and reviewed conference programmes in several regions.',
     signal: 'Verifiable ecosystem work',
     links: [
       {
@@ -79,7 +79,7 @@ const releases = [
     year: '2024',
     title: 'Deeper into open source',
     summary:
-      'Contributed as a Kubernetes v1.31 communications shadow and taught Cloud Native Technologies 101 at the University of Turin.',
+      'Joined the Kubernetes v1.31 release team as a communications shadow and taught Cloud Native Technologies 101 at the University of Turin.',
     signal: 'Open source · education',
     links: [
       {
@@ -118,7 +118,7 @@ const releases = [
     year: '2019–now',
     title: 'Started writing the field manual in public',
     summary:
-      'Turned production lessons into technical writing, talks, workshops, mentoring, and community material that other engineers could reuse.',
+      'Started publishing what I learned from production through articles, talks, workshops, mentoring, and community work.',
     signal: 'Writing · teaching · community',
     links: [
       {
@@ -134,8 +134,8 @@ export default function RoadmapPage() {
     <div className={styles.page}>
       <PageHero
         path="/roadmap"
-        title="Changelog, not a vision board."
-        description="A release history of shipped systems, public work, and career pivots. Receipts are linked; the jokes remain unsupported by design."
+        title="Changelog, because careers are messy."
+        description="Things I shipped, learned, broke, fixed, or talked about in public. Links included when they exist."
         tone="cyan"
         actions={
           <Link href="/portfolio" className={styles.darkButton}>
@@ -151,7 +151,7 @@ export default function RoadmapPage() {
             </div>
             <div>
               <dt>Current channel</dt>
-              <dd>Stable, still shipping</dd>
+              <dd>Still shipping</dd>
             </div>
             <div>
               <dt>Breaking changes</dt>
@@ -165,7 +165,7 @@ export default function RoadmapPage() {
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
             <h2 id="release-history">Release history.</h2>
-            <p>Chronological, because this one actually is a sequence.</p>
+            <p>Newest first. Receipts included when available.</p>
           </div>
           <ol className={styles.releaseList}>
             {releases.map((release) => (

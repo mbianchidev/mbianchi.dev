@@ -15,9 +15,9 @@ export function Hero() {
             Platform as a Human
           </h1>
           <p className={styles.heroText}>
-            Matteo turns customer pain into cloud systems, developer platforms,
-            and AI automation people actually adopt - then tells the story to
-            engineers, leaders and the open source community.
+            Matteo builds developer platforms, ships software, works with
+            customers, and automates the boring parts. Then he writes it down,
+            contributes upstream, or explains it on stage.
           </p>
           <div className={styles.heroActions}>
             <a
@@ -35,7 +35,7 @@ export function Hero() {
             </a>
           </div>
           <p className={styles.heroFinePrint}>
-            Full-time is the primary deployment. Select consulting endpoints remain available.
+            Looking for a full-time role. Still available for the occasional consulting job.
           </p>
         </div>
 
@@ -59,15 +59,15 @@ export function Hero() {
           <dl className={styles.productSpecs}>
             <div className={styles.specRow}>
               <dt>Runtime</dt>
-              <dd>Stuff Engineering + customer empathy</dd>
+              <dd>Software engineering with customer-facing side effects</dd>
             </div>
             <div className={styles.specRow}>
               <dt>Interfaces</dt>
-              <dd>Platform - Solutions - Open Source - AI</dd>
+              <dd>Platforms / Solutions / Open Source / AI</dd>
             </div>
             <div className={styles.specRow}>
               <dt>Known quirk</dt>
-              <dd>May automate the recurring task before lunch</dd>
+              <dd>Will automate the recurring task before lunch</dd>
             </div>
           </dl>
         </aside>

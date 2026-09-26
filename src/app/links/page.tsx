@@ -7,7 +7,7 @@ import styles from './links.module.css'
 export const metadata: Metadata = createPageMetadata({
   title: 'Links — Matteo',
   description:
-    'Mentoring, videos, and open-source work from Matteo Bianchi in one public endpoint manifest.',
+    'Matteo Bianchi’s mentoring, videos, and open-source work in one place.',
   path: '/links/',
 })
 
@@ -66,7 +66,7 @@ export default function LinksPage() {
           </div>
 
           <div className={styles.manifestHeader}>
-            <span>Public endpoint manifest</span>
+            <span>Links that actually go somewhere</span>
             <span>{linksPageConfig.links.length} routes online</span>
           </div>
 

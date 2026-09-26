@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Matteo — The Human Platform',
     short_name: 'Matteo',
-    description: 'Platform engineering, cloud-native systems, open source, and technical storytelling.',
+    description: 'Developer platforms, software, open source, customer work, and practical automation.',
     start_url: `${basePath}/`,
     scope: `${basePath}/`,
     display: 'standalone',

@@ -7,7 +7,7 @@ import styles from '@/app/inner.module.css'
 
 export const metadata = createPageMetadata({
   title: 'Customers — Matteo',
-  description: 'Where Matteo has shipped across employment, founding, advisory, mentoring, consulting, and training.',
+  description: 'Matteo’s work history across employment, founding, consulting, mentoring, training, and advisory roles.',
   path: '/customers/',
 })
 
@@ -20,8 +20,8 @@ export default function Customers() {
     <div className={styles.page}>
       <PageHero
         path="/customers"
-        title="Customers, collaborators, and teams shipped with."
-        description="Where this human has shipped across employment, founding, advisory, mentoring, consulting, and training. A career path, not a client claim."
+        title="Where I worked, built, advised, taught, or got paged."
+        description="Employment, consulting, founding, mentoring, training, and advisory work. A career history, not a wall of implied endorsements."
         tone="light"
         aside={
           <dl className={styles.heroSpecs}>
@@ -44,8 +44,8 @@ export default function Customers() {
       <section className={styles.sectionSoft} aria-labelledby="deployment-history">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="deployment-history">Teams, missions, and operating contexts.</h2>
-            <p>Newest first. Roles and relationship types stay explicit.</p>
+            <h2 id="deployment-history">The long version.</h2>
+            <p>Newest first. I label the relationship because not every logo means customer.</p>
           </div>
           <CustomersTimeline companies={visibleCompanies} />
         </div>
