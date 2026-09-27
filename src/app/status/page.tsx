@@ -3,32 +3,32 @@ import styles from '@/app/inner.module.css'
 
 export const metadata = createPageMetadata({
   title: 'Status — Matteo',
-  description: 'Operational status, uptime, and incident history for the Matteo human platform.',
+  description: 'A completely serious status page for Matteo Bianchi.',
   path: '/status/',
 })
 
 const systems = [
   {
     name: 'Human runtime',
-    detail: 'Core engineering and product judgment',
+    detail: 'Engineering, judgment, and remembering to take breaks',
     uptime: '99.99%',
     incidentDays: [71],
   },
   {
     name: 'Platform interface',
-    detail: 'Cloud-native and developer-experience delivery',
+    detail: 'Cloud native, platforms, and developer experience',
     uptime: '100.00%',
     incidentDays: [],
   },
   {
     name: 'Open-source uplink',
-    detail: 'Repositories, contributions, and community work',
+    detail: 'Repositories, upstream pull requests, and community work',
     uptime: '100.00%',
     incidentDays: [],
   },
   {
     name: 'Broadcast subsystem',
-    detail: 'Talks, writing, workshops, and explanations',
+    detail: 'Talks, articles, workshops, and too many explanations',
     uptime: '100.00%',
     incidentDays: [],
   },
@@ -58,15 +58,15 @@ export default function StatusPage() {
             <p>Matteo / Human Platform</p>
             <h1 id="page-title">Service status</h1>
             <p>
-              Current availability and 90-day operating history for engineering,
-              delivery, open-source, and communication systems.
+              Current availability and 90 days of suspiciously precise uptime
+              data for one human.
             </p>
           </div>
 
           <div className={styles.overallStatus} role="status">
             <span className={styles.overallStatusIcon} aria-hidden="true">✓</span>
             <div>
-              <h2>All systems operational. Human included.</h2>
+              <h2>Everything works. Even the human.</h2>
               <p>No active incidents or scheduled maintenance.</p>
             </div>
             <strong>
@@ -186,21 +186,21 @@ export default function StatusPage() {
                   <time dateTime="2026-07-18T14:03:00+02:00">14:03 CEST</time>
                   <div>
                     <strong>Resolved</strong>
-                    <p>Maintenance completed. Full availability has been restored.</p>
+                    <p>Break completed. Full availability restored.</p>
                   </div>
                 </li>
                 <li>
                   <time dateTime="2026-07-18T14:02:00+02:00">14:02 CEST</time>
                   <div>
                     <strong>Monitoring</strong>
-                    <p>Service resumed while coffee acquisition and health checks completed.</p>
+                    <p>Work resumed while coffee and basic health checks completed.</p>
                   </div>
                 </li>
                 <li>
                   <time dateTime="2026-07-18T14:00:00+02:00">14:00 CEST</time>
                   <div>
                     <strong>Identified</strong>
-                    <p>Work intake paused for a scheduled personal maintenance window.</p>
+                    <p>Work paused for three scheduled minutes of personal maintenance.</p>
                   </div>
                 </li>
               </ol>

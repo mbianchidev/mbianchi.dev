@@ -8,15 +8,15 @@ export default function NotFound() {
       <PageHero
         path="/404"
         title="Endpoint not implemented."
-        description="The route does not exist, moved without a migration plan, or was acquired and sunset for strategic reasons."
+        description="This page does not exist. It may have moved, disappeared, or been sunset for strategic reasons."
         tone="green"
         actions={
           <>
             <Link href="/" className={styles.darkButton}>
-              Return to the product
+              Go home
             </Link>
             <Link href="/portfolio" className={styles.lightButton}>
-              Inspect working endpoints
+              See working code
             </Link>
           </>
         }

@@ -57,11 +57,11 @@ export function TrustedBy() {
   return (
     <section className={styles.lovedBy} aria-labelledby="loved-by-title">
       <div className={styles.lovedByHeader}>
-        <h2 id="loved-by-title">Loved and trusted by people at</h2>
+        <h2 id="loved-by-title">Worked with people at</h2>
         <p>
-          The legally safe version: Matteo has shipped, collaborated, taught, or
-          built community with excellent humans from these places. Corporate
-          endorsement remains an add-on.
+          People from these companies have hired Matteo, worked with him, learned
+          from him, or built community alongside him. No endorsement implied.
+          Legal can relax.
         </p>
       </div>
       <div className={styles.logoRunway}>

@@ -11,7 +11,7 @@ import styles from './home.module.css'
 
 export const metadata = createPageMetadata({
   title: 'Matteo — The Human Platform',
-  description: 'Matteo Bianchi is a Senior Engineer across platforms, solutions, software, and AI, combining deep engineering with customer insight, open source, and technical communication.',
+  description: 'Matteo Bianchi builds developer platforms, ships software, works with customers, automates boring work, and contributes to open source.',
   path: '/',
 })
 

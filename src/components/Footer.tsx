@@ -16,8 +16,8 @@ export function Footer() {
             <BrandLogo />
           </Link>
           <p>
-            Human infrastructure for teams that need platforms, AI automation,
-            customer outcomes, and clear technical communication to reinforce each other.
+            I build platforms, software, and automation. I also work with customers
+            and explain things without a 90-slide deck.
           </p>
         </div>
         <div className={styles.footerLinks}>

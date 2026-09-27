@@ -68,8 +68,8 @@ const chapters = [
         <p>
           After high school I moved to Milan, switched languages to specialise in Java, and built
           my back end as a Software Engineer. I climbed the ladder, worked on large-scale products
-          serving more than eight million users at the time—more than ten million today—and
-          eventually became a Senior Software Engineer.
+          serving more than eight million users at the time. It serves more than ten million
+          today. Eventually, I became a Senior Software Engineer.
         </p>
         <p>
           Since I am fundamentally lazy, I learned to love automation. I started with Bash scripts
@@ -84,7 +84,8 @@ const chapters = [
         <p>
           I joined the dark side of DevOps and Site Reliability Engineering, bringing the best of
           my software engineering background with me. I led DevOps initiatives, improved DORA
-          metrics—we measured before changing—and helped multiple teams move from zero to GitOps.
+          metrics. We measured before changing anything. I also helped multiple teams move from
+          zero to GitOps.
         </p>
       </>
     ),
@@ -96,7 +97,7 @@ const chapters = [
       <>
         <p>
           Eventually I hit a ceiling, both at the company where I worked and in the Italian IT
-          landscape. Italy did not have a clear Individual Contributor ladder: in most companies,
+          market. Italy did not have a clear Individual Contributor ladder. In most companies,
           you either became a manager or stayed at Senior. That was 2021. Things may have changed,
           and I hope they have; I still have family and friends working in tech there.
         </p>
@@ -106,8 +107,8 @@ const chapters = [
         </p>
         <p>
           I took on far more clients than I could handle. That meant endless weeks, nights, and
-          weekends spent grinding. Yes, I made more money than ever before—and, honestly, more
-          than I have since. It was a ridiculous amount of money every month.
+          weekends spent grinding. Yes, I made more money than ever before. Honestly, more than
+          I have since. It was a ridiculous amount of money every month.
         </p>
         <p>
           I coached and mentored people on DevOps principles and practices and, in hindsight, on
@@ -137,7 +138,7 @@ const chapters = [
         <p>
           It was a hell of a year. I enjoyed building a new company culture, revolutionising its
           services, taking a product from zero to one end to end, and caring for my team until the
-          very end—even giving up my severance so theirs could be paid. It was only fair. Big tech
+          very end. I even gave up my severance so theirs could be paid. It was only fair. Big tech
           can definitely do better when laying people off for no reason.
         </p>
         <aside className={`${styles.marginNote} ${styles.warningNote}`}>
@@ -167,8 +168,8 @@ const chapters = [
         </p>
         <p>
           After a short chapter at a Y Combinator W22 startup, where I joined as employee number
-          15 and became the effective Head of DevRel and Marketing—and the only DevRel, to be
-          fair—I joined GitHub as a Solutions Engineer.
+          15 and became the effective Head of DevRel and Marketing. I was also the only DevRel,
+          to be fair. Then I joined GitHub as a Solutions Engineer.
         </p>
         <p>
           Pre-sales is not really my thing, but I enjoy talking with customers and diving into the
@@ -193,8 +194,8 @@ export default function About() {
           <div className={styles.heroCopy}>
             <h1 id="about-title">A note from our CEO.</h1>
             <p className={styles.lede}>
-              The title is part of the product metaphor. The story is not. This is how curiosity,
-              stubbornness, a few calculated risks, and more than one failure brought me here.
+              The title is part of the product joke. The story is not. Curiosity, stubbornness,
+              bad decisions, good decisions, and a few failures brought me here.
             </p>
             <a className={styles.jumpLink} href="#the-note">
               Read the note
@@ -223,7 +224,7 @@ export default function About() {
             <h2>I learned by doing. Then I kept going.</h2>
             <p>
               This is not a polished founder myth. It is the longer, messier version: the boring
-              school days, the bluff that led to Kubernetes, the startup that did not find its
+              school days, the lie that led to Kubernetes, the startup that did not find its
               market, and the communities and people who made the work worth doing.
             </p>
           </div>

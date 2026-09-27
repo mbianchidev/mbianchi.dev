@@ -6,7 +6,7 @@ import styles from '@/app/inner.module.css'
 
 export const metadata = createPageMetadata({
   title: 'Open Source — Matteo',
-  description: 'Creator-owned projects and upstream contributions across developer platforms, AI tooling, Kubernetes, infrastructure, and education.',
+  description: 'Projects Matteo built and upstream work across developer platforms, AI tooling, Kubernetes, infrastructure, and education.',
   path: '/portfolio/',
 })
 
@@ -26,8 +26,8 @@ export default function Portfolio() {
     <div className={styles.page}>
       <PageHero
         path="/portfolio"
-        title="Source available. Claims inspectable."
-        description="Projects created, maintained, and contributed to across developer platforms, AI tooling, Kubernetes, infrastructure, and technical education."
+        title="The code is public. So are the receipts."
+        description="Projects I built, projects I maintain, and code I sent upstream. The contribution label tells you which is which."
         tone="green"
         actions={
           <>
@@ -71,8 +71,8 @@ export default function Portfolio() {
         <section className={styles.sectionDark} aria-labelledby="owned-projects">
           <div className={styles.sectionInner}>
             <div className={styles.sectionIntro}>
-              <h2 id="owned-projects">Built and maintained here.</h2>
-              <p>Personal repositories. The star counts belong to these projects, not borrowed ecosystems.</p>
+              <h2 id="owned-projects">Projects I actually own.</h2>
+              <p>These repositories are mine. Their star counts are project signal, not a personality score.</p>
             </div>
             <div className={styles.ownedProjects}>
               <article className={styles.featuredRepository}>
@@ -125,8 +125,8 @@ export default function Portfolio() {
       <section className={styles.sectionSoft} aria-labelledby="ecosystem-work">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="ecosystem-work">Contributed upstream.</h2>
-            <p>Project reach is context. The contribution label is the personal claim.</p>
+            <h2 id="ecosystem-work">Code I sent somewhere else.</h2>
+            <p>The project may be famous. The contribution label says what I actually did.</p>
           </div>
           <div className={styles.contributionList}>
             {ecosystemProjects.map((project) => (
@@ -152,8 +152,8 @@ export default function Portfolio() {
       <section className={styles.sectionCyan} aria-labelledby="portfolio-output">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="portfolio-output">Output, not ARR.</h2>
-            <p>Actual work products from the human-platform release history.</p>
+            <h2 id="portfolio-output">Work, not startup metrics.</h2>
+            <p>Pull requests, talks, teaching, and mentoring. No ARR cosplay.</p>
           </div>
           <dl className={styles.outputGrid}>
             <div>

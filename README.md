@@ -55,7 +55,7 @@ This project was created to:
 - **Playwright** - Route, interaction, responsive, and screenshot coverage
 - **ESLint** - Code linting and quality
 
-`package.json` overrides Next.js's pinned PostCSS version with patched PostCSS 8.5.19. Keep the override until the selected Next.js line depends on PostCSS 8.5.10 or newer.
+`package.json` overrides Next.js's pinned PostCSS version with patched PostCSS 8.5.25. Keep the override until the selected Next.js line depends on PostCSS 8.5.10 or newer.
 
 Short-link declarations live in `src/data/redirects.json`. `next.config.js` uses
 them for Next.js redirects, while the matching root pages render the shared

@@ -4,38 +4,38 @@ import styles from '@/app/home.module.css'
 const capabilities = [
   {
     key: 'platform.core',
-    title: 'Developer platforms people choose to use',
+    title: 'Developer platforms engineers actually use',
     description:
-      'Built platform APIs and zero-touch onboarding used by 70+ engineers; led infrastructure and built APIs serving 10M+ daily users to this day.',
+      'Built platform APIs and zero-touch onboarding for 70+ engineers. Earlier, helped run infrastructure and APIs used by 10M+ people every day.',
     signal: 'Platform engineering · Kubernetes · multi-cloud · SRE',
-    evidence: 'Inspect the roadmap',
+    evidence: 'See the roadmap',
     href: 'https://github.com/mbianchidev/platform-engineering-roadmap'
   },
   {
     key: 'solutions.interface',
-    title: 'Customer problems translated into shipped systems',
+    title: 'Customer conversations that end in working software',
     description:
-      'Connects technical discovery, architecture, demos, field feedback, and hands-on delivery. Won Club FY26 after reaching 180% quota at GitHub.',
+      'Runs discovery, designs the architecture, builds the demo, guides implementation, and sends useful feedback to product. Reached 180% quota at GitHub and won Club FY26.',
     signal: 'Solutions engineering · discovery · GTM · product feedback',
-    evidence: 'Review deployment history',
+    evidence: 'See the work history',
     href: '/customers'
   },
   {
     key: 'ai.automation',
-    title: 'AI automation with a measurable job',
+    title: 'AI for work people are tired of doing',
     description:
-      'Builds agents and internal tools that remove recurring work without outsourcing judgment—including an assistant that automated 20–25% of Solutions Engineering workload.',
+      'Builds agents and internal tools for real workflows. One assistant removed 20–25% of recurring Solutions Engineering work.',
     signal: 'Python · TypeScript · MCP · agents · developer tooling',
-    evidence: 'Inspect software work',
+    evidence: 'See the software work',
     href: '/portfolio'
   },
   {
     key: 'open.protocol',
-    title: 'Open source and communication that compound',
+    title: 'Open source, talks, and teaching',
     description:
-      'Kubernetes release engineering maintainer, 40+ merged upstream pull requests, 20+ talks, 500+ learners, and 20+ mentees coached to success (5/5 stars as a mentor).',
+      'Kubernetes release engineering maintainer with 40+ merged upstream pull requests, 20+ talks, 500+ learners, and 20+ mentees. Still rated 5/5, somehow.',
     signal: 'Kubernetes · OSS strategy · speaking · education',
-    evidence: 'Open community interfaces',
+    evidence: 'See the community work',
     href: '/about#community'
   }
 ]
@@ -45,9 +45,9 @@ export function Capabilities() {
     <section id="features" className={styles.capabilities} aria-labelledby="capabilities-title">
       <div className={styles.sectionHeader}>
         <p className={styles.sectionCode}>matteo.features()</p>
-        <h2 id="capabilities-title">One deployment. Four systems that reinforce each other.</h2>
+        <h2 id="capabilities-title">Four jobs that somehow fit in one human.</h2>
         <p>
-          The startup framing is a joke. The cross-functional leverage is not.
+          The startup framing is a joke. The work is very real.
         </p>
       </div>
 
