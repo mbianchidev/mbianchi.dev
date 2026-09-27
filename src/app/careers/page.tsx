@@ -119,7 +119,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section className={styles.careersClose}>
+      <section className={styles.careersClose} data-careers-close>
         <div>
           <p>Looks compatible.</p>
           <h2>If you need someone who can move between customer calls and production code, let’s talk.</h2>

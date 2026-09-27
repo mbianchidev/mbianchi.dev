@@ -89,6 +89,7 @@ export function CustomersTimeline({ companies }: CustomersTimelineProps) {
       {remaining > 0 && (
         <button
           type="button"
+          data-load-more-customers
           className={styles.loadMore}
           onClick={() => setVisibleCount((count) => Math.min(count + PAGE_SIZE, companies.length))}
           aria-label={`Load ${Math.min(PAGE_SIZE, remaining)} more deployment history entries`}

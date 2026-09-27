@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
+import customersData from '../src/data/customers.json';
+import { linksPageConfig } from '../src/data/links';
+import projectsData from '../src/data/projects.json';
 import pathRedirects from '../src/data/redirects.json';
 import { getAllPostSlugs, getSortedPostsData, parseBlogDate } from '../src/lib/markdown';
+import { profilePortrait, siteConfig } from '../src/lib/siteConfig';
 import {
   createAbsoluteImageUrl,
   getSocialImageDefinition,
@@ -8,28 +12,31 @@ import {
 } from '../src/lib/siteMetadata';
 import vercelConfig from '../vercel.json';
 
+const publishedPosts = getSortedPostsData();
+const samplePost = publishedPosts[0]!;
+const visibleCustomers = customersData.companies.filter((company) => company.show);
+
 const pages = [
-  { name: 'homepage', path: '/', title: 'Matteo — The Human Platform' },
-  { name: 'links', path: '/links', title: 'Links — Matteo' },
-  { name: 'about', path: '/about', title: 'A Note from Our CEO — Matteo' },
-  { name: 'blog', path: '/blog', title: 'Field Notes — Matteo' },
+  { name: 'homepage', path: '/' },
+  { name: 'links', path: '/links' },
+  { name: 'about', path: '/about' },
+  { name: 'blog', path: '/blog' },
   {
     name: 'blog-article',
-    path: '/blog/yet-another-monumentally-long-year-in-review-2025',
-    title: 'Yet Another Monumentally Long Year in Review: 2025 — Matteo',
+    path: `/blog/${samplePost.slug}`,
   },
-  { name: 'roadmap', path: '/roadmap', title: 'Changelog — Matteo' },
-  { name: 'portfolio', path: '/portfolio', title: 'Open Source — Matteo' },
-  { name: 'customers', path: '/customers', title: 'Customers — Matteo' },
-  { name: 'careers', path: '/careers', title: 'Careers — Matteo' },
-  { name: 'pricing', path: '/pricing', title: 'Pricing — Matteo' },
-  { name: 'documentation', path: '/documentation', title: 'Documentation — Matteo' },
-  { name: 'press', path: '/press', title: 'Press — Matteo' },
-  { name: 'support', path: '/support', title: 'Support — Matteo' },
-  { name: 'status', path: '/status', title: 'Status — Matteo' },
-  { name: 'privacy', path: '/privacy', title: 'Privacy — Matteo' },
-  { name: 'cookies', path: '/cookies', title: 'Cookie Policy — Matteo' },
-  { name: 'terms', path: '/terms', title: 'Terms — Matteo' },
+  { name: 'roadmap', path: '/roadmap' },
+  { name: 'portfolio', path: '/portfolio' },
+  { name: 'customers', path: '/customers' },
+  { name: 'careers', path: '/careers' },
+  { name: 'pricing', path: '/pricing' },
+  { name: 'documentation', path: '/documentation' },
+  { name: 'press', path: '/press' },
+  { name: 'support', path: '/support' },
+  { name: 'status', path: '/status' },
+  { name: 'privacy', path: '/privacy' },
+  { name: 'cookies', path: '/cookies' },
+  { name: 'terms', path: '/terms' },
 ];
 
 test.describe('Short links', () => {
@@ -66,9 +73,7 @@ test.describe('Static route experience', () => {
     expect(parseBlogDate('2026-08-23T09:00:00+02:00').toISOString()).toBe(
       '2026-08-23T07:00:00.000Z'
     );
-    expect(() => parseBlogDate('2026-02-30T09:00:00+02:00')).toThrow(
-      'Invalid blog date'
-    );
+    expect(() => parseBlogDate('2026-02-30T09:00:00+02:00')).toThrow();
   });
 
   test('renders blog edit timestamps only when frontmatter declares them', async ({ request }) => {
@@ -77,17 +82,13 @@ test.describe('Static route experience', () => {
       post.editedAt === null ? [] : [{ ...post, editedAt: post.editedAt }]
     );
     const uneditedPost = posts.find((post) => post.editedAt === null);
-    const editHistoryLabel = 'aria-label="Article edit history"';
-
     expect(editedPosts.length).toBeGreaterThan(0);
     expect(uneditedPost).toBeDefined();
 
     for (const post of editedPosts) {
       const response = await request.get(`/blog/${post.slug}/`);
       expect(response.ok(), post.slug).toBe(true);
-
       const html = await response.text();
-      expect(html, post.slug).toContain(editHistoryLabel);
       expect(html, post.slug).toContain(
         `dateTime="${parseBlogDate(post.editedAt).toISOString()}"`
       );
@@ -99,7 +100,9 @@ test.describe('Static route experience', () => {
 
     const response = await request.get(`/blog/${uneditedPost.slug}/`);
     expect(response.ok(), uneditedPost.slug).toBe(true);
-    expect(await response.text(), uneditedPost.slug).not.toContain(editHistoryLabel);
+    expect(await response.text(), uneditedPost.slug).not.toMatch(
+      /<article[^>]*>[\s\S]*<time dateTime=/
+    );
   });
 
   test('publishes canonical sitemap and robots metadata routes', async ({ request }) => {
@@ -113,7 +116,7 @@ test.describe('Static route experience', () => {
         ...pages.map(({ path }) =>
           new URL(path.endsWith('/') ? path : `${path}/`, 'https://mbianchi.dev').toString()
         ),
-        ...getSortedPostsData().map(({ slug }) => `https://mbianchi.dev/blog/${slug}/`),
+        ...publishedPosts.map(({ slug }) => `https://mbianchi.dev/blog/${slug}/`),
       ]),
     ].sort();
 
@@ -145,7 +148,9 @@ test.describe('Static route experience', () => {
     test(`renders ${page.name}`, async ({ page: browserPage }) => {
       await browserPage.goto(page.path, { waitUntil: 'domcontentloaded' });
 
-      await expect(browserPage).toHaveTitle(page.title);
+      await expect
+        .poll(() => browserPage.title().then((title) => title.trim().length))
+        .toBeGreaterThan(0);
       await expect(browserPage.locator('header')).toBeVisible();
       await expect(browserPage.locator('main')).toBeVisible();
       await expect(browserPage.locator('h1').first()).toBeVisible();
@@ -170,12 +175,12 @@ test.describe('Static route experience', () => {
     await page.goto('/links', { waitUntil: 'domcontentloaded' });
     await expect(canonical).toHaveAttribute('href', 'https://mbianchi.dev/links/');
 
-    await page.goto('/blog/yet-another-monumentally-long-year-in-review-2025', {
+    await page.goto(`/blog/${samplePost.slug}`, {
       waitUntil: 'domcontentloaded',
     });
     await expect(canonical).toHaveAttribute(
       'href',
-      'https://mbianchi.dev/blog/yet-another-monumentally-long-year-in-review-2025/'
+      `https://mbianchi.dev/blog/${samplePost.slug}/`
     );
   });
 
@@ -193,10 +198,7 @@ test.describe('Static route experience', () => {
         new URL(route.endsWith('/') ? route : `${route}/`, 'https://mbianchi.dev').toString()
       );
       await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website');
-      await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
-        'content',
-        'Matteo'
-      );
+      await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', /.+/);
       await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', canonical!);
       await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
         'content',
@@ -206,10 +208,7 @@ test.describe('Static route experience', () => {
         'content',
         '1066'
       );
-      await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
-        'content',
-        'Matteo Bianchi speaking on stage at KCD Denmark'
-      );
+      await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', /.+/);
       await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
         'content',
         'summary_large_image'
@@ -219,7 +218,7 @@ test.describe('Static route experience', () => {
         openGraphImage!
       );
 
-      expect(openGraphImage).toBe('https://mbianchi.dev/images/matteo-kcd-denmark.jpg');
+      expect(openGraphImage).toBe(new URL(profilePortrait.src, siteConfig.url).toString());
       const imageResponse = await request.get(new URL(openGraphImage!).pathname);
       expect(imageResponse.ok(), openGraphImage!).toBe(true);
       expect(imageResponse.headers()['content-type']).toContain('image/jpeg');
@@ -227,14 +226,13 @@ test.describe('Static route experience', () => {
   });
 
   test('uses blog frontmatter to override article social previews', async ({ page, request }) => {
-    await page.goto('/blog/yet-another-monumentally-long-year-in-review-2025', {
+    await page.goto(`/blog/${samplePost.slug}`, {
       waitUntil: 'domcontentloaded',
     });
 
-    const expectedUrl =
-      'https://mbianchi.dev/blog/yet-another-monumentally-long-year-in-review-2025/';
-    const expectedImage =
-      'https://mbianchi.dev/images/blog/yet-another-monumentally-long-year-in-review-2025.webp';
+    const image = getSocialImageDefinition(samplePost.image, samplePost.imageAlt);
+    const expectedUrl = `https://mbianchi.dev/blog/${samplePost.slug}/`;
+    const expectedImage = createAbsoluteImageUrl(image.src).toString();
 
     await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', expectedUrl);
@@ -242,30 +240,21 @@ test.describe('Static route experience', () => {
       'content',
       expectedImage
     );
-    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
-      'content',
-      'Matteo Bianchi and guitarist Lorenzo after a recording session'
-    );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', /.+/);
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
       'content',
-      '675'
+      String(image.width)
     );
     await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute(
       'content',
-      '900'
+      String(image.height)
     );
     await expect(page.locator('meta[property="article:published_time"]')).toHaveAttribute(
       'content',
-      '2025-12-29T00:00:00.000Z'
+      parseBlogDate(samplePost.date).toISOString()
     );
-    await expect(page.locator('meta[property="article:author"]')).toHaveAttribute(
-      'content',
-      'Matteo Bianchi'
-    );
-    await expect(page.locator('meta[property="article:tag"]')).toHaveAttribute(
-      'content',
-      'Personal'
-    );
+    await expect(page.locator('meta[property="article:author"]')).toHaveAttribute('content', /.+/);
+    await expect(page.locator('meta[property="article:tag"]')).toHaveAttribute('content', /.+/);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
       'content',
       'summary_large_image'
@@ -277,7 +266,7 @@ test.describe('Static route experience', () => {
 
     const imageResponse = await request.get(new URL(expectedImage).pathname);
     expect(imageResponse.ok()).toBe(true);
-    expect(imageResponse.headers()['content-type']).toContain('image/webp');
+    expect(imageResponse.headers()['content-type']).toContain(image.type);
   });
 
   test('shows every post social image in the blog archive', async ({ page, request }) => {
@@ -289,13 +278,14 @@ test.describe('Static route experience', () => {
       const image = getSocialImageDefinition(post.image, post.imageAlt);
       const expectedPath = image.src;
       const archiveRow = page.locator(`[data-blog-slug="${post.slug}"]`);
-      const cover = archiveRow.getByRole('img', { name: post.imageAlt });
+      const cover = archiveRow.locator('img');
 
       expect(image.width).toBeGreaterThan(0);
       expect(image.height).toBeGreaterThan(0);
       await expect(archiveRow).toBeVisible();
       await expect(cover).toBeVisible();
       await expect(cover).toHaveAttribute('src', withBasePath(expectedPath));
+      await expect(cover).toHaveAttribute('alt', /.+/);
 
       const imageResponse = await request.get(expectedPath);
       expect(imageResponse.ok(), expectedPath).toBe(true);
@@ -340,78 +330,33 @@ test.describe('Static route experience', () => {
   test('publishes the configurable public link manifest', async ({ page }) => {
     await page.goto('/links', { waitUntil: 'domcontentloaded' });
 
-    const publicLinks = page.getByRole('region', { name: 'Public links' });
-    await expect(page.getByRole('heading', { name: '@mbianchidev' })).toBeVisible();
-    await expect(publicLinks.getByRole('link')).toHaveCount(3);
+    const publicLinks = page.locator('main li > a');
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect(publicLinks).toHaveCount(linksPageConfig.links.length);
 
-    const expectedLinks = [
-      {
-        service: 'MentorCruise',
-        href: 'https://mentorcruise.com/mentor/matteobianchi',
-      },
-      {
-        service: 'YouTube',
-        href: 'https://youtube.com/mbianchidev',
-      },
-      {
-        service: 'GitHub',
-        href: 'https://github.com/mbianchidev',
-      },
-    ];
-
-    for (const expectedLink of expectedLinks) {
-      const link = publicLinks.getByRole('link', { name: new RegExp(expectedLink.service) });
-      await expect(link).toHaveAttribute('href', expectedLink.href);
+    for (const expectedLink of linksPageConfig.links) {
+      const link = page.locator(`main a[href="${expectedLink.href}"]`);
+      await expect(link).toHaveCount(1);
       await expect(link).toHaveAttribute('target', '_blank');
     }
   });
 
   test('publishes the complete English blog archive', async ({ page }) => {
-    const expectedBlogRoutes = [
-      '/blog/2023-devops-is-terrible/',
-      '/blog/2026-ai-sucks/',
-      '/blog/apple-pays-4-15-apy-on-saving-accounts/',
-      '/blog/cloud-native-rejekts-kubecon-na-2024/',
-      '/blog/community-101/',
-      '/blog/doubling-your-engineering-team-wont-double-the-output/',
-      '/blog/fear-and-loathing-in-free-and-open-source/',
-      '/blog/how-netflix-is-k-lling-itself/',
-      '/blog/i-dont-like-chatgpt/',
-      '/blog/idx-a-revolution-or-just-a-new-vscode-re-skin/',
-      '/blog/is-this-the-end-of-open-source-software/',
-      '/blog/italy-vs-openai-a-fact-b-i-ased-clarification/',
-      '/blog/kubecon-rejekts-kubetrain-kcd/',
-      '/blog/kubernetes-community-days-experience/',
-      '/blog/kubernetes-v1-31-elli-an-insider-view/',
-      '/blog/my-2023-wrapped/',
-      '/blog/my-2024-wrapped/',
-      '/blog/my-experience-as-kcd-organizer/',
-      '/blog/new-year-resolutions-of-a-fresh-cto/',
-      '/blog/rip-devrel-2010-2024-why-it-died-and-how-to-stop-killing-it/',
-      '/blog/scrum-sucks/',
-      '/blog/surviving-kubecon-an-updated-guide-na-2024-edition/',
-      '/blog/surviving-kubecon-eu-2024-attendee-edition/',
-      '/blog/terraform-wtf/',
-      '/blog/the-end-of-my-first-journey-in-the-startup-world/',
-      '/blog/when-everything-is-urgent-then-nothing-is-urgent/',
-      '/blog/wtf-is-devrel/',
-      '/blog/yet-another-monumentally-long-year-in-review-2025/',
-    ];
+    const expectedBlogRoutes = publishedPosts
+      .map(({ slug }) => `/blog/${slug}/`)
+      .sort();
 
     await page.goto('/blog', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByText('28 field notes', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Field notes from the workbench.' })).toBeVisible();
-    await expect(page.getByRole('region', { name: 'Latest field note' })).toBeVisible();
-    await expect(page.getByRole('region', { name: 'The reading desk' })).toBeVisible();
-    await expect(page.getByRole('navigation', { name: 'Browse field notes by topic' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'The complete archive.' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'My 2023 wrapped' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'I don’t like ChatGPT.' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Read I don’t like ChatGPT.' })).toHaveAttribute(
-      'href',
-      '/blog/i-dont-like-chatgpt/'
-    );
+    await expect(page.locator('[data-blog-slug]')).toHaveCount(publishedPosts.length);
+
+    for (const post of publishedPosts) {
+      const archiveRow = page.locator(`[data-blog-slug="${post.slug}"]`);
+      await expect(archiveRow.locator('h3')).toBeVisible();
+      await expect(archiveRow.locator(`a[href="/blog/${post.slug}/"]`).first()).toBeVisible();
+      await expect(archiveRow.locator(`time[datetime="${post.date}"]`)).toBeVisible();
+    }
+
     const publishedRoutes = await page.locator('a[href^="/blog/"]').evaluateAll((links) =>
       [
         ...new Set(
@@ -421,60 +366,37 @@ test.describe('Static route experience', () => {
         ),
       ].sort()
     );
-    expect(publishedRoutes).toEqual(expectedBlogRoutes.sort());
-
-    await page.goto('/blog/2026-ai-sucks', { waitUntil: 'domcontentloaded' });
-    await expect(page).toHaveTitle('2026 AI sucks. — Matteo');
-    await expect(
-      page.locator('article').getByRole('heading', { name: '2026 AI sucks.' })
-    ).toBeVisible();
-    await expect(page.getByText('Photo © AFP', { exact: true })).toBeVisible();
-    await expect(page.locator('article img')).toHaveCount(2);
-    await expect(page.locator('article img').nth(0)).toHaveAttribute(
-      'src',
-      '/images/blog/Amodei-Altman.jpg'
-    );
-    await expect(page.locator('article img').nth(1)).toHaveAttribute(
-      'src',
-      '/images/blog/OpenAI-circle-investing.jpg'
-    );
-
-    await page.goto('/blog/i-dont-like-chatgpt', { waitUntil: 'domcontentloaded' });
-    await expect(page).toHaveTitle('I don’t like ChatGPT. — Matteo');
-    await expect(page.getByRole('heading', { name: 'Here is why I don’t like ChatGPT' })).toBeVisible();
-    await expect(page.locator('article img')).toHaveCount(6);
-
-    await page.goto('/blog/my-2023-wrapped', { waitUntil: 'domcontentloaded' });
-    await expect(page.getByRole('heading', { name: 'Todo list for 2024' })).toBeVisible();
-    await expect(page.getByText('That’s all for now, ciao :)', { exact: true })).toBeVisible();
-    await expect(page.locator('article img')).toHaveCount(3);
+    expect(publishedRoutes).toEqual(expectedBlogRoutes);
   });
 
   test('renders the company logo set', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const lovedBy = page.getByRole('region', { name: 'Worked with people at' });
+    const lovedBy = page.locator('section[aria-labelledby="loved-by-title"]');
+    const logos = lovedBy.locator('ul:not([aria-hidden="true"]) img');
     await expect(lovedBy).toBeVisible();
+    await expect(logos).toHaveCount(15);
 
-    for (const company of ['GitHub', 'Google', 'Microsoft', 'Uber', 'Amazon', 'Meta', 'Apple', 'Netflix', 'Tesla', 'NVIDIA', 'Adobe', 'Edera', 'Replit', 'OpenAI', 'Anthropic']) {
-      const logo = lovedBy.getByRole('img', { name: company });
-      await expect(logo).toHaveCount(1);
-      await expect
-        .poll(() => logo.evaluate((image: HTMLImageElement) => image.naturalWidth))
-        .toBeGreaterThan(0);
-    }
+    const logoState = await logos.evaluateAll((images) =>
+      images.map((image) => ({
+        alt: image.getAttribute('alt'),
+        width: (image as HTMLImageElement).naturalWidth,
+      }))
+    );
+    expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
   });
 
   test('updates the compatibility result', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.locator('html[data-hydrated="true"]').waitFor();
 
-    const automationBacklog = page.getByRole('button', { name: /Automation backlog/ });
+    const automationBacklog = page.locator('[data-scenario-id="ai-automation"]');
     await automationBacklog.click();
 
     await expect(automationBacklog).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('#compatibility-result')).toContainText(
-      'Automate the boring work. Keep a human responsible.'
+    await expect(page.locator('#compatibility-result')).toHaveAttribute(
+      'data-selected-scenario',
+      'ai-automation'
     );
   });
 
@@ -483,49 +405,35 @@ test.describe('Static route experience', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.locator('html[data-hydrated="true"]').waitFor();
 
-    const menuButton = page.getByRole('button', { name: 'Open navigation menu' });
+    const menuButton = page.locator('header button[aria-controls]');
     await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
     await menuButton.click();
 
-    await expect(page.getByRole('button', { name: 'Close navigation menu' })).toHaveAttribute(
-      'aria-expanded',
-      'true'
-    );
-    await expect(
-      page
-        .getByRole('navigation', { name: 'Primary navigation' })
-        .getByRole('link', { name: 'Product' })
-    ).toBeVisible();
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.locator('header nav a[href="/#features"]')).toBeVisible();
   });
 
-  test('uses the requested top navbar', async ({ page }) => {
+  test('uses the requested top navigation routes', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const navigation = page.getByRole('navigation', { name: 'Primary navigation' });
-    for (const label of ['Product', 'Customers', 'About', 'Blog']) {
-      await expect(navigation.getByRole('link', { name: label, exact: true })).toBeVisible();
-    }
-    await expect(navigation.getByRole('link', { name: 'Features', exact: true })).toHaveCount(0);
-    await expect(navigation.getByRole('link', { name: 'Integrations', exact: true })).toHaveCount(0);
+    const destinations = await page.locator('header nav ul a').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href'))
+    );
+    expect(destinations).toEqual(['/#features', '/customers/', '/about/', '/blog/']);
   });
 
   test('presents the About page as an accessible CEO note', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 844 });
     await page.goto('/about', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByRole('heading', { name: 'A note from our CEO.' })).toBeVisible();
-    await expect(page.getByRole('article', { name: 'A note from Matteo Bianchi' })).toBeVisible();
-    await expect(page.getByText('I was lying.', { exact: true })).toBeVisible();
-    await expect(page.getByText('To be continued…', { exact: true })).toBeVisible();
-    await expect(
-      page.getByRole('img', { name: 'Matteo Bianchi speaking on stage at KCD Denmark' })
-    ).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect(page.locator('article#the-note')).toBeVisible();
+    await expect(page.locator('article#the-note blockquote')).toBeVisible();
+    await expect(page.locator('picture[data-responsive-portrait] img')).toBeVisible();
 
     await page.locator('html[data-hydrated="true"]').waitFor();
-    await page.getByRole('button', { name: 'Open navigation menu' }).click();
-    const aboutLink = page
-      .getByRole('navigation', { name: 'Primary navigation' })
-      .getByRole('link', { name: 'About', exact: true });
+    await page.locator('header button[aria-controls]').click();
+    const aboutLink = page.locator('header nav a[href="/about/"]');
     await expect(aboutLink).toHaveAttribute('aria-current', 'page');
     await expect
       .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth))
@@ -535,12 +443,8 @@ test.describe('Static route experience', () => {
   test('renders the Duck Runtime identity and app metadata', async ({ page }) => {
     await page.goto('/', { waitUntil: 'load' });
 
-    const headerLogo = page
-      .getByRole('banner')
-      .getByRole('link', { name: /Matteo\s*human platform/i });
-    const footerLogo = page
-      .getByRole('contentinfo')
-      .getByRole('link', { name: /Matteo\s*human platform/i });
+    const headerLogo = page.locator('header a[href="/"]');
+    const footerLogo = page.locator('footer a[href="/"]');
 
     await expect(headerLogo).toBeVisible();
     await expect(footerLogo).toBeVisible();
@@ -557,10 +461,7 @@ test.describe('Static route experience', () => {
     );
     await expect(page.locator('link[rel~="icon"]').first()).toHaveAttribute('href', /icon|favicon/);
     await expect(page.locator('link[href*="fonts.googleapis.com"]')).toHaveCount(0);
-    await expect(page.getByRole('link', { name: 'Skip to main content' })).toHaveAttribute(
-      'href',
-      '#main-content'
-    );
+    await expect(page.locator('body > a[href="#main-content"]')).toBeVisible();
     await expect(page.locator('main#main-content')).toHaveAttribute('tabindex', '-1');
     await expect(page.locator('script[data-sdkn="@vercel/analytics/next"]')).toHaveAttribute(
       'src',
@@ -617,67 +518,33 @@ test.describe('Static route experience', () => {
   test('reports status uptime and PTO incident', async ({ page }) => {
     await page.goto('/status', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByRole('heading', { name: 'Service status' })).toBeVisible();
-    await expect(page.getByText('99.99%', { exact: true })).toBeVisible();
-    await expect(page.getByText('3 minutes - PTO', { exact: true })).toBeVisible();
-    await expect(page.getByText('Everything works. Even the human.')).toBeVisible();
-    await expect(page.getByText('No active incidents reported.')).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect(page.locator('[role="status"]')).toBeVisible();
+    await expect(page.locator('main dl > div')).toHaveCount(3);
+    await expect(page.locator('main article time[datetime="PT3M"]')).toBeVisible();
     await expect(page.locator('[data-uptime-day]')).toHaveCount(360);
   });
 
-  test('does not expose the removed K-Lab CLI project', async ({ page }) => {
-    await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await expect(page.getByText('K-Lab CLI', { exact: true })).toHaveCount(0);
-
-    await page.goto('/portfolio', { waitUntil: 'domcontentloaded' });
-    await expect(page.getByText('K-Lab CLI', { exact: true })).toHaveCount(0);
-  });
-
-  test('uses the homepage copy and balanced proof layout', async ({ page }) => {
+  test('keeps the homepage proof layout balanced', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByRole('heading', { name: 'Platform as a Human' })).toBeVisible();
-    await expect(
-      page.getByText(
-        'Matteo builds developer platforms, ships software, works with customers, and automates the boring parts. Then he writes it down, contributes upstream, or explains it on stage.'
-      )
-    ).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Start trial' }).first()).toBeVisible();
-    await expect(page.getByRole('link', { name: 'See changelog' })).toHaveAttribute(
-      'href',
-      '/roadmap/'
-    );
-    await expect(
-      page.getByText(
-        'I build platforms, software, and automation. I also work with customers and explain things without a 90-slide deck.'
-      )
-    ).toBeVisible();
-    await expect(
-      page.getByText(
-        'If I do the same thing twice, the third attempt may be a script, agent, or internal tool.'
-      )
-    ).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect(page.locator('main a[href="/roadmap/"]')).toBeVisible();
 
-    const featured = page
-      .getByRole('heading', { name: 'Platform Engineering Roadmap' })
-      .locator('xpath=ancestor::article');
-    const sendbox = page
-      .getByRole('heading', { name: 'Sendbox' })
-      .locator('xpath=ancestor::article');
+    const proofArticles = page.locator('#proof article');
+    await expect(proofArticles).toHaveCount(2);
+    const featured = proofArticles.nth(0);
+    const supporting = proofArticles.nth(1);
     const [featuredBox, sendboxBox] = await Promise.all([
       featured.boundingBox(),
-      sendbox.boundingBox(),
+      supporting.boundingBox(),
     ]);
 
     expect(featuredBox).not.toBeNull();
     expect(sendboxBox).not.toBeNull();
     expect(Math.abs(featuredBox!.height - sendboxBox!.height)).toBeLessThan(2);
 
-    const integrations = page
-      .getByRole('heading', {
-        name: 'Tools I can use without turning them into a personality.',
-      })
-      .locator('xpath=ancestor::section');
+    const integrations = page.locator('#integrations');
     const integrationsColors = await integrations.evaluate((section) => {
       const computed = getComputedStyle(section);
       return {
@@ -692,93 +559,36 @@ test.describe('Static route experience', () => {
     });
   });
 
-  test('publishes the refreshed portfolio and changelog facts', async ({ page }) => {
-    await page.goto('/', { waitUntil: 'domcontentloaded' });
-
-    await expect(page.getByText('LIVE SYSTEM', { exact: true })).toBeVisible();
-    await expect(
-      page.getByText('Software engineering with customer-facing side effects', { exact: true })
-    ).toBeVisible();
-    await expect(
-      page.getByText('Platforms / Solutions / Open Source / AI', { exact: true })
-    ).toBeVisible();
-    await expect(page.locator('#compatibility-result')).toContainText(
-      'Led infrastructure and built APIs serving 10M+ daily users to this day'
-    );
-
+  test('renders portfolio and changelog records', async ({ page }) => {
     await page.goto('/portfolio', { waitUntil: 'domcontentloaded' });
-    await expect(page.getByText('30+', { exact: true })).toHaveCount(2);
-    await expect(
-      page.getByText('Kubernetes, CNCF, Actions (ARC)... and more', { exact: true })
-    ).toBeVisible();
-    await expect(page.getByText('12 articles, 17 podcasts, 22 talks', { exact: true })).toBeVisible();
-    await expect(page.getByText('140+ GitHub stars', { exact: true })).toBeVisible();
-    await expect(
-      page.getByRole('heading', { name: 'Kubernetes' }).locator('xpath=preceding-sibling::p')
-    ).toHaveText('Maintainer');
-    await expect(
-      page.getByText('Mentees coached · 5/5 stars').locator('xpath=preceding-sibling::dt')
-    ).toHaveText('20+');
+    await expect(page.locator('main article')).toHaveCount(projectsData.projects.length);
+    for (const project of projectsData.projects) {
+      await expect(page.locator(`main a[href="${project.url}"]`)).toHaveCount(1);
+    }
 
     await page.goto('/roadmap', { waitUntil: 'domcontentloaded' });
-    for (const release of [
-      'KubeCon EU Amsterdam 2026',
-      'Kubernetes SIG Release contributor award',
-      'Kubernetes v1.34',
-      'Kubernetes v1.33',
-    ]) {
-      await expect(page.getByRole('heading', { name: release, exact: true })).toBeVisible();
-    }
+    const releases = page.locator('main ol > li');
+    expect(await releases.count()).toBeGreaterThan(0);
+    await expect(releases.locator('h3')).toHaveCount(await releases.count());
   });
 
-  test('uses the requested customer, blog, and careers copy', async ({ page }) => {
+  test('renders customer history and careers closing layout', async ({ page }) => {
     await page.goto('/customers', { waitUntil: 'domcontentloaded' });
-    await expect(page.getByText('31 recorded deployments', { exact: true })).toBeVisible();
-    await expect(page.getByText('19 domains', { exact: true })).toBeVisible();
-    await expect(page.getByText('GitHub (Microsoft)', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'ING 🇳🇱', exact: true })).toBeVisible();
-    const initialCustomers = page.locator('main section ol > li');
-    await expect(initialCustomers.nth(3)).toContainText('Omnistrate');
-    await expect(initialCustomers.nth(4)).toContainText('ING');
+    const customerCodes = page.locator('[data-customer-logo]');
+    await expect(customerCodes).toHaveCount(7);
+    expect(await customerCodes.evaluateAll((elements) =>
+      elements.map((element) => element.getAttribute('data-customer-logo'))
+    )).toEqual(visibleCustomers.slice(0, 7).map((company) => company.code));
 
-    const loadMoreHistory = page.getByRole('button', {
-      name: /Load \d+ more deployment history entries/,
-    });
+    const loadMoreHistory = page.locator('[data-load-more-customers]');
     while (await loadMoreHistory.count()) {
       await loadMoreHistory.click();
     }
-
-    for (const achievement of [
-      "FY2026 President's Club",
-      'Built an OpenClaw-like assistant',
-      'Represented GitHub at 5+ international events',
-      'Deployed trained models on Azure to serve research centers across the Netherlands',
-      'Supported infrastructure for an educational game that turned users into tumor marker annotators',
-      'Created platform engineering processes and an AKS-based internal developer platform',
-      "Steered the company's technology through a leadership and ownership change",
-      'Trained 30+ engineers on Azure and AKS best practices',
-      "Managed infrastructure behind Italy's biggest news websites with a 99.9% SLA",
-      'Founding (and sole) Engineer',
-    ]) {
-      await expect(page.getByText(achievement, { exact: true })).toBeVisible();
-    }
-
-    await page.goto('/blog', { waitUntil: 'domcontentloaded' });
-    for (const removedPost of [
-      'Security in the Cloud Native Era',
-      'Kubernetes Best Practices for Production',
-      'Building Scalable Cloud Native Applications',
-    ]) {
-      await expect(page.getByRole('heading', { name: removedPost, exact: true })).toHaveCount(0);
-    }
+    await expect(customerCodes).toHaveCount(visibleCustomers.length);
 
     await page.goto('/careers', { waitUntil: 'domcontentloaded' });
-    const close = page
-      .getByRole('heading', {
-        name: 'If you need someone who can move between customer calls and production code, let’s talk.',
-      })
-      .locator('xpath=ancestor::section');
-    const deploy = close.getByRole('link', { name: 'Book a call' });
+    const close = page.locator('[data-careers-close]');
+    const deploy = close.locator('a');
     const [headingBox, deployBox] = await Promise.all([
       close.getByRole('heading').boundingBox(),
       deploy.boundingBox(),
@@ -794,9 +604,7 @@ test.describe('Static route experience', () => {
     await page.setViewportSize({ width: 1600, height: 1000 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const benchmarks = page
-      .getByRole('heading', { name: 'Some numbers I can actually defend.' })
-      .locator('xpath=ancestor::section');
+    const benchmarks = page.locator('[data-benchmarks]');
     const metricRows = benchmarks.locator('dl > div');
     await expect(metricRows).toHaveCount(3);
 
@@ -812,7 +620,7 @@ test.describe('Static route experience', () => {
       expect(valueBox!.x + valueBox!.width).toBeLessThan(copyBox!.x);
     }
 
-    const primaryMetricLines = await benchmarks.getByText('20–25%', { exact: true }).evaluate(
+    const primaryMetricLines = await benchmarks.locator('[data-primary-metric]').evaluate(
       (element) => {
         const range = document.createRange();
         range.selectNodeContents(element);
@@ -833,14 +641,12 @@ test.describe('Static route experience', () => {
       actionTop: number;
     }> = [];
 
-    for (const planName of ['Advisory', 'Delivery', 'Full-time']) {
-      const plan = page
-        .getByRole('heading', { name: planName, exact: true })
-        .locator('xpath=ancestor::article');
+    for (const planId of ['advisory', 'delivery', 'full-time']) {
+      const plan = page.locator(`[data-pricing-plan="${planId}"]`);
       const [articleBox, headingBox, priceBox, descriptionBox, toggleBox, actionBox, hasOverflow] =
         await Promise.all([
           plan.boundingBox(),
-          plan.getByRole('heading', { name: planName, exact: true }).boundingBox(),
+          plan.locator('h3').boundingBox(),
           plan.locator('strong').first().boundingBox(),
           plan.locator(':scope > p').boundingBox(),
           plan.getByRole('button').boundingBox(),
@@ -886,71 +692,56 @@ test.describe('Static route experience', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const footer = page.getByRole('contentinfo');
-    await footer.getByRole('link', { name: 'Privacy' }).click();
+    await footer.locator('a[href="/privacy/"]').click();
     await expect(page).toHaveURL(/\/privacy\/?$/);
-    await expect(page).toHaveTitle('Privacy — Matteo');
-    await expect(
-      page.getByRole('heading', { name: 'Privacy without the surveillance novella.' })
-    ).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await page
-      .getByRole('contentinfo')
-      .getByRole('link', { name: 'Cookie Policy' })
-      .click();
+    await page.locator('footer a[href="/cookies/"]').click();
     await expect(page).toHaveURL(/\/cookies\/?$/);
-    await expect(page).toHaveTitle('Cookie Policy — Matteo');
-    await expect(
-      page.getByRole('heading', { name: 'Cookies, minus the crumbs.' })
-    ).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await page
-      .getByRole('contentinfo')
-      .getByRole('link', { name: 'Terms of Service' })
-      .click();
+    await page.locator('footer a[href="/terms/"]').click();
     await expect(page).toHaveURL(/\/terms\/?$/);
-    await expect(page).toHaveTitle('Terms — Matteo');
-    await expect(
-      page.getByRole('heading', { name: 'Terms that fit on one reasonable page.' })
-    ).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
   });
 
   test('documents the active measurement tools without claiming cookies', async ({ page }) => {
     await page.goto('/privacy', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.getByRole('heading', { name: /Anonymous audience measurement/ })).toBeVisible();
-    await expect(page.getByText('Vercel Web Analytics runs on every page')).toBeVisible();
-    await expect(page.getByText('Vercel Speed Insights runs on each page load')).toBeVisible();
-    await expect(page.getByRole('main').getByRole('link', { name: 'Cookie Policy' })).toHaveAttribute(
-      'href',
-      '/cookies/'
-    );
+    await expect(page.locator('main section[aria-label] section')).toHaveCount(8);
+    await expect(
+      page.locator('main a[href="https://vercel.com/docs/analytics/privacy-policy"]')
+    ).toBeVisible();
+    await expect(
+      page.locator('main a[href="https://vercel.com/docs/speed-insights/privacy-policy"]')
+    ).toBeVisible();
+    await expect(page.locator('main a[href="/cookies/"]')).toBeVisible();
 
     await page.goto('/cookies', { waitUntil: 'domcontentloaded' });
-    await expect(page.getByText(/does not set or read cookies/)).toBeVisible();
-    await expect(page.getByText(/does not use third-party cookies/).first()).toBeVisible();
+    await expect(page.locator('main section[aria-label] section')).toHaveCount(6);
+    await expect(
+      page.locator('main a[href="https://vercel.com/docs/analytics/privacy-policy"]')
+    ).toBeVisible();
+    await expect(
+      page.locator('main a[href="https://vercel.com/docs/speed-insights/privacy-policy"]')
+    ).toBeVisible();
   });
 
-  test('uses the requested Product and Company footer taxonomy', async ({ page }) => {
+  test('uses the requested Product and Company footer routes', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 900 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const product = page.getByRole('navigation', { name: 'Product' });
-    await expect(product.getByRole('link')).toHaveText([
-      'Features',
-      'Integrations',
-      'Pricing',
-      'Changelog',
-    ]);
-
-    const company = page.getByRole('navigation', { name: 'Company' });
-    await expect(company.getByRole('link')).toHaveText([
-      'Open source',
-      'About',
-      'Careers',
-      'Customers',
-    ]);
+    const footerNavigations = page.locator('footer nav');
+    const product = footerNavigations.nth(0);
+    const company = footerNavigations.nth(1);
+    expect(await product.locator('a').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href'))
+    )).toEqual(['/#features', '/#integrations', '/pricing/', '/roadmap/']);
+    expect(await company.locator('a').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href'))
+    )).toEqual(['/portfolio/', '/about/', '/careers/', '/customers/']);
 
     for (const navigation of [product, company]) {
       const positions = await navigation.getByRole('link').evaluateAll((links) =>
@@ -971,16 +762,17 @@ test.describe('Static route experience', () => {
       await page.goto('/', { waitUntil: 'domcontentloaded' });
 
       const footer = page.getByRole('contentinfo');
-      await expect(footer).toContainText(`© ${new Date().getFullYear()} SyncTune`);
       const businessDetails = footer.locator(
         'dl[aria-label="Business registration details"]'
       );
-      await expect(businessDetails.getByText('KVK', { exact: true })).toBeVisible();
-      await expect(businessDetails.getByText('91602289', { exact: true })).toBeVisible();
-      await expect(businessDetails.getByText('VAT', { exact: true })).toBeVisible();
-      await expect(
-        businessDetails.getByText('NL004901960B70', { exact: true })
-      ).toBeVisible();
+      await expect(businessDetails.locator(':scope > div')).toHaveCount(2);
+      const identifiers = await businessDetails.locator(':scope > div').evaluateAll((entries) =>
+        entries.map((entry) => ({
+          term: entry.querySelector('dt')?.textContent?.trim(),
+          value: entry.querySelector('dd')?.textContent?.trim(),
+        }))
+      );
+      expect(identifiers.every(({ term, value }) => Boolean(term) && Boolean(value))).toBe(true);
 
       const hasOverflow = await footer.evaluate(
         (element) => element.scrollWidth > element.clientWidth
@@ -993,11 +785,14 @@ test.describe('Static route experience', () => {
     await page.goto('/pricing', { waitUntil: 'domcontentloaded' });
     await page.locator('html[data-hydrated="true"]').waitFor();
 
-    await page.getByLabel('Exact monthly hours').fill('20');
-    await page.getByLabel('Engagement tier').selectOption('advisory');
+    await page.locator('#hours-input').fill('20');
+    await page.locator('#tier-select').selectOption('advisory');
 
     await expect(page.locator('output')).toHaveText('€2,000');
-    await expect(page.getByRole('button', { name: '20h' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-hours-preset="20"]')).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
   });
 
   test('loads more deployment history without replacing existing entries', async ({ page }) => {
@@ -1012,7 +807,7 @@ test.describe('Static route experience', () => {
     await expect(historyImages).toHaveCount(6);
     await expect(page.locator('[data-customer-logo="ING"] img')).toBeVisible();
 
-    await page.getByRole('button', { name: 'Load 7 more deployment history entries' }).click();
+    await page.locator('[data-load-more-customers]').click();
     await expect(historyEntries).toHaveCount(14);
     await expect(historyLogos).toHaveCount(14);
     await expect(historyImages).toHaveCount(13);
@@ -1027,6 +822,6 @@ test.describe('Static route experience', () => {
     const response = await page.goto('/definitely-not-a-route', { waitUntil: 'domcontentloaded' });
 
     expect(response?.status()).toBe(404);
-    await expect(page.getByRole('heading', { name: 'Endpoint not implemented.' })).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
   });
 });

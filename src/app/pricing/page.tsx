@@ -141,6 +141,7 @@ export default function Pricing() {
               return (
                 <article
                   key={plan.id}
+                  data-pricing-plan={plan.id}
                   className={`${styles.pricingPlan} ${plan.recommended ? styles.recommendedPlan : ''}`}
                 >
                   <div className={styles.planHeader}>
@@ -238,6 +239,7 @@ export default function Pricing() {
                   <button
                     key={preset}
                     type="button"
+                    data-hours-preset={preset}
                     aria-pressed={selectedPreset === preset}
                     onClick={() => handleHoursChange(preset)}
                   >

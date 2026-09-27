@@ -97,6 +97,7 @@ export function CompatibilityLab() {
               <button
                 key={scenario.id}
                 type="button"
+                data-scenario-id={scenario.id}
                 className={`${styles.scenarioButton} ${isSelected ? styles.scenarioButtonActive : ''}`}
                 aria-pressed={isSelected}
                 aria-controls="compatibility-result"
@@ -112,6 +113,7 @@ export function CompatibilityLab() {
         <div
           key={selected.id}
           id="compatibility-result"
+          data-selected-scenario={selected.id}
           className={styles.compatibilityResult}
           aria-live="polite"
           aria-atomic="true"
