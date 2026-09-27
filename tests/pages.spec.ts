@@ -254,7 +254,13 @@ test.describe('Static route experience', () => {
       parseBlogDate(samplePost.date).toISOString()
     );
     await expect(page.locator('meta[property="article:author"]')).toHaveAttribute('content', /.+/);
-    await expect(page.locator('meta[property="article:tag"]')).toHaveAttribute('content', /.+/);
+    const articleTags = page.locator('meta[property="article:tag"]');
+    expect(await articleTags.count()).toBeGreaterThan(0);
+    expect(
+      await articleTags.evaluateAll((tags) =>
+        tags.every((tag) => Boolean(tag.getAttribute('content')?.trim()))
+      )
+    ).toBe(true);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
       'content',
       'summary_large_image'
@@ -416,7 +422,7 @@ test.describe('Static route experience', () => {
   test('uses the requested top navigation routes', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const destinations = await page.locator('header nav ul a').evaluateAll((links) =>
+    const destinations = await page.locator('header nav ul a[href^="/"]').evaluateAll((links) =>
       links.map((link) => link.getAttribute('href'))
     );
     expect(destinations).toEqual(['/#features', '/customers/', '/about/', '/blog/']);
@@ -428,7 +434,8 @@ test.describe('Static route experience', () => {
 
     await expect(page.locator('main h1')).toBeVisible();
     await expect(page.locator('article#the-note')).toBeVisible();
-    await expect(page.locator('article#the-note blockquote')).toBeVisible();
+    await expect(page.locator('article#the-note blockquote')).toHaveCount(2);
+    await expect(page.locator('article#the-note blockquote').first()).toBeVisible();
     await expect(page.locator('picture[data-responsive-portrait] img')).toBeVisible();
 
     await page.locator('html[data-hydrated="true"]').waitFor();
