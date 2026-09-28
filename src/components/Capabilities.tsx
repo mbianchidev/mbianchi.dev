@@ -15,7 +15,7 @@ const capabilities = [
     key: 'solutions.interface',
     title: 'Customer conversations that end in working software',
     description:
-      'Runs discovery, designs the architecture, builds the demo, guides implementation, and sends useful feedback to product. Reached 180% quota at GitHub and won Club FY26.',
+      'Runs discovery, designs the architecture, builds the demo, guides implementation, and sends useful feedback to product. Reached 185% quota at GitHub and won Club FY26.',
     signal: 'Solutions engineering · discovery · GTM · product feedback',
     evidence: 'See the work history',
     href: '/customers'
