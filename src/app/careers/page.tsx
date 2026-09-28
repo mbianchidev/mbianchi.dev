@@ -11,7 +11,7 @@ export const metadata = createPageMetadata({
 const roles = [
   {
     title: 'Senior Platform Engineer',
-    description: 'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service that engineers actually use.',
+    description: 'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service people do not need a ticket to use.',
     skills: ['Platform engineering', 'Kubernetes', 'IaC', 'SRE'],
   },
   {
@@ -26,7 +26,7 @@ const roles = [
   },
   {
     title: 'AI Engineer, Developer Automation',
-    description: 'Agents, assistants, MCP integrations, and automation for real work. No chatbot looking for a reason to exist.',
+    description: 'Agents, assistants, MCP integrations, and automation for jobs people already do. No chatbot looking for a reason to exist.',
     skills: ['AI agents', 'MCP', 'Automation', 'Evaluation'],
   },
   {
@@ -48,8 +48,8 @@ export default function CareersPage() {
     <div className={styles.page}>
       <PageHero
         path="/careers"
-        title="Looking for the next full-time problem."
-        description="Best fit: a senior role where platform engineering, software, customer work, AI automation, and open source all matter."
+        title="Yes, I am looking for a job."
+        description="A senior full-time role where I can work on platforms and software, stay close to customers, and keep contributing to open source."
         tone="cyan"
         actions={
           <a
@@ -84,7 +84,7 @@ export default function CareersPage() {
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
             <h2 id="roles-title">Where I fit.</h2>
-            <p>These are not five jobs at once. They are five honest descriptions of work I already do.</p>
+            <p>These are not five jobs I expect one company to invent. They are five ways to describe work I already do.</p>
           </div>
           <div className={styles.roleList}>
             {roles.map((role) => (
@@ -122,7 +122,7 @@ export default function CareersPage() {
       <section className={styles.careersClose} data-careers-close>
         <div>
           <p>Looks compatible.</p>
-          <h2>If you need someone who can move between customer calls and production code, let’s talk.</h2>
+          <h2>Need someone who can leave a customer call and open the repo five minutes later? Let’s talk.</h2>
         </div>
         <a
           href="https://cal.com/mbianchidev/intro"

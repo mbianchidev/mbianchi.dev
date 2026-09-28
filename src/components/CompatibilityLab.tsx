@@ -11,14 +11,14 @@ const scenarios = [
     signal: 'MATCH CONFIRMED / HIGH CONFIDENCE',
     title: 'Build a platform developers stop working around.',
     summary:
-      'Matteo starts with the developers using it, picks sensible defaults, and checks whether anyone adopts it. The infrastructure is the easy part.',
+      'I start with the developers who will use it, pick sensible defaults, and check whether anyone adopts it. The infrastructure is the easy part.',
     proof: [
       'Built platform APIs and zero-touch onboarding for 70+ engineers',
       'Led infrastructure and built APIs serving 10M+ daily users to this day',
       'Kubernetes release engineering maintainer and production operator'
     ],
     href: 'https://github.com/mbianchidev/platform-engineering-roadmap',
-    action: 'Open the platform evidence'
+    action: 'See the platform work'
   },
   {
     id: 'ai-automation',
@@ -26,14 +26,14 @@ const scenarios = [
     signal: 'MATCH CONFIRMED / HUMAN JUDGMENT RETAINED',
     title: 'Automate the boring work. Keep a human responsible.',
     summary:
-      'Matteo builds agents when a repeated workflow deserves one. No AI demo in search of a problem, and no “the model decided” when something breaks.',
+      'I build agents when a workflow repeats enough to deserve one. I do not build AI demos in search of a problem, and “the model decided” is not an excuse.',
     proof: [
       'Built an internal assistant that automated 20–25% of Solutions Engineering work',
       'Built the assistant around real Solutions Engineering workflows and internal tools',
       'Keeps review, observability, and human ownership in the loop'
     ],
     href: '/portfolio',
-    action: 'Review software and AI work'
+    action: 'See the software work'
   },
   {
     id: 'solutions',
@@ -41,14 +41,14 @@ const scenarios = [
     signal: 'MATCH CONFIRMED / PRODUCT FEEDBACK ATTACHED',
     title: 'Turn customer pain into something product and engineering can use.',
     summary:
-      'Discovery, architecture, demos, implementation, and product feedback stay in the same thread. Customers get an honest answer. Product gets enough detail to act.',
+      'I keep discovery, architecture, demos, implementation, and product feedback in the same thread. Customers get an honest answer. Product gets enough detail to act.',
     proof: [
       'Won Club FY26 after reaching 185% quota at GitHub',
       'Worked across Sales, Product, Field Marketing, and OSPO',
       'Combines customer communication with hands-on engineering depth'
     ],
     href: '/customers',
-    action: 'Review customer-facing work'
+    action: 'See the customer work'
   },
   {
     id: 'open-source',
@@ -56,14 +56,14 @@ const scenarios = [
     signal: 'MATCH CONFIRMED / BROADCAST ENABLED',
     title: 'Get useful knowledge out of one person’s head.',
     summary:
-      'Matteo writes down what worked, contributes upstream, teaches it, and talks about the failures too. Hoarding knowledge is boring.',
+      'I write down what worked, contribute upstream, teach it, and talk about the failures too. Hoarding knowledge is boring.',
     proof: [
       '40+ merged Kubernetes pull requests',
       'Kubernetes release engineering maintainer',
       '20+ talks, 500+ learners, and 20+ mentees coached to success (5/5 stars as a mentor)'
     ],
     href: '/about#community',
-    action: 'See open-source and community work'
+    action: 'See the open-source work'
   }
 ]
 
@@ -83,8 +83,8 @@ export function CompatibilityLab() {
       <div className={styles.compatibilityIntro}>
         <h2 id="compatibility-title">Run a compatibility check.</h2>
         <p>
-          Pick the problem currently ruining your roadmap. The diagnosis changes.
-          The same suspiciously reusable engineer appears.
+          Pick a problem. The diagnosis may vary, but the same suspiciously
+          versatile engineer appears.
         </p>
       </div>
 

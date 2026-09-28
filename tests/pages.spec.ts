@@ -392,9 +392,15 @@ test.describe('Static route experience', () => {
     expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
   });
 
-  test('updates the compatibility result', async ({ page }) => {
+  test('keeps the compatibility intro visible and updates the result', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const introBox = await page.locator('section#compatibility > div').first().boundingBox();
+    expect(introBox).not.toBeNull();
+    expect(introBox!.x).toBeGreaterThanOrEqual(0);
+    expect(introBox!.x + introBox!.width).toBeLessThanOrEqual(1280);
 
     const automationBacklog = page.locator('[data-scenario-id="ai-automation"]');
     await automationBacklog.click();

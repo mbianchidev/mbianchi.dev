@@ -116,13 +116,13 @@ const releases = [
   },
   {
     year: '2019–now',
-    title: 'Started writing the field manual in public',
+    title: 'Started writing too much in public',
     summary:
-      'Started publishing what I learned from production through articles, talks, workshops, mentoring, and community work.',
+      'Started publishing what I learned from production through articles, talks, workshops, mentoring, and a few opinions nobody requested.',
     signal: 'Writing · teaching · community',
     links: [
       {
-        label: 'Current field notes',
+        label: 'Read the blog',
         href: '/blog',
       },
     ],
@@ -165,7 +165,7 @@ export default function RoadmapPage() {
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
             <h2 id="release-history">Release history.</h2>
-            <p>Newest first. Receipts included when available.</p>
+            <p>Newest first. I added links when I remembered to keep them.</p>
           </div>
           <ol className={styles.releaseList}>
             {releases.map((release) => (

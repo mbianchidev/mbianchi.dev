@@ -3,7 +3,7 @@ import { createPageMetadata } from '@/lib/siteMetadata'
 
 export const metadata = createPageMetadata({
   title: 'Documentation — Matteo',
-  description: 'Guides, source, field notes, and the distributed Matteo documentation system.',
+  description: 'Guides, source code, blog posts, and the scattered Matteo documentation system.',
   path: '/documentation/',
 })
 

@@ -4,36 +4,36 @@ import styles from '@/app/home.module.css'
 const capabilities = [
   {
     key: 'platform.core',
-    title: 'Developer platforms engineers actually use',
+    title: 'Platforms developers do not need to fight',
     description:
-      'Built platform APIs and zero-touch onboarding for 70+ engineers. Earlier, helped run infrastructure and APIs used by 10M+ people every day.',
+      'I built platform APIs and zero-touch onboarding for 70+ engineers. Before that, I helped run infrastructure and APIs used by 10M+ people every day.',
     signal: 'Platform engineering · Kubernetes · multi-cloud · SRE',
     evidence: 'See the roadmap',
     href: 'https://github.com/mbianchidev/platform-engineering-roadmap'
   },
   {
     key: 'solutions.interface',
-    title: 'Customer conversations that end in working software',
+    title: 'Customer calls that end in working software',
     description:
-      'Runs discovery, designs the architecture, builds the demo, guides implementation, and sends useful feedback to product. Reached 185% quota at GitHub and won Club FY26.',
+      'I run discovery, design the architecture, build the demo, help with implementation, and send product feedback people can act on. I reached 185% quota at GitHub and won Club FY26.',
     signal: 'Solutions engineering · discovery · GTM · product feedback',
     evidence: 'See the work history',
     href: '/customers'
   },
   {
     key: 'ai.automation',
-    title: 'AI for work people are tired of doing',
+    title: 'AI for boring work, not fake magic',
     description:
-      'Builds agents and internal tools for real workflows. One assistant removed 20–25% of recurring Solutions Engineering work.',
+      'I build agents and internal tools for jobs people already do. One assistant removed 20–25% of recurring Solutions Engineering work.',
     signal: 'Python · TypeScript · MCP · agents · developer tooling',
     evidence: 'See the software work',
     href: '/portfolio'
   },
   {
     key: 'open.protocol',
-    title: 'Open source, talks, and teaching',
+    title: 'Open source and an unreasonable amount of explaining',
     description:
-      'Kubernetes release engineering maintainer with 40+ merged upstream pull requests, 20+ talks, 500+ learners, and 20+ mentees. Still rated 5/5, somehow.',
+      'I maintain Kubernetes release tooling, sent 40+ pull requests upstream, gave 20+ talks, taught 500+ people, and mentored 20+. Apparently the mentoring works too: 5/5.',
     signal: 'Kubernetes · OSS strategy · speaking · education',
     evidence: 'See the community work',
     href: '/about#community'
@@ -45,9 +45,9 @@ export function Capabilities() {
     <section id="features" className={styles.capabilities} aria-labelledby="capabilities-title">
       <div className={styles.sectionHeader}>
         <p className={styles.sectionCode}>matteo.features()</p>
-        <h2 id="capabilities-title">Four jobs that somehow fit in one human.</h2>
+        <h2 id="capabilities-title">I have never been good at staying in one lane.</h2>
         <p>
-          The startup framing is a joke. The work is very real.
+          Recruiters hate this. I still do all four.
         </p>
       </div>
 

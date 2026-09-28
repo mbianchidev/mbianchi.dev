@@ -529,6 +529,8 @@
 
 .compatibilityIntro {
     justify-self: end;
+    width: min(100%, 420px);
+    min-width: 0;
     max-width: 420px;
 }
 
@@ -1159,6 +1161,24 @@
 @keyframes logoRunway {
     to {
         transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 1700px) {
+    .compatibility {
+        grid-template-columns: 1fr;
+        gap: clamp(48px, 6vw, 80px);
+    }
+
+    .compatibilityIntro {
+        justify-self: start;
+        width: 100%;
+        max-width: 760px;
+    }
+
+    .lab {
+        width: 100%;
+        max-width: 1000px;
     }
 }
 

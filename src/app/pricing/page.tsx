@@ -268,7 +268,7 @@ export default function Pricing() {
                   <dd>€{dailyCost}</dd>
                 </div>
               </dl>
-              <p>Final quote depends on scope, context, risk, and whether Kubernetes is actually the right answer.</p>
+              <p>Final quote depends on scope, context, risk, and whether Kubernetes belongs anywhere near the problem.</p>
             </div>
           </div>
         </div>

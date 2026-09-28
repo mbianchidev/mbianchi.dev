@@ -26,8 +26,8 @@ export function Benchmarks() {
       data-benchmarks
     >
       <div className={styles.benchmarkIntro}>
-        <h2 id="benchmarks-title">Some numbers I can actually defend.</h2>
-        <p>No fictional ARR. Just work that happened.</p>
+        <h2 id="benchmarks-title">Numbers. Yes, I checked them.</h2>
+        <p>No fake ARR here. These came from real work.</p>
       </div>
       <div className={styles.report}>
         <div className={styles.primaryBenchmark}>

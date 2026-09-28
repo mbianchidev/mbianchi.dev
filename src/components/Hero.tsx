@@ -15,9 +15,9 @@ export function Hero() {
             Platform as a Human
           </h1>
           <p className={styles.heroText}>
-            Matteo builds developer platforms, ships software, works with
-            customers, and automates the boring parts. Then he writes it down,
-            contributes upstream, or explains it on stage.
+            I build developer platforms and software. I work with customers. I
+            automate boring work, then usually write about it or turn it into a
+            talk.
           </p>
           <div className={styles.heroActions}>
             <a
