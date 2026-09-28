@@ -43,7 +43,7 @@ const scenarios = [
     summary:
       'Discovery, architecture, demos, implementation, and product feedback stay in the same thread. Customers get an honest answer. Product gets enough detail to act.',
     proof: [
-      'Won Club FY26 after reaching 180% quota at GitHub',
+      'Won Club FY26 after reaching 185% quota at GitHub',
       'Worked across Sales, Product, Field Marketing, and OSPO',
       'Combines customer communication with hands-on engineering depth'
     ],

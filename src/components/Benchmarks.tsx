@@ -2,7 +2,7 @@ import styles from '@/app/home.module.css'
 
 const benchmarks = [
   {
-    value: '180%',
+    value: '185%',
     label: 'quota reached at GitHub',
     source: 'Club FY26 winner · Corporate Solutions Engineering, EMEA'
   },
