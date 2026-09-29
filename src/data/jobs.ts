@@ -10,6 +10,8 @@ export interface CareerRole {
   responsibilities: string[]
   requirements: string[]
   success: string[]
+  evidenceTitle?: string
+  evidenceIntro?: string
   evidence: string[]
 }
 
@@ -127,11 +129,13 @@ export const careerRoles: CareerRole[] = [
       'Architecture decisions remain legible after the original author leaves the room.',
       'Teams spend less time compensating for unclear ownership, brittle interfaces, and repeated manual work.',
     ],
+    evidenceTitle: 'Who you need to be',
     evidence: [
+      'At least 7+ years of software engineering experience.',
       'Built platform APIs, services, and automation used by 70+ engineers and millions of end users.',
-      'Worked across Java, PHP and Laravel, TypeScript and React, Node.js, Go, Python, and Linux since 2015.',
-      'Built cloud and application systems across healthcare, SaaS, government, media, fashion, and developer tooling.',
-      'Created an internal assistant that removed 20–25% of recurring Solutions Engineering work.',
+      'Worked with different programming languages, with a preference for Go, Python, and TypeScript (Node.js, React).',
+      'Built cloud and application systems across different domains: healthcare, SaaS, government, media, fashion, and developer tooling.',
+      'Created automation that removed developer toil.',
     ],
   },
   {
