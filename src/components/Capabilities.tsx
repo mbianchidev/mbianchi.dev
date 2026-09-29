@@ -34,7 +34,7 @@ const capabilities = [
     title: 'Open source and an unreasonable amount of explaining',
     description:
       'I maintained Kubernetes release tooling, improved processes, sent too many pull requests upstream, gave conference talks, taught to over 3000 people, advised companies on open source and mentored tens of engineers.',
-    signal: 'DevRel · OSS strategy · speaking · education',
+    signal: 'DevRel · OSS strategy · Speaking · Education',
     evidence: 'See the community work',
     href: '/about#community'
   }

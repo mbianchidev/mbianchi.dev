@@ -24,7 +24,7 @@ const scenarios: Scenario[] = [
     signal: 'MATCH CONFIRMED / HIGH CONFIDENCE',
     title: 'Build the platform and make it usable.',
     summary:
-      'I worked on platform APIs, self-service workflows, infrastructure, and reliability. I also spent time with the developers using the thing, because a platform nobody wants is just expensive YAML.',
+      'Worked on platform APIs, self-service workflows, infrastructure, and reliability. Spent time with the developers using the thing, because a platform nobody wants is just expensive YAML.',
     proof: [
       {
         text: 'Designed platform APIs, self-service workflows, and zero-touch onboarding'
@@ -51,7 +51,7 @@ const scenarios: Scenario[] = [
     signal: 'MATCH CONFIRMED / HUMAN JUDGMENT RETAINED',
     title: 'Automate the boring work. Keep a human responsible.',
     summary:
-      'I turned repeated engineering work into tools and agents connected to real systems. The useful part was the workflow, not just the chatbot.',
+      'Turned repeated engineering work into tools and agents connected to real systems. The useful part was the workflow, not just the chatbot.',
     proof: [
       {
         text: 'Made CI/CD systems faster and more efficient'
@@ -78,7 +78,7 @@ const scenarios: Scenario[] = [
     signal: 'MATCH CONFIRMED / PRODUCT FEEDBACK ATTACHED',
     title: 'Stay technical after the customer call ends.',
     summary:
-      'I ran discovery, designed architectures, built demos and proof-of-value work, helped teams implement, and sent the ugly details back to Product.',
+      'Ran discovery, designed architectures, built demos and proof-of-value work, helped teams implement, and sent the ugly details back to Product.',
     proof: [
       {
         text: 'Led technical discovery and turned vague requirements into architecture'
@@ -105,7 +105,7 @@ const scenarios: Scenario[] = [
     signal: 'MATCH CONFIRMED / BROADCAST ENABLED',
     title: 'Get useful knowledge in (or out) of people’s heads.',
     summary:
-      'I did Kubernetes Release Engineering work, contributed to various CNCF projects upstream, wrote documentation, taught workshops, mentored engineers, and spoke at many open source conferences. Usually with not too many slides.',
+      'Worked on Kubernetes Release Engineering, contributed to various CNCF projects upstream, wrote documentation, taught workshops, mentored engineers, and spoke at many open source conferences. Usually with not too many slides.',
     proof: [
       {
         text: 'Contributed to Kubernetes v1.31, v1.32 and led Release Engineering efforts for v1.33 and v1.34'
