@@ -19,7 +19,8 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'advisory',
     name: 'Plus',
-    description: 'Bring me the Kubernetes or open-source decision before it becomes a six-month programme and a regrettable diagram.',
+    description:
+      'Bring the Kubernetes, infra or open-source decision before it becomes a year-long headache and a regrettable diagram or vendor locked-in contract.',
     price: '€100',
     hourlyRate: 100,
     period: '/hour',
@@ -35,7 +36,8 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'delivery',
     name: 'Pro',
-    description: 'I implement the recommendation, teach the team, and leave enough documentation that I do not become permanent infrastructure.',
+    description:
+      'Plan, design, implementation and maintenance. Training and enough documentation included. So that Matteo does not become permanent infrastructure.',
     price: '€150',
     hourlyRate: 150,
     period: '/hour',
@@ -96,7 +98,14 @@ export default function Pricing() {
       <PageHero
         path="/pricing"
         title="Get value immediately. Pay per use."
-        description="Most return on investment for permanent deployments, spot instances available to run: Kubernetes, open-source, mentorship, training, advisory and speaking programs."
+        description={
+          <>
+            Most return on investment for permanent deployments.
+            <br />
+            Spot instances available to run: Kubernetes, open-source, mentorship, training,
+            advisory and speaking programs.
+          </>
+        }
         tone="dark"
         actions={
           <a

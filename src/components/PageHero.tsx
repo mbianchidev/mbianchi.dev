@@ -6,7 +6,7 @@ type HeroTone = 'dark' | 'cyan' | 'green' | 'light'
 interface PageHeroProps {
   path?: string
   title: string
-  description: string
+  description: ReactNode
   tone?: HeroTone
   actions?: ReactNode
   aside?: ReactNode
