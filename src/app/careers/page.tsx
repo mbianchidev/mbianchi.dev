@@ -4,35 +4,46 @@ import styles from '@/app/inner.module.css'
 
 export const metadata = createPageMetadata({
   title: 'Careers — Matteo',
-  description: 'Matteo is looking for a senior engineering role spanning platforms, software, customers, AI automation, and open source.',
+  description: 'Matteo is looking for a senior or staff engineering role spanning platforms, software, customers, AI automation, and open source.',
   path: '/careers/',
 })
 
 const roles = [
   {
-    title: 'Senior Platform Engineer',
+    id: 'platform',
+    title: 'Senior/Staff Platform Engineer',
     description: 'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service people do not need a ticket to use.',
     skills: ['Platform engineering', 'Kubernetes', 'IaC', 'SRE'],
   },
   {
-    title: 'Solutions Engineer, Technical Products',
-    description: 'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
-    skills: ['Discovery', 'Architecture', 'Demos', 'GTM'],
+    id: 'sre',
+    title: 'Site Reliability Engineer',
+    description: 'Production reliability, observability, incident response, performance, and automation for systems people depend on.',
+    skills: ['SRE', 'Observability', 'Incident response', 'Performance'],
   },
   {
-    title: 'Senior Software Engineer',
+    id: 'software',
+    title: 'Senior/Staff Software Engineer',
     description: 'APIs, services, CLIs, interfaces, automation, and system design in Go, Python, TypeScript, Rust, and React.',
     skills: ['Go', 'Python', 'TypeScript', 'Rust'],
   },
   {
+    id: 'ai-automation',
     title: 'AI Engineer, Developer Automation',
     description: 'Agents, assistants, MCP integrations, and automation for jobs people already do. No chatbot looking for a reason to exist.',
     skills: ['AI agents', 'MCP', 'Automation', 'Evaluation'],
   },
   {
+    id: 'open-source',
     title: 'Open Source & Community Lead',
     description: 'Upstream contributions, open-source strategy, technical education, speaking, mentorship, and community work.',
     skills: ['Open source', 'Speaking', 'Training', 'Community'],
+  },
+  {
+    id: 'solutions',
+    title: 'Solutions Engineer / Customer Success Architect',
+    description: 'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
+    skills: ['Discovery', 'Architecture', 'Demos', 'GTM'],
   },
 ]
 
@@ -49,7 +60,7 @@ export default function CareersPage() {
       <PageHero
         path="/careers"
         title="Yes, I am looking for a job."
-        description="A senior full-time role where I can work on platforms and software, stay close to customers, and keep contributing to open source."
+        description="A senior/staff full-time role where I can work on platforms and software, stay close to customers (or internal users), and keep contributing to open source."
         tone="cyan"
         actions={
           <a
@@ -84,11 +95,15 @@ export default function CareersPage() {
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
             <h2 id="roles-title">Where I fit.</h2>
-            <p>These are not five jobs I expect one company to invent. They are five ways to describe work I already do.</p>
+            <p>These are not six jobs I expect one company to invent. They are six ways to describe work I already do.</p>
           </div>
           <div className={styles.roleList}>
             {roles.map((role) => (
-              <article key={role.title} className={styles.roleRow}>
+              <article
+                key={role.id}
+                data-career-role={role.id}
+                className={styles.roleRow}
+              >
                 <h3>{role.title}</h3>
                 <p>{role.description}</p>
                 <ul className={styles.skillList}>

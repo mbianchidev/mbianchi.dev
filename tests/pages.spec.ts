@@ -661,6 +661,14 @@ test.describe('Static route experience', () => {
     await expect(customerCodes).toHaveCount(visibleCustomers.length);
 
     await page.goto('/careers', { waitUntil: 'domcontentloaded' });
+    const careerRoles = page.locator('[data-career-role]');
+    await expect(careerRoles).toHaveCount(6);
+    expect(
+      await careerRoles.evaluateAll((roles) =>
+        roles.map((role) => role.getAttribute('data-career-role'))
+      )
+    ).toEqual(['platform', 'sre', 'software', 'ai-automation', 'open-source', 'solutions']);
+
     const close = page.locator('[data-careers-close]');
     const deploy = close.locator('a');
     const [headingBox, deployBox] = await Promise.all([
