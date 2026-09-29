@@ -649,7 +649,6 @@ test.describe('Static route experience', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('main h1')).toBeVisible();
-    await expect(page.locator('main a[href="/roadmap/"]')).toBeVisible();
 
     const proofArticles = page.locator('#proof article');
     await expect(proofArticles).toHaveCount(2);

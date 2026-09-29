@@ -39,9 +39,6 @@ export function Hero() {
               <span aria-hidden="true">↓</span>
             </a>
           </div>
-          <p className={styles.heroFinePrint}>
-            Looking for a full-time role. Always available for consulting and advisory work.
-          </p>
         </div>
 
         <aside className={styles.productShell} aria-label="Matteo product specifications">

@@ -49,7 +49,7 @@ export function Capabilities() {
         <p>
           Recruiters and some managers hate this.
           <br />
-          I still do all four.
+          We still do all four.
         </p>
       </div>
 
