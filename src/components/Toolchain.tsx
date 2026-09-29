@@ -64,11 +64,6 @@ export function Toolchain() {
     <section id="integrations" className={styles.toolchain} aria-labelledby="toolchain-title">
       <div className={styles.toolchainLead}>
         <h2 id="toolchain-title">Integrations available</h2>
-        <p>
-          Current and previous tools across cloud native, delivery,
-          observability, and software. Some are daily drivers. Some are proof
-          the migration happened.
-        </p>
       </div>
       <div
         className={styles.integrationPanel}
@@ -96,6 +91,8 @@ export function Toolchain() {
                 <li
                   key={item.name}
                   data-integration={item.name}
+                  aria-label={item.name}
+                  title={item.name}
                   style={
                     {
                       '--integration-color': item.logo.color,
@@ -103,7 +100,9 @@ export function Toolchain() {
                   }
                 >
                   <IntegrationMark logo={item.logo} />
-                  <strong>{item.name}</strong>
+                  <span className={styles.integrationTooltip} aria-hidden="true">
+                    {item.name}
+                  </span>
                 </li>
               ))}
             </ul>

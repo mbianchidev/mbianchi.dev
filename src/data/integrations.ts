@@ -3,7 +3,7 @@ import cniLogo from '@/assets/integrations/cni.svg'
 import kedaLogo from '@/assets/integrations/keda.svg'
 import karpenterLogo from '@/assets/integrations/karpenter.png'
 import kubeVirtLogo from '@/assets/integrations/kubevirt.svg'
-import amazonLogo from '@/assets/logos/amazon.svg'
+import awsLogo from '@/assets/integrations/aws.svg'
 import microsoftLogo from '@/assets/logos/microsoft.svg'
 import type { StaticImageData } from 'next/image'
 import {
@@ -104,7 +104,7 @@ export const integrationGroups: IntegrationGroup[] = [
     title: 'Cloud Native',
     items: [
       { name: 'Google Cloud', logo: simpleLogo(siGooglecloud) },
-      { name: 'AWS', logo: assetLogo(amazonLogo, '#FF9900', true) },
+      { name: 'AWS', logo: assetLogo(awsLogo, '#FF9900', true) },
       { name: 'Azure', logo: assetLogo(microsoftLogo, '#00A4EF') },
       { name: 'Kubernetes', logo: simpleLogo(siKubernetes) },
       { name: 'Cilium', logo: simpleLogo(siCilium) },

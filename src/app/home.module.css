@@ -511,13 +511,6 @@
     line-height: 0.98;
 }
 
-.compatibilityIntro > p {
-    margin: 26px 0 0;
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-    line-height: 1.7;
-}
-
 .lab {
     display: grid;
     grid-template-columns: minmax(190px, 0.55fr) minmax(0, 1.45fr);
@@ -599,13 +592,6 @@
     font-size: clamp(1.8rem, 3vw, 2.8rem);
     line-height: 1.08;
     letter-spacing: -0.025em;
-}
-
-.resultSummary {
-    max-width: 62ch;
-    margin: 22px 0 28px;
-    color: var(--text-secondary);
-    line-height: 1.7;
 }
 
 .compatibilityResult ul {
@@ -837,14 +823,6 @@
     line-height: 0.96;
 }
 
-.toolchainLead p {
-    max-width: 44ch;
-    margin: 26px 0 0;
-    color: color-mix(in srgb, var(--bg-primary) 78%, transparent);
-    font-size: 1.05rem;
-    line-height: 1.65;
-}
-
 .integrationPanel {
     align-self: start;
     min-width: 0;
@@ -935,12 +913,13 @@
 }
 
 .integrationList li {
+    position: relative;
     display: flex;
-    gap: 11px;
     align-items: center;
+    justify-content: center;
     min-width: 0;
-    min-height: 62px;
-    padding: 11px 12px;
+    min-height: 72px;
+    padding: 10px;
     border-right: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
     transition:
@@ -989,7 +968,7 @@
 
 .integrationList li:hover .integrationMark {
     color: var(--integration-color);
-    transform: translateY(-2px);
+    transform: translateY(-7px);
 }
 
 .integrationList li:hover .integrationImageMark {
@@ -997,11 +976,30 @@
     filter: none;
 }
 
-.integrationList strong {
-    min-width: 0;
+.integrationTooltip {
+    position: absolute;
+    right: 6px;
+    bottom: 5px;
+    left: 6px;
     color: var(--text-primary);
-    font-size: 0.82rem;
-    line-height: 1.25;
+    font-size: 0.65rem;
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateY(3px);
+    transition:
+        opacity 180ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.integrationList li:hover .integrationTooltip {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .benchmarks {
@@ -1630,6 +1628,7 @@
     .integrationList li,
     .integrationGroupSummary,
     .integrationMark,
+    .integrationTooltip,
     .complianceLogo,
     .companyLogo {
         transition: none;

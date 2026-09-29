@@ -434,6 +434,14 @@ test.describe('Static route experience', () => {
       integrationState.every(({ name, logoCount }) => Boolean(name?.trim()) && logoCount === 1)
     ).toBe(true);
 
+    const awsIntegration = integrations.filter('[data-integration="AWS"]');
+    const awsTooltip = awsIntegration.locator('[aria-hidden="true"]').last();
+    await expect(awsIntegration).toHaveAttribute('aria-label', 'AWS');
+    await expect(awsIntegration).toHaveAttribute('title', 'AWS');
+    await expect(awsTooltip).toHaveCSS('opacity', '0');
+    await awsIntegration.hover();
+    await expect(awsTooltip).toHaveCSS('opacity', '1');
+
     const desktopLayout = await panel.evaluate((element) => ({
       columns: getComputedStyle(element.querySelector('ul')!).gridTemplateColumns.split(' ').length,
       overflows: element.scrollWidth > element.clientWidth + 1,
