@@ -36,8 +36,8 @@ const benchmarks: Benchmark[] = [
     compact: true
   },
   {
-    value: '500+',
-    label: 'learners trained in Platform Engineering and Kubernetes',
+    value: '5K+',
+    label: 'people listened to me rant about Platform Engineering and Kubernetes',
     source: '20+ talks · 20+ mentees · 5/5 stars as a mentor'
   }
 ]
