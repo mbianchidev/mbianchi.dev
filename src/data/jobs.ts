@@ -100,11 +100,11 @@ export const careerRoles: CareerRole[] = [
   {
     id: 'sre',
     slug: 'site-reliability-engineer',
-    title: 'Site Reliability Engineer',
+    title: 'Staff Site Reliability Engineer',
     description:
       'Production reliability, observability, incident response, performance, and automation for systems people depend on.',
     skills: ['SRE', 'Observability', 'Incident response', 'Performance'],
-    level: 'Senior / Staff',
+    level: 'Staff',
     scope: 'Reliability systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
@@ -155,7 +155,7 @@ export const careerRoles: CareerRole[] = [
     scope: 'Software systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
-      '€175k–€230k',
+      '€195k–€250k',
       '$200k–$255k',
       '$250k–$290k'
     ),
@@ -202,7 +202,7 @@ export const careerRoles: CareerRole[] = [
     scope: 'Agentic systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
-      '€195k–€250k',
+      '€175k–€230k',
       '$225k–$285k',
       '$270k–$300k'
     ),
@@ -288,11 +288,11 @@ export const careerRoles: CareerRole[] = [
   {
     id: 'solutions',
     slug: 'solutions-customer-success-architect',
-    title: 'Solutions Engineer / Customer Success Architect',
+    title: 'Senior/Staff Solutions Engineer / Customer Success Architect',
     description:
       'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
     skills: ['Discovery', 'Architecture', 'Demos', 'GTM'],
-    level: 'Senior / Principal',
+    level: 'Senior / Staff',
     scope: 'Customer outcomes',
     compensationBasis: 'OTE',
     compensation: createCompensationBands(
