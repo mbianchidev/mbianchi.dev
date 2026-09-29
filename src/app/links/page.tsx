@@ -66,8 +66,8 @@ export default function LinksPage() {
           </div>
 
           <div className={styles.manifestHeader}>
-            <span>Links that actually go somewhere</span>
-            <span>{linksPageConfig.links.length} routes online</span>
+            <span>Things I publish elsewhere</span>
+            <span>{linksPageConfig.links.length} links, all tested</span>
           </div>
 
           <ul className={styles.linkList}>

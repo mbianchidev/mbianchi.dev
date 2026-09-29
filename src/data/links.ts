@@ -17,7 +17,7 @@ interface LinksPageConfig {
 export const linksPageConfig: LinksPageConfig = {
   handle: '@mbianchidev',
   description:
-    'Senior engineer. Builds platforms and software, contributes to open source, and occasionally explains distributed systems to humans.',
+    'I build platforms and software, contribute to open source, and explain things. Sometimes for far too long.',
   links: [
     {
       service: 'MentorCruise',
@@ -36,7 +36,7 @@ export const linksPageConfig: LinksPageConfig = {
     {
       service: 'GitHub',
       title: 'Spaghetti code, publicly auditable',
-      description: 'Repositories, upstream pull requests, experiments, and evidence.',
+      description: 'Repositories, upstream pull requests, experiments, and unfinished ideas.',
       href: 'https://github.com/mbianchidev',
       icon: 'github',
     },

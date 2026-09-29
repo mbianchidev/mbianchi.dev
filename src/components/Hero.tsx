@@ -1,23 +1,28 @@
 import styles from '@/app/home.module.css'
 import { profilePortrait } from '@/lib/siteConfig'
+import { ReleaseBadge } from './ReleaseBadge'
 import { ResponsivePortrait } from './ResponsivePortrait'
 
 export function Hero() {
+  const now = new Date()
+  const initialVersion = `${now.getUTCFullYear()}.${now.getUTCMonth() + 1}`
+
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.heroGrid}>
         <div className={styles.heroCopy}>
-          <p className={styles.releaseBadge}>
-            <span aria-hidden="true" />
-            Matteo v2026.8 is accepting deployments
-          </p>
+          <ReleaseBadge
+            className={styles.releaseBadge}
+            initialVersion={initialVersion}
+          />
           <h1 id="hero-title" className={styles.heroTitle}>
             Platform as a Human
           </h1>
           <p className={styles.heroText}>
-            Matteo builds developer platforms, ships software, works with
-            customers, and automates the boring parts. Then he writes it down,
-            contributes upstream, or explains it on stage.
+            <span>Build platforms and software.</span>
+            <span>Easy to acquire new customers and even easier to retain current ones.</span>
+            <span>Automate the boring stuff, get a blog, talk and videos about your technology.</span>
+            <span>Deploy Matteo today.</span>
           </p>
           <div className={styles.heroActions}>
             <a
@@ -30,22 +35,18 @@ export function Hero() {
               <span aria-hidden="true">↗</span>
             </a>
             <a href="#compatibility" className={styles.secondaryAction}>
-              Run compatibility test
+              Run compatibility check
               <span aria-hidden="true">↓</span>
             </a>
           </div>
           <p className={styles.heroFinePrint}>
-            Looking for a full-time role. Still available for the occasional consulting job.
+            Looking for a full-time role. Always available for consulting and advisory work.
           </p>
         </div>
 
         <aside className={styles.productShell} aria-label="Matteo product specifications">
           <div className={styles.shellHeader}>
-            <span className={styles.productCode}>MATTEO / HUMAN PLATFORM</span>
-            <span className={styles.productStatus}>
-              <span className={styles.statusDot} aria-hidden="true" />
-              Ready to deploy
-            </span>
+            <span className={styles.productCode}>MATTEO</span>
           </div>
           <div className={styles.portraitFrame}>
             <ResponsivePortrait
@@ -58,16 +59,8 @@ export function Hero() {
           </div>
           <dl className={styles.productSpecs}>
             <div className={styles.specRow}>
-              <dt>Runtime</dt>
-              <dd>Software engineering with customer-facing side effects</dd>
-            </div>
-            <div className={styles.specRow}>
-              <dt>Interfaces</dt>
-              <dd>Platforms / Solutions / Open Source / AI</dd>
-            </div>
-            <div className={styles.specRow}>
               <dt>Known quirk</dt>
-              <dd>Will automate the recurring task before lunch</dd>
+              <dd>VP of Karaoke at company offsites</dd>
             </div>
           </dl>
         </aside>

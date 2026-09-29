@@ -26,8 +26,8 @@ export default function Portfolio() {
     <div className={styles.page}>
       <PageHero
         path="/portfolio"
-        title="The code is public. So are the receipts."
-        description="Projects I built, projects I maintain, and code I sent upstream. The contribution label tells you which is which."
+        title="Most of my code is public. Go judge it."
+        description="My projects, upstream contributions, and the role I had in each. No borrowed stars."
         tone="green"
         actions={
           <>
@@ -56,7 +56,7 @@ export default function Portfolio() {
               <dd>Kubernetes, CNCF, Actions (ARC)... and more</dd>
             </div>
             <div>
-              <dt>Field notes</dt>
+              <dt>Blog posts</dt>
               <dd>30+</dd>
             </div>
             <div>
@@ -71,8 +71,8 @@ export default function Portfolio() {
         <section className={styles.sectionDark} aria-labelledby="owned-projects">
           <div className={styles.sectionInner}>
             <div className={styles.sectionIntro}>
-              <h2 id="owned-projects">Projects I actually own.</h2>
-              <p>These repositories are mine. Their star counts are project signal, not a personality score.</p>
+              <h2 id="owned-projects">Stuff I built myself.</h2>
+              <p>These repositories are mine. GitHub stars measure the project, not my personality.</p>
             </div>
             <div className={styles.ownedProjects}>
               <article className={styles.featuredRepository}>
@@ -126,7 +126,7 @@ export default function Portfolio() {
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
             <h2 id="ecosystem-work">Code I sent somewhere else.</h2>
-            <p>The project may be famous. The contribution label says what I actually did.</p>
+            <p>A famous project does not make every contributor famous. The label says what I did.</p>
           </div>
           <div className={styles.contributionList}>
             {ecosystemProjects.map((project) => (
@@ -152,8 +152,8 @@ export default function Portfolio() {
       <section className={styles.sectionCyan} aria-labelledby="portfolio-output">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="portfolio-output">Work, not startup metrics.</h2>
-            <p>Pull requests, talks, teaching, and mentoring. No ARR cosplay.</p>
+            <h2 id="portfolio-output">A few numbers, since we are here.</h2>
+            <p>Pull requests, talks, teaching, and mentoring. Revenue has nothing to do with this page.</p>
           </div>
           <dl className={styles.outputGrid}>
             <div>

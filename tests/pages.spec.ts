@@ -392,9 +392,27 @@ test.describe('Static route experience', () => {
     expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
   });
 
-  test('updates the compatibility result', async ({ page }) => {
+  test('shows the current year and month in the release badge', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const currentVersion = await page.evaluate(() => {
+      const now = new Date();
+      return `${now.getFullYear()}.${now.getMonth() + 1}`;
+    });
+
+    await expect(page.locator('[data-release-badge]')).toContainText(`v${currentVersion}`);
+  });
+
+  test('keeps the compatibility intro visible and updates the result', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const introBox = await page.locator('section#compatibility > div').first().boundingBox();
+    expect(introBox).not.toBeNull();
+    expect(introBox!.x).toBeGreaterThanOrEqual(0);
+    expect(introBox!.x + introBox!.width).toBeLessThanOrEqual(1280);
 
     const automationBacklog = page.locator('[data-scenario-id="ai-automation"]');
     await automationBacklog.click();
@@ -404,6 +422,11 @@ test.describe('Static route experience', () => {
       'data-selected-scenario',
       'ai-automation'
     );
+
+    const result = page.locator('#compatibility-result');
+    await expect(result.locator('a[href="#numbers"]')).toBeVisible();
+    await expect(page.locator('#numbers')).toBeAttached();
+    expect(await result.locator('ul').innerText()).not.toMatch(/\d/);
   });
 
   test('exposes the mobile navigation with accurate state', async ({ page }) => {
@@ -542,14 +565,14 @@ test.describe('Static route experience', () => {
     await expect(proofArticles).toHaveCount(2);
     const featured = proofArticles.nth(0);
     const supporting = proofArticles.nth(1);
-    const [featuredBox, sendboxBox] = await Promise.all([
+    const [featuredBox, supportingBox] = await Promise.all([
       featured.boundingBox(),
       supporting.boundingBox(),
     ]);
 
     expect(featuredBox).not.toBeNull();
-    expect(sendboxBox).not.toBeNull();
-    expect(Math.abs(featuredBox!.height - sendboxBox!.height)).toBeLessThan(2);
+    expect(supportingBox).not.toBeNull();
+    expect(Math.abs(featuredBox!.height - supportingBox!.height)).toBeLessThan(2);
 
     const integrations = page.locator('#integrations');
     const integrationsColors = await integrations.evaluate((section) => {
@@ -612,10 +635,32 @@ test.describe('Static route experience', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const benchmarks = page.locator('[data-benchmarks]');
+    const primaryBenchmark = benchmarks.locator('[data-primary-metric]').locator('..');
+    const benchmarkList = benchmarks.locator('dl');
     const metricRows = benchmarks.locator('dl > div');
-    await expect(metricRows).toHaveCount(3);
+    const metricRowCount = await metricRows.count();
+    expect(metricRowCount).toBe(6);
 
-    for (let index = 0; index < 3; index += 1) {
+    const [primaryBox, listBox] = await Promise.all([
+      primaryBenchmark.boundingBox(),
+      benchmarkList.boundingBox(),
+    ]);
+    expect(primaryBox).not.toBeNull();
+    expect(listBox).not.toBeNull();
+    expect(Math.abs(primaryBox!.x - listBox!.x)).toBeLessThanOrEqual(1);
+    expect(Math.abs(primaryBox!.width - listBox!.width)).toBeLessThanOrEqual(1);
+    expect(primaryBox!.y + primaryBox!.height).toBeLessThanOrEqual(listBox!.y + 1);
+
+    const metricBoxes = await metricRows.evaluateAll((rows) =>
+      rows.map((row) => {
+        const box = row.getBoundingClientRect();
+        return { x: Math.round(box.x), y: Math.round(box.y) };
+      })
+    );
+    expect(new Set(metricBoxes.map(({ x }) => x)).size).toBe(3);
+    expect(new Set(metricBoxes.map(({ y }) => y)).size).toBe(2);
+
+    for (let index = 0; index < metricRowCount; index += 1) {
       const row = metricRows.nth(index);
       const [valueBox, copyBox] = await Promise.all([
         row.locator('dt').boundingBox(),
@@ -624,7 +669,7 @@ test.describe('Static route experience', () => {
 
       expect(valueBox).not.toBeNull();
       expect(copyBox).not.toBeNull();
-      expect(valueBox!.x + valueBox!.width).toBeLessThan(copyBox!.x);
+      expect(valueBox!.y + valueBox!.height).toBeLessThan(copyBox!.y);
     }
 
     const primaryMetricLines = await benchmarks.locator('[data-primary-metric]').evaluate(

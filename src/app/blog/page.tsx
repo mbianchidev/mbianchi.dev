@@ -12,8 +12,8 @@ import innerStyles from '@/app/inner.module.css'
 import styles from './blog.module.css'
 
 export const metadata = createPageMetadata({
-  title: 'Field Notes — Matteo',
-  description: 'Cloud-native field notes, technical essays, and lessons from production.',
+  title: 'Debugging Notes — Matteo',
+  description: 'Technical posts, conference survival guides, open-source rants, and whatever else Matteo felt like writing.',
   path: '/blog/',
 })
 
@@ -122,13 +122,13 @@ export default function BlogPage() {
     <div className={styles.blogPage}>
       <PageHero
         path="/blog"
-        title="Field notes from the workbench."
-        description="Essays on building systems, growing technical communities, surviving conferences, and learning in public."
+        title="Debugging notes."
+        description="Some posts go deep. Some stay shallow. Sometimes they are technical too."
         tone="light"
         actions={
           featuredPost && (
             <Link href={`/blog/${featuredPost.slug}`} className={innerStyles.darkButton}>
-              Read the latest field note
+              Read the latest post
               <span aria-hidden="true">↗</span>
             </Link>
           )
@@ -137,14 +137,14 @@ export default function BlogPage() {
           <dl className={innerStyles.heroSpecs}>
             <div>
               <dt>Archive</dt>
-              <dd>{posts.length} field notes</dd>
+              <dd>{posts.length} posts</dd>
             </div>
             <div>
-              <dt>Coverage</dt>
-              <dd>{categories.length} subjects</dd>
+              <dt>Topics</dt>
+              <dd>{categories.length}</dd>
             </div>
             <div>
-              <dt>Latest issue</dt>
+              <dt>Latest post</dt>
               <dd>{featuredPost ? formatMonthYear(featuredPost.date) : 'Pending'}</dd>
             </div>
             <div>
@@ -156,10 +156,10 @@ export default function BlogPage() {
       />
 
       {featuredPost ? (
-        <section className={styles.leadSection} aria-label="Latest field note">
+        <section className={styles.leadSection} aria-label="Latest blog post">
           <div className={styles.sectionLabel}>
-            <span>Latest field note</span>
-            <span>Edition {String(posts.length).padStart(3, '0')}</span>
+            <span>Latest post</span>
+            <span>Post {String(posts.length).padStart(3, '0')}</span>
           </div>
           <article className={styles.leadStory}>
             <div className={styles.leadMarker} aria-hidden="true">
@@ -187,7 +187,7 @@ export default function BlogPage() {
                 <h2 id="latest-note">{featuredPost.title}</h2>
                 <p>{makeExcerpt(featuredPost, 250)}</p>
                 <Link href={`/blog/${featuredPost.slug}`}>
-                  Read the latest field note
+                  Read the latest post
                   <span aria-hidden="true">↗</span>
                 </Link>
               </div>
@@ -196,18 +196,17 @@ export default function BlogPage() {
         </section>
       ) : (
         <section className={styles.emptyState} aria-labelledby="empty-blog">
-          <h2 id="empty-blog">The first field note is still on the workbench.</h2>
-          <p>New writing will appear here when it is ready to ship.</p>
+          <h2 id="empty-blog">No posts yet. That would be awkward.</h2>
+          <p>Give me a minute.</p>
         </section>
       )}
 
       {deskPosts.length > 0 && (
         <section className={styles.readingDesk} aria-labelledby="reading-desk">
           <div className={styles.sectionHeading}>
-            <h2 id="reading-desk">The reading desk.</h2>
+            <h2 id="reading-desk">More things I wrote.</h2>
             <p>
-              The newest arguments, post-mortems, guides, and annual dispatches,
-              selected from the top of the stack.
+              Recent posts. Some useful, some angry, some both.
             </p>
           </div>
           <div className={styles.deskGrid}>
@@ -270,14 +269,14 @@ export default function BlogPage() {
       )}
 
       {categories.length > 0 && (
-        <nav className={styles.topicDirectory} aria-label="Browse field notes by topic">
-          <h2>Follow the thread, not the algorithm.</h2>
+        <nav className={styles.topicDirectory} aria-label="Browse blog posts by topic">
+          <h2>Pick a topic. I probably have an opinion.</h2>
           <div className={styles.topicList}>
             {categories.map(([category, count]) => (
               <a key={category} href={`#topic-${slugify(category)}`}>
                 <span>{category}</span>
                 <span>
-                  {count} {count === 1 ? 'note' : 'notes'} ↓
+                  {count} {count === 1 ? 'post' : 'posts'} ↓
                 </span>
               </a>
             ))}
@@ -288,8 +287,8 @@ export default function BlogPage() {
       {posts.length > 0 && (
         <section className={styles.archive} aria-labelledby="archive-title">
           <div className={styles.sectionHeading}>
-            <h2 id="archive-title">The complete archive.</h2>
-            <p>Newest first. No paywall, no newsletter gate, no engagement bait.</p>
+            <h2 id="archive-title">Everything, including the old stuff.</h2>
+            <p>Newest first. No paywall. I am not starting a newsletter.</p>
           </div>
           <div className={styles.archiveList}>
             {posts.map((post, index) => {

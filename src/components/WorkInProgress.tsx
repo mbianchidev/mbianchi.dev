@@ -11,11 +11,11 @@ const pageContent = {
     path: '/documentation',
     title: 'The docs are scattered. Very enterprise.',
     description:
-      'There is no single manual yet. The useful bits already live in source, field notes, and the platform roadmap.',
+      'There is no single manual. The useful bits are split between source code, blog posts, and the platform roadmap.',
     tone: 'cyan' as const,
     status: 'Documentation status: useful, scattered, not finished',
     links: [
-      { label: 'Read the field notes', href: '/blog', detail: 'Cloud-native guides, opinions, and lessons from production.' },
+      { label: 'Read the blog', href: '/blog', detail: 'Technical guides, opinions, conference survival, and occasional rants.' },
       { label: 'Browse the source', href: 'https://github.com/mbianchidev', detail: 'Repositories, tools, experiments, and implementation details.' },
       { label: 'Open the changelog', href: '/roadmap', detail: 'Work history, milestones, and links that back it up.' },
     ],

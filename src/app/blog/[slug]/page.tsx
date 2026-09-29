@@ -35,8 +35,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   if (!post) {
     return createPageMetadata({
-      title: 'Field Note Not Found — Matteo',
-      description: 'The requested field note could not be found.',
+      title: 'Blog Post Not Found — Matteo',
+      description: 'The requested blog post could not be found.',
       path: '/blog/',
     })
   }
@@ -86,7 +86,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         actions={
           <Link href="/blog" className={styles.secondaryButton}>
             <span aria-hidden="true">←</span>
-            Back to field notes
+            Back to the blog
           </Link>
         }
         aside={
@@ -131,11 +131,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       <section className={styles.articleFooter} aria-label="Article navigation">
         <div>
-          <p>End of field note.</p>
-          <h2>Return to the archive before the next opinion ships.</h2>
+          <p>You reached the end.</p>
+          <h2>Go back before I start another tangent.</h2>
         </div>
         <Link href="/blog" className={styles.darkButton}>
-          Browse all notes
+          Browse every post
           <span aria-hidden="true">↗</span>
         </Link>
       </section>

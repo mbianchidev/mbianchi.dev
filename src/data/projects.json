@@ -4,11 +4,35 @@
       "name": "Platform Engineering Roadmap",
       "description": "An opinionated interactive roadmap for engineers trying to make sense of platform engineering",
       "url": "https://github.com/mbianchidev/platform-engineering-roadmap",
-      "stars": "140+",
+      "stars": "144",
       "techStack": [
         "JavaScript",
         "Platform Engineering",
         "Roadmap"
+      ],
+      "contribution": "Creator and maintainer"
+    },
+    {
+      "name": "Porto",
+      "description": "An open-source desktop control plane for local apps, containers, Compose, Kubernetes clusters, and Linux virtual machines",
+      "url": "https://github.com/mbianchidev/porto",
+      "stars": "0",
+      "techStack": [
+        "Go",
+        "TypeScript",
+        "Containers"
+      ],
+      "contribution": "Creator and maintainer"
+    },
+    {
+      "name": "Denote",
+      "description": "A local-first Markdown workspace with split panes, search, encryption, Git tools, and local PDF reading",
+      "url": "https://github.com/mbianchidev/denote",
+      "stars": "0",
+      "techStack": [
+        "TypeScript",
+        "Rust",
+        "Markdown"
       ],
       "contribution": "Creator and maintainer"
     },
@@ -28,7 +52,7 @@
       "name": "Engineering Interviews",
       "description": "Interview questions, coding challenges, and explanations for engineers preparing for technical interviews",
       "url": "https://github.com/mbianchidev/engineering-interviews",
-      "stars": "9",
+      "stars": "13",
       "techStack": [
         "TypeScript",
         "Interview Prep",
@@ -40,7 +64,7 @@
       "name": "Kubernetes",
       "description": "The open-source system for deploying and managing containerized applications at scale",
       "url": "https://github.com/kubernetes/kubernetes",
-      "stars": "113k+",
+      "stars": "128,107",
       "techStack": [
         "Go",
         "Cloud Native",
@@ -52,7 +76,7 @@
       "name": "Helm",
       "description": "The package manager used to install and upgrade applications on Kubernetes",
       "url": "https://github.com/helm/helm",
-      "stars": "27k+",
+      "stars": "30,293",
       "techStack": [
         "Go",
         "Kubernetes",
@@ -64,7 +88,7 @@
       "name": "OpenTofu",
       "description": "An open-source infrastructure-as-code tool for managing cloud resources declaratively",
       "url": "https://github.com/opentofu/opentofu",
-      "stars": "24k+",
+      "stars": "30,320",
       "techStack": [
         "Go",
         "IaC",
