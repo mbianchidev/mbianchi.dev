@@ -686,6 +686,18 @@ test.describe('Static route experience', () => {
       '/job/solutions-customer-success-architect/',
     ]);
 
+    const workPrinciples = page.locator('[data-work-principle]');
+    await expect(workPrinciples).toHaveCount(6);
+    await expect(workPrinciples.first()).toHaveAttribute('data-work-principle', 'have-fun');
+
+    const careerValues = page.locator('[data-career-value]');
+    await expect(careerValues).toHaveCount(4);
+    expect(
+      await careerValues.evaluateAll((values) =>
+        values.map((value) => value.getAttribute('data-career-value'))
+      )
+    ).toEqual(['transparency', 'integrity', 'reliability', 'creativity']);
+
     const close = page.locator('[data-careers-close]');
     const deploy = close.locator('a');
     const [headingBox, deployBox] = await Promise.all([

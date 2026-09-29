@@ -1148,6 +1148,77 @@
     line-height: 1.65;
 }
 
+.valuesSection {
+    padding: clamp(82px, 10vw, 145px) clamp(20px, 5vw, 72px);
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.valuesHeader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.45fr);
+    gap: 48px;
+    align-items: end;
+}
+
+.valuesHeader h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5.4vw, 5rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+}
+
+.valuesHeader blockquote {
+    max-width: 48ch;
+    margin: 24px 0 0;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.valuesHeader > a {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    justify-self: end;
+    color: var(--primary-color);
+    font-weight: 900;
+}
+
+.valuesHeader > a:hover {
+    color: var(--text-primary);
+}
+
+.valueList {
+    margin-top: clamp(52px, 7vw, 82px);
+    border-top: 1px solid var(--border-color);
+}
+
+.valueList > div {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.45fr) minmax(0, 1.55fr);
+    gap: clamp(28px, 7vw, 110px);
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.valueList dt {
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-weight: 900;
+}
+
+.valueList dd {
+    max-width: 72ch;
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
 .careersClose {
     display: flex;
     flex-direction: column;
@@ -2171,6 +2242,14 @@
         grid-column: 2;
     }
 
+    .valuesHeader {
+        grid-template-columns: 1fr;
+    }
+
+    .valuesHeader > a {
+        justify-self: start;
+    }
+
     .pricingGrid {
         grid-template-columns: 1fr;
     }
@@ -2286,7 +2365,8 @@
 
     .manifestoRow,
     .roleRow,
-    .principleList > div {
+    .principleList > div,
+    .valueList > div {
         grid-template-columns: 1fr;
         gap: 16px;
     }
