@@ -19,10 +19,19 @@ export function Hero() {
             Platform as a Human
           </h1>
           <p className={styles.heroText}>
-            <span>Build platforms and software.</span>
-            <span>Easy to acquire new customers and even easier to retain current ones.</span>
-            <span>Automate the boring stuff, get a blog, talk and videos about your technology.</span>
-            <span>Deploy Matteo today.</span>
+            <span>
+              <strong>Build</strong> platforms and <strong>run</strong> software in the cloud.
+            </span>
+            <span>
+              <strong>Acquire</strong> new customers and <strong>retain</strong> existing ones with ease.
+            </span>
+            <span>
+              <strong>Automate</strong> the boring work.
+            </span>
+            <span className={styles.heroTextBreak}>
+              Get a <strong>blog</strong>, <strong>talk</strong> and <strong>video</strong> about your tech.
+            </span>
+            <span className={styles.heroTextCallout}>Deploy Matteo today!</span>
           </p>
           <div className={styles.heroActions}>
             <a

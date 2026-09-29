@@ -111,6 +111,19 @@
     line-height: 1.65;
 }
 
+.heroText strong {
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+.heroTextBreak {
+    margin-top: 10px;
+}
+
+.heroTextCallout {
+    margin-top: 20px;
+}
+
 .heroActions {
     display: flex;
     flex-wrap: wrap;
