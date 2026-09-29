@@ -14,6 +14,11 @@ const benchmarks: Benchmark[] = [
     source: 'Club FY26 winner · Corporate Solutions Engineering, EMEA'
   },
   {
+    value: '20–25%',
+    label: 'recurring Solutions Engineering work automated',
+    source: 'Built for a real internal workflow with human ownership'
+  },
+  {
     value: '70+',
     label: 'engineers enabled by platform APIs and zero-touch onboarding',
     source: 'Six product teams'
@@ -29,11 +34,6 @@ const benchmarks: Benchmark[] = [
     label: 'customers brought to early-stage startups',
     source: 'Technical delivery, product work, and go-to-market support',
     compact: true
-  },
-  {
-    value: '$600K',
-    label: 'ARR reached as a first-time co-founder',
-    source: 'Bootstrapped startup growth'
   },
   {
     value: '500+',
@@ -56,9 +56,9 @@ export function Benchmarks() {
       </div>
       <div className={styles.report}>
         <div className={styles.primaryBenchmark}>
-          <span data-primary-metric>20–25%</span>
-          <p>recurring Solutions Engineering work automated</p>
-          <small>Built for a real internal workflow. Humans still own the decisions and the customer.</small>
+          <span data-primary-metric>$600K</span>
+          <p>ARR reached as a first-time co-founder</p>
+          <small>Bootstrapped startup growth.</small>
         </div>
         <dl className={styles.benchmarkList}>
           {benchmarks.map((benchmark) => (
