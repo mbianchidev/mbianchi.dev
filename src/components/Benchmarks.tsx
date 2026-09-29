@@ -19,7 +19,7 @@ const benchmarks: Benchmark[] = [
     source: 'Six product teams'
   },
   {
-    value: '10M+ EUR',
+    value: '€10M+',
     label: 'saved during an incident I led as SRE incident commander',
     source: 'Production incident response and recovery',
     compact: true

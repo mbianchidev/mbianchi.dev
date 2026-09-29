@@ -929,7 +929,7 @@
 
 .report {
     display: grid;
-    grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.15fr);
+    grid-template-columns: 1fr;
     overflow: hidden;
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
@@ -937,10 +937,14 @@
 }
 
 .primaryBenchmark {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    min-height: 430px;
+    display: grid;
+    grid-template-areas:
+        "value label"
+        "value source";
+    grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1.2fr);
+    column-gap: clamp(40px, 6vw, 90px);
+    align-items: end;
+    min-height: 320px;
     padding: clamp(32px, 5vw, 60px);
     background:
         linear-gradient(
@@ -949,10 +953,11 @@
             transparent 62%
         ),
         var(--bg-primary);
-    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .primaryBenchmark > span {
+    grid-area: value;
     color: var(--primary-color);
     font-family: var(--font-display);
     font-size: clamp(3.9rem, 7vw, 7rem);
@@ -962,8 +967,9 @@
 }
 
 .primaryBenchmark p {
-    max-width: 13ch;
-    margin: 28px 0 16px;
+    grid-area: label;
+    max-width: 24ch;
+    margin: 0 0 16px;
     color: var(--text-primary);
     font-size: clamp(1.5rem, 2.5vw, 2.2rem);
     font-weight: 800;
@@ -971,25 +977,33 @@
 }
 
 .primaryBenchmark small {
-    max-width: 38ch;
+    grid-area: source;
+    max-width: 60ch;
     color: var(--text-secondary);
     line-height: 1.5;
 }
 
 .benchmarkList {
     display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .benchmarkList > div {
-    display: grid;
-    grid-template-columns: minmax(260px, 0.5fr) minmax(0, 1fr);
-    gap: 28px;
-    align-items: center;
+    display: flex;
+    min-height: 220px;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
     padding: 32px clamp(28px, 4vw, 50px);
+    border-right: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
 }
 
-.benchmarkList > div:last-child {
+.benchmarkList > div:nth-child(3n) {
+    border-right: 0;
+}
+
+.benchmarkList > div:nth-last-child(-n + 3) {
     border-bottom: 0;
 }
 
@@ -1011,6 +1025,7 @@
     flex-direction: column;
     gap: 8px;
     min-width: 0;
+    margin-top: auto;
 }
 
 .benchmarkList strong {
@@ -1241,8 +1256,6 @@
 
     .primaryBenchmark {
         min-height: 360px;
-        border-right: 0;
-        border-bottom: 1px solid var(--border-color);
     }
 }
 
@@ -1416,10 +1429,31 @@
         border-right: 0;
     }
 
-    .benchmarkList > div {
-        grid-template-columns: minmax(124px, auto) minmax(0, 1fr);
-        gap: 20px;
+    .primaryBenchmark {
+        grid-template-areas:
+            "value"
+            "label"
+            "source";
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .benchmarkList {
+        grid-template-columns: 1fr;
+    }
+
+    .benchmarkList > div,
+    .benchmarkList > div:nth-child(3n),
+    .benchmarkList > div:nth-last-child(-n + 3) {
+        min-height: 0;
+        gap: 24px;
         padding: 26px 22px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .benchmarkList > div:last-child {
+        border-bottom: 0;
     }
 
     .issueList {
@@ -1467,9 +1501,6 @@
         border-right: 0;
     }
 
-    .benchmarkList > div {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

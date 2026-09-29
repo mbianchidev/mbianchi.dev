@@ -635,9 +635,30 @@ test.describe('Static route experience', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const benchmarks = page.locator('[data-benchmarks]');
+    const primaryBenchmark = benchmarks.locator('[data-primary-metric]').locator('..');
+    const benchmarkList = benchmarks.locator('dl');
     const metricRows = benchmarks.locator('dl > div');
     const metricRowCount = await metricRows.count();
-    expect(metricRowCount).toBeGreaterThan(0);
+    expect(metricRowCount).toBe(6);
+
+    const [primaryBox, listBox] = await Promise.all([
+      primaryBenchmark.boundingBox(),
+      benchmarkList.boundingBox(),
+    ]);
+    expect(primaryBox).not.toBeNull();
+    expect(listBox).not.toBeNull();
+    expect(Math.abs(primaryBox!.x - listBox!.x)).toBeLessThanOrEqual(1);
+    expect(Math.abs(primaryBox!.width - listBox!.width)).toBeLessThanOrEqual(1);
+    expect(primaryBox!.y + primaryBox!.height).toBeLessThanOrEqual(listBox!.y + 1);
+
+    const metricBoxes = await metricRows.evaluateAll((rows) =>
+      rows.map((row) => {
+        const box = row.getBoundingClientRect();
+        return { x: Math.round(box.x), y: Math.round(box.y) };
+      })
+    );
+    expect(new Set(metricBoxes.map(({ x }) => x)).size).toBe(3);
+    expect(new Set(metricBoxes.map(({ y }) => y)).size).toBe(2);
 
     for (let index = 0; index < metricRowCount; index += 1) {
       const row = metricRows.nth(index);
@@ -648,7 +669,7 @@ test.describe('Static route experience', () => {
 
       expect(valueBox).not.toBeNull();
       expect(copyBox).not.toBeNull();
-      expect(valueBox!.x + valueBox!.width).toBeLessThan(copyBox!.x);
+      expect(valueBox!.y + valueBox!.height).toBeLessThan(copyBox!.y);
     }
 
     const primaryMetricLines = await benchmarks.locator('[data-primary-metric]').evaluate(
