@@ -61,14 +61,6 @@
     letter-spacing: -0.035em;
 }
 
-.lede {
-    max-width: 61ch;
-    margin: 34px 0 0;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    line-height: 1.7;
-}
-
 .jumpLink {
     display: inline-flex;
     gap: 11px;
