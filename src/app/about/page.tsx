@@ -167,7 +167,7 @@ const chapters = [
           on the tech industry through my work.
         </p>
         <p>
-          After a short chapter at a Y Combinator W22 startup, where I joined as employee number
+          After a short chapter at a Y Combinator W23 startup, where I joined as employee number
           15 and became the effective Head of DevRel and Marketing. I was also the only DevRel,
           to be fair. Then I joined GitHub as a Solutions Engineer.
         </p>
