@@ -35,7 +35,7 @@ export function Hero() {
               <span aria-hidden="true">↗</span>
             </a>
             <a href="#compatibility" className={styles.secondaryAction}>
-              Run compatibility test
+              Run compatibility check
               <span aria-hidden="true">↓</span>
             </a>
           </div>
