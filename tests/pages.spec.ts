@@ -422,6 +422,11 @@ test.describe('Static route experience', () => {
       'data-selected-scenario',
       'ai-automation'
     );
+
+    const result = page.locator('#compatibility-result');
+    await expect(result.locator('a[href="#numbers"]')).toBeVisible();
+    await expect(page.locator('#numbers')).toBeAttached();
+    expect(await result.locator('ul').innerText()).not.toMatch(/\d/);
   });
 
   test('exposes the mobile navigation with accurate state', async ({ page }) => {

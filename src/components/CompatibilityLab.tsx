@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import styles from '@/app/home.module.css'
 
 const scenarios = [
@@ -9,16 +8,14 @@ const scenarios = [
     id: 'platform',
     label: 'Platform adoption',
     signal: 'MATCH CONFIRMED / HIGH CONFIDENCE',
-    title: 'Build a platform developers stop working around.',
+    title: 'Build the platform and make it usable.',
     summary:
-      'I start with the developers who will use it, pick sensible defaults, and check whether anyone adopts it. The infrastructure is the easy part.',
+      'I worked on platform APIs, self-service workflows, infrastructure, and reliability. I also spent time with the developers using the thing, because a platform nobody wants is just expensive YAML.',
     proof: [
-      'Built platform APIs and zero-touch onboarding for 70+ engineers',
-      'Led infrastructure and built APIs serving 10M+ daily users to this day',
-      'Kubernetes release engineering maintainer and production operator'
-    ],
-    href: 'https://github.com/mbianchidev/platform-engineering-roadmap',
-    action: 'See the platform work'
+      'Designed platform APIs, self-service workflows, and zero-touch onboarding',
+      'Ran production infrastructure, reliability work, and incident response',
+      'Worked directly with developers instead of designing from a slide deck'
+    ]
   },
   {
     id: 'ai-automation',
@@ -26,29 +23,25 @@ const scenarios = [
     signal: 'MATCH CONFIRMED / HUMAN JUDGMENT RETAINED',
     title: 'Automate the boring work. Keep a human responsible.',
     summary:
-      'I build agents when a workflow repeats enough to deserve one. I do not build AI demos in search of a problem, and “the model decided” is not an excuse.',
+      'I turned repeated Solutions Engineering work into tools and agents connected to real systems. The useful part was the workflow, not the chatbot.',
     proof: [
-      'Built an internal assistant that automated 20–25% of Solutions Engineering work',
-      'Built the assistant around real Solutions Engineering workflows and internal tools',
-      'Keeps review, observability, and human ownership in the loop'
-    ],
-    href: '/portfolio',
-    action: 'See the software work'
+      'Mapped repeated Solutions Engineering work before automating it',
+      'Connected assistants to internal tools and company data',
+      'Added evaluation, observability, review, and human ownership'
+    ]
   },
   {
     id: 'solutions',
     label: 'Customer-product gap',
     signal: 'MATCH CONFIRMED / PRODUCT FEEDBACK ATTACHED',
-    title: 'Turn customer pain into something product and engineering can use.',
+    title: 'Stay technical after the customer call ends.',
     summary:
-      'I keep discovery, architecture, demos, implementation, and product feedback in the same thread. Customers get an honest answer. Product gets enough detail to act.',
+      'I ran discovery, designed architectures, built demos and proof-of-value work, helped teams implement, and sent the ugly details back to Product.',
     proof: [
-      'Won Club FY26 after reaching 185% quota at GitHub',
-      'Worked across Sales, Product, Field Marketing, and OSPO',
-      'Combines customer communication with hands-on engineering depth'
-    ],
-    href: '/customers',
-    action: 'See the customer work'
+      'Led technical discovery and turned vague requirements into architecture',
+      'Built demos and proof-of-value implementations',
+      'Worked across Sales, Product, Field Marketing, and open source teams'
+    ]
   },
   {
     id: 'open-source',
@@ -56,14 +49,12 @@ const scenarios = [
     signal: 'MATCH CONFIRMED / BROADCAST ENABLED',
     title: 'Get useful knowledge out of one person’s head.',
     summary:
-      'I write down what worked, contribute upstream, teach it, and talk about the failures too. Hoarding knowledge is boring.',
+      'I maintained Kubernetes release work, contributed upstream, wrote documentation, taught workshops, mentored engineers, and spoke at conferences. Usually with too many slides.',
     proof: [
-      '40+ merged Kubernetes pull requests',
-      'Kubernetes release engineering maintainer',
-      '20+ talks, 500+ learners, and 20+ mentees coached to success (5/5 stars as a mentor)'
-    ],
-    href: '/about#community',
-    action: 'See the open-source work'
+      'Maintained Kubernetes release engineering and contributed upstream',
+      'Wrote technical material and delivered talks and workshops',
+      'Mentored engineers and helped run cloud-native communities'
+    ]
   }
 ]
 
@@ -129,17 +120,10 @@ export function CompatibilityLab() {
               </li>
             ))}
           </ul>
-          {selected.href.startsWith('http') ? (
-            <a href={selected.href} target="_blank" rel="noopener noreferrer">
-              {selected.action}
-              <span aria-hidden="true">↗</span>
-            </a>
-          ) : (
-            <Link href={selected.href}>
-              {selected.action}
-              <span aria-hidden="true">↗</span>
-            </Link>
-          )}
+          <a href="#numbers">
+            See the numbers
+            <span aria-hidden="true">↓</span>
+          </a>
         </div>
       </div>
     </section>

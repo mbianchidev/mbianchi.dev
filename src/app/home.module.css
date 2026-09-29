@@ -1021,6 +1021,7 @@
 }
 
 .knownIssues {
+    scroll-margin-top: 96px;
     padding: clamp(90px, 11vw, 160px) clamp(20px, 5vw, 72px);
     color: var(--bg-primary);
     background: var(--text-primary);

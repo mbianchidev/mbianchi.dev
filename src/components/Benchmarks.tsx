@@ -21,6 +21,7 @@ const benchmarks = [
 export function Benchmarks() {
   return (
     <section
+      id="numbers"
       className={styles.benchmarks}
       aria-labelledby="benchmarks-title"
       data-benchmarks
