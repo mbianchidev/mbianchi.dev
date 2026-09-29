@@ -451,6 +451,37 @@ test.describe('Static route experience', () => {
     expect(mobileLayout).toEqual({ columns: 1, overflows: false });
   });
 
+  test('renders compliance boundaries without claiming certification', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const compliance = page.locator('[data-compliance]');
+    const frameworks = compliance.locator('[data-compliance-framework]');
+
+    await expect(compliance).toBeVisible();
+    await expect(frameworks).toHaveCount(12);
+    await expect(compliance.locator('[data-compliance-mark]')).toHaveCount(12);
+    await expect(compliance.locator('[data-compliance-disclaimer]')).toBeVisible();
+
+    expect(
+      await frameworks.evaluateAll((items) =>
+        items.map((item) => item.getAttribute('data-compliance-framework'))
+      )
+    ).toEqual([
+      'gdpr',
+      'soc-2',
+      'iso-27001',
+      'fedramp',
+      'hipaa',
+      'pci-dss',
+      'nist-csf',
+      'cis-controls',
+      'dora',
+      'nis2',
+      'slsa',
+      'owasp-asvs',
+    ]);
+  });
+
   test('shows the current year and month in the release badge', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.locator('html[data-hydrated="true"]').waitFor();

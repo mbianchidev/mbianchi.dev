@@ -63,7 +63,7 @@ export function Toolchain() {
   return (
     <section id="integrations" className={styles.toolchain} aria-labelledby="toolchain-title">
       <div className={styles.toolchainLead}>
-        <h2 id="toolchain-title">Tools I can use without turning them into a personality.</h2>
+        <h2 id="toolchain-title">Integrations available</h2>
         <p>
           Current and previous tools across cloud native, delivery,
           observability, and software. Some are daily drivers. Some are proof

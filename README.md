@@ -12,6 +12,7 @@ This project is a satirical product launch for Matteo Bianchi: a personal portfo
 - An asymmetric capability manifest covering platform engineering, Solutions Engineering, AI automation, and open-source education
 - An interactive compatibility lab with accessible default content
 - A collapsible cloud-native integration manifest with 41 local technology marks
+- A compliance-boundaries ledger covering 12 common regulations, standards, and assurance frameworks without claiming certification
 - The original `main` branch “loved by” logo set plus GitHub, Replit, OpenAI, and Anthropic, upgraded into an accessible animated runway
 - Homepage runway logos are bundled locally and loaded eagerly so marquee motion never reveals unloaded placeholders
 - Responsive AVIF and WebP portrait sources with a JPEG fallback for static-export image delivery
