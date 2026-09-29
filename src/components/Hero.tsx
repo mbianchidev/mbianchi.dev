@@ -1,16 +1,20 @@
 import styles from '@/app/home.module.css'
 import { profilePortrait } from '@/lib/siteConfig'
+import { ReleaseBadge } from './ReleaseBadge'
 import { ResponsivePortrait } from './ResponsivePortrait'
 
 export function Hero() {
+  const now = new Date()
+  const initialVersion = `${now.getUTCFullYear()}.${now.getUTCMonth() + 1}`
+
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.heroGrid}>
         <div className={styles.heroCopy}>
-          <p className={styles.releaseBadge}>
-            <span aria-hidden="true" />
-            Matteo v2026.8 is accepting deployments
-          </p>
+          <ReleaseBadge
+            className={styles.releaseBadge}
+            initialVersion={initialVersion}
+          />
           <h1 id="hero-title" className={styles.heroTitle}>
             Platform as a Human
           </h1>

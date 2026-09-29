@@ -392,6 +392,18 @@ test.describe('Static route experience', () => {
     expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
   });
 
+  test('shows the current year and month in the release badge', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const currentVersion = await page.evaluate(() => {
+      const now = new Date();
+      return `${now.getFullYear()}.${now.getMonth() + 1}`;
+    });
+
+    await expect(page.locator('[data-release-badge]')).toContainText(`v${currentVersion}`);
+  });
+
   test('keeps the compatibility intro visible and updates the result', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
