@@ -1,6 +1,13 @@
 import styles from '@/app/home.module.css'
 
-const benchmarks = [
+interface Benchmark {
+  value: string
+  label: string
+  source: string
+  compact?: boolean
+}
+
+const benchmarks: Benchmark[] = [
   {
     value: '185%',
     label: 'quota reached at GitHub',
@@ -14,7 +21,8 @@ const benchmarks = [
   {
     value: '0 → 10s',
     label: 'customers brought to early-stage startups',
-    source: 'Technical delivery, product work, and go-to-market support'
+    source: 'Technical delivery, product work, and go-to-market support',
+    compact: true
   },
   {
     value: '500+',
@@ -44,7 +52,9 @@ export function Benchmarks() {
         <dl className={styles.benchmarkList}>
           {benchmarks.map((benchmark) => (
             <div key={benchmark.label}>
-              <dt>{benchmark.value}</dt>
+              <dt className={benchmark.compact ? styles.compactBenchmarkValue : undefined}>
+                {benchmark.value}
+              </dt>
               <dd>
                 <strong>{benchmark.label}</strong>
                 <span>{benchmark.source}</span>
