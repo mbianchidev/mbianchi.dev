@@ -4,19 +4,19 @@ import styles from '@/app/home.module.css'
 const capabilities = [
   {
     key: 'platform.core',
-    title: 'Platforms developers do not need to fight',
+    title: 'Platform engineers and users do not need to fight',
     description:
-      'I built platform APIs and zero-touch onboarding for 70+ engineers. Before that, I helped run infrastructure and APIs used by 10M+ people every day.',
-    signal: 'Platform engineering · Kubernetes · multi-cloud · SRE',
+      "We built software and automation around SDLC for over a decade. We've designed, built and maintained reliable and scalable infra and APIs used by millions of users every day.",
+    signal: 'Platform Engineering · Site Reliability · Kubernetes',
     evidence: 'See the roadmap',
     href: 'https://github.com/mbianchidev/platform-engineering-roadmap'
   },
   {
     key: 'solutions.interface',
-    title: 'Customer calls that end in working software',
+    title: 'Customer calls that end in issues solved and ARR added',
     description:
-      'I run discovery, design the architecture, build the demo, help with implementation, and send product feedback people can act on. I reached 185% quota at GitHub and won Club FY26.',
-    signal: 'Solutions engineering · discovery · GTM · product feedback',
+      'I run discovery, design the architecture, build the tailored demo, help with implementation, and send product feedback people can act on. I reached 185% quota at GitHub and won Club FY26.',
+    signal: 'Solutions Engineering · Enablement · GTM · Product',
     evidence: 'See the work history',
     href: '/customers'
   },
@@ -24,8 +24,8 @@ const capabilities = [
     key: 'ai.automation',
     title: 'AI for boring work, not fake magic',
     description:
-      'I build agents and internal tools for jobs people already do. One assistant removed 20–25% of recurring Solutions Engineering work.',
-    signal: 'Python · TypeScript · MCP · agents · developer tooling',
+      'I build agentic systems and internal tooling for jobs people already do. While keeping data secure.',
+    signal: 'LLMs · MCPs · Agent SDKs · Evals',
     evidence: 'See the software work',
     href: '/portfolio'
   },
@@ -33,8 +33,8 @@ const capabilities = [
     key: 'open.protocol',
     title: 'Open source and an unreasonable amount of explaining',
     description:
-      'I maintain Kubernetes release tooling, sent 40+ pull requests upstream, gave 20+ talks, taught 500+ people, and mentored 20+. Apparently the mentoring works too: 5/5.',
-    signal: 'Kubernetes · OSS strategy · speaking · education',
+      'I maintained Kubernetes release tooling, improved processes, sent too many pull requests upstream, gave conference talks, taught to over 3000 people, advised companies on open source and mentored tens of engineers.',
+    signal: 'DevRel · OSS strategy · speaking · education',
     evidence: 'See the community work',
     href: '/about#community'
   }
