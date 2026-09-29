@@ -221,11 +221,12 @@ export default function About() {
       <article id="the-note" className={styles.letter} aria-label="A note from Matteo Bianchi">
         <div className={styles.letterHeader}>
           <div>
-            <h2>I learned by doing. Then I kept going.</h2>
+            <h2>I learn by doing, then I keep doing. I just do the work.</h2>
             <p>
-              This is not a polished founder myth. It is the longer, messier version: the boring
-              school days, the lie that led to Kubernetes, the startup that did not find its
-              market, and the communities and people who made the work worth doing.
+              This is not a rainbow and roses story. My career started messy: the boring and
+              turbulent school days, the lie that led me to learn Kubernetes in a few weeks, my
+              first startup that did not find its market and me being a naive founder. It&apos;s
+              also about the OSS community and people who make the work worth doing.
             </p>
           </div>
         </div>

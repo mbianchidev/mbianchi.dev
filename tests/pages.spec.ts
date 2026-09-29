@@ -381,6 +381,37 @@ test.describe('Static route experience', () => {
     expect(publishedRoutes).toEqual(expectedBlogRoutes);
   });
 
+  test('filters the blog archive by text and topic', async ({ page }) => {
+    const topicId = samplePost.category
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    await page.goto('/blog', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const search = page.locator('input[type="search"]');
+    const rows = page.locator('[data-blog-slug]');
+    const sampleRow = page.locator(`[data-blog-slug="${samplePost.slug}"]`);
+
+    await search.fill(samplePost.title);
+    await expect(sampleRow).toBeVisible();
+    expect(await rows.evaluateAll((items) => items.filter((item) => item.hidden).length)).toBeGreaterThan(0);
+
+    await search.fill('');
+    await page.locator(`[data-blog-topic-filter="${topicId}"]`).click();
+
+    const visibleTopics = await rows.evaluateAll((items) =>
+      items
+        .filter((item) => !item.hidden)
+        .map((item) => item.getAttribute('data-blog-topic'))
+    );
+    expect(new Set(visibleTopics)).toEqual(new Set([topicId]));
+
+    await page.locator('[data-blog-topic-filter="all"]').click();
+    expect(await rows.evaluateAll((items) => items.filter((item) => item.hidden).length)).toBe(0);
+  });
+
   test('renders the company logo set', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 

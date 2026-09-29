@@ -9,6 +9,7 @@ import {
   withBasePath,
 } from '@/lib/siteMetadata'
 import innerStyles from '@/app/inner.module.css'
+import { BlogArchiveSearch } from './BlogArchiveSearch'
 import styles from './blog.module.css'
 
 export const metadata = createPageMetadata({
@@ -26,14 +27,6 @@ function formatDate(date: string) {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
-    timeZone: 'UTC',
-  })
-}
-
-function formatMonthYear(date: string) {
-  return dateFromPost(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
     timeZone: 'UTC',
   })
 }
@@ -99,24 +92,21 @@ function PostCover({ post, className, sizes, priority = false }: PostCoverProps)
 
 export default function BlogPage() {
   const posts = getSortedPostsData()
-  const [featuredPost, ...otherPosts] = posts
-  const deskPosts = otherPosts.slice(0, 4)
-  const [deskFeature, ...deskRail] = deskPosts
-  const firstPostByCategory = new Map<string, string>()
+  const [featuredPost] = posts
   const categoryCounts = new Map<string, number>()
 
   for (const post of posts) {
     categoryCounts.set(post.category, (categoryCounts.get(post.category) ?? 0) + 1)
-
-    if (!firstPostByCategory.has(post.category)) {
-      firstPostByCategory.set(post.category, post.slug)
-    }
   }
 
   const categories = [...categoryCounts.entries()].sort(([categoryA], [categoryB]) =>
     categoryA.localeCompare(categoryB)
   )
-  const firstPublishedYear = posts.at(-1)?.date.slice(0, 4)
+  const topics = categories.map(([label, count]) => ({
+    id: slugify(label),
+    label,
+    count,
+  }))
 
   return (
     <div className={styles.blogPage}>
@@ -132,26 +122,6 @@ export default function BlogPage() {
               <span aria-hidden="true">↗</span>
             </Link>
           )
-        }
-        aside={
-          <dl className={innerStyles.heroSpecs}>
-            <div>
-              <dt>Archive</dt>
-              <dd>{posts.length} posts</dd>
-            </div>
-            <div>
-              <dt>Topics</dt>
-              <dd>{categories.length}</dd>
-            </div>
-            <div>
-              <dt>Latest post</dt>
-              <dd>{featuredPost ? formatMonthYear(featuredPost.date) : 'Pending'}</dd>
-            </div>
-            <div>
-              <dt>Publishing since</dt>
-              <dd>{firstPublishedYear ?? 'Soon'}</dd>
-            </div>
-          </dl>
         }
       />
 
@@ -201,105 +171,27 @@ export default function BlogPage() {
         </section>
       )}
 
-      {deskPosts.length > 0 && (
-        <section className={styles.readingDesk} aria-labelledby="reading-desk">
-          <div className={styles.sectionHeading}>
-            <h2 id="reading-desk">More things I wrote.</h2>
-            <p>
-              Recent posts. Some useful, some angry, some both.
-            </p>
-          </div>
-          <div className={styles.deskGrid}>
-            {deskFeature && (
-              <article className={styles.deskFeature}>
-                <Link
-                  href={`/blog/${deskFeature.slug}`}
-                  className={styles.deskFeatureMedia}
-                >
-                  <PostCover
-                    post={deskFeature}
-                    className={styles.coverImage}
-                    sizes="(max-width: 980px) 100vw, 52vw"
-                  />
-                </Link>
-                <div className={styles.deskFeatureCopy}>
-                  <div className={styles.storyMeta}>
-                    <span>{deskFeature.category}</span>
-                    <time dateTime={deskFeature.date}>{formatDate(deskFeature.date)}</time>
-                  </div>
-                  <h3>{deskFeature.title}</h3>
-                  <p>{makeExcerpt(deskFeature, 190)}</p>
-                  <Link
-                    href={`/blog/${deskFeature.slug}`}
-                    aria-label={`Read ${deskFeature.title}`}
-                  >
-                    <span>{deskFeature.readTime}</span>
-                    <span aria-hidden="true">↗</span>
-                  </Link>
-                </div>
-              </article>
-            )}
-            <div className={styles.deskRail}>
-              {deskRail.map((post) => (
-                <article key={post.slug} className={styles.deskRow}>
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className={styles.deskRowMedia}
-                  >
-                    <PostCover
-                      post={post}
-                      className={styles.coverImage}
-                      sizes="(max-width: 700px) 38vw, 140px"
-                    />
-                  </Link>
-                  <div className={styles.storyMeta}>
-                    <span>{post.category}</span>
-                    <time dateTime={post.date}>{formatDate(post.date)}</time>
-                  </div>
-                  <h3>{post.title}</h3>
-                  <Link href={`/blog/${post.slug}`} aria-label={`Read ${post.title}`}>
-                    <span>{post.readTime}</span>
-                    <span aria-hidden="true">↗</span>
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {categories.length > 0 && (
-        <nav className={styles.topicDirectory} aria-label="Browse blog posts by topic">
-          <h2>Pick a topic. I probably have an opinion.</h2>
-          <div className={styles.topicList}>
-            {categories.map(([category, count]) => (
-              <a key={category} href={`#topic-${slugify(category)}`}>
-                <span>{category}</span>
-                <span>
-                  {count} {count === 1 ? 'post' : 'posts'} ↓
-                </span>
-              </a>
-            ))}
-          </div>
-        </nav>
-      )}
-
       {posts.length > 0 && (
         <section className={styles.archive} aria-labelledby="archive-title">
           <div className={styles.sectionHeading}>
-            <h2 id="archive-title">Everything, including the old stuff.</h2>
+            <h2 id="archive-title">Some useful posts, some angry, some both.</h2>
             <p>Newest first. No paywall. I am not starting a newsletter.</p>
           </div>
+          <BlogArchiveSearch topics={topics} total={posts.length} />
           <div className={styles.archiveList}>
             {posts.map((post, index) => {
-              const isCategoryAnchor = firstPostByCategory.get(post.category) === post.slug
-
               return (
                 <article
                   key={post.slug}
-                  id={isCategoryAnchor ? `topic-${slugify(post.category)}` : undefined}
                   className={styles.archiveRow}
                   data-blog-slug={post.slug}
+                  data-blog-topic={slugify(post.category)}
+                  data-blog-search={[
+                    post.title,
+                    post.excerpt,
+                    post.category,
+                    ...(post.tags ?? []),
+                  ].join(' ').toLowerCase()}
                 >
                   <div className={styles.archiveNumber}>
                     {String(posts.length - index).padStart(3, '0')}
