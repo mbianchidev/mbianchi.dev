@@ -51,8 +51,9 @@ test.describe('Short links', () => {
       const expectedLocation = redirect.destination.startsWith('http')
         ? new URL(redirect.destination).toString()
         : redirect.destination;
+      const expectedStatus = redirect.permanent ? 308 : 307;
 
-      expect(response.status(), redirect.source).toBe(307);
+      expect(response.status(), redirect.source).toBe(expectedStatus);
       expect(response.headers().location, redirect.source).toBe(expectedLocation);
     }
   });
