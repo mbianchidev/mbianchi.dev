@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { careerRoles } from '@/data/jobs'
 import { getSortedPostsData, parseBlogDate } from '@/lib/markdown'
 import { getPublicStaticRoutes } from '@/lib/seoRoutes'
 import { createSiteUrl } from '@/lib/siteMetadata'
@@ -32,8 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...(lastModified ? { lastModified } : {}),
     }
   })
+  const jobRoutes = careerRoles.map((role) => ({
+    url: createSiteUrl(`/job/${role.slug}/`).toString(),
+  }))
 
-  return [...staticRoutes, ...blogRoutes].sort((left, right) =>
+  return [...staticRoutes, ...blogRoutes, ...jobRoutes].sort((left, right) =>
     left.url.localeCompare(right.url)
   )
 }

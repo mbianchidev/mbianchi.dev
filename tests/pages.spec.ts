@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import customersData from '../src/data/customers.json';
+import { careerRoles } from '../src/data/jobs';
 import { linksPageConfig } from '../src/data/links';
 import projectsData from '../src/data/projects.json';
 import pathRedirects from '../src/data/redirects.json';
@@ -29,6 +30,10 @@ const pages = [
   { name: 'portfolio', path: '/portfolio' },
   { name: 'customers', path: '/customers' },
   { name: 'careers', path: '/careers' },
+  ...careerRoles.map((role) => ({
+    name: `job-${role.id}`,
+    path: `/job/${role.slug}`,
+  })),
   { name: 'pricing', path: '/pricing' },
   { name: 'documentation', path: '/documentation' },
   { name: 'press', path: '/press' },
@@ -668,6 +673,18 @@ test.describe('Static route experience', () => {
         roles.map((role) => role.getAttribute('data-career-role'))
       )
     ).toEqual(['platform', 'sre', 'software', 'ai-automation', 'open-source', 'solutions']);
+    expect(
+      await careerRoles.locator('a').evaluateAll((links) =>
+        links.map((link) => link.getAttribute('href'))
+      )
+    ).toEqual([
+      '/job/platform-engineer/',
+      '/job/site-reliability-engineer/',
+      '/job/software-engineer/',
+      '/job/ai-engineer/',
+      '/job/open-source-community-lead/',
+      '/job/solutions-customer-success-architect/',
+    ]);
 
     const close = page.locator('[data-careers-close]');
     const deploy = close.locator('a');
@@ -680,6 +697,23 @@ test.describe('Static route experience', () => {
     expect(deployBox).not.toBeNull();
     expect(deployBox!.y).toBeGreaterThan(headingBox!.y + headingBox!.height);
     expect(Math.abs(deployBox!.x - headingBox!.x)).toBeLessThanOrEqual(1);
+  });
+
+  test('publishes complete role descriptions from the careers source', async ({ page }) => {
+    for (const role of careerRoles) {
+      await page.goto(`/job/${role.slug}`, { waitUntil: 'domcontentloaded' });
+
+      const description = page.locator(`[data-job-description="${role.id}"]`);
+      await expect(description).toBeVisible();
+      await expect(description.locator('[data-job-responsibility]')).toHaveCount(
+        role.responsibilities.length
+      );
+      await expect(description.locator('[data-job-evidence]')).toHaveCount(role.evidence.length);
+      await expect(description.getByRole('link', { name: /back to careers/i })).toHaveAttribute(
+        'href',
+        '/careers/'
+      );
+    }
   });
 
   test('keeps benchmark metrics separated and pricing cards aligned', async ({ page }) => {

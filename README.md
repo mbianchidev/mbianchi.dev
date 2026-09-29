@@ -21,6 +21,7 @@ This project is a satirical product launch for Matteo Bianchi: a personal portfo
 - Plain-language privacy and cookie policies that document the site’s actual Vercel data flows
 - An open-source proof ledger sourced from `src/data/projects.json`
 - A complete route system for field notes, changelog, portfolio, deployment history, pricing, legal, and support pages
+- Data-driven role descriptions under `/job/[slug]`, sourced from the careers inventory and resume evidence
 - A configurable `/links` endpoint manifest sourced from `src/data/links.ts`
 - Original high-resolution organisation logos with a clean KubeLab monogram fallback throughout Customers
 - Verifiable contribution, speaking, and project benchmarks

@@ -162,7 +162,7 @@ export default function Portfolio() {
             </div>
             <div>
               <dt>20+</dt>
-              <dd>Talks and workshops delivered</dd>
+              <dd>Talks and workshops delivered in public to over 3000 people</dd>
             </div>
             <div>
               <dt>500+</dt>

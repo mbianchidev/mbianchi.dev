@@ -1,4 +1,6 @@
+import Link from 'next/link'
 import { PageHero } from '@/components/PageHero'
+import { careerRoles } from '@/data/jobs'
 import { createPageMetadata } from '@/lib/siteMetadata'
 import styles from '@/app/inner.module.css'
 
@@ -7,45 +9,6 @@ export const metadata = createPageMetadata({
   description: 'Matteo is looking for a senior or staff engineering role spanning platforms, software, customers, AI automation, and open source.',
   path: '/careers/',
 })
-
-const roles = [
-  {
-    id: 'platform',
-    title: 'Senior/Staff Platform Engineer',
-    description: 'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service people do not need a ticket to use.',
-    skills: ['Platform engineering', 'Kubernetes', 'IaC', 'SRE'],
-  },
-  {
-    id: 'sre',
-    title: 'Site Reliability Engineer',
-    description: 'Production reliability, observability, incident response, performance, and automation for systems people depend on.',
-    skills: ['SRE', 'Observability', 'Incident response', 'Performance'],
-  },
-  {
-    id: 'software',
-    title: 'Senior/Staff Software Engineer',
-    description: 'APIs, services, CLIs, interfaces, automation, and system design in Go, Python, TypeScript, Rust, and React.',
-    skills: ['Go', 'Python', 'TypeScript', 'Rust'],
-  },
-  {
-    id: 'ai-automation',
-    title: 'AI Engineer, Developer Automation',
-    description: 'Agents, assistants, MCP integrations, and automation for jobs people already do. No chatbot looking for a reason to exist.',
-    skills: ['AI agents', 'MCP', 'Automation', 'Evaluation'],
-  },
-  {
-    id: 'open-source',
-    title: 'Open Source & Community Lead',
-    description: 'Upstream contributions, open-source strategy, technical education, speaking, mentorship, and community work.',
-    skills: ['Open source', 'Speaking', 'Training', 'Community'],
-  },
-  {
-    id: 'solutions',
-    title: 'Solutions Engineer / Customer Success Architect',
-    description: 'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
-    skills: ['Discovery', 'Architecture', 'Demos', 'GTM'],
-  },
-]
 
 const principles = [
   ['Start with the problem', 'Understand the workflow and the stakes before suggesting a system.'],
@@ -94,11 +57,11 @@ export default function CareersPage() {
       <section className={styles.sectionDark} aria-labelledby="roles-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="roles-title">Where I fit.</h2>
-            <p>These are not six jobs I expect one company to invent. They are six ways to describe work I already do.</p>
+            <h2 id="roles-title">What are we looking for</h2>
+            <p>Roles with a real impact, agency, out-of-the-way managers and low bureaucracy.</p>
           </div>
           <div className={styles.roleList}>
-            {roles.map((role) => (
+            {careerRoles.map((role) => (
               <article
                 key={role.id}
                 data-career-role={role.id}
@@ -106,11 +69,17 @@ export default function CareersPage() {
               >
                 <h3>{role.title}</h3>
                 <p>{role.description}</p>
-                <ul className={styles.skillList}>
-                  {role.skills.map((skill) => (
-                    <li key={skill}>{skill}</li>
-                  ))}
-                </ul>
+                <div className={styles.roleMeta}>
+                  <ul className={styles.skillList}>
+                    {role.skills.map((skill) => (
+                      <li key={skill}>{skill}</li>
+                    ))}
+                  </ul>
+                  <Link href={`/job/${role.slug}`} className={styles.roleLink}>
+                    Read role description
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
