@@ -27,7 +27,7 @@ const pages = [
     path: `/blog/${samplePost.slug}`,
   },
   { name: 'roadmap', path: '/roadmap' },
-  { name: 'portfolio', path: '/portfolio' },
+  { name: 'open-source', path: '/open-source' },
   { name: 'customers', path: '/customers' },
   { name: 'careers', path: '/careers' },
   ...careerRoles.map((role) => ({
@@ -470,6 +470,14 @@ test.describe('Static route experience', () => {
     await expect(compliance.locator('[data-compliance-mark]')).toHaveCount(12);
     await expect(compliance.locator('[data-compliance-disclaimer]')).toBeVisible();
 
+    const gdpr = frameworks.first();
+    const gdprTooltip = gdpr.locator('[aria-hidden="true"]').last();
+    await expect(gdpr).toHaveAttribute('title', 'General Data Protection Regulation');
+    await expect(gdpr).toHaveAttribute('aria-label', 'General Data Protection Regulation');
+    await expect(gdprTooltip).toHaveCSS('opacity', '0');
+    await gdpr.hover();
+    await expect(gdprTooltip).toHaveCSS('opacity', '1');
+
     expect(
       await frameworks.evaluateAll((items) =>
         items.map((item) => item.getAttribute('data-compliance-framework'))
@@ -687,7 +695,7 @@ test.describe('Static route experience', () => {
   });
 
   test('renders portfolio and changelog records', async ({ page }) => {
-    await page.goto('/portfolio', { waitUntil: 'domcontentloaded' });
+    await page.goto('/open-source', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('main article')).toHaveCount(projectsData.projects.length);
     for (const project of projectsData.projects) {
       await expect(page.locator(`main a[href="${project.url}"]`)).toHaveCount(1);
@@ -944,7 +952,7 @@ test.describe('Static route experience', () => {
     )).toEqual(['/#features', '/#integrations', '/pricing/', '/roadmap/']);
     expect(await company.locator('a').evaluateAll((links) =>
       links.map((link) => link.getAttribute('href'))
-    )).toEqual(['/portfolio/', '/about/', '/careers/', '/customers/']);
+    )).toEqual(['/open-source/', '/about/', '/careers/', '/customers/']);
 
     for (const navigation of [product, company]) {
       const positions = await navigation.getByRole('link').evaluateAll((links) =>

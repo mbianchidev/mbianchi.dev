@@ -29,6 +29,11 @@
     "permanent": false
   },
   {
+    "source": "/portfolio",
+    "destination": "/open-source",
+    "permanent": true
+  },
+  {
     "source": "/li",
     "destination": "https://www.linkedin.com/in/mbianchidev/",
     "permanent": false,

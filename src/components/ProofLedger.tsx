@@ -15,7 +15,7 @@ export function ProofLedger() {
         <div>
           <h2 id="proof-title">Check the code.</h2>
         </div>
-        <Link href="/portfolio" className={styles.textLink}>
+        <Link href="/open-source" className={styles.textLink}>
           See all the code
           <span aria-hidden="true">↗</span>
         </Link>

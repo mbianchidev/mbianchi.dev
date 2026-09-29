@@ -24,7 +24,7 @@ const capabilities = [
     description:
       'Built agentic systems and internal tooling for jobs people already do, while keeping data secure.',
     evidence: 'See the software work',
-    href: '/portfolio'
+    href: '/open-source'
   },
   {
     key: 'open.protocol',

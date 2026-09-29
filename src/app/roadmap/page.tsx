@@ -138,7 +138,7 @@ export default function RoadmapPage() {
         description="Things I shipped, learned, broke, fixed, or talked about in public. Links included when they exist."
         tone="cyan"
         actions={
-          <Link href="/portfolio" className={styles.darkButton}>
+          <Link href="/open-source" className={styles.darkButton}>
             Inspect the source
             <span aria-hidden="true">↗</span>
           </Link>

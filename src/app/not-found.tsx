@@ -15,7 +15,7 @@ export default function NotFound() {
             <Link href="/" className={styles.darkButton}>
               Go home
             </Link>
-            <Link href="/portfolio" className={styles.lightButton}>
+            <Link href="/open-source" className={styles.lightButton}>
               See working code
             </Link>
           </>

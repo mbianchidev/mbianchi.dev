@@ -30,7 +30,7 @@ export function Footer() {
           </nav>
           <nav className={styles.footerColumn} aria-label="Company">
             <h3>Company</h3>
-            <Link href="/portfolio">Open source</Link>
+            <Link href="/open-source">Open source</Link>
             <Link href="/about">About</Link>
             <Link href="/careers">Careers</Link>
             <Link href="/customers">Customers</Link>
@@ -55,7 +55,7 @@ export function Footer() {
             <a href="https://cal.com/mbianchidev/intro" target="_blank" rel="noopener noreferrer">
               Start trial
             </a>
-            <a href="mailto:info@mb-consulting.dev">Consulting inquiries</a>
+            <a href="mailto:info@mb-consulting.dev">Services</a>
           </nav>
         </div>
       </div>
