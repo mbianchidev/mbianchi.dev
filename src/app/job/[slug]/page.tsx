@@ -176,7 +176,8 @@ export default async function JobPage({ params }: JobPageProps) {
               Top-quartile ranges for this scope.{' '}
               {role.compensationBasis === 'OTE'
                 ? 'Ranges are on-target earnings; equity may be additional.'
-                : 'Ranges are base salary; equity and bonus may be additional.'}
+                : 'Ranges are base salary; equity and bonus may be additional.'}{' '}
+              The cash/stock split is negotiable.
             </p>
           </div>
           <dl className={styles.compensationGrid}>

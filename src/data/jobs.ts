@@ -61,9 +61,9 @@ export const careerRoles: CareerRole[] = [
     scope: 'Platform product',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
-      '€185k–€240k',
-      '$215k–$270k',
-      '$255k–$300k'
+      '€185k–€250k',
+      '$220k–$290k',
+      '$270k–$325k'
     ),
     mandate: [
       'Build and evolve an internal developer platform that turns cloud, Kubernetes, delivery, security, and observability capabilities into paved roads teams actively choose.',
@@ -108,9 +108,9 @@ export const careerRoles: CareerRole[] = [
     scope: 'Reliability systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
-      '€180k–€235k',
-      '$210k–$265k',
-      '$250k–$295k'
+      '€180k–€245k',
+      '$215k–$280k',
+      '$265k–$315k'
     ),
     mandate: [
       'Make reliability an engineering discipline: define service objectives, automate operational work, improve system resilience, and create incident practices that make the organisation safer rather than quieter.',
@@ -155,9 +155,9 @@ export const careerRoles: CareerRole[] = [
     scope: 'Software systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
-      '€195k–€250k',
-      '$200k–$255k',
-      '$250k–$290k'
+      '€195k–€260k',
+      '$220k–$285k',
+      '$275k–$325k'
     ),
     mandate: [
       'Own consequential software problems from architecture through operation: APIs, services, CLIs, interfaces, and automation that connect technical quality to a measurable product or business outcome.',
@@ -202,9 +202,9 @@ export const careerRoles: CareerRole[] = [
     scope: 'Agentic systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
-      '€175k–€230k',
-      '$225k–$285k',
-      '$270k–$300k'
+      '€175k–€245k',
+      '$235k–$300k',
+      '$290k–$350k'
     ),
     mandate: [
       'Build agentic systems around real workflows, tools, and data, with measurable value, explicit human ownership, and enough evaluation to know when the system is useful or wrong.',
@@ -249,9 +249,9 @@ export const careerRoles: CareerRole[] = [
     scope: 'Open source strategy',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
-      '€165k–€210k',
-      '$180k–$225k',
-      '$250k–$275k'
+      '€165k–€225k',
+      '$185k–$245k',
+      '$250k–$300k'
     ),
     mandate: [
       'Connect credible engineering work, contributor experience, product strategy, and public education into an open-source programme people can trust and participate in.',
@@ -296,9 +296,9 @@ export const careerRoles: CareerRole[] = [
     scope: 'Customer outcomes',
     compensationBasis: 'OTE',
     compensation: createCompensationBands(
-      '€180k–€250k',
-      '$200k–$270k',
-      '$250k–$300k'
+      '€180k–€260k',
+      '$210k–$290k',
+      '$275k–$335k'
     ),
     mandate: [
       'Own the technical path from an ambiguous customer problem to architecture, proof, implementation, adoption, and a measurable business outcome.',
