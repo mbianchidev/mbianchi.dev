@@ -57,7 +57,7 @@ export function TrustedBy() {
   return (
     <section className={styles.lovedBy} aria-labelledby="loved-by-title">
       <div className={styles.lovedByHeader}>
-        <h2 id="loved-by-title">I have worked with people from</h2>
+        <h2 id="loved-by-title">Loved by people at</h2>
         <p>
           Some hired me. Some worked with me, learned from me, or built
           communities with me. None of these logos is an endorsement. Legal can
