@@ -20,18 +20,9 @@ export function Hero() {
           </h1>
           <p className={styles.heroText}>
             <span>
-              <strong>Build</strong> platforms and <strong>run</strong> software in the cloud.
+              Matteo builds platforms, software, and automation. Also works with customers and
+              explains things without a 90-slide deck.
             </span>
-            <span>
-              <strong>Acquire</strong> new customers and <strong>retain</strong> existing ones with ease.
-            </span>
-            <span>
-              <strong>Automate</strong> the boring work.
-            </span>
-            <span className={styles.heroTextBreak}>
-              Get a <strong>blog</strong>, <strong>talk</strong> and <strong>video</strong> about your tech.
-            </span>
-            <span className={styles.heroTextCallout}>Deploy Matteo today!</span>
           </p>
           <div className={styles.heroActions}>
             <a
@@ -44,7 +35,7 @@ export function Hero() {
               <span aria-hidden="true">↗</span>
             </a>
             <a href="#compatibility" className={styles.secondaryAction}>
-              Run compatibility check
+              compatibility check
               <span aria-hidden="true">↓</span>
             </a>
           </div>

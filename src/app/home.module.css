@@ -111,19 +111,6 @@
     line-height: 1.65;
 }
 
-.heroText strong {
-    color: var(--text-primary);
-    font-weight: 800;
-}
-
-.heroTextBreak {
-    margin-top: 10px;
-}
-
-.heroTextCallout {
-    margin-top: 20px;
-}
-
 .heroActions {
     display: flex;
     flex-wrap: wrap;
@@ -649,6 +636,10 @@
     gap: 8px;
     color: var(--text-primary);
     line-height: 1.5;
+}
+
+.compatibilityResult .proofGroupStart {
+    margin-top: 12px;
 }
 
 .compatibilityResult li > span {
