@@ -1,3 +1,8 @@
+import cloudNativePgLogo from '@/assets/integrations/cloudnativepg.svg'
+import cniLogo from '@/assets/integrations/cni.svg'
+import kedaLogo from '@/assets/integrations/keda.svg'
+import karpenterLogo from '@/assets/integrations/karpenter.png'
+import kubeVirtLogo from '@/assets/integrations/kubevirt.svg'
 import amazonLogo from '@/assets/logos/amazon.svg'
 import microsoftLogo from '@/assets/logos/microsoft.svg'
 import type { StaticImageData } from 'next/image'
@@ -5,18 +10,20 @@ import {
   siAnsible,
   siArgo,
   siCilium,
+  siContainerd,
   siDatadog,
   siDynatrace,
+  siEtcd,
   siFlux,
   siGithub,
   siGnubash,
   siGo,
   siGooglecloud,
   siGrafana,
+  siHelm,
   siIstio,
   siJenkins,
   siKubernetes,
-  siLaravel,
   siLinux,
   siNextdotjs,
   siNodedotjs,
@@ -24,7 +31,6 @@ import {
   siOpenjdk,
   siOpentofu,
   siPagerduty,
-  siPhp,
   siPrometheus,
   siPuppet,
   siPython,
@@ -34,6 +40,7 @@ import {
   siSpring,
   siTerraform,
   siTypescript,
+  siVitess,
   type SimpleIcon,
 } from 'simple-icons'
 
@@ -48,6 +55,11 @@ export type IntegrationLogo =
       src: StaticImageData
       color: string
       wide?: boolean
+    }
+  | {
+      kind: 'image'
+      src: StaticImageData
+      color: string
     }
 
 export interface IntegrationItem {
@@ -78,22 +90,34 @@ const assetLogo = (
   wide,
 })
 
+const imageLogo = (src: StaticImageData, color: string): IntegrationLogo => ({
+  kind: 'image',
+  src,
+  color,
+})
+
 const javaLogo = () => simpleLogo(siOpenjdk, '#F89820')
 
 export const integrationGroups: IntegrationGroup[] = [
   {
-    id: 'cloud-network',
-    title: 'Cloud, orchestration & networking',
+    id: 'cloud-native',
+    title: 'Cloud Native',
     items: [
       { name: 'Google Cloud', logo: simpleLogo(siGooglecloud) },
       { name: 'AWS', logo: assetLogo(amazonLogo, '#FF9900', true) },
       { name: 'Azure', logo: assetLogo(microsoftLogo, '#00A4EF') },
-      { name: 'Azure AKS', logo: assetLogo(microsoftLogo, '#326CE5') },
       { name: 'Kubernetes', logo: simpleLogo(siKubernetes) },
-      { name: 'Argo CD', logo: simpleLogo(siArgo) },
-      { name: 'Flux CD', logo: simpleLogo(siFlux) },
       { name: 'Cilium', logo: simpleLogo(siCilium) },
       { name: 'Istio', logo: simpleLogo(siIstio) },
+      { name: 'Vitess', logo: simpleLogo(siVitess) },
+      { name: 'CloudNativePG', logo: assetLogo(cloudNativePgLogo, '#692ACA') },
+      { name: 'Helm', logo: simpleLogo(siHelm) },
+      { name: 'KubeVirt', logo: assetLogo(kubeVirtLogo, '#00AAB2') },
+      { name: 'KEDA', logo: assetLogo(kedaLogo, '#326DE6') },
+      { name: 'Karpenter', logo: imageLogo(karpenterLogo, '#326DE6') },
+      { name: 'etcd', logo: simpleLogo(siEtcd) },
+      { name: 'containerd', logo: simpleLogo(siContainerd) },
+      { name: 'CNI', logo: assetLogo(cniLogo, '#00B0AD') },
     ],
   },
   {
@@ -120,6 +144,8 @@ export const integrationGroups: IntegrationGroup[] = [
       { name: 'Jenkins', logo: simpleLogo(siJenkins) },
       { name: 'GitHub', logo: simpleLogo(siGithub, '#FFFFFF') },
       { name: 'Linux', logo: simpleLogo(siLinux) },
+      { name: 'Argo CD', logo: simpleLogo(siArgo) },
+      { name: 'Flux CD', logo: simpleLogo(siFlux) },
     ],
   },
   {
@@ -136,10 +162,6 @@ export const integrationGroups: IntegrationGroup[] = [
       { name: 'Java', logo: javaLogo() },
       { name: 'Spring', logo: simpleLogo(siSpring) },
       { name: 'Quarkus', logo: simpleLogo(siQuarkus) },
-      { name: 'PHP', logo: simpleLogo(siPhp) },
-      { name: 'Laravel', logo: simpleLogo(siLaravel) },
-      { name: 'EJB', logo: javaLogo() },
-      { name: 'JSP', logo: javaLogo() },
     ],
   },
 ]

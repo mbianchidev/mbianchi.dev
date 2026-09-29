@@ -397,7 +397,7 @@ test.describe('Static route experience', () => {
     expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
   });
 
-  test('renders the complete resume integration inventory with local marks', async ({ page }) => {
+  test('renders the complete cloud-native integration inventory with local marks', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const section = page.locator('section#integrations');
@@ -410,7 +410,17 @@ test.describe('Static route experience', () => {
     await expect(groups).toHaveCount(4);
     await expect(integrations).toHaveCount(declaredCount);
     expect(declaredCount).toBeGreaterThanOrEqual(30);
-    await expect(section.getByRole('link', { name: /inspect resume/i })).toBeVisible();
+    expect(
+      await groups.evaluateAll((items) =>
+        items.every((item) => item instanceof HTMLDetailsElement && item.open)
+      )
+    ).toBe(true);
+
+    const firstGroup = groups.first();
+    await firstGroup.locator('summary').click();
+    await expect(firstGroup).toHaveJSProperty('open', false);
+    await firstGroup.locator('summary').click();
+    await expect(firstGroup).toHaveJSProperty('open', true);
 
     const integrationState = await integrations.evaluateAll((items) =>
       items.map((item) => ({

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Image from 'next/image'
 import type { CSSProperties } from 'react'
 import styles from '@/app/home.module.css'
 import {
@@ -16,6 +16,21 @@ type IntegrationAssetStyle = CSSProperties & {
 }
 
 function IntegrationMark({ logo }: { logo: IntegrationLogo }) {
+  if (logo.kind === 'image') {
+    return (
+      <Image
+        data-integration-logo
+        aria-hidden="true"
+        src={logo.src}
+        alt=""
+        width={28}
+        height={28}
+        className={`${styles.integrationMark} ${styles.integrationImageMark}`}
+        loading="eager"
+      />
+    )
+  }
+
   if (logo.kind === 'asset') {
     return (
       <span
@@ -50,13 +65,10 @@ export function Toolchain() {
       <div className={styles.toolchainLead}>
         <h2 id="toolchain-title">Tools I can use without turning them into a personality.</h2>
         <p>
-          Every mark below appears in the current resume. Some are daily
-          drivers. Some are proof the migration happened.
+          Current and previous tools across cloud native, delivery,
+          observability, and software. Some are daily drivers. Some are proof
+          the migration happened.
         </p>
-        <Link href="/resume" className={styles.inkAction}>
-          Inspect resume
-          <span aria-hidden="true">↗</span>
-        </Link>
       </div>
       <div
         className={styles.integrationPanel}
@@ -64,42 +76,39 @@ export function Toolchain() {
         data-integration-count={integrationCount}
       >
         <div className={styles.integrationPanelMeta}>
-          <code>resume.integrations</code>
+          <code>matteo.integrations</code>
           <span>{integrationCount} technologies loaded</span>
         </div>
-        {integrationGroups.map((group) => {
-          const titleId = `integration-group-${group.id}`
-
-          return (
-            <section
-              key={group.id}
-              className={styles.integrationGroup}
-              data-integration-group={group.id}
-              aria-labelledby={titleId}
-            >
-              <div className={styles.integrationGroupHeader}>
-                <h3 id={titleId}>{group.title}</h3>
-                <span>{group.items.length} loaded</span>
-              </div>
-              <ul className={styles.integrationList}>
-                {group.items.map((item) => (
-                  <li
-                    key={item.name}
-                    data-integration={item.name}
-                    style={
-                      {
-                        '--integration-color': item.logo.color,
-                      } as IntegrationItemStyle
-                    }
-                  >
-                    <IntegrationMark logo={item.logo} />
-                    <strong>{item.name}</strong>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )
-        })}
+        {integrationGroups.map((group) => (
+          <details
+            key={group.id}
+            open
+            className={styles.integrationGroup}
+            data-integration-group={group.id}
+          >
+            <summary className={styles.integrationGroupSummary}>
+              <span className={styles.integrationGroupTitle}>{group.title}</span>
+              <span>{group.items.length} loaded</span>
+              <span className={styles.integrationDisclosure} aria-hidden="true" />
+            </summary>
+            <ul className={styles.integrationList}>
+              {group.items.map((item) => (
+                <li
+                  key={item.name}
+                  data-integration={item.name}
+                  style={
+                    {
+                      '--integration-color': item.logo.color,
+                    } as IntegrationItemStyle
+                  }
+                >
+                  <IntegrationMark logo={item.logo} />
+                  <strong>{item.name}</strong>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
       </div>
     </section>
   )
