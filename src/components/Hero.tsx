@@ -19,9 +19,10 @@ export function Hero() {
             Platform as a Human
           </h1>
           <p className={styles.heroText}>
-            I build developer platforms and software. I work with customers. I
-            automate boring work, then usually write about it or turn it into a
-            talk.
+            <span>Developer platform and software.</span>
+            <span>Easy to acquire new customers and even easier to retain current ones.</span>
+            <span>Automate the boring stuff, get a blog, talk and videos about your technology.</span>
+            <span>Deploy Matteo today.</span>
           </p>
           <div className={styles.heroActions}>
             <a
@@ -45,11 +46,7 @@ export function Hero() {
 
         <aside className={styles.productShell} aria-label="Matteo product specifications">
           <div className={styles.shellHeader}>
-            <span className={styles.productCode}>MATTEO / HUMAN PLATFORM</span>
-            <span className={styles.productStatus}>
-              <span className={styles.statusDot} aria-hidden="true" />
-              Ready to deploy
-            </span>
+            <span className={styles.productCode}>MATTEO</span>
           </div>
           <div className={styles.portraitFrame}>
             <ResponsivePortrait

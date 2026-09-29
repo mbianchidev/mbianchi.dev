@@ -560,14 +560,14 @@ test.describe('Static route experience', () => {
     await expect(proofArticles).toHaveCount(2);
     const featured = proofArticles.nth(0);
     const supporting = proofArticles.nth(1);
-    const [featuredBox, sendboxBox] = await Promise.all([
+    const [featuredBox, supportingBox] = await Promise.all([
       featured.boundingBox(),
       supporting.boundingBox(),
     ]);
 
     expect(featuredBox).not.toBeNull();
-    expect(sendboxBox).not.toBeNull();
-    expect(Math.abs(featuredBox!.height - sendboxBox!.height)).toBeLessThan(2);
+    expect(supportingBox).not.toBeNull();
+    expect(Math.abs(featuredBox!.height - supportingBox!.height)).toBeLessThan(2);
 
     const integrations = page.locator('#integrations');
     const integrationsColors = await integrations.evaluate((section) => {

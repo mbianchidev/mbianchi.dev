@@ -1,6 +1,30 @@
 {
   "projects": [
     {
+      "name": "Porto",
+      "description": "An open-source desktop control plane for local apps, containers, Compose, Kubernetes clusters, and Linux virtual machines",
+      "url": "https://github.com/mbianchidev/porto",
+      "stars": "0",
+      "techStack": [
+        "Go",
+        "TypeScript",
+        "Containers"
+      ],
+      "contribution": "Creator and maintainer"
+    },
+    {
+      "name": "Denote",
+      "description": "A local-first Markdown workspace with split panes, search, encryption, Git tools, and local PDF reading",
+      "url": "https://github.com/mbianchidev/denote",
+      "stars": "0",
+      "techStack": [
+        "TypeScript",
+        "Rust",
+        "Markdown"
+      ],
+      "contribution": "Creator and maintainer"
+    },
+    {
       "name": "Platform Engineering Roadmap",
       "description": "An opinionated interactive roadmap for engineers trying to make sense of platform engineering",
       "url": "https://github.com/mbianchidev/platform-engineering-roadmap",

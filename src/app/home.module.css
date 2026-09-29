@@ -102,6 +102,8 @@
 }
 
 .heroText {
+    display: grid;
+    gap: 10px;
     max-width: 60ch;
     margin: 30px 0 0;
     color: var(--text-secondary);
@@ -204,20 +206,6 @@
     font-size: 0.7rem;
     font-weight: 800;
     letter-spacing: 0.035em;
-}
-
-.productStatus {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--accent-color);
-}
-
-.statusDot {
-    width: 7px;
-    height: 7px;
-    background: currentColor;
-    border-radius: 50%;
 }
 
 .portraitFrame {

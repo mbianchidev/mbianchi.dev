@@ -47,7 +47,7 @@ export function Capabilities() {
         <p className={styles.sectionCode}>matteo.features()</p>
         <h2 id="capabilities-title">I have never been good at staying in one lane.</h2>
         <p>
-          Recruiters hate this. I still do all four.
+          Recruiters and some managers hate this. I still do all four.
         </p>
       </div>
 
