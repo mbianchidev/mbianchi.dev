@@ -11,6 +11,7 @@ This project is a satirical product launch for Matteo Bianchi: a personal portfo
 - A product-spec hero built around a real speaking photo
 - An asymmetric capability manifest covering platform engineering, Solutions Engineering, AI automation, and open-source education
 - An interactive compatibility lab with accessible default content
+- A resume-sourced integration manifest with 37 local technology marks
 - The original `main` branch “loved by” logo set plus GitHub, Replit, OpenAI, and Anthropic, upgraded into an accessible animated runway
 - Homepage runway logos are bundled locally and loaded eagerly so marquee motion never reveals unloaded placeholders
 - Responsive AVIF and WebP portrait sources with a JPEG fallback for static-export image delivery
@@ -52,6 +53,7 @@ This project was created to:
 - **TypeScript** - Type safety and better developer experience
 - **React 19** - Latest React features and hooks
 - **CSS3 + CSS Modules** - Shared tokens plus isolated homepage, shell, and inner-route systems
+- **Simple Icons** - Local, server-rendered technology marks for the integration manifest
 - **Playwright** - Route, interaction, responsive, and screenshot coverage
 - **ESLint** - Code linting and quality
 

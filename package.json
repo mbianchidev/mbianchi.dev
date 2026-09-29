@@ -23,7 +23,8 @@
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
-    "remark-html": "^16.0.1"
+    "remark-html": "^16.0.1",
+    "simple-icons": "^16.33.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

@@ -392,6 +392,49 @@ test.describe('Static route experience', () => {
     expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
   });
 
+  test('renders the complete resume integration inventory with local marks', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const panel = page.locator('[data-integration-panel]');
+    const groups = panel.locator('[data-integration-group]');
+    const integrations = panel.locator('[data-integration]');
+    const declaredCount = Number(await panel.getAttribute('data-integration-count'));
+
+    await expect(panel).toBeVisible();
+    await expect(groups).toHaveCount(4);
+    await expect(integrations).toHaveCount(declaredCount);
+    expect(declaredCount).toBeGreaterThanOrEqual(30);
+    await expect(panel.getByRole('link', { name: /inspect resume/i })).toBeVisible();
+
+    const integrationState = await integrations.evaluateAll((items) =>
+      items.map((item) => ({
+        name: item.getAttribute('data-integration'),
+        logoCount: item.querySelectorAll('[data-integration-logo]').length,
+      }))
+    );
+
+    expect(new Set(integrationState.map(({ name }) => name)).size).toBe(declaredCount);
+    expect(
+      integrationState.every(({ name, logoCount }) => Boolean(name?.trim()) && logoCount === 1)
+    ).toBe(true);
+
+    const desktopLayout = await panel.evaluate((element) => ({
+      columns: getComputedStyle(element.querySelector('ul')!).gridTemplateColumns.split(' ').length,
+      overflows: element.scrollWidth > element.clientWidth + 1,
+    }));
+    expect(desktopLayout).toEqual({ columns: 4, overflows: false });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+
+    const mobilePanel = page.locator('[data-integration-panel]');
+    const mobileLayout = await mobilePanel.evaluate((element) => ({
+      columns: getComputedStyle(element.querySelector('ul')!).gridTemplateColumns.split(' ').length,
+      overflows: element.scrollWidth > element.clientWidth + 1,
+    }));
+    expect(mobileLayout).toEqual({ columns: 1, overflows: false });
+  });
+
   test('shows the current year and month in the release badge', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.locator('html[data-hydrated="true"]').waitFor();
