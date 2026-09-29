@@ -395,7 +395,8 @@ test.describe('Static route experience', () => {
   test('renders the complete resume integration inventory with local marks', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const panel = page.locator('[data-integration-panel]');
+    const section = page.locator('section#integrations');
+    const panel = section.locator('[data-integration-panel]');
     const groups = panel.locator('[data-integration-group]');
     const integrations = panel.locator('[data-integration]');
     const declaredCount = Number(await panel.getAttribute('data-integration-count'));
@@ -404,7 +405,7 @@ test.describe('Static route experience', () => {
     await expect(groups).toHaveCount(4);
     await expect(integrations).toHaveCount(declaredCount);
     expect(declaredCount).toBeGreaterThanOrEqual(30);
-    await expect(panel.getByRole('link', { name: /inspect resume/i })).toBeVisible();
+    await expect(section.getByRole('link', { name: /inspect resume/i })).toBeVisible();
 
     const integrationState = await integrations.evaluateAll((items) =>
       items.map((item) => ({
