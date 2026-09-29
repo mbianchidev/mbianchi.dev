@@ -80,17 +80,6 @@ export default function CareersPage() {
         }
         description="A senior/staff full-time role where daily work is all about platforms and software, staying close to customers (or internal users), and keep contributing to open source."
         tone="cyan"
-        actions={
-          <a
-            href="https://cal.com/mbianchidev/intro"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.darkButton}
-          >
-            Start trial
-            <span aria-hidden="true">↗</span>
-          </a>
-        }
         aside={
           <dl className={styles.heroSpecs}>
             <div>
