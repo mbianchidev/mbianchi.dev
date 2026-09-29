@@ -19,6 +19,11 @@ const benchmarks: Benchmark[] = [
     source: 'Six product teams'
   },
   {
+    value: '10M+',
+    label: 'saved during an incident I led as SRE incident commander',
+    source: 'Production incident response and recovery'
+  },
+  {
     value: '0 → 10s',
     label: 'customers brought to early-stage startups',
     source: 'Technical delivery, product work, and go-to-market support',
