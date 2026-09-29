@@ -40,7 +40,7 @@ export function Hero() {
             </a>
           </div>
           <p className={styles.heroFinePrint}>
-            Looking for a full-time role. Still available for the occasional consulting job.
+            Looking for a full-time role. Always available for consulting and advisory work.
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export function Hero() {
             </div>
             <div className={styles.specRow}>
               <dt>Known quirk</dt>
-              <dd>Will automate the recurring task before lunch</dd>
+              <dd>VP of Karaoke at company offsites</dd>
             </div>
           </dl>
         </aside>
