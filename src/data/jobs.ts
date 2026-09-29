@@ -10,9 +10,7 @@ export interface CareerRole {
   responsibilities: string[]
   requirements: string[]
   success: string[]
-  evidenceTitle?: string
-  evidenceIntro?: string
-  evidence: string[]
+  candidateProfile: string[]
 }
 
 export const careerRoles: CareerRole[] = [
@@ -49,11 +47,12 @@ export const careerRoles: CareerRole[] = [
       'Reliability, security, and cost improve without turning the platform into a mandatory abstraction tax.',
       'Teams understand the paved road, the escape hatches, and the trade-offs behind both.',
     ],
-    evidence: [
-      'Built platform APIs and zero-touch onboarding for 70+ engineers across six product teams.',
-      'Helped operate infrastructure and APIs used by more than 10 million people every day.',
-      'Co-founded KubeLab and moved a multi-cloud Kubernetes platform from idea to MVP.',
-      'Delivered Platform Engineering and Kubernetes training to 500+ alumni with 95% surveyed CSAT.',
+    candidateProfile: [
+      'At least 7+ years of software, platform, infrastructure, or reliability engineering experience.',
+      'Built platform APIs, self-service workflows, and automation used by multiple engineering teams.',
+      'Deep production experience with Kubernetes, cloud infrastructure, infrastructure as code, GitOps, and CI/CD.',
+      'Strong programming skills, with a preference for Go, Python, or TypeScript.',
+      'Led cross-team platform initiatives and improved developer adoption without relying on mandates.',
     ],
   },
   {
@@ -89,11 +88,12 @@ export const careerRoles: CareerRole[] = [
       'Operational toil decreases while safe deployment velocity increases.',
       'Teams use SLOs and post-incident learning to make real prioritisation decisions.',
     ],
-    evidence: [
-      'Led reliability for products serving 10M+ daily users across Europe, North America, and Latin America.',
-      'Prevented an estimated €10M+ in SLA breach costs while operating as an incident commander.',
-      'Reduced cloud costs by 30–40% while improving application performance by 15–20%.',
-      'Reduced bugs and incident impact by about 30% through delivery, observability, alerting, and supply-chain improvements.',
+    candidateProfile: [
+      'At least 7+ years of software, infrastructure, platform, or Site Reliability Engineering experience.',
+      'Operated high-traffic production systems with clear service objectives, on-call ownership, and incident response.',
+      'Built observability and operational automation instead of only configuring monitoring tools.',
+      'Led incidents and post-incident improvements while creating a blameless reliability culture.',
+      'Strong programming, Linux, cloud, Kubernetes, networking, and distributed-systems fundamentals.',
     ],
   },
   {
@@ -129,8 +129,7 @@ export const careerRoles: CareerRole[] = [
       'Architecture decisions remain legible after the original author leaves the room.',
       'Teams spend less time compensating for unclear ownership, brittle interfaces, and repeated manual work.',
     ],
-    evidenceTitle: 'Who you need to be',
-    evidence: [
+    candidateProfile: [
       'At least 7+ years of software engineering experience.',
       'Built platform APIs, services, and automation used by 70+ engineers and millions of end users.',
       'Worked with different programming languages, with a preference for Go, Python, and TypeScript (Node.js, React).',
@@ -171,11 +170,12 @@ export const careerRoles: CareerRole[] = [
       'Evaluation and telemetry catch regressions before users have to explain that the assistant became worse.',
       'Users adopt the workflow because it fits their job, not because the interface says AI.',
     ],
-    evidence: [
-      'Created an internal OpenClaw-style assistant that automated 20–25% of recurring Solutions Engineering work.',
-      'Connected agentic workflows to real internal tools and operational data rather than isolated chat experiences.',
-      'Applied platform, reliability, and software engineering practices to automation with human ownership.',
-      'Supported machine-learning workloads for computational pathology across bare-metal Kubernetes and Azure AKS.',
+    candidateProfile: [
+      'At least 7+ years of software engineering experience, including hands-on work with production AI or agentic systems.',
+      'Built agents and assistants connected to real tools, APIs, workflows, and governed data.',
+      'Strong Python or TypeScript skills with experience in LLM APIs, MCP, agent SDKs, and structured tool calling.',
+      'Implemented evaluations, tracing, observability, security boundaries, and human ownership for AI workflows.',
+      'Created automation that removed measurable developer, field, or operational toil.',
     ],
   },
   {
@@ -211,11 +211,12 @@ export const careerRoles: CareerRole[] = [
       'Technical content and events help people solve real problems and create qualified product feedback.',
       'Maintainers, advocates, and community members have sustainable processes and visible recognition.',
     ],
-    evidence: [
-      'Worked on Kubernetes releases v1.31 through v1.34 and now maintains Release Engineering.',
-      'Served as Branch Manager for v1.32, v1.33, and v1.34 and Communications Release Lead for v1.32.',
-      'Delivered public talks and workshops to more than 3,000 people and taught 500+ course alumni.',
-      'Advised startups through public companies on open-source strategy and delivered fractional DevRel and OSPO work.',
+    candidateProfile: [
+      'At least 7+ years across software engineering, open source, developer relations, or technical community leadership.',
+      'Maintained or made sustained upstream contributions to a significant open-source project.',
+      'Improved release, governance, contributor, or documentation processes rather than only promoting the project.',
+      'Delivered technical talks, workshops, documentation, and mentoring to large developer audiences.',
+      'Worked across engineering, Product, Field Marketing, OSPO, legal, and community stakeholders.',
     ],
   },
   {
@@ -251,11 +252,12 @@ export const careerRoles: CareerRole[] = [
       'Field feedback changes documentation, enablement, product priorities, or the product itself.',
       'Revenue, retention, and expansion improve alongside customer trust and technical outcomes.',
     ],
-    evidence: [
-      'Reached 185% quota at GitHub and won President’s Club for fiscal year 2026.',
-      'Reached 121% quota in the first eight months while supporting customers averaging 500 developers.',
-      'Worked closely with Sales, Field Marketing, Product, and OSPO and delivered talks at industry and open-source conferences.',
-      'Automated 20–25% of recurring Solutions Engineering work through an internal assistant.',
+    candidateProfile: [
+      'At least 7+ years in software, platform, cloud, or developer tooling with substantial customer-facing ownership.',
+      'Led technical discovery and turned ambiguous requirements into architecture, demos, proofs, and implementation plans.',
+      'Stayed hands-on enough to build and debug tailored solutions in complex customer environments.',
+      'Worked across corporate, mid-market, enterprise, and strategic accounts in multiple regions.',
+      'Delivered measurable commercial, adoption, retention, or expansion outcomes without sacrificing technical honesty.',
     ],
   },
 ]

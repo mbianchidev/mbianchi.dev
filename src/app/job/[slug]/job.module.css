@@ -41,8 +41,7 @@
 }
 
 .sectionHeading > p,
-.darkSectionHeading > p,
-.evidenceHeader > p {
+.darkSectionHeading > p {
     max-width: 48ch;
     margin: 24px 0 0;
     line-height: 1.7;
@@ -193,14 +192,7 @@
 }
 
 .evidenceHeader {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.5fr);
-    gap: 48px;
-    align-items: end;
-}
-
-.evidenceHeader > p {
-    color: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+    max-width: 760px;
 }
 
 .evidenceLedger {
@@ -262,8 +254,7 @@
 
 @media (max-width: 900px) {
     .mandateGrid,
-    .darkSectionHeading,
-    .evidenceHeader {
+    .darkSectionHeading {
         grid-template-columns: 1fr;
     }
 

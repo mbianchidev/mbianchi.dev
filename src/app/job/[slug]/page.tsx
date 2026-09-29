@@ -46,13 +46,6 @@ export default async function JobPage({ params }: JobPageProps) {
     notFound()
   }
 
-  const evidenceTitle = role.evidenceTitle ?? 'Evidence already shipped.'
-  const evidenceIntro =
-    role.evidenceIntro
-    ?? (role.evidenceTitle === undefined
-      ? 'Claims grounded in the current resume and public work.'
-      : undefined)
-
   return (
     <div className={innerStyles.page} data-job-description={role.id}>
       <PageHero
@@ -175,12 +168,11 @@ export default async function JobPage({ params }: JobPageProps) {
       <section className={styles.evidenceSection} aria-labelledby="evidence-title">
         <div className={styles.jobInner}>
           <div className={styles.evidenceHeader}>
-            <h2 id="evidence-title">{evidenceTitle}</h2>
-            {evidenceIntro && <p>{evidenceIntro}</p>}
+            <h2 id="evidence-title">Who you need to be</h2>
           </div>
           <ul className={styles.evidenceLedger}>
-            {role.evidence.map((item) => (
-              <li key={item} data-job-evidence>
+            {role.candidateProfile.map((item) => (
+              <li key={item} data-job-profile>
                 <span aria-hidden="true">✓</span>
                 <p>{item}</p>
               </li>

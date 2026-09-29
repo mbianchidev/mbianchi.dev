@@ -708,7 +708,9 @@ test.describe('Static route experience', () => {
       await expect(description.locator('[data-job-responsibility]')).toHaveCount(
         role.responsibilities.length
       );
-      await expect(description.locator('[data-job-evidence]')).toHaveCount(role.evidence.length);
+      await expect(description.locator('[data-job-profile]')).toHaveCount(
+        role.candidateProfile.length
+      );
       await expect(description.getByRole('link', { name: /back to careers/i })).toHaveAttribute(
         'href',
         '/careers/'
