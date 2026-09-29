@@ -53,7 +53,8 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'full-time',
     name: 'Max',
-    description: 'For a company that wants one senior engineer who can move between platforms, software, customers, and AI without opening four roles.',
+    description:
+      'For enterprises and well funded startups that want the equivalent of a senior/staff engineer who can move with ease between platforms, software, customers, open source and AI without opening too many roles.',
     price: 'Let’s talk',
     period: '',
     recommended: true,
