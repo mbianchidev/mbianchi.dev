@@ -11,11 +11,11 @@ export const metadata = createPageMetadata({
 })
 
 const principles = [
-  ['Start with the problem', 'Understand the workflow and the stakes before suggesting a system.'],
-  ['Stay technical', 'If I cannot get close to the implementation, the strategy is probably decorative.'],
-  ['Automate the boring bit', 'Repeated work should become a tool, not a recurring calendar event.'],
-  ['Deliver', 'Keep shipping high-quality, scalable, and maintainable software. Run extensive tests in CI, consider how to best handle CD and deploy to staging, test, and production, while keeping the loop observable and feeding insights back.'],
-  ['Explain the trade-off', 'Engineers, leaders, and customers should understand what they are agreeing to.'],
+  ['Start with the problem', 'Before designing a system, we understand the workflow, the users, the constraints, and what failure costs. We solve the problem that exists, not the one that makes the architecture look clever.'],
+  ['Stay technical', 'We stay close to the implementation, inspect the code and systems, and test assumptions against reality. If we cannot get close to the work, the strategy is probably decorative.'],
+  ['Automate the boring bit', 'When work repeats, we map the workflow, remove unnecessary steps, and automate the rest with clear ownership. The third repetition should become a tool, not another calendar event.'],
+  ['Deliver', 'We keep shipping high-quality, scalable, and maintainable software. We run extensive tests in CI, consider how to best handle CD and deploy to staging, test, and production, while keeping the loop observable and feeding insights back.'],
+  ['Explain the trade-off', 'We explain cost, risk, time, reversibility, and who owns the outcome. Engineers, leaders, customers, and internal users should understand what they are agreeing to.'],
 ]
 
 export default function CareersPage() {

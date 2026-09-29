@@ -7,6 +7,7 @@ export interface CareerRole {
   level: string
   scope: string
   compensationBasis: 'Base salary' | 'OTE'
+  compensation: CompensationBand[]
   mandate: string[]
   responsibilities: string[]
   requirements: string[]
@@ -14,26 +15,39 @@ export interface CareerRole {
   candidateProfile: string[]
 }
 
-export const compensationBands = [
-  {
-    id: 'emea',
-    market: 'EMEA',
-    range: '€180k–€250k',
-    context: 'Top-quartile target',
-  },
-  {
-    id: 'us-remote',
-    market: 'US remote',
-    range: '$200k–$250k',
-    context: 'Remote US target',
-  },
-  {
-    id: 'us-hubs',
-    market: 'US major hubs',
-    range: '$250k–$300k',
-    context: 'San Francisco, Seattle, New York, and comparable markets',
-  },
-] as const
+export interface CompensationBand {
+  id: 'emea' | 'us-remote' | 'us-hubs'
+  market: string
+  range: string
+  context: string
+}
+
+function createCompensationBands(
+  emea: string,
+  usRemote: string,
+  usHubs: string
+): CompensationBand[] {
+  return [
+    {
+      id: 'emea',
+      market: 'EMEA',
+      range: emea,
+      context: 'Top-quartile EMEA target',
+    },
+    {
+      id: 'us-remote',
+      market: 'US remote',
+      range: usRemote,
+      context: 'Remote US target',
+    },
+    {
+      id: 'us-hubs',
+      market: 'US major hubs',
+      range: usHubs,
+      context: 'San Francisco, Seattle, New York, and comparable markets',
+    },
+  ]
+}
 
 export const careerRoles: CareerRole[] = [
   {
@@ -46,6 +60,11 @@ export const careerRoles: CareerRole[] = [
     level: 'Senior / Staff',
     scope: 'Platform product',
     compensationBasis: 'Base salary',
+    compensation: createCompensationBands(
+      '€185k–€240k',
+      '$215k–$270k',
+      '$255k–$300k'
+    ),
     mandate: [
       'Build and evolve an internal developer platform that turns cloud, Kubernetes, delivery, security, and observability capabilities into paved roads teams actively choose.',
       'This is a staff-shaped individual-contributor role: own ambiguous cross-team problems, set technical direction, stay hands-on in APIs and tooling, and treat developers as users rather than ticket submitters.',
@@ -88,6 +107,11 @@ export const careerRoles: CareerRole[] = [
     level: 'Senior / Staff',
     scope: 'Reliability systems',
     compensationBasis: 'Base salary',
+    compensation: createCompensationBands(
+      '€180k–€235k',
+      '$210k–$265k',
+      '$250k–$295k'
+    ),
     mandate: [
       'Make reliability an engineering discipline: define service objectives, automate operational work, improve system resilience, and create incident practices that make the organisation safer rather than quieter.',
       'The role stays close to code and architecture. It should reduce toil and failure modes, not become a permanent escalation queue.',
@@ -130,6 +154,11 @@ export const careerRoles: CareerRole[] = [
     level: 'Senior / Staff',
     scope: 'Software systems',
     compensationBasis: 'Base salary',
+    compensation: createCompensationBands(
+      '€175k–€230k',
+      '$200k–$255k',
+      '$250k–$290k'
+    ),
     mandate: [
       'Own consequential software problems from architecture through operation: APIs, services, CLIs, interfaces, and automation that connect technical quality to a measurable product or business outcome.',
       'The role should combine staff-level technical direction with hands-on delivery, improving the surrounding system rather than optimising one isolated repository.',
@@ -172,6 +201,11 @@ export const careerRoles: CareerRole[] = [
     level: 'Senior / Staff',
     scope: 'Agentic systems',
     compensationBasis: 'Base salary',
+    compensation: createCompensationBands(
+      '€195k–€250k',
+      '$225k–$285k',
+      '$270k–$300k'
+    ),
     mandate: [
       'Build agentic systems around real workflows, tools, and data, with measurable value, explicit human ownership, and enough evaluation to know when the system is useful or wrong.',
       'This is software engineering with probabilistic components, not a prompt-writing role. Security, observability, failure handling, and product adoption remain first-class concerns.',
@@ -214,6 +248,11 @@ export const careerRoles: CareerRole[] = [
     level: 'Lead / Staff',
     scope: 'Open source strategy',
     compensationBasis: 'Base salary',
+    compensation: createCompensationBands(
+      '€165k–€210k',
+      '$180k–$225k',
+      '$250k–$275k'
+    ),
     mandate: [
       'Connect credible engineering work, contributor experience, product strategy, and public education into an open-source programme people can trust and participate in.',
       'The role should create healthy upstream relationships and useful feedback loops, not treat community as a distribution channel with a Discord server attached.',
@@ -256,6 +295,11 @@ export const careerRoles: CareerRole[] = [
     level: 'Senior / Principal',
     scope: 'Customer outcomes',
     compensationBasis: 'OTE',
+    compensation: createCompensationBands(
+      '€180k–€250k',
+      '$200k–$270k',
+      '$250k–$300k'
+    ),
     mandate: [
       'Own the technical path from an ambiguous customer problem to architecture, proof, implementation, adoption, and a measurable business outcome.',
       'This role should stay hands-on after the call: build the tailored demo, inspect the integration, unblock delivery, and make sure product feedback survives contact with the roadmap.',

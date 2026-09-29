@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation'
 import { PageHero } from '@/components/PageHero'
 import {
   careerRoles,
-  compensationBands,
   getCareerRoleBySlug,
 } from '@/data/jobs'
 import { createPageMetadata } from '@/lib/siteMetadata'
@@ -181,7 +180,7 @@ export default async function JobPage({ params }: JobPageProps) {
             </p>
           </div>
           <dl className={styles.compensationGrid}>
-            {compensationBands.map((band) => (
+            {role.compensation.map((band) => (
               <div
                 key={band.id}
                 data-job-compensation={band.id}
