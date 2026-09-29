@@ -14,6 +14,7 @@ const principles = [
   ['Start with the problem', 'Understand the workflow and the stakes before suggesting a system.'],
   ['Stay technical', 'If I cannot get close to the implementation, the strategy is probably decorative.'],
   ['Automate the boring bit', 'Repeated work should become a tool, not a recurring calendar event.'],
+  ['Deliver', 'Keep shipping high-quality, scalable, and maintainable software. Run extensive tests in CI, consider how to best handle CD and deploy to staging, test, and production, while keeping the loop observable and feeding insights back.'],
   ['Explain the trade-off', 'Engineers, leaders, and customers should understand what they are agreeing to.'],
 ]
 
@@ -22,7 +23,13 @@ export default function CareersPage() {
     <div className={styles.page}>
       <PageHero
         path="/careers"
-        title="Yes, I am looking for a job."
+        title={
+          <>
+            Looking for a job?
+            <br />
+            Yes! See below.
+          </>
+        }
         description="A senior/staff full-time role where I can work on platforms and software, stay close to customers (or internal users), and keep contributing to open source."
         tone="cyan"
         actions={
@@ -89,7 +96,7 @@ export default function CareersPage() {
       <section className={styles.sectionLight} aria-labelledby="principles-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="principles-title">How I work.</h2>
+            <h2 id="principles-title">How we work.</h2>
             <p>If a principle disappears under deadline pressure, it was only decoration.</p>
           </div>
           <dl className={styles.principleList}>

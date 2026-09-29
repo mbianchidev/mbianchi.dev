@@ -6,7 +6,7 @@ type HeroTitleSize = 'default' | 'compact'
 
 interface PageHeroProps {
   path?: string
-  title: string
+  title: ReactNode
   description: ReactNode
   tone?: HeroTone
   titleSize?: HeroTitleSize
