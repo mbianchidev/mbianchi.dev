@@ -30,7 +30,7 @@ export default function CareersPage() {
             Yes! See below.
           </>
         }
-        description="A senior/staff full-time role where I can work on platforms and software, stay close to customers (or internal users), and keep contributing to open source."
+        description="A senior/staff full-time role where daily work is all about platforms and software, staying close to customers (or internal users), and keep contributing to open source."
         tone="cyan"
         actions={
           <a
@@ -97,7 +97,6 @@ export default function CareersPage() {
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
             <h2 id="principles-title">How we work.</h2>
-            <p>If a principle disappears under deadline pressure, it was only decoration.</p>
           </div>
           <dl className={styles.principleList}>
             {principles.map(([name, description]) => (

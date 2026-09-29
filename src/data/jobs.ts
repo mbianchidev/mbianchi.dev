@@ -288,11 +288,11 @@ export const careerRoles: CareerRole[] = [
   {
     id: 'solutions',
     slug: 'solutions-customer-success-architect',
-    title: 'Senior/Staff Solutions Engineer / Customer Success Architect',
+    title: 'Senior Solutions Engineer / Customer Success Architect',
     description:
       'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
     skills: ['Discovery', 'Architecture', 'Demos', 'GTM'],
-    level: 'Senior / Staff',
+    level: 'Senior',
     scope: 'Customer outcomes',
     compensationBasis: 'OTE',
     compensation: createCompensationBands(
