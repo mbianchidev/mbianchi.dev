@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import customersData from '../src/data/customers.json';
-import { careerRoles } from '../src/data/jobs';
+import { careerRoles, compensationBands } from '../src/data/jobs';
 import { linksPageConfig } from '../src/data/links';
 import projectsData from '../src/data/projects.json';
 import pathRedirects from '../src/data/redirects.json';
@@ -710,6 +710,9 @@ test.describe('Static route experience', () => {
       );
       await expect(description.locator('[data-job-profile]')).toHaveCount(
         role.candidateProfile.length
+      );
+      await expect(description.locator('[data-job-compensation]')).toHaveCount(
+        compensationBands.length
       );
       await expect(description.getByRole('link', { name: /back to careers/i })).toHaveAttribute(
         'href',

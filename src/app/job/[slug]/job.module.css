@@ -7,6 +7,7 @@
 .mandateSection,
 .ownershipSection,
 .specSection,
+.compensationSection,
 .evidenceSection {
     padding: clamp(82px, 10vw, 145px) clamp(20px, 5vw, 72px);
 }
@@ -186,6 +187,80 @@
     font-weight: 900;
 }
 
+.compensationSection {
+    color: var(--bg-primary);
+    background: var(--text-primary);
+}
+
+.compensationHeader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
+    gap: 48px;
+    align-items: end;
+}
+
+.compensationHeader h2 {
+    margin: 0;
+    color: var(--bg-primary);
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+}
+
+.compensationHeader p {
+    max-width: 52ch;
+    margin: 0;
+    color: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+    line-height: 1.7;
+}
+
+.compensationGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(52px, 7vw, 80px);
+    border-top: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+    border-left: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+}
+
+.compensationGrid > div {
+    min-width: 0;
+    padding: clamp(22px, 3vw, 34px);
+    border-right: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+}
+
+.compensationGrid dt {
+    color: color-mix(in srgb, var(--bg-primary) 62%, transparent);
+    font-size: 0.76rem;
+    font-weight: 900;
+}
+
+.compensationGrid dd {
+    display: grid;
+    gap: 8px;
+    margin: 18px 0 0;
+}
+
+.compensationGrid strong {
+    color: var(--bg-primary);
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.compensationGrid span {
+    color: var(--primary-color);
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.compensationGrid small {
+    color: color-mix(in srgb, var(--bg-primary) 58%, transparent);
+    line-height: 1.5;
+}
+
 .evidenceSection {
     color: var(--bg-primary);
     background: var(--primary-color);
@@ -254,7 +329,8 @@
 
 @media (max-width: 900px) {
     .mandateGrid,
-    .darkSectionHeading {
+    .darkSectionHeading,
+    .compensationHeader {
         grid-template-columns: 1fr;
     }
 
@@ -269,6 +345,10 @@
     .specGrid > section + section {
         border-top: 1px solid var(--border-color);
         border-left: 0;
+    }
+
+    .compensationGrid {
+        grid-template-columns: 1fr;
     }
 
     .jobClose {

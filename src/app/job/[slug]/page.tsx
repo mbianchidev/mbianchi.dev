@@ -2,7 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PageHero } from '@/components/PageHero'
-import { careerRoles, getCareerRoleBySlug } from '@/data/jobs'
+import {
+  careerRoles,
+  compensationBands,
+  getCareerRoleBySlug,
+} from '@/data/jobs'
 import { createPageMetadata } from '@/lib/siteMetadata'
 import innerStyles from '@/app/inner.module.css'
 import styles from './job.module.css'
@@ -162,6 +166,35 @@ export default async function JobPage({ params }: JobPageProps) {
               ))}
             </ul>
           </section>
+        </div>
+      </section>
+
+      <section className={styles.compensationSection} aria-labelledby="compensation-title">
+        <div className={styles.jobInner}>
+          <div className={styles.compensationHeader}>
+            <h2 id="compensation-title">Compensation target.</h2>
+            <p>
+              Top-quartile ranges for this scope.{' '}
+              {role.compensationBasis === 'OTE'
+                ? 'Ranges are on-target earnings; equity may be additional.'
+                : 'Ranges are base salary; equity and bonus may be additional.'}
+            </p>
+          </div>
+          <dl className={styles.compensationGrid}>
+            {compensationBands.map((band) => (
+              <div
+                key={band.id}
+                data-job-compensation={band.id}
+              >
+                <dt>{band.market}</dt>
+                <dd>
+                  <strong>{band.range}</strong>
+                  <span>{role.compensationBasis}</span>
+                  <small>{band.context}</small>
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
