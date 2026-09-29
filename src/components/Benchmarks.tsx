@@ -12,6 +12,11 @@ const benchmarks = [
     source: 'Six product teams'
   },
   {
+    value: '0 → 10s',
+    label: 'customers brought to early-stage startups',
+    source: 'Technical delivery, product work, and go-to-market support'
+  },
+  {
     value: '500+',
     label: 'learners trained in Platform Engineering and Kubernetes',
     source: '20+ talks · 20+ mentees · 5/5 stars as a mentor'

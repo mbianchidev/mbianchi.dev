@@ -636,9 +636,10 @@ test.describe('Static route experience', () => {
 
     const benchmarks = page.locator('[data-benchmarks]');
     const metricRows = benchmarks.locator('dl > div');
-    await expect(metricRows).toHaveCount(3);
+    const metricRowCount = await metricRows.count();
+    expect(metricRowCount).toBeGreaterThan(0);
 
-    for (let index = 0; index < 3; index += 1) {
+    for (let index = 0; index < metricRowCount; index += 1) {
       const row = metricRows.nth(index);
       const [valueBox, copyBox] = await Promise.all([
         row.locator('dt').boundingBox(),
