@@ -59,14 +59,6 @@ export function Hero() {
           </div>
           <dl className={styles.productSpecs}>
             <div className={styles.specRow}>
-              <dt>Runtime</dt>
-              <dd>Software engineering with customer-facing side effects</dd>
-            </div>
-            <div className={styles.specRow}>
-              <dt>Interfaces</dt>
-              <dd>Platforms / Solutions / Open Source / AI</dd>
-            </div>
-            <div className={styles.specRow}>
               <dt>Known quirk</dt>
               <dd>VP of Karaoke at company offsites</dd>
             </div>
