@@ -18,6 +18,7 @@ import infocert from '@/assets/customer-logos/ice.webp'
 import ing from '@/assets/customer-logos/ing.webp'
 import leonardo from '@/assets/customer-logos/leo.webp'
 import mentorCruise from '@/assets/customer-logos/mntcrs.webp'
+import microsoft from '@/assets/logos/microsoft.svg'
 import mvcTechnology from '@/assets/customer-logos/mvctch.webp'
 import nki from '@/assets/customer-logos/nki.webp'
 import omnistrate from '@/assets/customer-logos/omnistrate.svg'
@@ -50,6 +51,7 @@ export const customerLogos: Record<string, StaticImageData> = {
   ING: ing,
   LEO: leonardo,
   MNTCRS: mentorCruise,
+  MSFT: microsoft,
   MVCTCH: mvcTechnology,
   NKI: nki,
   OMN: omnistrate,

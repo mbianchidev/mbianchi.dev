@@ -29,6 +29,19 @@
       ]
     },
     {
+      "code": "MSFT",
+      "companyName": "Microsoft",
+      "countryFlag": "🇺🇸",
+      "companyType": "Enterprise",
+      "companySector": "Technology",
+      "companyUrl": "https://www.microsoft.com/",
+      "role": "GitHub Platform Enablement",
+      "story": "Supported engagements with strategic customers (e.g. the UN) and enabled Microsoft SEs on GitHub as a platform.",
+      "year": "2024-now",
+      "show": true,
+      "achievements": []
+    },
+    {
       "code": "FREE",
       "companyName": "SyncTune",
       "countryFlag": "🌐",
