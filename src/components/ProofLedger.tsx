@@ -14,7 +14,6 @@ export function ProofLedger() {
       <div className={styles.proofHeader}>
         <div>
           <h2 id="proof-title">Check the code.</h2>
-          <p>The code is public. Unfortunately, so is the commit history.</p>
         </div>
         <Link href="/portfolio" className={styles.textLink}>
           See all the code

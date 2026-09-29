@@ -597,6 +597,7 @@
 .compatibilityResult ul {
     display: grid;
     gap: 12px;
+    margin-top: clamp(28px, 4vw, 42px);
     margin-bottom: 32px;
 }
 
@@ -640,12 +641,6 @@
 .proofHeader h2 {
     font-size: clamp(3rem, 5.8vw, 5rem);
     line-height: 0.98;
-}
-
-.proofHeader p {
-    margin: 20px 0 0;
-    color: var(--text-secondary);
-    font-size: 1.08rem;
 }
 
 .proofLayout {
@@ -804,27 +799,30 @@
 }
 
 .toolchain {
-    display: grid;
-    grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
-    gap: clamp(48px, 9vw, 130px);
     padding: clamp(80px, 10vw, 140px) clamp(20px, 5vw, 72px);
     color: var(--bg-primary);
     background: var(--primary-color);
 }
 
 .toolchainLead {
-    justify-self: end;
-    max-width: 500px;
+    max-width: 1100px;
+    margin: 0 auto clamp(34px, 5vw, 54px);
+    text-align: center;
 }
 
 .toolchainLead h2 {
+    max-width: 16ch;
+    margin-right: auto;
+    margin-left: auto;
     color: var(--bg-primary);
     font-size: clamp(3rem, 5.4vw, 5rem);
     line-height: 0.96;
 }
 
 .integrationPanel {
-    align-self: start;
+    width: min(100%, 1100px);
+    margin-right: auto;
+    margin-left: auto;
     min-width: 0;
     overflow: hidden;
     color: var(--text-primary);
@@ -1281,8 +1279,7 @@
 
 @media (max-width: 1050px) {
     .heroGrid,
-    .compatibility,
-    .toolchain {
+    .compatibility {
         grid-template-columns: 1fr;
     }
 
@@ -1324,8 +1321,7 @@
         grid-column: 2;
     }
 
-    .compatibilityIntro,
-    .toolchainLead {
+    .compatibilityIntro {
         justify-self: start;
         max-width: 760px;
     }
