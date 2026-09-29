@@ -19,15 +19,21 @@ const benchmarks: Benchmark[] = [
     source: 'Six product teams'
   },
   {
-    value: '10M+',
+    value: '10M+ EUR',
     label: 'saved during an incident I led as SRE incident commander',
-    source: 'Production incident response and recovery'
+    source: 'Production incident response and recovery',
+    compact: true
   },
   {
     value: '0 → 10s',
     label: 'customers brought to early-stage startups',
     source: 'Technical delivery, product work, and go-to-market support',
     compact: true
+  },
+  {
+    value: '$600K',
+    label: 'ARR reached as a first-time co-founder',
+    source: 'Bootstrapped startup growth'
   },
   {
     value: '500+',
