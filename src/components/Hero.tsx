@@ -19,7 +19,7 @@ export function Hero() {
             Platform as a Human
           </h1>
           <p className={styles.heroText}>
-            <span>Developer platform and software.</span>
+            <span>Build platforms and software.</span>
             <span>Easy to acquire new customers and even easier to retain current ones.</span>
             <span>Automate the boring stuff, get a blog, talk and videos about your technology.</span>
             <span>Deploy Matteo today.</span>
