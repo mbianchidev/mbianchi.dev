@@ -1397,7 +1397,7 @@
 }
 
 .pricingPlan > p {
-    min-height: calc(1.65em * 4);
+    min-height: calc(1.65em * 5);
     margin: 26px 0 22px;
     color: color-mix(in srgb, var(--bg-primary) 76%, transparent);
     line-height: 1.65;
