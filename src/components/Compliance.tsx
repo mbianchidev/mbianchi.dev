@@ -112,10 +112,6 @@ export function Compliance() {
       <div className={styles.complianceInner}>
         <div className={styles.complianceLead}>
           <h2 id="compliance-title">Compliance boundaries.</h2>
-          <p>
-            We work within the boundaries of the following regulations,
-            standards, and assurance frameworks.
-          </p>
         </div>
         <ul className={styles.complianceGrid} data-compliance-grid>
           {frameworks.map((framework) => (

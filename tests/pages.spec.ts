@@ -434,7 +434,7 @@ test.describe('Static route experience', () => {
       integrationState.every(({ name, logoCount }) => Boolean(name?.trim()) && logoCount === 1)
     ).toBe(true);
 
-    const awsIntegration = integrations.filter('[data-integration="AWS"]');
+    const awsIntegration = panel.locator('[data-integration="AWS"]');
     const awsTooltip = awsIntegration.locator('[aria-hidden="true"]').last();
     await expect(awsIntegration).toHaveAttribute('aria-label', 'AWS');
     await expect(awsIntegration).toHaveAttribute('title', 'AWS');

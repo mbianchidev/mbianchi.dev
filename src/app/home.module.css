@@ -1016,10 +1016,6 @@
 }
 
 .benchmarkIntro {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    align-items: flex-end;
     margin-bottom: 60px;
 }
 
@@ -1027,12 +1023,6 @@
     max-width: 15ch;
     font-size: clamp(3rem, 5.5vw, 5rem);
     line-height: 0.98;
-}
-
-.benchmarkIntro p {
-    margin: 0 0 8px;
-    color: var(--text-secondary);
-    font-size: 1.05rem;
 }
 
 .report {
@@ -1160,10 +1150,7 @@
 }
 
 .complianceLead {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-    gap: 48px;
-    align-items: end;
+    max-width: 760px;
 }
 
 .complianceLead h2 {
@@ -1171,14 +1158,6 @@
     color: var(--bg-primary);
     font-size: clamp(3.2rem, 6.5vw, 5.8rem);
     line-height: 0.96;
-}
-
-.complianceLead p {
-    max-width: 58ch;
-    margin: 0;
-    color: color-mix(in srgb, var(--bg-primary) 72%, transparent);
-    font-size: 1.05rem;
-    line-height: 1.7;
 }
 
 .complianceGrid {
@@ -1351,10 +1330,6 @@
         max-width: 760px;
     }
 
-    .complianceLead {
-        grid-template-columns: 1fr;
-    }
-
     .complianceGrid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -1510,8 +1485,7 @@
         padding: 32px 24px;
     }
 
-    .proofHeader,
-    .benchmarkIntro {
+    .proofHeader {
         flex-direction: column;
         align-items: flex-start;
         margin-bottom: 44px;
