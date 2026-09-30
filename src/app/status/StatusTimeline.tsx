@@ -1,16 +1,17 @@
 'use client'
 
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
-import type { ScheduledStatusIncident, StatusSystemHistory } from '@/lib/status'
+import type { ScheduledStatusIncident, StatusDay, StatusSystemHistory } from '@/lib/status'
 import { dateFormatter, duration, percentage, severityLabels } from './statusFormatting'
 import styles from '@/app/inner.module.css'
 
 interface StatusTimelineProps {
   system: StatusSystemHistory
+  today: StatusDay
   incidents: readonly ScheduledStatusIncident[]
 }
 
-export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
+export function StatusTimeline({ system, today, incidents }: StatusTimelineProps) {
   const popoverId = useId()
   const triggerRef = useRef<HTMLButtonElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
@@ -18,8 +19,9 @@ export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
   const popoverHovered = useRef(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const [activeDate, setActiveDate] = useState<string | null>(null)
-  const incidentDays = system.days.filter(({ severity }) => severity !== 'operational')
-  const activeDay = system.days.find(({ date }) => date === activeDate)
+  const days = [...system.days, today]
+  const incidentDays = days.filter(({ severity }) => severity !== 'operational')
+  const activeDay = days.find(({ date }) => date === activeDate)
   const dayStart = activeDay ? new Date(`${activeDay.date}T00:00:00Z`).getTime() : 0
   const related = activeDay ? incidents.filter((incident) =>
     incident.systemIds.includes(system.id)
@@ -59,7 +61,7 @@ export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
       ? target.closest<HTMLElement>('[data-uptime-day]')
       : null
     if (element && triggerRef.current?.contains(element)) {
-      const date = system.days.find(({ date }) => date === element.dataset.uptimeDay)
+      const date = days.find(({ date }) => date === element.dataset.uptimeDay)
       return date?.severity !== 'operational' ? date?.date : undefined
     }
     const bounds = triggerRef.current?.getBoundingClientRect()
@@ -67,10 +69,10 @@ export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
       return undefined
     }
     const index = Math.max(0, Math.min(
-      system.days.length - 1,
-      Math.floor((clientX - bounds.left) / bounds.width * system.days.length)
+      days.length - 1,
+      Math.floor((clientX - bounds.left) / bounds.width * days.length)
     ))
-    const date = system.days[index]
+    const date = days[index]
     return date.severity === 'operational' ? undefined : date.date
   }
 
@@ -135,8 +137,9 @@ export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
         ref={triggerRef}
         type="button"
         className={styles.uptimeTrack}
+        style={{ gridTemplateColumns: `repeat(${days.length}, minmax(1px, 1fr))` }}
         data-status-timeline
-        aria-label={`${system.name}: ${percentage(system.metrics.availabilityPercentage)} availability. Inspect incident days with the left and right arrow keys.`}
+        aria-label={`${system.name}: ${percentage(system.metrics.availabilityPercentage)} availability over ${system.days.length} complete days, plus today so far. Inspect incident days with the left and right arrow keys.`}
         aria-controls={popoverId}
         aria-expanded={Boolean(activeDay)}
         aria-describedby={activeDay ? popoverId : undefined}
@@ -187,11 +190,12 @@ export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
           show(incidentDays[index]?.date)
         }}
       >
-        {system.days.map((date) => (
+        {days.map((date) => (
           <span
             key={date.date}
             data-uptime-day={date.date}
             data-severity={date.severity}
+            data-today={date.date === today.date ? true : undefined}
             data-active-day={activeDate === date.date ? true : undefined}
             className={styles.uptimeBar}
             aria-hidden="true"
@@ -222,6 +226,9 @@ export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
         {activeDay && (
           <>
             <time dateTime={activeDay.date}>{dateFormatter.format(dayStart)}</time>
+            {activeDay.date === today.date && (
+              <p className={styles.statusTodayNote}>Today so far (UTC)</p>
+            )}
             <dl className={styles.statusDayBreakdown}>
               <div>
                 <dt data-severity={activeDay.severity}>{severityLabels[activeDay.severity]}</dt>

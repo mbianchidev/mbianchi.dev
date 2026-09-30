@@ -727,15 +727,23 @@ test.describe('Static route experience', () => {
     await expect(page.locator('[data-status-availability]'))
       .toHaveText(`${snapshot.overall.availabilityPercentage.toFixed(3)}%`);
     await expect(page.locator('[data-uptime-day]'))
-      .toHaveCount(statusSystems.length * STATUS_WINDOW_DAYS);
+      .toHaveCount(statusSystems.length * (STATUS_WINDOW_DAYS + 1));
 
     for (const system of snapshot.systems) {
       const component = page.locator(`[data-status-component="${system.id}"]`);
       await expect(component.locator('[data-component-availability]'))
         .toContainText(`${system.metrics.availabilityPercentage.toFixed(3)}%`);
+      const today = snapshot.current.components.find(({ id }) => id === system.id)!.today;
+      await expect(component.locator('[data-uptime-day]').last())
+        .toHaveAttribute('data-uptime-day', '2026-09-30');
+      await expect(component.locator('[data-status-current-day]'))
+        .toHaveAttribute('datetime', '2026-09-30');
       for (const severity of ['operational', 'degraded', 'critical']) {
         await expect(component.locator(`[data-uptime-day][data-severity="${severity}"]`))
-          .toHaveCount(system.days.filter((date) => date.severity === severity).length);
+          .toHaveCount(
+            system.days.filter((date) => date.severity === severity).length
+            + Number(today.severity === severity)
+          );
       }
     }
 
@@ -867,6 +875,40 @@ test.describe('Static route experience', () => {
     }
   });
 
+  test('previews elapsed incident time on the current-day bar', async ({ page }, testInfo) => {
+    const incident = activeStatusExample('degraded');
+    const now = new Date(incident.startedAt + 60_000);
+    const current = getLiveStatus(now);
+    const component = current.components.find(({ today }) => today.severity !== 'operational');
+    if (!component) {
+      throw new Error('The mock current-day incident needs an affected component');
+    }
+    await page.clock.install({ time: now });
+    await page.clock.setFixedTime(now);
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const row = page.locator(`[data-status-component="${component.id}"]`);
+    const lastDay = row.locator('[data-uptime-day]').last();
+    await expect(lastDay).toHaveAttribute('data-uptime-day', component.today.date);
+    await expect(lastDay).toHaveAttribute('data-today', 'true');
+    await expect(lastDay).toHaveAttribute('data-severity', component.today.severity);
+    await expect(row.locator('[data-status-current-day]'))
+      .toHaveAttribute('datetime', component.today.date);
+    await lastDay.hover();
+    const popover = row.getByRole('tooltip');
+    await expect(popover).toHaveAttribute('data-popover-day', component.today.date);
+    await expect(popover.locator('[data-day-weighted-duration]')).toHaveAttribute(
+      'datetime', `PT${component.today.metrics.effectiveDowntimeMinutes}M`
+    );
+    expect(await popover.locator('[data-popover-incident]').evaluateAll((items) =>
+      items.map((item) => item.getAttribute('data-popover-incident'))
+    )).toEqual(current.todayIncidents
+      .filter(({ systemIds }) => systemIds.includes(component.id))
+      .map(({ instanceId }) => instanceId));
+    await page.screenshot({ path: testInfo.outputPath('status-today-popover.png') });
+  });
+
   test('advances the UTC status window without rewriting existing incident dates', async ({ page }) => {
     await page.clock.install({ time: new Date('2026-09-30T23:59:30Z') });
     await page.goto('/status', { waitUntil: 'domcontentloaded' });
@@ -881,6 +923,11 @@ test.describe('Static route experience', () => {
     await record.locator('summary').click();
     await page.clock.fastForward(60_000);
     await expect(dashboard).toHaveAttribute('data-status-reference-date', '2026-10-01');
+    for (const system of previousSnapshot.systems) {
+      await expect(
+        page.locator(`[data-status-component="${system.id}"] [data-uptime-day]`).last()
+      ).toHaveAttribute('data-uptime-day', '2026-10-01');
+    }
 
     const nextSnapshot = buildStatusSnapshot(new Date('2026-10-01T12:00:00Z'));
     const ids = await page.locator('[data-status-incident]').evaluateAll((incidents) =>

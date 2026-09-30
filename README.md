@@ -198,7 +198,10 @@ table expand the corresponding period's detailed records. The period selector
 also switches between the three historical windows. Hover or tap an incident day
 for its date, duration, weighted downtime, and related incidents. Each timeline
 is one keyboard stop: arrow keys inspect incident days, Home/End jump to the
-first/last, and Escape dismisses the preview.
+first/last, and Escape dismisses the preview. Timelines show the 90 complete
+historical days plus a separate live bar for today in UTC. Today's bar includes
+only elapsed downtime, retains earlier resolved incidents, and never shows future
+incidents. It does not change the completed-day availability percentage.
 
 The initial snapshot is exported as HTML. With JavaScript enabled, the UTC window
 refreshes daily without rewriting historical incident timestamps. Live component

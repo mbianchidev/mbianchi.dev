@@ -115,6 +115,40 @@ test.describe('Status availability model', () => {
     expect(snapshot.incidents.every(({ startedAt }) => startedAt < snapshot.windowEnd)).toBe(true);
   });
 
+  test('calculates only elapsed current-day downtime and excludes future incidents', () => {
+    const current = mockLiveIncident('mock-current', 'degraded', [statusSystems[0].id]);
+    const future = mockLiveIncident(
+      'mock-future', 'critical', [statusSystems[0].id], origin + 30 * minute, origin + 60 * minute
+    );
+    const live = getLiveStatus(new Date(origin + 10 * minute), [current, future]);
+    expect(live.todayIncidents).toEqual([current]);
+    const today = live.components[0].today;
+    expect(today.date).toBe('2030-01-01');
+    expect(today.severity).toBe('degraded');
+    expect(today.metrics.observedMinutes).toBe(10);
+    expect(today.metrics.degradedMinutes).toBe(10);
+    expect(today.metrics.effectiveDowntimeMinutes).toBe(5);
+  });
+
+  test('keeps resolved current-day incidents in the partial-day chart', () => {
+    const incident = mockLiveIncident(
+      'mock-resolved', 'critical', [statusSystems[0].id], origin, origin + 10 * minute
+    );
+    const live = getLiveStatus(new Date(origin + 20 * minute), [incident]);
+    expect(live.severity).toBe('operational');
+    expect(live.activeIncidents).toHaveLength(0);
+    expect(live.todayIncidents).toEqual([incident]);
+    expect(live.components[0].today.severity).toBe('critical');
+    expect(live.components[0].today.metrics.criticalMinutes).toBe(10);
+  });
+
+  test('represents midnight without inventing observed minutes', () => {
+    const live = getLiveStatus(new Date(origin), []);
+    expect(live.components[0].today.date).toBe('2030-01-01');
+    expect(live.components[0].today.metrics.observedMinutes).toBe(0);
+    expect(live.components[0].today.metrics.availabilityPercentage).toBeNull();
+  });
+
   test('keeps the approved downtime weights explicit', () => {
     expect(STATUS_AVAILABILITY_WEIGHTS).toEqual({
       degraded: 0.5,

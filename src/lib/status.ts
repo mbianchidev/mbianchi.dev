@@ -52,7 +52,9 @@ export interface StatusIncidentUpdate {
 export interface StatusDay {
   date: string
   severity: SystemSeverity
-  metrics: AvailabilityMetrics
+  metrics: Omit<AvailabilityMetrics, 'availabilityPercentage'> & {
+    availabilityPercentage: number | null
+  }
 }
 
 export interface StatusSystemHistory {
@@ -76,9 +78,11 @@ export interface LiveStatus {
   checkedAt: number
   severity: SystemSeverity
   activeIncidents: ScheduledStatusIncident[]
+  todayIncidents: ScheduledStatusIncident[]
   components: {
     id: StatusSystemId
     severity: SystemSeverity
+    today: StatusDay
   }[]
 }
 
@@ -404,17 +408,36 @@ export function getLiveStatus(
     validateIncidentInterval(incident)
     return incident.startedAt <= checkedAt && incident.resolvedAt > checkedAt
   })
+  const todayIncidents = scheduled.filter(({ startedAt, resolvedAt }) =>
+    startedAt <= checkedAt && resolvedAt > today
+  )
 
   return {
     checkedAt,
     severity: severityFromIncidents(activeIncidents),
     activeIncidents,
-    components: statusSystems.map(({ id }) => ({
-      id,
-      severity: severityFromIncidents(activeIncidents.filter(({ systemIds }) =>
-        systemIds.includes(id)
-      )),
-    })),
+    todayIncidents,
+    components: statusSystems.map(({ id }) => {
+      const affectedToday = todayIncidents.filter(({ systemIds }) => systemIds.includes(id))
+      return {
+        id,
+        severity: severityFromIncidents(activeIncidents.filter(({ systemIds }) =>
+          systemIds.includes(id)
+        )),
+        today: {
+          date: new Date(today).toISOString().slice(0, 10),
+          severity: severityFromIncidents(affectedToday),
+          metrics: checkedAt === today ? {
+            observedMinutes: 0,
+            operationalMinutes: 0,
+            degradedMinutes: 0,
+            criticalMinutes: 0,
+            effectiveDowntimeMinutes: 0,
+            availabilityPercentage: null,
+          } : calculateAvailability(affectedToday, today, checkedAt),
+        },
+      }
+    }),
   }
 }
 

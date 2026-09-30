@@ -37,8 +37,12 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
     if (!current) {
       throw new Error(`Missing live status for component "${system.id}"`)
     }
-    return { ...system, currentSeverity: current.severity }
+    return { ...system, currentSeverity: current.severity, today: current.today }
   })
+  const timelineIncidents = [...new Map(
+    [...snapshot.incidents, ...liveStatus.todayIncidents]
+      .map((incident) => [incident.instanceId, incident])
+  ).values()]
   const currentIncidents = liveStatus.activeIncidents.map((incident) => {
     const update = getIncidentUpdates(incident)
       .filter(({ timestamp }) => timestamp <= liveStatus.checkedAt)
@@ -209,7 +213,7 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
             <div>
               <h2 id="systems-title">Components</h2>
               <p>
-                The preceding {STATUS_WINDOW_DAYS} complete UTC days.
+                The preceding {STATUS_WINDOW_DAYS} complete UTC days plus today so far.
                 Degraded and critical time are weighted differently.
                 Live status is checked every minute.
               </p>
@@ -237,7 +241,11 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
                     {severityLabels[system.currentSeverity]}
                   </span>
                 </div>
-                <StatusTimeline system={system} incidents={snapshot.incidents} />
+                <StatusTimeline
+                  system={system}
+                  today={system.today}
+                  incidents={timelineIncidents}
+                />
                 <div className={styles.statusTimelineMeta}>
                   <time dateTime={isoDate(snapshot.windowStart)}>
                     {dateFormatter.format(snapshot.windowStart)}
@@ -245,8 +253,9 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
                   <strong data-component-availability>
                     {percentage(system.metrics.availabilityPercentage)} availability
                   </strong>
-                  <time dateTime={isoDate(snapshot.windowEnd - day)}>
-                    {dateFormatter.format(snapshot.windowEnd - day)}
+                  <time dateTime={system.today.date} data-status-current-day>
+                    {dateFormatter.format(new Date(`${system.today.date}T00:00:00Z`))}
+                    {' · Today (UTC)'}
                   </time>
                 </div>
               </article>
@@ -509,6 +518,7 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
             Critical minutes count as {STATUS_AVAILABILITY_WEIGHTS.critical * 100}% downtime.
             Overlapping incidents use the worst severity, so the same minute is never counted twice.
             Overall availability considers incidents across all components.
+            Availability uses complete days; the extra today bar shows elapsed time only.
           </p>
           <code tabIndex={0}>100 * (1 - effectiveDowntimeMinutes / observedMinutes)</code>
           <p>
