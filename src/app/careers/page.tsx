@@ -4,6 +4,7 @@ import {
   careerDepartments,
   careerLocations,
   careerRoles,
+  getCareerRoleListing,
 } from '@/data/jobs'
 import { createPageMetadata } from '@/lib/siteMetadata'
 import styles from '@/app/inner.module.css'
@@ -71,16 +72,7 @@ const values = [
   },
 ]
 
-const careerListings = careerRoles.map((role) => {
-  const department = careerDepartments.find(({ id }) => id === role.departmentId)
-  const location = careerLocations.find(({ id }) => id === role.locationId)
-
-  if (!department || !location) {
-    throw new Error(`Job "${role.id}" has an invalid department or location`)
-  }
-
-  return { role, department, location }
-})
+const careerListings = careerRoles.map(getCareerRoleListing)
 
 export default function CareersPage() {
   return (
@@ -109,16 +101,16 @@ export default function CareersPage() {
             total={careerRoles.length}
           />
           <div className={styles.roleList}>
-            {careerListings.map(({ role, department, location }) => (
+            {careerListings.map(({ role, department, locations }) => (
               <article
                 key={role.id}
                 data-career-role={role.id}
                 data-career-search={[
                   role.title,
                   department.label,
-                  location.label,
+                  ...locations.map(({ label }) => label),
                 ].join(' ').toLowerCase()}
-                data-career-location={location.id}
+                data-career-locations={role.locationIds.join(' ')}
                 data-career-department={department.id}
                 className={styles.roleRow}
               >
@@ -129,8 +121,10 @@ export default function CareersPage() {
                     <dd>{department.label}</dd>
                   </div>
                   <div>
-                    <dt>Location</dt>
-                    <dd>{location.label}</dd>
+                    <dt>Locations</dt>
+                    <dd data-career-location-list>
+                      {locations.map(({ label }) => label).join(' · ')}
+                    </dd>
                   </div>
                 </dl>
                 <Link

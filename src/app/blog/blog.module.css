@@ -172,6 +172,10 @@
     scroll-margin-top: 96px;
 }
 
+.archiveRow[hidden] {
+    display: none;
+}
+
 .archiveNumber {
     color: var(--text-tertiary);
     font-family: var(--font-display);

@@ -398,25 +398,26 @@ test.describe('Static route experience', () => {
     await page.locator('html[data-hydrated="true"]').waitFor();
 
     const search = page.locator('input[type="search"]');
-    const rows = page.locator('[data-blog-slug]');
+    const rows = page.locator('[data-blog-slug]:visible');
     const sampleRow = page.locator(`[data-blog-slug="${samplePost.slug}"]`);
 
     await search.fill(samplePost.title);
     await expect(sampleRow).toBeVisible();
-    expect(await rows.evaluateAll((items) => items.filter((item) => item.hidden).length)).toBeGreaterThan(0);
+    await expect.poll(() => rows.count()).toBeLessThan(publishedPosts.length);
 
     await search.fill('');
     await page.locator(`[data-blog-topic-filter="${topicId}"]`).click();
 
-    const visibleTopics = await rows.evaluateAll((items) =>
-      items
-        .filter((item) => !item.hidden)
-        .map((item) => item.getAttribute('data-blog-topic'))
-    );
-    expect(new Set(visibleTopics)).toEqual(new Set([topicId]));
+    await expect.poll(() =>
+      rows.evaluateAll((items) =>
+        items.map((item) => item.getAttribute('data-blog-topic'))
+      )
+    ).toEqual(publishedPosts
+      .filter((post) => post.category === samplePost.category)
+      .map(() => topicId));
 
     await page.locator('[data-blog-topic-filter="all"]').click();
-    expect(await rows.evaluateAll((items) => items.filter((item) => item.hidden).length)).toBe(0);
+    await expect(rows).toHaveCount(publishedPosts.length);
   });
 
   test('renders the company logo set', async ({ page }) => {
@@ -783,6 +784,13 @@ test.describe('Static route experience', () => {
     await expect(careerRoleRecords.locator('ul')).toHaveCount(0);
     await expect(page.locator('[data-career-role] > p')).toHaveCount(0);
     await expect(careerRoleRecords.locator('dl')).toHaveCount(careerRoles.length);
+    for (const role of careerRoles) {
+      const record = page.locator(`[data-career-role="${role.id}"]`);
+      expect(role.locationIds).toEqual(careerLocations.map(({ id }) => id));
+      await expect(record.locator('[data-career-location-list]')).toHaveText(
+        careerLocations.map(({ label }) => label).join(' · ')
+      );
+    }
 
     const workPrinciples = page.locator('[data-work-principle]');
     await expect(workPrinciples).toHaveCount(6);
@@ -810,39 +818,67 @@ test.describe('Static route experience', () => {
   });
 
   test('filters careers roles by search, location, and department', async ({ page }) => {
-    await page.goto('/careers', { waitUntil: 'domcontentloaded' });
-    await page.locator('html[data-hydrated="true"]').waitFor();
+    for (const viewport of [
+      { width: 390, height: 844 },
+      { width: 1600, height: 900 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/careers', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
 
-    const roles = page.locator('[data-career-role]');
-    const visibleRoleIds = () =>
-      roles.evaluateAll((items) =>
-        items
-          .filter((item) => !item.hidden)
-          .map((item) => item.getAttribute('data-career-role'))
-      );
+      const roles = page.locator('[data-career-role]:visible');
+      const visibleRoleIds = () =>
+        roles.evaluateAll((items) =>
+          items.map((item) => item.getAttribute('data-career-role'))
+        );
+      const search = page.getByRole('searchbox', { name: 'Search roles' });
+      await search.focus();
+      await page.keyboard.press('Tab');
+      await expect(page.getByLabel('Location')).toBeFocused();
+      await page.keyboard.press('Tab');
+      await expect(page.getByLabel('Department')).toBeFocused();
 
-    for (const location of careerLocations) {
-      await page.getByLabel('Location').selectOption(location.id);
-      expect(await visibleRoleIds()).toEqual(
+      for (const location of careerLocations) {
+        await page.getByLabel('Location').selectOption(location.id);
+        await expect.poll(visibleRoleIds).toEqual(
+          careerRoles
+            .filter((role) => role.locationIds.includes(location.id))
+            .map((role) => role.id)
+        );
+      }
+
+      await page.getByLabel('Location').selectOption('all');
+      const department = careerDepartments[0];
+      await page.getByLabel('Department').selectOption(department.id);
+      await expect.poll(visibleRoleIds).toEqual(
         careerRoles
-          .filter((role) => role.locationId === location.id)
+          .filter((role) => role.departmentId === department.id)
           .map((role) => role.id)
       );
+
+      await page.getByLabel('Department').selectOption('all');
+      const searchedRole = careerRoles[2];
+      await search.fill(`  ${searchedRole.title.toUpperCase()}  `);
+      await expect.poll(visibleRoleIds).toEqual([searchedRole.id]);
+
+      await page.getByLabel('Department').selectOption(department.id);
+      await expect(roles).toHaveCount(0);
+      await expect(page.getByRole('search').locator('p')).toBeVisible();
+
+      await search.fill('');
+      await expect.poll(visibleRoleIds).toEqual(
+        careerRoles
+          .filter((role) => role.departmentId === department.id)
+          .map((role) => role.id)
+      );
+      await page.getByLabel('Department').selectOption('all');
+      await expect.poll(visibleRoleIds).toEqual(careerRoles.map(({ id }) => id));
+      await expect(page.getByRole('search').locator('p')).toBeHidden();
+
+      expect(await page.evaluate(() =>
+        document.documentElement.scrollWidth > window.innerWidth
+      )).toBe(false);
     }
-
-    await page.getByLabel('Location').selectOption('all');
-    const department = careerDepartments[0];
-    await page.getByLabel('Department').selectOption(department.id);
-    expect(await visibleRoleIds()).toEqual(
-      careerRoles
-        .filter((role) => role.departmentId === department.id)
-        .map((role) => role.id)
-    );
-
-    await page.getByLabel('Department').selectOption('all');
-    const searchedRole = careerRoles[2];
-    await page.getByRole('searchbox', { name: 'Search roles' }).fill(searchedRole.title);
-    expect(await visibleRoleIds()).toEqual([searchedRole.id]);
   });
 
   test('publishes complete role descriptions from the careers source', async ({ page }) => {
@@ -851,6 +887,9 @@ test.describe('Static route experience', () => {
 
       const description = page.locator(`[data-job-description="${role.id}"]`);
       await expect(description).toBeVisible();
+      await expect(description.locator('[data-job-location-list]')).toHaveText(
+        careerLocations.map(({ label }) => label).join(' · ')
+      );
       await expect(description.locator('[data-job-responsibility]')).toHaveCount(
         role.responsibilities.length
       );

@@ -3,9 +3,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PageHero } from '@/components/PageHero'
 import {
-  careerDepartments,
-  careerLocations,
   careerRoles,
+  getCareerRoleListing,
   getCareerRoleBySlug,
 } from '@/data/jobs'
 import { createPageMetadata } from '@/lib/siteMetadata'
@@ -51,12 +50,7 @@ export default async function JobPage({ params }: JobPageProps) {
     notFound()
   }
 
-  const department = careerDepartments.find(({ id }) => id === role.departmentId)
-  const location = careerLocations.find(({ id }) => id === role.locationId)
-
-  if (!department || !location) {
-    throw new Error(`Job "${role.id}" has an invalid department or location`)
-  }
+  const { department, locations } = getCareerRoleListing(role)
 
   return (
     <div className={innerStyles.page} data-job-description={role.id}>
@@ -98,8 +92,10 @@ export default async function JobPage({ params }: JobPageProps) {
               <dd>{department.label}</dd>
             </div>
             <div>
-              <dt>Location</dt>
-              <dd>{location.label}</dd>
+              <dt>Locations</dt>
+              <dd data-job-location-list>
+                {locations.map(({ label }) => label).join(' · ')}
+              </dd>
             </div>
           </dl>
         }

@@ -23,6 +23,7 @@ This project is a satirical product launch for Matteo Bianchi: a personal portfo
 - An open-source proof ledger sourced from `src/data/projects.json`
 - A complete route system for field notes, changelog, open-source work, deployment history, pricing, legal, and support pages
 - Data-driven role descriptions under `/job/[slug]`, sourced from the careers inventory and resume evidence
+- A searchable careers ledger with department and location filters; every role is available in all listed locations
 - A configurable `/links` endpoint manifest sourced from `src/data/links.ts`
 - Original high-resolution organisation logos with a clean KubeLab monogram fallback throughout Customers
 - Verifiable contribution, speaking, and project benchmarks

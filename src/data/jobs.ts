@@ -17,12 +17,15 @@ export const careerDepartments = [
 export type CareerLocationId = (typeof careerLocations)[number]['id']
 export type CareerDepartmentId = (typeof careerDepartments)[number]['id']
 
+const allCareerLocationIds: readonly CareerLocationId[] =
+  careerLocations.map(({ id }) => id)
+
 export interface CareerRole {
   id: string
   slug: string
   title: string
   description: string
-  locationId: CareerLocationId
+  locationIds: readonly CareerLocationId[]
   departmentId: CareerDepartmentId
   level: string
   compensationBasis: 'Base salary' | 'OTE'
@@ -32,6 +35,26 @@ export interface CareerRole {
   requirements: string[]
   success: string[]
   candidateProfile: string[]
+}
+
+export function getCareerRoleListing(role: CareerRole) {
+  const department = careerDepartments.find(({ id }) => id === role.departmentId)
+
+  if (!department) {
+    throw new Error(`Job "${role.id}" has an invalid department: "${role.departmentId}"`)
+  }
+
+  const locations = role.locationIds.map((locationId) => {
+    const location = careerLocations.find(({ id }) => id === locationId)
+
+    if (!location) {
+      throw new Error(`Job "${role.id}" has an invalid location: "${locationId}"`)
+    }
+
+    return location
+  })
+
+  return { role, department, locations }
 }
 
 export interface CompensationBand {
@@ -75,7 +98,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior/Staff Platform Engineer',
     description:
       'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service people do not need a ticket to use.',
-    locationId: 'amsterdam-remote',
+    locationIds: allCareerLocationIds,
     departmentId: 'platform-engineering',
     level: 'Senior / Staff',
     compensationBasis: 'Base salary',
@@ -122,7 +145,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Staff Site Reliability Engineer',
     description:
       'Production reliability, observability, incident response, performance, and automation for systems people depend on.',
-    locationId: 'london-remote',
+    locationIds: allCareerLocationIds,
     departmentId: 'platform-engineering',
     level: 'Staff',
     compensationBasis: 'Base salary',
@@ -169,7 +192,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior/Staff Software Engineer',
     description:
       'APIs, services, CLIs, interfaces, automation, and system design in Go, Python, TypeScript, Rust, and React.',
-    locationId: 'berlin-remote',
+    locationIds: allCareerLocationIds,
     departmentId: 'software-engineering',
     level: 'Senior / Staff',
     compensationBasis: 'Base salary',
@@ -216,7 +239,7 @@ export const careerRoles: CareerRole[] = [
     title: 'AI Engineer, Developer Automation',
     description:
       'Agents, assistants, MCP integrations, and automation for jobs people already do. No chatbot looking for a reason to exist.',
-    locationId: 'barcelona-remote',
+    locationIds: allCareerLocationIds,
     departmentId: 'software-engineering',
     level: 'Senior / Staff',
     compensationBasis: 'Base salary',
@@ -263,7 +286,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Open Source & Community Lead',
     description:
       'Upstream contributions, open-source strategy, technical education, speaking, mentorship, and community work.',
-    locationId: 'san-francisco-hybrid',
+    locationIds: allCareerLocationIds,
     departmentId: 'open-source-community',
     level: 'Lead / Staff',
     compensationBasis: 'Base salary',
@@ -310,7 +333,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior Solutions Engineer / Customer Success Architect',
     description:
       'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
-    locationId: 'seattle-hybrid',
+    locationIds: allCareerLocationIds,
     departmentId: 'customer-success',
     level: 'Senior',
     compensationBasis: 'OTE',

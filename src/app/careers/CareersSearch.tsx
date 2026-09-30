@@ -40,7 +40,7 @@ export function CareersSearch({
         || (role.dataset.careerSearch ?? '').includes(normalizedQuery)
       const matchesLocation =
         activeLocation === 'all'
-        || role.dataset.careerLocation === activeLocation
+        || (role.dataset.careerLocations ?? '').split(' ').includes(activeLocation)
       const matchesDepartment =
         activeDepartment === 'all'
         || role.dataset.careerDepartment === activeDepartment

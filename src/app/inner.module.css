@@ -1042,11 +1042,12 @@
 }
 
 .careerFilterField input::placeholder {
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 .careerSearchStatus {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
     align-items: center;
@@ -1078,6 +1079,10 @@
     border-bottom: 1px solid var(--border-color);
 }
 
+.roleRow[hidden] {
+    display: none;
+}
+
 .roleRow h3 {
     margin: 0;
     color: var(--text-primary);
@@ -1088,8 +1093,7 @@
 
 .roleDetails {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    gap: 16px;
     margin: 0;
 }
 
@@ -1099,7 +1103,7 @@
 }
 
 .roleDetails dt {
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
     font-size: 0.75rem;
     font-weight: 800;
 }
@@ -1108,6 +1112,7 @@
     color: var(--text-primary);
     font-size: 0.9rem;
     font-weight: 800;
+    line-height: 1.6;
 }
 
 .roleRow > .primaryButton {
