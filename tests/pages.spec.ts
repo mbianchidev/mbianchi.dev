@@ -762,7 +762,7 @@ test.describe('Static route experience', () => {
       )
     ).toEqual(['platform', 'sre', 'software', 'ai-automation', 'open-source', 'solutions']);
     expect(
-      await careerRoles.locator('a').evaluateAll((links) =>
+      await careerRoles.locator('[data-career-apply]').evaluateAll((links) =>
         links.map((link) => link.getAttribute('href'))
       )
     ).toEqual([

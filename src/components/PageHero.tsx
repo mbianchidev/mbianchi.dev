@@ -7,7 +7,7 @@ type HeroTitleSize = 'default' | 'compact'
 interface PageHeroProps {
   path?: string
   title: ReactNode
-  description: ReactNode
+  description?: ReactNode
   tone?: HeroTone
   titleSize?: HeroTitleSize
   actions?: ReactNode
@@ -41,7 +41,7 @@ export function PageHero({
           >
             {title}
           </h1>
-          <p className={styles.heroDescription}>{description}</p>
+          {description && <p className={styles.heroDescription}>{description}</p>}
           {actions && <div className={styles.heroActions}>{actions}</div>}
         </div>
         {aside && <aside className={styles.heroAside}>{aside}</aside>}

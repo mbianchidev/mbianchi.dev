@@ -75,27 +75,10 @@ export default function CareersPage() {
           <>
             Looking for a job?
             <br />
-            Yes! See below.
+            Yes!
           </>
         }
-        description="A senior/staff full-time role where daily work is all about platforms and software, staying close to customers (or internal users), and keep contributing to open source."
         tone="cyan"
-        aside={
-          <dl className={styles.heroSpecs}>
-            <div>
-              <dt>Availability</dt>
-              <dd>Actively interviewing</dd>
-            </div>
-            <div>
-              <dt>Primary model</dt>
-              <dd>Full-time</dd>
-            </div>
-            <div>
-              <dt>Consulting</dt>
-              <dd>Selective</dd>
-            </div>
-          </dl>
-        }
       />
 
       <section className={styles.sectionDark} aria-labelledby="roles-title">
@@ -119,9 +102,12 @@ export default function CareersPage() {
                       <li key={skill}>{skill}</li>
                     ))}
                   </ul>
-                  <Link href={`/job/${role.slug}`} className={styles.roleLink}>
-                    Read role description
-                    <span aria-hidden="true">→</span>
+                  <Link
+                    href={`/job/${role.slug}`}
+                    className={styles.primaryButton}
+                    data-career-apply
+                  >
+                    Apply
                   </Link>
                 </div>
               </article>
