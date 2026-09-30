@@ -1,8 +1,8 @@
 import { Benchmarks } from '@/components/Benchmarks'
 import { Capabilities } from '@/components/Capabilities'
+import { Compliance } from '@/components/Compliance'
 import { CompatibilityLab } from '@/components/CompatibilityLab'
 import { Hero } from '@/components/Hero'
-import { KnownIssues } from '@/components/KnownIssues'
 import { ProofLedger } from '@/components/ProofLedger'
 import { Toolchain } from '@/components/Toolchain'
 import { TrustedBy } from '@/components/TrustedBy'
@@ -25,7 +25,7 @@ export default function Home() {
       <ProofLedger />
       <Toolchain />
       <Benchmarks />
-      <KnownIssues />
+      <Compliance />
     </div>
   )
 }

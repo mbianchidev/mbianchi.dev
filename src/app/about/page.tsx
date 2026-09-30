@@ -5,7 +5,7 @@ import styles from './about.module.css'
 const chapters = [
   {
     marker: 'Before 2015',
-    title: 'Curiosity beat the syllabus.',
+    title: 'Curiosity > Going to university',
     body: (
       <>
         <p>
@@ -47,7 +47,7 @@ const chapters = [
         <p>
           As an employee, I started as a full-stack developer at a small company building
           embedded software in C and internal tools in C#. Then I joined a promising local
-          startup, still as a full-stack developer, but back to PHP with a Laravel flavour.
+          startup, still as a full-stack developer, but back to PHP with a Laravel flavor.
         </p>
         <p>
           The only other developer, who was also my mentor, left after just a few weeks. I found
@@ -66,7 +66,7 @@ const chapters = [
     body: (
       <>
         <p>
-          After high school I moved to Milan, switched languages to specialise in Java, and built
+          After high school I moved to Milan, switched languages to specialize in Java, and built
           my back end as a Software Engineer. I climbed the ladder, worked on large-scale products
           serving more than eight million users at the time. It serves more than ten million
           today. Eventually, I became a Senior Software Engineer.
@@ -85,7 +85,7 @@ const chapters = [
           I joined the dark side of DevOps and Site Reliability Engineering, bringing the best of
           my software engineering background with me. I led DevOps initiatives, improved DORA
           metrics. We measured before changing anything. I also helped multiple teams move from
-          zero to GitOps.
+          zero to GitOps and built a platform to make it simple.
         </p>
       </>
     ),
@@ -108,7 +108,8 @@ const chapters = [
         <p>
           I took on far more clients than I could handle. That meant endless weeks, nights, and
           weekends spent grinding. Yes, I made more money than ever before. Honestly, more than
-          I have since. It was a ridiculous amount of money every month.
+          I have since. It was a ridiculous amount of money every month, but I wanted more. No,
+          not more money. I wanted to have more of a positive impact in the world. I still do.
         </p>
         <p>
           I coached and mentored people on DevOps principles and practices and, in hindsight, on
@@ -120,33 +121,36 @@ const chapters = [
           TypeScript made me like it a little more. It is still not my thing, but I can live with
           it. Node.js is more fun than I expected; I will give you that. This joined Python and Go
           in my main toolbox, with a pinch of C, C++, and C# from the past. PHP? Gone. I do not
-          want to touch it anymore. Sorry.
+          want to touch it anymore. Sorry. At least I started writing way more Golang by then,
+          which is still amongst my favorite languages to work with.
         </p>
       </>
     ),
   },
   {
     marker: '2023',
-    title: 'Cofounder, CTO, and a hard lesson.',
+    title: 'Co-founder, CTO, and a hard lesson.',
     body: (
       <>
         <p>
           After working across Europe as a digital nomad, I joined KubeLab in 2023 as a late
-          cofounder and CTO. I guided its pivot from a bootstrapped consultancy to a product
+          co-founder and CTO. I guided its pivot from a bootstrapped consultancy to a product
           company.
         </p>
         <p>
           It was a hell of a year. I enjoyed building a new company culture, revolutionising its
-          services, taking a product from zero to one end to end, and caring for my team until the
-          very end. I even gave up my severance so theirs could be paid. It was only fair. Big tech
-          can definitely do better when laying people off for no reason.
+          services, taking a product from zero to one. Design and build an entire system end to
+          end, not tailored to a single company but flexible enough to be used by many. Most
+          importantly I kept caring for my team until the very end, even when we run out of money
+          (long story short: no product market fit, high costs). I rightfully gave up my severance,
+          so theirs could be paid. It was only fair. Big tech can definitely do better when laying
+          people off for no reason.
         </p>
         <aside className={`${styles.marginNote} ${styles.warningNote}`}>
-          Note to self: equal ownership, or you are not a cofounder.
+          Note to self: equal ownership stakes (%), or you are not a co-founder.
         </aside>
         <p>
-          Like many startups, we could not find product-market fit and had to step back. Failure
-          became the greatest teacher.
+          Like many startups founders and Yoda can attest: failure is the greatest teacher.
         </p>
       </>
     ),
@@ -158,8 +162,9 @@ const chapters = [
       <>
         <p>
           I kept advocating for cloud native technologies. I started contributing to Kubernetes
-          upstream in 2024 and, as of 2026, I am still going. I have also been a CNCF Ambassador
-          since 2024, with a term set to run at least through 2028.
+          upstream in 2024 and, as of mid 2026 I went on a hiatus to focus on my career. I have
+          also been a CNCF Ambassador since 2024, with a term set to run at least through late
+          2027.
         </p>
         <p>
           I strongly believe in the power of Platform Engineering. I co-authored the CNPA exam
@@ -168,8 +173,13 @@ const chapters = [
         </p>
         <p>
           After a short chapter at a Y Combinator W23 startup, where I joined as employee number
-          15 and became the effective Head of DevRel and Marketing. I was also the only DevRel,
-          to be fair. Then I joined GitHub as a Solutions Engineer.
+          15 and became the Head of DevRel, Marketing and Field Engineering. And well, I was also
+          the only DevRel, to be fair. I was given a false promise of a US Visa, which is the main
+          reason why I&apos;ve quit that job.
+        </p>
+        <p>
+          So, after that not-so-great experience, I joined GitHub as a Solutions Engineer. Always
+          with the idea to go back to Engineering proper one day.
         </p>
         <p>
           Pre-sales is not really my thing, but I enjoy talking with customers and diving into the
@@ -193,10 +203,6 @@ export default function About() {
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
             <h1 id="about-title">A note from our CEO.</h1>
-            <p className={styles.lede}>
-              The title is part of the product joke. The story is not. Curiosity, stubbornness,
-              bad decisions, good decisions, and a few failures brought me here.
-            </p>
             <a className={styles.jumpLink} href="#the-note">
               Read the note
               <span aria-hidden="true">↓</span>
@@ -221,11 +227,12 @@ export default function About() {
       <article id="the-note" className={styles.letter} aria-label="A note from Matteo Bianchi">
         <div className={styles.letterHeader}>
           <div>
-            <h2>I learned by doing. Then I kept going.</h2>
+            <h2>I learn by doing, then I keep doing. I just do the work.</h2>
             <p>
-              This is not a polished founder myth. It is the longer, messier version: the boring
-              school days, the lie that led to Kubernetes, the startup that did not find its
-              market, and the communities and people who made the work worth doing.
+              This is not a rainbow and roses story. My career started messy: the boring and
+              turbulent school days, the lie that led me to learn Kubernetes in a few weeks, my
+              first startup that did not find its market and me being a naive founder. It&apos;s
+              also about the OSS community and people who make the work worth doing.
             </p>
           </div>
         </div>

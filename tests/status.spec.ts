@@ -1,0 +1,434 @@
+import { expect, test } from '@playwright/test';
+import { statusIncidentCatalog, statusSystems } from '../src/data/status';
+import {
+  buildStatusSnapshot,
+  calculateAvailability,
+  getIncidentUpdates,
+  getLiveStatus,
+  getScheduledStatusIncidents,
+  STATUS_AVAILABILITY_WEIGHTS,
+  STATUS_WINDOW_DAYS,
+  type ScheduledStatusIncident,
+} from '../src/lib/status';
+
+const minute = 60_000;
+const day = 24 * 60 * minute;
+const origin = Date.UTC(2030, 0, 1);
+
+function mockLiveIncident(
+  id: string,
+  severity: ScheduledStatusIncident['severity'],
+  systemIds: ScheduledStatusIncident['systemIds'],
+  startedAt = origin,
+  resolvedAt = origin + 60 * minute
+): ScheduledStatusIncident {
+  return {
+    id,
+    instanceId: `${id}-0`,
+    title: 'Mock incident',
+    severity,
+    systemIds,
+    durationMinutes: (resolvedAt - startedAt) / minute,
+    startedAt,
+    resolvedAt,
+    summary: 'Mock investigation.',
+    impact: 'Mock impact.',
+    cause: 'Mock cause.',
+    mitigation: 'Mock mitigation.',
+    resolution: 'Mock resolution.',
+    followUp: 'Mock follow-up.',
+  };
+}
+
+test.describe('Status availability model', () => {
+  test('reports Operational when no current incidents are active', () => {
+    const state = getLiveStatus(new Date(origin), []);
+    expect(state.severity).toBe('operational');
+    expect(state.activeIncidents).toHaveLength(0);
+    expect(state.components.map(({ severity }) => severity))
+      .toEqual(statusSystems.map(() => 'operational'));
+  });
+
+  test('shows degraded only on components affected by an active incident', () => {
+    const incident = mockLiveIncident('mock-degraded', 'degraded', [statusSystems[0].id]);
+    const state = getLiveStatus(new Date(origin), [incident]);
+    expect(state.severity).toBe('degraded');
+    expect(state.activeIncidents).toEqual([incident]);
+    expect(state.components.map(({ severity }) => severity))
+      .toEqual(['degraded', 'operational', 'operational', 'operational']);
+  });
+
+  test('gives critical incidents priority and restores components at resolution', () => {
+    const degraded = mockLiveIncident('mock-degraded', 'degraded', [statusSystems[0].id]);
+    const critical = mockLiveIncident(
+      'mock-critical', 'critical', [statusSystems[0].id, statusSystems[1].id],
+      origin + 10 * minute, origin + 30 * minute
+    );
+    const during = getLiveStatus(new Date(origin + 10 * minute), [degraded, critical]);
+    expect(during.severity).toBe('critical');
+    expect(during.activeIncidents).toHaveLength(2);
+    expect(during.components.map(({ severity }) => severity))
+      .toEqual(['critical', 'critical', 'operational', 'operational']);
+
+    const afterCritical = getLiveStatus(new Date(origin + 30 * minute), [degraded, critical]);
+    expect(afterCritical.severity).toBe('degraded');
+    expect(afterCritical.components.map(({ severity }) => severity))
+      .toEqual(['degraded', 'operational', 'operational', 'operational']);
+    const afterAll = getLiveStatus(new Date(origin + 60 * minute), [degraded, critical]);
+    expect(afterAll.severity).toBe('operational');
+    expect(afterAll.activeIncidents).toHaveLength(0);
+  });
+
+  test('does not mark past or future incidents as currently active', () => {
+    const past = mockLiveIncident('mock-past', 'critical', [statusSystems[0].id],
+      origin - 60 * minute, origin);
+    const future = mockLiveIncident('mock-future', 'degraded', [statusSystems[1].id],
+      origin + minute, origin + 60 * minute);
+    const state = getLiveStatus(new Date(origin), [past, future]);
+    expect(state.activeIncidents).toHaveLength(0);
+    expect(state.severity).toBe('operational');
+    expect(() => getLiveStatus(new Date(Number.NaN), [])).toThrow();
+  });
+
+  test('rejects malformed live incident timestamps rather than reporting Operational', () => {
+    const malformed = mockLiveIncident(
+      'mock-invalid', 'critical', [statusSystems[0].id], Number.NaN, origin + minute
+    );
+    expect(() => getLiveStatus(new Date(origin), [malformed])).toThrow();
+    const reversed = mockLiveIncident(
+      'mock-reversed', 'critical', [statusSystems[0].id], origin + minute, origin
+    );
+    expect(() => getLiveStatus(new Date(origin), [reversed])).toThrow();
+  });
+
+  test('uses the seeded current-day schedule without changing the historical window', () => {
+    const date = new Date('2026-09-29T14:45:00Z');
+    const today = getScheduledStatusIncidents(new Date('2026-09-30T00:00:00Z'));
+    const active = today.filter(({ startedAt, resolvedAt }) =>
+      startedAt <= date.getTime() && resolvedAt > date.getTime()
+    );
+    expect(active.length).toBeGreaterThan(0);
+    const snapshot = buildStatusSnapshot(date);
+    expect(snapshot.current).toEqual(getLiveStatus(date));
+    expect(snapshot.current.activeIncidents).toEqual(active);
+    expect(snapshot.windowEnd).toBe(Date.UTC(2026, 8, 29));
+    expect(snapshot.incidents.every(({ startedAt }) => startedAt < snapshot.windowEnd)).toBe(true);
+  });
+
+  test('calculates only elapsed current-day downtime and excludes future incidents', () => {
+    const current = mockLiveIncident('mock-current', 'degraded', [statusSystems[0].id]);
+    const future = mockLiveIncident(
+      'mock-future', 'critical', [statusSystems[0].id], origin + 30 * minute, origin + 60 * minute
+    );
+    const live = getLiveStatus(new Date(origin + 10 * minute), [current, future]);
+    expect(live.todayIncidents).toEqual([current]);
+    const today = live.components[0].today;
+    expect(today.date).toBe('2030-01-01');
+    expect(today.severity).toBe('degraded');
+    expect(today.metrics.observedMinutes).toBe(10);
+    expect(today.metrics.degradedMinutes).toBe(10);
+    expect(today.metrics.effectiveDowntimeMinutes).toBe(5);
+  });
+
+  test('keeps resolved current-day incidents in the partial-day chart', () => {
+    const incident = mockLiveIncident(
+      'mock-resolved', 'critical', [statusSystems[0].id], origin, origin + 10 * minute
+    );
+    const live = getLiveStatus(new Date(origin + 20 * minute), [incident]);
+    expect(live.severity).toBe('operational');
+    expect(live.activeIncidents).toHaveLength(0);
+    expect(live.todayIncidents).toEqual([incident]);
+    expect(live.components[0].today.severity).toBe('critical');
+    expect(live.components[0].today.metrics.criticalMinutes).toBe(10);
+  });
+
+  test('represents midnight without inventing observed minutes', () => {
+    const live = getLiveStatus(new Date(origin), []);
+    expect(live.components[0].today.date).toBe('2030-01-01');
+    expect(live.components[0].today.metrics.observedMinutes).toBe(0);
+    expect(live.components[0].today.metrics.availabilityPercentage).toBeNull();
+  });
+
+  test('keeps the approved downtime weights explicit', () => {
+    expect(STATUS_AVAILABILITY_WEIGHTS).toEqual({
+      degraded: 0.5,
+      critical: 1,
+    });
+  });
+
+  test('reports full availability without incidents', () => {
+    expect(calculateAvailability([], origin, origin + 120 * minute)).toEqual({
+      observedMinutes: 120,
+      operationalMinutes: 120,
+      degradedMinutes: 0,
+      criticalMinutes: 0,
+      effectiveDowntimeMinutes: 0,
+      availabilityPercentage: 100,
+    });
+  });
+
+  test('counts degraded minutes at half weight', () => {
+    const metrics = calculateAvailability([
+      { startedAt: origin, resolvedAt: origin + 60 * minute, severity: 'degraded' },
+    ], origin, origin + 120 * minute);
+
+    expect(metrics.degradedMinutes).toBe(60);
+    expect(metrics.effectiveDowntimeMinutes).toBe(30);
+    expect(metrics.availabilityPercentage).toBe(75);
+  });
+
+  test('counts critical minutes at full weight', () => {
+    const metrics = calculateAvailability([
+      { startedAt: origin, resolvedAt: origin + 60 * minute, severity: 'critical' },
+    ], origin, origin + 120 * minute);
+
+    expect(metrics.criticalMinutes).toBe(60);
+    expect(metrics.effectiveDowntimeMinutes).toBe(60);
+    expect(metrics.availabilityPercentage).toBe(50);
+  });
+
+  test('uses the worst severity during overlapping incidents', () => {
+    const metrics = calculateAvailability([
+      { startedAt: origin, resolvedAt: origin + 60 * minute, severity: 'degraded' },
+      { startedAt: origin + 15 * minute, resolvedAt: origin + 45 * minute, severity: 'critical' },
+      { startedAt: origin + 20 * minute, resolvedAt: origin + 40 * minute, severity: 'critical' },
+    ], origin, origin + 120 * minute);
+
+    expect(metrics.operationalMinutes).toBe(60);
+    expect(metrics.degradedMinutes).toBe(30);
+    expect(metrics.criticalMinutes).toBe(30);
+    expect(metrics.effectiveDowntimeMinutes).toBe(45);
+    expect(metrics.availabilityPercentage).toBe(62.5);
+  });
+
+  test('clips incidents to the requested window and ignores touching boundaries', () => {
+    const metrics = calculateAvailability([
+      { startedAt: origin - 60 * minute, resolvedAt: origin + 10 * minute, severity: 'critical' },
+      { startedAt: origin + 50 * minute, resolvedAt: origin + 90 * minute, severity: 'degraded' },
+      { startedAt: origin - 10 * minute, resolvedAt: origin, severity: 'critical' },
+      { startedAt: origin + 60 * minute, resolvedAt: origin + 70 * minute, severity: 'critical' },
+    ], origin, origin + 60 * minute);
+
+    expect(metrics.operationalMinutes).toBe(40);
+    expect(metrics.criticalMinutes).toBe(10);
+    expect(metrics.degradedMinutes).toBe(10);
+    expect(metrics.effectiveDowntimeMinutes).toBe(15);
+    expect(metrics.availabilityPercentage).toBe(75);
+  });
+
+  test('handles adjacent outages without double-counting their shared boundary', () => {
+    const metrics = calculateAvailability([
+      { startedAt: origin, resolvedAt: origin + 30 * minute, severity: 'critical' },
+      { startedAt: origin + 30 * minute, resolvedAt: origin + 60 * minute, severity: 'critical' },
+    ], origin, origin + 60 * minute);
+
+    expect(metrics.criticalMinutes).toBe(60);
+    expect(metrics.effectiveDowntimeMinutes).toBe(60);
+    expect(metrics.availabilityPercentage).toBe(0);
+  });
+
+  test('rejects invalid windows and incident durations', () => {
+    expect(() => calculateAvailability([], origin, origin)).toThrow();
+    expect(() => calculateAvailability([], Number.NaN, origin)).toThrow();
+    expect(() => calculateAvailability([
+      { startedAt: origin, resolvedAt: origin - minute, severity: 'critical' },
+    ], origin, origin + day)).toThrow();
+    expect(() => getScheduledStatusIncidents(new Date(Number.NaN))).toThrow();
+  });
+
+  test('returns the same absolute schedule on repeated visits', () => {
+    const date = new Date('2026-09-30T12:00:00Z');
+    expect(getScheduledStatusIncidents(date)).toEqual(getScheduledStatusIncidents(date));
+    expect(getScheduledStatusIncidents(new Date('2026-09-30T00:01:00Z')))
+      .toEqual(getScheduledStatusIncidents(new Date('2026-09-30T23:59:59Z')));
+  });
+
+  test('keeps existing incidents on their original dates as the window moves', () => {
+    const before = getScheduledStatusIncidents(new Date('2026-09-30T12:00:00Z'));
+    const after = getScheduledStatusIncidents(new Date('2026-10-01T12:00:00Z'));
+    const previousDates = new Map(
+      before.map((incident) => [incident.instanceId, [incident.startedAt, incident.resolvedAt]])
+    );
+    const shared = after.filter((incident) => previousDates.has(incident.instanceId));
+
+    expect(shared.length).toBeGreaterThan(0);
+    for (const incident of shared) {
+      expect([incident.startedAt, incident.resolvedAt]).toEqual(
+        previousDates.get(incident.instanceId)
+      );
+    }
+  });
+
+  test('never repeats an incident type in rolling 90-day windows over two years', () => {
+    const firstDate = Date.UTC(2025, 0, 1);
+    const occurrences = new Map<string, { id: string; startedAt: number; resolvedAt: number }>();
+
+    for (let offset = 0; offset < 730; offset += 1) {
+      const reference = firstDate + offset * day;
+      const incidents = getScheduledStatusIncidents(new Date(reference));
+      const ids = incidents.map(({ id }) => id);
+
+      expect(new Set(ids).size).toBe(ids.length);
+      for (const incident of incidents) {
+        expect(incident.startedAt).toBeLessThan(reference);
+        expect(incident.resolvedAt).toBeGreaterThan(reference - STATUS_WINDOW_DAYS * day);
+        occurrences.set(incident.instanceId, incident);
+      }
+    }
+
+    for (const definition of statusIncidentCatalog) {
+      const history = [...occurrences.values()]
+        .filter(({ id }) => id === definition.id)
+        .sort((left, right) => left.startedAt - right.startedAt);
+
+      expect(history.length).toBeGreaterThan(1);
+      for (let index = 1; index < history.length; index += 1) {
+        expect(history[index].startedAt - history[index - 1].resolvedAt)
+          .toBeGreaterThanOrEqual(STATUS_WINDOW_DAYS * day);
+      }
+    }
+
+    const calendarGaps = new Set<number>();
+    for (const definition of statusIncidentCatalog) {
+      const history = [...occurrences.values()]
+        .filter(({ id }) => id === definition.id)
+        .sort((left, right) => left.startedAt - right.startedAt);
+      for (let index = 1; index < history.length; index += 1) {
+        calendarGaps.add(
+          Math.floor(history[index].startedAt / day)
+          - Math.floor(history[index - 1].startedAt / day)
+        );
+      }
+    }
+    expect(calendarGaps.size).toBeGreaterThan(5);
+  });
+
+  test('uses 90 complete UTC days across leap years and timezone changes', () => {
+    const snapshot = buildStatusSnapshot(new Date('2028-03-01T01:00:00+02:00'));
+
+    expect(snapshot.asOf).toBe(Date.UTC(2028, 1, 29));
+    expect(snapshot.windowEnd - snapshot.windowStart).toBe(STATUS_WINDOW_DAYS * day);
+    expect(snapshot.overall.observedMinutes).toBe(STATUS_WINDOW_DAYS * 24 * 60);
+    for (const system of snapshot.systems) {
+      expect(system.days).toHaveLength(STATUS_WINDOW_DAYS);
+      expect(new Set(system.days.map(({ date }) => date)).size).toBe(STATUS_WINDOW_DAYS);
+    }
+  });
+
+  test('reconciles historical periods and component totals with the same incidents', () => {
+    const snapshot = buildStatusSnapshot(new Date('2026-09-30T12:00:00Z'));
+
+    expect(snapshot.systems).toHaveLength(statusSystems.length);
+    expect(snapshot.periods).toHaveLength(3);
+    expect(snapshot.periods[0].metrics).toEqual(snapshot.overall);
+    for (let index = 0; index < snapshot.periods.length; index += 1) {
+      const period = snapshot.periods[index];
+      expect(period.endedAt - period.startedAt).toBe(STATUS_WINDOW_DAYS * day);
+      const historicalIncidents = getScheduledStatusIncidents(new Date(period.endedAt));
+      expect(period.metrics).toEqual(
+        calculateAvailability(historicalIncidents, period.startedAt, period.endedAt)
+      );
+      if (index > 0) {
+        expect(period.endedAt).toBe(snapshot.periods[index - 1].startedAt);
+      }
+    }
+    expect(snapshot.incidents.some(({ severity }) => severity === 'degraded')).toBe(true);
+    expect(snapshot.incidents.some(({ severity }) => severity === 'critical')).toBe(true);
+
+    for (const system of snapshot.systems) {
+      const incidents = snapshot.incidents.filter(({ systemIds }) =>
+        systemIds.includes(system.id)
+      );
+      expect(system.metrics).toEqual(
+        calculateAvailability(incidents, snapshot.windowStart, snapshot.windowEnd)
+      );
+      expect(system.days.reduce((sum, date) => sum + date.metrics.effectiveDowntimeMinutes, 0))
+        .toBeCloseTo(system.metrics.effectiveDowntimeMinutes, 8);
+      expect(system.days.some(({ severity }) => severity !== 'operational'))
+        .toBe(incidents.length > 0);
+    }
+  });
+
+  test('keeps incident catalogue IDs unique and postmortems complete', () => {
+    expect(new Set(statusIncidentCatalog.map(({ id }) => id)).size)
+      .toBe(statusIncidentCatalog.length);
+    for (const incident of statusIncidentCatalog) {
+      expect(incident.systemIds.length).toBeGreaterThan(0);
+      expect(incident.durationMinutes).toBeGreaterThan(0);
+      for (const field of [
+        incident.summary,
+        incident.impact,
+        incident.cause,
+        incident.mitigation,
+        incident.resolution,
+        incident.followUp,
+      ]) {
+        expect(field.trim().length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  test('includes infrastructure failures alongside the human incidents', () => {
+    const ids = statusIncidentCatalog.map(({ id }) => id);
+    const requiredIds = [
+      'istio-sidecar',
+      'kafka-consumer-lag',
+      'postgres-overload',
+      'valkey-cache-stampede',
+      'coffee-unavailable',
+      'personal-maintenance',
+    ];
+    expect(ids).toEqual(expect.arrayContaining(requiredIds));
+    const snapshot = buildStatusSnapshot(new Date('2026-09-30T12:00:00Z'));
+    expect(snapshot.periods.flatMap(({ incidents }) => incidents.map(({ id }) => id)))
+      .toEqual(expect.arrayContaining(requiredIds));
+  });
+
+  test('keeps calculated service and historical availability inside the requested range', () => {
+    const firstDate = Date.UTC(2025, 0, 1);
+    for (let offset = 0; offset < 730; offset += 1) {
+      const snapshot = buildStatusSnapshot(new Date(firstDate + offset * day));
+      const series = [
+        { id: 'overall', metrics: snapshot.overall },
+        ...snapshot.systems,
+        ...snapshot.periods,
+      ];
+
+      for (const { id, metrics } of series) {
+        const label = `${new Date(snapshot.asOf).toISOString()} / ${id}`;
+        expect(metrics.availabilityPercentage, label).toBeGreaterThanOrEqual(97.5);
+        expect(metrics.availabilityPercentage, label).toBeLessThanOrEqual(99.8);
+        expect(metrics.availabilityPercentage, label).toBeCloseTo(
+          100 * (1 - metrics.effectiveDowntimeMinutes / metrics.observedMinutes),
+          10
+        );
+      }
+    }
+  });
+
+  test('timestamps the complete recovery timeline even for a three-minute incident', () => {
+    const incident: ScheduledStatusIncident = {
+      id: 'mock-incident',
+      instanceId: 'mock-incident-0',
+      title: 'Mock incident',
+      severity: 'degraded',
+      systemIds: [statusSystems[0].id],
+      durationMinutes: 3,
+      startedAt: origin,
+      resolvedAt: origin + 3 * minute,
+      summary: 'Mock investigation.',
+      impact: 'Mock impact.',
+      cause: 'Mock cause.',
+      mitigation: 'Mock mitigation.',
+      resolution: 'Mock resolution.',
+      followUp: 'Mock follow-up.',
+    };
+    const updates = getIncidentUpdates(incident);
+
+    expect(updates.map(({ id }) => id))
+      .toEqual(['investigating', 'identified', 'monitoring', 'resolved']);
+    expect(updates.map(({ timestamp }) => timestamp))
+      .toEqual([origin, origin + minute, origin + 2 * minute, origin + 3 * minute]);
+    expect(updates.at(-1)?.message).toBe(incident.resolution);
+  });
+});

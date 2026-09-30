@@ -27,7 +27,7 @@ export function ReleaseBadge({ className, initialVersion }: ReleaseBadgeProps) {
   return (
     <p className={className} data-release-badge>
       <span aria-hidden="true" />
-      Matteo v{version} is accepting deployments
+      v{version} is accepting deployments
     </p>
   )
 }

@@ -13,10 +13,9 @@ export function ProofLedger() {
     <section id="proof" className={styles.proof} aria-labelledby="proof-title">
       <div className={styles.proofHeader}>
         <div>
-          <h2 id="proof-title">Do not trust the landing page. Check the code.</h2>
-          <p>The code is public. Unfortunately, so is the commit history.</p>
+          <h2 id="proof-title">Check the code.</h2>
         </div>
-        <Link href="/portfolio" className={styles.textLink}>
+        <Link href="/open-source" className={styles.textLink}>
           See all the code
           <span aria-hidden="true">↗</span>
         </Link>

@@ -1,9 +1,22 @@
 import { test, expect } from '@playwright/test';
 import customersData from '../src/data/customers.json';
+import {
+  careerDepartments,
+  careerLocations,
+  careerRoles,
+} from '../src/data/jobs';
 import { linksPageConfig } from '../src/data/links';
 import projectsData from '../src/data/projects.json';
 import pathRedirects from '../src/data/redirects.json';
+import { statusSystems } from '../src/data/status';
 import { getAllPostSlugs, getSortedPostsData, parseBlogDate } from '../src/lib/markdown';
+import {
+  buildStatusSnapshot,
+  getIncidentUpdates,
+  getLiveStatus,
+  getScheduledStatusIncidents,
+  STATUS_WINDOW_DAYS,
+} from '../src/lib/status';
 import { profilePortrait, siteConfig } from '../src/lib/siteConfig';
 import {
   createAbsoluteImageUrl,
@@ -16,6 +29,19 @@ const publishedPosts = getSortedPostsData();
 const samplePost = publishedPosts[0]!;
 const visibleCustomers = customersData.companies.filter((company) => company.show);
 
+function activeStatusExample(severity: 'degraded' | 'critical') {
+  const candidates = getScheduledStatusIncidents(new Date('2026-09-30T00:00:00Z'));
+  const incident = candidates.find((candidate) =>
+    candidate.severity === severity
+    && getLiveStatus(new Date(candidate.startedAt + 60_000)).severity === severity
+    && getLiveStatus(new Date(candidate.resolvedAt + 60_000)).severity === 'operational'
+  );
+  if (!incident) {
+    throw new Error(`The mock status catalogue needs an isolated ${severity} example`);
+  }
+  return incident;
+}
+
 const pages = [
   { name: 'homepage', path: '/' },
   { name: 'links', path: '/links' },
@@ -26,11 +52,15 @@ const pages = [
     path: `/blog/${samplePost.slug}`,
   },
   { name: 'roadmap', path: '/roadmap' },
-  { name: 'portfolio', path: '/portfolio' },
+  { name: 'open-source', path: '/open-source' },
   { name: 'customers', path: '/customers' },
   { name: 'careers', path: '/careers' },
+  ...careerRoles.map((role) => ({
+    name: `job-${role.id}`,
+    path: `/job/${role.slug}`,
+  })),
   { name: 'pricing', path: '/pricing' },
-  { name: 'documentation', path: '/documentation' },
+  { name: 'docs', path: '/docs' },
   { name: 'press', path: '/press' },
   { name: 'support', path: '/support' },
   { name: 'status', path: '/status' },
@@ -46,8 +76,9 @@ test.describe('Short links', () => {
       const expectedLocation = redirect.destination.startsWith('http')
         ? new URL(redirect.destination).toString()
         : redirect.destination;
+      const expectedStatus = redirect.permanent ? 308 : 307;
 
-      expect(response.status(), redirect.source).toBe(307);
+      expect(response.status(), redirect.source).toBe(expectedStatus);
       expect(response.headers().location, redirect.source).toBe(expectedLocation);
     }
   });
@@ -355,6 +386,9 @@ test.describe('Static route experience', () => {
     await page.goto('/blog', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('[data-blog-slug]')).toHaveCount(publishedPosts.length);
+    await expect(
+      page.locator(`main a[href="/blog/${samplePost.slug}/"]`)
+    ).toHaveCount(2);
 
     for (const post of publishedPosts) {
       const archiveRow = page.locator(`[data-blog-slug="${post.slug}"]`);
@@ -375,6 +409,38 @@ test.describe('Static route experience', () => {
     expect(publishedRoutes).toEqual(expectedBlogRoutes);
   });
 
+  test('filters the blog archive by text and topic', async ({ page }) => {
+    const topicId = samplePost.category
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    await page.goto('/blog', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const search = page.locator('input[type="search"]');
+    const rows = page.locator('[data-blog-slug]:visible');
+    const sampleRow = page.locator(`[data-blog-slug="${samplePost.slug}"]`);
+
+    await search.fill(samplePost.title);
+    await expect(sampleRow).toBeVisible();
+    await expect.poll(() => rows.count()).toBeLessThan(publishedPosts.length);
+
+    await search.fill('');
+    await page.locator(`[data-blog-topic-filter="${topicId}"]`).click();
+
+    await expect.poll(() =>
+      rows.evaluateAll((items) =>
+        items.map((item) => item.getAttribute('data-blog-topic'))
+      )
+    ).toEqual(publishedPosts
+      .filter((post) => post.category === samplePost.category)
+      .map(() => topicId));
+
+    await page.locator('[data-blog-topic-filter="all"]').click();
+    await expect(rows).toHaveCount(publishedPosts.length);
+  });
+
   test('renders the company logo set', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
@@ -390,6 +456,107 @@ test.describe('Static route experience', () => {
       }))
     );
     expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
+  });
+
+  test('renders the complete cloud-native integration inventory with local marks', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const section = page.locator('section#integrations');
+    const panel = section.locator('[data-integration-panel]');
+    const groups = panel.locator('[data-integration-group]');
+    const integrations = panel.locator('[data-integration]');
+    const declaredCount = Number(await panel.getAttribute('data-integration-count'));
+
+    await expect(panel).toBeVisible();
+    await expect(groups).toHaveCount(4);
+    await expect(integrations).toHaveCount(declaredCount);
+    expect(declaredCount).toBeGreaterThanOrEqual(30);
+    expect(
+      await groups.evaluateAll((items) =>
+        items.every((item) => item instanceof HTMLDetailsElement && item.open)
+      )
+    ).toBe(true);
+
+    const firstGroup = groups.first();
+    await firstGroup.locator('summary').click();
+    await expect(firstGroup).toHaveJSProperty('open', false);
+    await firstGroup.locator('summary').click();
+    await expect(firstGroup).toHaveJSProperty('open', true);
+
+    const integrationState = await integrations.evaluateAll((items) =>
+      items.map((item) => ({
+        name: item.getAttribute('data-integration'),
+        logoCount: item.querySelectorAll('[data-integration-logo]').length,
+      }))
+    );
+
+    expect(new Set(integrationState.map(({ name }) => name)).size).toBe(declaredCount);
+    expect(
+      integrationState.every(({ name, logoCount }) => Boolean(name?.trim()) && logoCount === 1)
+    ).toBe(true);
+
+    const awsIntegration = panel.locator('[data-integration="AWS"]');
+    const awsTooltip = awsIntegration.locator('[aria-hidden="true"]').last();
+    await expect(awsIntegration).toHaveAttribute('aria-label', 'AWS');
+    await expect(awsIntegration).toHaveAttribute('title', 'AWS');
+    await expect(awsTooltip).toHaveCSS('opacity', '0');
+    await awsIntegration.hover();
+    await expect(awsTooltip).toHaveCSS('opacity', '1');
+
+    const desktopLayout = await panel.evaluate((element) => ({
+      columns: getComputedStyle(element.querySelector('ul')!).gridTemplateColumns.split(' ').length,
+      overflows: element.scrollWidth > element.clientWidth + 1,
+    }));
+    expect(desktopLayout).toEqual({ columns: 4, overflows: false });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+
+    const mobilePanel = page.locator('[data-integration-panel]');
+    const mobileLayout = await mobilePanel.evaluate((element) => ({
+      columns: getComputedStyle(element.querySelector('ul')!).gridTemplateColumns.split(' ').length,
+      overflows: element.scrollWidth > element.clientWidth + 1,
+    }));
+    expect(mobileLayout).toEqual({ columns: 1, overflows: false });
+  });
+
+  test('renders compliance boundaries without claiming certification', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const compliance = page.locator('[data-compliance]');
+    const frameworks = compliance.locator('[data-compliance-framework]');
+
+    await expect(compliance).toBeVisible();
+    await expect(frameworks).toHaveCount(12);
+    await expect(compliance.locator('[data-compliance-mark]')).toHaveCount(12);
+    await expect(compliance.locator('[data-compliance-disclaimer]')).toBeVisible();
+
+    const gdpr = frameworks.first();
+    const gdprTooltip = gdpr.locator('[aria-hidden="true"]').last();
+    await expect(gdpr).toHaveAttribute('title', 'General Data Protection Regulation');
+    await expect(gdpr).toHaveAttribute('aria-label', 'General Data Protection Regulation');
+    await expect(gdprTooltip).toHaveCSS('opacity', '0');
+    await gdpr.hover();
+    await expect(gdprTooltip).toHaveCSS('opacity', '1');
+
+    expect(
+      await frameworks.evaluateAll((items) =>
+        items.map((item) => item.getAttribute('data-compliance-framework'))
+      )
+    ).toEqual([
+      'gdpr',
+      'soc-2',
+      'iso-27001',
+      'fedramp',
+      'hipaa',
+      'pci-dss',
+      'nist-csf',
+      'cis-controls',
+      'dora',
+      'nis2',
+      'slsa',
+      'owasp-asvs',
+    ]);
   });
 
   test('shows the current year and month in the release badge', async ({ page }) => {
@@ -545,21 +712,420 @@ test.describe('Static route experience', () => {
     expect(headers['Content-Security-Policy']).not.toContain("'unsafe-eval'");
   });
 
-  test('reports status uptime and PTO incident', async ({ page }) => {
+  test('reports calculated status history and complete incident resolutions', async ({ page }) => {
+    const referenceDate = new Date('2026-09-30T12:00:00Z');
+    const snapshot = buildStatusSnapshot(referenceDate);
+    await page.clock.install({ time: referenceDate });
     await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
 
     await expect(page.locator('main h1')).toBeVisible();
-    await expect(page.locator('[role="status"]')).toBeVisible();
-    await expect(page.locator('main dl > div')).toHaveCount(3);
-    await expect(page.locator('main article time[datetime="PT3M"]')).toBeVisible();
-    await expect(page.locator('[data-uptime-day]')).toHaveCount(360);
+    await expect(page.locator('[data-status-reference-date]'))
+      .toHaveAttribute('data-status-reference-date', '2026-09-30');
+    await expect(page.locator('[data-status-overall]')).toBeVisible();
+    await expect(page.locator('[data-status-summary] > div')).toHaveCount(3);
+    await expect(page.locator('[data-status-availability]'))
+      .toHaveText(`${snapshot.overall.availabilityPercentage.toFixed(3)}%`);
+    await expect(page.locator('[data-uptime-day]'))
+      .toHaveCount(statusSystems.length * (STATUS_WINDOW_DAYS + 1));
+
+    for (const system of snapshot.systems) {
+      const component = page.locator(`[data-status-component="${system.id}"]`);
+      await expect(component.locator('[data-component-availability]'))
+        .toContainText(`${system.metrics.availabilityPercentage.toFixed(3)}%`);
+      const today = snapshot.current.components.find(({ id }) => id === system.id)!.today;
+      await expect(component.locator('[data-uptime-day]').last())
+        .toHaveAttribute('data-uptime-day', '2026-09-30');
+      await expect(component.locator('[data-status-current-day]'))
+        .toHaveAttribute('datetime', '2026-09-30');
+      for (const severity of ['operational', 'degraded', 'critical']) {
+        await expect(component.locator(`[data-uptime-day][data-severity="${severity}"]`))
+          .toHaveCount(
+            system.days.filter((date) => date.severity === severity).length
+            + Number(today.severity === severity)
+          );
+      }
+    }
+
+    await expect(page.locator('[data-status-period]')).toHaveCount(snapshot.periods.length);
+    for (const period of snapshot.periods) {
+      await expect(
+        page.locator(`[data-status-period="${period.id}"] [data-period-availability]`)
+      ).toHaveText(`${period.metrics.availabilityPercentage.toFixed(3)}%`);
+    }
+
+    const incidents = page.locator('[data-status-incident]');
+    await expect(incidents).toHaveCount(snapshot.incidents.length);
+    const history = page.locator('[data-status-history]');
+    await expect(history).toHaveJSProperty('open', false);
+    await expect(incidents.first()).toBeHidden();
+    await expect(page.locator('[class*="statusHeroCopy"] > p')).toHaveCount(1);
+    await history.locator(':scope > summary').click();
+    for (const incident of snapshot.incidents) {
+      const record = page.locator(`[data-incident-instance="${incident.instanceId}"]`);
+      await expect(record).toHaveAttribute('data-incident-severity', incident.severity);
+      await record.locator('summary').click();
+      await expect(record.locator('[data-incident-breakdown]')).toBeVisible();
+      await expect(record.locator('[data-incident-update]')).toHaveCount(4);
+      await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
+      await expect(record.locator('[data-incident-update="resolved"] time'))
+        .toHaveAttribute('datetime', new Date(incident.resolvedAt).toISOString());
+      await expect(record.locator('h4')).toHaveCount(2);
+    }
+
+    const policy = page.locator('[data-availability-policy]');
+    await expect(policy).toHaveAttribute('data-degraded-weight', '0.5');
+    await expect(policy).toHaveAttribute('data-critical-weight', '1');
+    await expect(policy).toContainText('50%');
+    await expect(policy).toContainText('100%');
+    const [policyBox, lastIncidentBox] = await Promise.all([
+      policy.boundingBox(),
+      incidents.last().boundingBox(),
+    ]);
+    expect(policyBox).not.toBeNull();
+    expect(lastIncidentBox).not.toBeNull();
+    expect(policyBox!.y).toBeGreaterThanOrEqual(lastIncidentBox!.y + lastIncidentBox!.height);
+  });
+
+  for (const severity of ['degraded', 'critical'] as const) {
+    test(`shows current ${severity} incidents and restores live component statuses`, async ({ page }, testInfo) => {
+      const incident = activeStatusExample(severity);
+      const now = incident.startedAt + 60_000;
+      const current = getLiveStatus(new Date(now));
+      await page.clock.install({ time: new Date(now) });
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
+      const banner = page.locator('[data-status-overall]');
+      await expect(banner).toHaveAttribute('data-severity', severity);
+      await expect(banner.getByRole('heading')).toBeVisible();
+      const records = page.locator('[data-current-incident]');
+      await expect(records).toHaveCount(current.activeIncidents.length);
+      expect(await records.evaluateAll((items) =>
+        items.map((item) => item.getAttribute('data-current-incident'))
+      )).toEqual(current.activeIncidents.map(({ instanceId }) => instanceId));
+      await expect(page.locator('[data-current-incident-count]'))
+        .toHaveText(`${current.activeIncidents.length} active`);
+
+      const [activeBox, componentsBox] = await Promise.all([
+        page.locator('[data-current-incidents]').boundingBox(),
+        page.locator('[aria-labelledby="systems-title"]').boundingBox(),
+      ]);
+      expect(activeBox).not.toBeNull();
+      expect(componentsBox).not.toBeNull();
+      expect(activeBox!.y).toBeLessThan(componentsBox!.y);
+      await expect(page.locator('[data-current-update="resolved"]')).toHaveCount(0);
+
+      for (const component of current.components) {
+        const badge = page.locator(`[data-status-component-state="${component.id}"]`);
+        await expect(badge).toHaveAttribute('data-severity', component.severity);
+        await expect(badge).toHaveText(
+          component.severity[0].toUpperCase() + component.severity.slice(1)
+        );
+        const expectedColor = {
+          operational: 'rgb(0, 255, 148)',
+          degraded: 'rgb(255, 189, 46)',
+          critical: 'rgb(255, 116, 124)',
+        }[component.severity];
+        await expect(badge).toHaveCSS('color', expectedColor);
+      }
+      for (const active of current.activeIncidents) {
+        const update = getIncidentUpdates(active)
+          .filter(({ timestamp }) => timestamp <= now).at(-1)!;
+        await expect(
+          page.locator(`[data-current-incident="${active.instanceId}"] [data-current-update]`)
+        ).toHaveAttribute('data-current-update', update.id);
+      }
+      const historicalAvailability = await page.locator('[data-status-availability]').textContent();
+      await page.screenshot({ path: testInfo.outputPath(`status-live-${severity}.png`), fullPage: true });
+      await page.clock.fastForward(incident.resolvedAt - now + 60_000);
+      await expect(banner).toHaveAttribute('data-severity', 'operational');
+      await expect(records).toHaveCount(0);
+      await expect(page.locator('[data-current-incidents]')).toBeHidden();
+      await expect(page.locator('[data-status-availability]')).toHaveText(historicalAvailability!);
+      for (const component of current.components) {
+        await expect(page.locator(`[data-status-component-state="${component.id}"]`))
+          .toHaveAttribute('data-severity', 'operational');
+      }
+    });
+  }
+
+  test('keeps current incidents readable at mobile widths', async ({ page }, testInfo) => {
+    await page.clock.install();
+    for (const width of [320, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      for (const severity of ['degraded', 'critical'] as const) {
+        const incident = activeStatusExample(severity);
+        await page.clock.setFixedTime(new Date(incident.startedAt + 60_000));
+        await page.goto('/status', { waitUntil: 'domcontentloaded' });
+        await page.locator('html[data-hydrated="true"]').waitFor();
+        await expect(page.locator('[data-status-overall]'))
+          .toHaveAttribute('data-severity', severity);
+        await expect(page.locator(`[data-current-incident="${incident.instanceId}"]`))
+          .toBeVisible();
+        expect(await page.evaluate(() =>
+          document.documentElement.scrollWidth > window.innerWidth
+        )).toBe(false);
+        if (width === 390) {
+          await page.screenshot({
+            path: testInfo.outputPath(`status-current-mobile-${severity}.png`),
+            fullPage: true,
+          });
+        }
+      }
+    }
+  });
+
+  test('previews elapsed incident time on the current-day bar', async ({ page }, testInfo) => {
+    const incident = activeStatusExample('degraded');
+    const now = new Date(incident.startedAt + 60_000);
+    const current = getLiveStatus(now);
+    const component = current.components.find(({ today }) => today.severity !== 'operational');
+    if (!component) {
+      throw new Error('The mock current-day incident needs an affected component');
+    }
+    await page.clock.install({ time: now });
+    await page.clock.setFixedTime(now);
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const row = page.locator(`[data-status-component="${component.id}"]`);
+    const lastDay = row.locator('[data-uptime-day]').last();
+    await expect(lastDay).toHaveAttribute('data-uptime-day', component.today.date);
+    await expect(lastDay).toHaveAttribute('data-today', 'true');
+    await expect(lastDay).toHaveAttribute('data-severity', component.today.severity);
+    await expect(row.locator('[data-status-current-day]'))
+      .toHaveAttribute('datetime', component.today.date);
+    await lastDay.hover();
+    const popover = row.getByRole('tooltip');
+    await expect(popover).toHaveAttribute('data-popover-day', component.today.date);
+    await expect(popover.locator('[data-day-weighted-duration]')).toHaveAttribute(
+      'datetime', `PT${component.today.metrics.effectiveDowntimeMinutes}M`
+    );
+    expect(await popover.locator('[data-popover-incident]').evaluateAll((items) =>
+      items.map((item) => item.getAttribute('data-popover-incident'))
+    )).toEqual(current.todayIncidents
+      .filter(({ systemIds }) => systemIds.includes(component.id))
+      .map(({ instanceId }) => instanceId));
+    await page.screenshot({ path: testInfo.outputPath('status-today-popover.png') });
+  });
+
+  test('advances the UTC status window without rewriting existing incident dates', async ({ page }) => {
+    await page.clock.install({ time: new Date('2026-09-30T23:59:30Z') });
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+    const dashboard = page.locator('[data-status-reference-date]');
+    await expect(dashboard).toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+    const previousSnapshot = buildStatusSnapshot(new Date('2026-09-30T12:00:00Z'));
+    await page.locator('[data-status-history] > summary').click();
+    const keptIncident = previousSnapshot.incidents[0];
+    const record = page.locator(`[data-incident-instance="${keptIncident.instanceId}"]`);
+    await record.locator('summary').click();
+    await page.clock.fastForward(60_000);
+    await expect(dashboard).toHaveAttribute('data-status-reference-date', '2026-10-01');
+    for (const system of previousSnapshot.systems) {
+      await expect(
+        page.locator(`[data-status-component="${system.id}"] [data-uptime-day]`).last()
+      ).toHaveAttribute('data-uptime-day', '2026-10-01');
+    }
+
+    const nextSnapshot = buildStatusSnapshot(new Date('2026-10-01T12:00:00Z'));
+    const ids = await page.locator('[data-status-incident]').evaluateAll((incidents) =>
+      incidents.map((incident) => incident.getAttribute('data-status-incident'))
+    );
+    expect(ids).toEqual(nextSnapshot.incidents.map(({ id }) => id));
+    expect(new Set(ids).size).toBe(ids.length);
+    await expect(record.locator('details')).toHaveAttribute('open', '');
+    await expect(record.locator('[data-incident-update="resolved"] time'))
+      .toHaveAttribute('datetime', new Date(keptIncident.resolvedAt).toISOString());
+    await expect(page.locator('[data-status-availability]'))
+      .toHaveText(`${nextSnapshot.overall.availabilityPercentage.toFixed(3)}%`);
+  });
+
+  test('opens the incidents behind every historical availability period', async ({ page }) => {
+    const referenceDate = new Date('2026-09-30T12:00:00Z');
+    const snapshot = buildStatusSnapshot(referenceDate);
+    await page.clock.install({ time: referenceDate });
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+    await expect(page.locator('[data-status-reference-date]'))
+      .toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+    for (const period of snapshot.periods) {
+      await page.locator(`[data-status-period="${period.id}"] a`).click();
+      await expect(page.locator('[data-status-history]')).toHaveJSProperty('open', true);
+      const records = page.locator('[data-status-incident]');
+      await expect(records).toHaveCount(period.incidents.length);
+      expect(await records.evaluateAll((incidents) =>
+        incidents.map((incident) => incident.getAttribute('data-incident-instance'))
+      )).toEqual(period.incidents.map(({ instanceId }) => instanceId));
+      const incident = period.incidents[0];
+      const record = page.locator(`[data-incident-instance="${incident.instanceId}"]`);
+      await record.locator('summary').click();
+      await expect(record.locator('[data-incident-update="resolved"] time'))
+        .toHaveAttribute('datetime', new Date(incident.resolvedAt).toISOString());
+    }
+
+    await page.getByLabel('Incident history period').selectOption('0');
+    await expect(page.locator('[data-status-incident]')).toHaveCount(snapshot.incidents.length);
+  });
+
+  test('keeps status diagnostics and incident details usable at narrow and wide widths', async ({ page }, testInfo) => {
+    await page.clock.install({ time: new Date('2026-09-30T12:00:00Z') });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const viewport of [
+      { width: 320, height: 780 },
+      { width: 390, height: 844 },
+      { width: 1600, height: 900 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
+      await expect(page.locator('[data-status-reference-date]'))
+        .toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+      const record = page.locator('[data-status-incident]').first();
+      const historySummary = page.locator('[data-status-history] > summary');
+      await historySummary.focus();
+      await page.keyboard.press('Enter');
+      await record.locator('summary').focus();
+      await page.keyboard.press('Enter');
+      await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
+      await expect(record.locator('summary')).toHaveCSS('outline-style', 'solid');
+
+      const probe = page.locator('[data-status-probe]');
+      await probe.focus();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('[data-status-probe-result]'))
+        .toHaveAttribute('data-probe-step', '1');
+      const reducedDurations = await probe.evaluate((element) =>
+        getComputedStyle(element).transitionDuration.split(',').map(Number.parseFloat)
+      );
+      expect(Math.max(...reducedDurations)).toBeLessThanOrEqual(0.00001);
+      expect(await page.evaluate(() =>
+        document.documentElement.scrollWidth > window.innerWidth
+      )).toBe(false);
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.screenshot({
+        path: testInfo.outputPath(`status-${viewport.width}.png`),
+        fullPage: true,
+      });
+    }
+  });
+
+  test('publishes usable status history without JavaScript', async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
+    try {
+      const page = await context.newPage();
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      const reference = await page.locator('[data-status-reference-date]')
+        .getAttribute('data-status-reference-date');
+      expect(reference).not.toBeNull();
+      const snapshot = buildStatusSnapshot(new Date(`${reference}T12:00:00Z`));
+
+      await expect(page.locator('[data-status-availability]'))
+        .toHaveText(`${snapshot.overall.availabilityPercentage.toFixed(3)}%`);
+      await expect(page.locator('[data-status-incident]')).toHaveCount(snapshot.incidents.length);
+      await page.locator('[data-status-history] > summary').click();
+      const record = page.locator('[data-status-incident]').first();
+      await record.locator('summary').click();
+      await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
+      await expect(page.locator('[data-availability-policy]')).toBeVisible();
+    } finally {
+      await context.close();
+    }
+  });
+
+  test('previews related incidents on timeline hover and keyboard focus', async ({ page }, testInfo) => {
+    const referenceDate = new Date('2026-09-30T12:00:00Z');
+    const snapshot = buildStatusSnapshot(referenceDate);
+    await page.clock.install({ time: referenceDate });
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+    await expect(page.locator('[data-status-reference-date]'))
+      .toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+    const system = snapshot.systems[0];
+    const incidentDays = system.days.filter(({ severity }) => severity !== 'operational');
+    const component = page.locator(`[data-status-component="${system.id}"]`);
+    const timeline = component.locator('[data-status-timeline]');
+    const popover = component.getByRole('tooltip');
+    await component.locator(`[data-uptime-day="${incidentDays[0].date}"]`).hover();
+    await expect(popover).toBeVisible();
+    await expect(popover).toHaveAttribute('data-popover-day', incidentDays[0].date);
+    await expect(popover.locator('[data-day-total-duration]')).toHaveAttribute(
+      'datetime',
+      `PT${incidentDays[0].metrics.criticalMinutes + incidentDays[0].metrics.degradedMinutes}M`
+    );
+    await expect(popover.locator('[data-day-weighted-duration]')).toHaveAttribute(
+      'datetime',
+      `PT${incidentDays[0].metrics.effectiveDowntimeMinutes}M`
+    );
+
+    const startedAt = new Date(`${incidentDays[0].date}T00:00:00Z`).getTime();
+    const related = snapshot.incidents.filter((incident) =>
+      incident.systemIds.includes(system.id)
+      && incident.startedAt < startedAt + 86_400_000
+      && incident.resolvedAt > startedAt
+    );
+    expect(await popover.locator('[data-popover-incident]').evaluateAll((incidents) =>
+      incidents.map((incident) => incident.getAttribute('data-popover-incident'))
+    )).toEqual(related.map(({ instanceId }) => instanceId));
+
+    await popover.hover();
+    await expect(popover).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath('status-hover-popover.png') });
+    await page.keyboard.press('Escape');
+    await expect(popover).toBeHidden();
+    await page.mouse.move(0, 0);
+    await timeline.focus();
+    await expect(popover).toBeVisible();
+    await page.keyboard.press('ArrowRight');
+    await expect(popover).toHaveAttribute('data-popover-day', incidentDays[1].date);
+    await page.keyboard.press('End');
+    await expect(popover).toHaveAttribute('data-popover-day', incidentDays.at(-1)!.date);
+    await page.keyboard.press('Escape');
+    await expect(popover).toBeHidden();
+    await expect(timeline).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(popover).toBeHidden();
+  });
+
+  test('keeps incident previews inside a touch viewport', async ({ browser, baseURL }, testInfo) => {
+    const context = await browser.newContext({
+      baseURL,
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+    });
+    try {
+      const page = await context.newPage();
+      await page.clock.install({ time: new Date('2026-09-30T12:00:00Z') });
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
+      const component = page.locator('[data-status-component]').first();
+      const trigger = component.locator('[data-uptime-day]:not([data-severity="operational"])').first();
+      await trigger.tap();
+      const popover = component.getByRole('tooltip');
+      await expect(popover).toBeVisible();
+      const bounds = await popover.boundingBox();
+      expect(bounds).not.toBeNull();
+      expect(bounds!.x).toBeGreaterThanOrEqual(0);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+      expect(bounds!.y).toBeGreaterThanOrEqual(0);
+      expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(844);
+      await page.screenshot({ path: testInfo.outputPath('status-touch-popover.png') });
+      await page.locator('main h1').tap();
+      await expect(popover).toBeHidden();
+    } finally {
+      await context.close();
+    }
   });
 
   test('keeps the homepage proof layout balanced', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('main h1')).toBeVisible();
-    await expect(page.locator('main a[href="/roadmap/"]')).toBeVisible();
 
     const proofArticles = page.locator('#proof article');
     await expect(proofArticles).toHaveCount(2);
@@ -590,7 +1156,7 @@ test.describe('Static route experience', () => {
   });
 
   test('renders portfolio and changelog records', async ({ page }) => {
-    await page.goto('/portfolio', { waitUntil: 'domcontentloaded' });
+    await page.goto('/open-source', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('main article')).toHaveCount(projectsData.projects.length);
     for (const project of projectsData.projects) {
       await expect(page.locator(`main a[href="${project.url}"]`)).toHaveCount(1);
@@ -617,6 +1183,48 @@ test.describe('Static route experience', () => {
     await expect(customerCodes).toHaveCount(visibleCustomers.length);
 
     await page.goto('/careers', { waitUntil: 'domcontentloaded' });
+    const careerRoleRecords = page.locator('[data-career-role]');
+    await expect(careerRoleRecords).toHaveCount(careerRoles.length);
+    expect(
+      await careerRoleRecords.evaluateAll((roles) =>
+        roles.map((role) => role.getAttribute('data-career-role'))
+      )
+    ).toEqual(['platform', 'sre', 'software', 'ai-automation', 'open-source', 'solutions']);
+    expect(
+      await careerRoleRecords.locator('[data-career-apply]').evaluateAll((links) =>
+        links.map((link) => link.getAttribute('href'))
+      )
+    ).toEqual([
+      '/job/platform-engineer/',
+      '/job/site-reliability-engineer/',
+      '/job/software-engineer/',
+      '/job/ai-engineer/',
+      '/job/open-source-community-lead/',
+      '/job/solutions-customer-success-architect/',
+    ]);
+    await expect(careerRoleRecords.locator('ul')).toHaveCount(0);
+    await expect(page.locator('[data-career-role] > p')).toHaveCount(0);
+    await expect(careerRoleRecords.locator('dl')).toHaveCount(careerRoles.length);
+    for (const role of careerRoles) {
+      const record = page.locator(`[data-career-role="${role.id}"]`);
+      expect(role.locationIds).toEqual(careerLocations.map(({ id }) => id));
+      await expect(record.locator('[data-career-location-list]')).toHaveText(
+        careerLocations.map(({ label }) => label).join(' · ')
+      );
+    }
+
+    const workPrinciples = page.locator('[data-work-principle]');
+    await expect(workPrinciples).toHaveCount(6);
+    await expect(workPrinciples.first()).toHaveAttribute('data-work-principle', 'have-fun');
+
+    const careerValues = page.locator('[data-career-value]');
+    await expect(careerValues).toHaveCount(4);
+    expect(
+      await careerValues.evaluateAll((values) =>
+        values.map((value) => value.getAttribute('data-career-value'))
+      )
+    ).toEqual(['transparency', 'integrity', 'reliability', 'creativity']);
+
     const close = page.locator('[data-careers-close]');
     const deploy = close.locator('a');
     const [headingBox, deployBox] = await Promise.all([
@@ -628,6 +1236,95 @@ test.describe('Static route experience', () => {
     expect(deployBox).not.toBeNull();
     expect(deployBox!.y).toBeGreaterThan(headingBox!.y + headingBox!.height);
     expect(Math.abs(deployBox!.x - headingBox!.x)).toBeLessThanOrEqual(1);
+  });
+
+  test('filters careers roles by search, location, and department', async ({ page }) => {
+    for (const viewport of [
+      { width: 390, height: 844 },
+      { width: 1600, height: 900 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/careers', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
+
+      const roles = page.locator('[data-career-role]:visible');
+      const visibleRoleIds = () =>
+        roles.evaluateAll((items) =>
+          items.map((item) => item.getAttribute('data-career-role'))
+        );
+      const search = page.getByRole('searchbox', { name: 'Search roles' });
+      await search.focus();
+      await page.keyboard.press('Tab');
+      await expect(page.getByLabel('Location')).toBeFocused();
+      await page.keyboard.press('Tab');
+      await expect(page.getByLabel('Department')).toBeFocused();
+
+      for (const location of careerLocations) {
+        await page.getByLabel('Location').selectOption(location.id);
+        await expect.poll(visibleRoleIds).toEqual(
+          careerRoles
+            .filter((role) => role.locationIds.includes(location.id))
+            .map((role) => role.id)
+        );
+      }
+
+      await page.getByLabel('Location').selectOption('all');
+      const department = careerDepartments[0];
+      await page.getByLabel('Department').selectOption(department.id);
+      await expect.poll(visibleRoleIds).toEqual(
+        careerRoles
+          .filter((role) => role.departmentId === department.id)
+          .map((role) => role.id)
+      );
+
+      await page.getByLabel('Department').selectOption('all');
+      const searchedRole = careerRoles[2];
+      await search.fill(`  ${searchedRole.title.toUpperCase()}  `);
+      await expect.poll(visibleRoleIds).toEqual([searchedRole.id]);
+
+      await page.getByLabel('Department').selectOption(department.id);
+      await expect(roles).toHaveCount(0);
+      await expect(page.getByRole('search').locator('p')).toBeVisible();
+
+      await search.fill('');
+      await expect.poll(visibleRoleIds).toEqual(
+        careerRoles
+          .filter((role) => role.departmentId === department.id)
+          .map((role) => role.id)
+      );
+      await page.getByLabel('Department').selectOption('all');
+      await expect.poll(visibleRoleIds).toEqual(careerRoles.map(({ id }) => id));
+      await expect(page.getByRole('search').locator('p')).toBeHidden();
+
+      expect(await page.evaluate(() =>
+        document.documentElement.scrollWidth > window.innerWidth
+      )).toBe(false);
+    }
+  });
+
+  test('publishes complete role descriptions from the careers source', async ({ page }) => {
+    for (const role of careerRoles) {
+      await page.goto(`/job/${role.slug}`, { waitUntil: 'domcontentloaded' });
+
+      const description = page.locator(`[data-job-description="${role.id}"]`);
+      await expect(description).toBeVisible();
+      await expect(description.locator('[data-job-location-list]')).toHaveText(
+        careerLocations.map(({ label }) => label).join(' · ')
+      );
+      await expect(description.locator('[data-job-responsibility]')).toHaveCount(
+        role.responsibilities.length
+      );
+      await expect(description.locator('[data-job-profile]')).toHaveCount(
+        role.candidateProfile.length
+      );
+      await expect(description.locator('[data-job-compensation]')).toHaveCount(
+        role.compensation.length
+      );
+      await expect(description.getByRole('link', { name: /back to careers/i })).toHaveAttribute(
+        'href',
+        '/careers/'
+      );
+    }
   });
 
   test('keeps benchmark metrics separated and pricing cards aligned', async ({ page }) => {
@@ -781,21 +1478,39 @@ test.describe('Static route experience', () => {
     ).toBeVisible();
   });
 
-  test('uses the requested Product and Company footer routes', async ({ page }) => {
+  test('uses the requested footer navigation routes', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 900 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const footerNavigations = page.locator('footer nav');
-    const product = footerNavigations.nth(0);
-    const company = footerNavigations.nth(1);
+    const footer = page.getByRole('contentinfo');
+    const product = footer.getByRole('navigation', { name: 'Product' });
+    const company = footer.getByRole('navigation', { name: 'Company' });
+    const resources = footer.getByRole('navigation', { name: 'Resources' });
+    const social = footer.getByRole('navigation', { name: 'Social' });
     expect(await product.locator('a').evaluateAll((links) =>
       links.map((link) => link.getAttribute('href'))
     )).toEqual(['/#features', '/#integrations', '/pricing/', '/roadmap/']);
     expect(await company.locator('a').evaluateAll((links) =>
       links.map((link) => link.getAttribute('href'))
-    )).toEqual(['/portfolio/', '/about/', '/careers/', '/customers/']);
+    )).toEqual(['/open-source/', '/about/', '/careers/', '/customers/']);
+    expect(await resources.locator('a').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href'))
+    )).toEqual([
+      '/blog/',
+      '/docs/',
+      '/press/',
+      '/support/',
+      'mailto:info@mb-consulting.dev',
+      '/status/',
+    ]);
+    expect(await social.locator('a').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href'))
+    )).toEqual([
+      'https://github.com/mbianchidev',
+      'https://www.linkedin.com/in/mbianchidev',
+    ]);
 
-    for (const navigation of [product, company]) {
+    for (const navigation of [product, company, resources, social]) {
       const positions = await navigation.getByRole('link').evaluateAll((links) =>
         links.map((link) => link.getBoundingClientRect().top)
       );

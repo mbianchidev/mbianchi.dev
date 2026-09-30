@@ -16,7 +16,7 @@ export function Footer() {
             <BrandLogo />
           </Link>
           <p>
-            I build platforms, software, and automation. I also work with customers
+            Build platforms, software, and automation. Also work with customers
             and explain things without a 90-slide deck.
           </p>
         </div>
@@ -30,7 +30,7 @@ export function Footer() {
           </nav>
           <nav className={styles.footerColumn} aria-label="Company">
             <h3>Company</h3>
-            <Link href="/portfolio">Open source</Link>
+            <Link href="/open-source">Open source</Link>
             <Link href="/about">About</Link>
             <Link href="/careers">Careers</Link>
             <Link href="/customers">Customers</Link>
@@ -38,24 +38,20 @@ export function Footer() {
           <nav className={styles.footerColumn} aria-label="Resources">
             <h3>Resources</h3>
             <Link href="/blog">Blog</Link>
-            <Link href="/links">Links</Link>
-            <Link href="/documentation">Documentation</Link>
+            <Link href="/docs">docs</Link>
             <Link href="/press">Press</Link>
             <Link href="/support">Support</Link>
+            <a href="mailto:info@mb-consulting.dev">Services</a>
             <Link href="/status">Status</Link>
           </nav>
-          <nav className={styles.footerColumn} aria-label="Contact">
-            <h3>Open a ticket</h3>
+          <nav className={styles.footerColumn} aria-label="Social">
+            <h3>Social</h3>
             <a href="https://github.com/mbianchidev" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
             <a href="https://www.linkedin.com/in/mbianchidev" target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>
-            <a href="https://cal.com/mbianchidev/intro" target="_blank" rel="noopener noreferrer">
-              Start trial
-            </a>
-            <a href="mailto:info@mb-consulting.dev">Consulting inquiries</a>
           </nav>
         </div>
       </div>

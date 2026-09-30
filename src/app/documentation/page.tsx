@@ -1,12 +1,7 @@
-import { WorkInProgress } from '@/components/WorkInProgress'
-import { createPageMetadata } from '@/lib/siteMetadata'
+import ShortLinkPage, { shortLinkMetadata } from '@/components/ShortLinkPage'
 
-export const metadata = createPageMetadata({
-  title: 'Documentation — Matteo',
-  description: 'Guides, source code, blog posts, and the scattered Matteo documentation system.',
-  path: '/documentation/',
-})
+export const metadata = shortLinkMetadata
 
 export default function DocumentationPage() {
-  return <WorkInProgress page="Documentation" />
+  return <ShortLinkPage source="/documentation" />
 }

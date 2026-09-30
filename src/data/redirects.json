@@ -29,6 +29,21 @@
     "permanent": false
   },
   {
+    "source": "/portfolio",
+    "destination": "/open-source",
+    "permanent": true
+  },
+  {
+    "source": "/documentation",
+    "destination": "/docs",
+    "permanent": true
+  },
+  {
+    "source": "/scrum",
+    "destination": "/blog/scrum-sucks",
+    "permanent": false
+  },
+  {
     "source": "/li",
     "destination": "https://www.linkedin.com/in/mbianchidev/",
     "permanent": false,

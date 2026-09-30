@@ -8,12 +8,13 @@ type Props = {
 
 const pageContent = {
   Documentation: {
-    path: '/documentation',
+    path: '/docs',
     title: 'The docs are scattered. Very enterprise.',
     description:
       'There is no single manual. The useful bits are split between source code, blog posts, and the platform roadmap.',
     tone: 'cyan' as const,
     status: 'Documentation status: useful, scattered, not finished',
+    resourceTitle: 'Useful links while I finish this page.',
     links: [
       { label: 'Read the blog', href: '/blog', detail: 'Technical guides, opinions, conference survival, and occasional rants.' },
       { label: 'Browse the source', href: 'https://github.com/mbianchidev', detail: 'Repositories, tools, experiments, and implementation details.' },
@@ -27,6 +28,7 @@ const pageContent = {
       'Speaker material, public sessions, and a direct human contact. No downloadable stock photo of people pointing at glass.',
     tone: 'green' as const,
     status: 'Media status: available, opinionated, usually responsive',
+    resourceTitle: 'Useful links while I finish this page.',
     links: [
       { label: 'Sessionize profile', href: 'https://sessionize.com/mbianchidev/', detail: 'Talks, sessions, and event history.' },
       { label: 'Speaker Deck', href: 'https://speakerdeck.com/mbianchidev', detail: 'Slides from cloud-native and platform talks.' },
@@ -39,7 +41,8 @@ const pageContent = {
     description:
       'Pick the channel that matches the problem. Bug report, private question, or a call with an actual person.',
     tone: 'light' as const,
-    status: 'Support SLA: probably faster than enterprise procurement',
+    status: 'Support SLA: surely faster than your enterprise procurement process.',
+    resourceTitle: 'Useful links',
     links: [
       { label: 'Open a GitHub issue', href: 'https://github.com/mbianchidev/mbianchi.dev/issues', detail: 'Bugs and concrete repository feedback.' },
       { label: 'Send an email', href: 'mailto:info@mb-consulting.dev', detail: 'Questions that should not become public issues.' },
@@ -68,7 +71,7 @@ export function WorkInProgress({ page }: Props) {
       <section className={styles.resourceSection} aria-labelledby={`${page.toLowerCase()}-resources`}>
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id={`${page.toLowerCase()}-resources`}>Useful links while I finish this page.</h2>
+            <h2 id={`${page.toLowerCase()}-resources`}>{content.resourceTitle}</h2>
             <p>They all work. Low bar, apparently.</p>
           </div>
           <div className={styles.resourceGrid}>

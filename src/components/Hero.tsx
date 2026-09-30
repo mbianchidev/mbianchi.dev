@@ -19,10 +19,10 @@ export function Hero() {
             Platform as a Human
           </h1>
           <p className={styles.heroText}>
-            <span>Build platforms and software.</span>
-            <span>Easy to acquire new customers and even easier to retain current ones.</span>
-            <span>Automate the boring stuff, get a blog, talk and videos about your technology.</span>
-            <span>Deploy Matteo today.</span>
+            <span>
+              Matteo builds platforms, software, and automation. Also works with customers and
+              explains things without a 90-slide deck.
+            </span>
           </p>
           <div className={styles.heroActions}>
             <a
@@ -35,13 +35,10 @@ export function Hero() {
               <span aria-hidden="true">↗</span>
             </a>
             <a href="#compatibility" className={styles.secondaryAction}>
-              Run compatibility check
+              Compatibility check
               <span aria-hidden="true">↓</span>
             </a>
           </div>
-          <p className={styles.heroFinePrint}>
-            Looking for a full-time role. Always available for consulting and advisory work.
-          </p>
         </div>
 
         <aside className={styles.productShell} aria-label="Matteo product specifications">

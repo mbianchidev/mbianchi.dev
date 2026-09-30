@@ -1,0 +1,373 @@
+.jobInner {
+    width: min(100%, 1180px);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.mandateSection,
+.ownershipSection,
+.specSection,
+.compensationSection,
+.evidenceSection {
+    padding: clamp(82px, 10vw, 145px) clamp(20px, 5vw, 72px);
+}
+
+.mandateSection {
+    color: var(--bg-primary);
+    background: var(--text-primary);
+}
+
+.mandateGrid {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+    gap: clamp(48px, 8vw, 118px);
+}
+
+.sectionHeading h2,
+.darkSectionHeading h2,
+.specGrid h2,
+.evidenceHeader h2,
+.jobClose h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+}
+
+.sectionHeading h2,
+.darkSectionHeading h2,
+.evidenceHeader h2 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    line-height: 0.96;
+}
+
+.sectionHeading > p,
+.darkSectionHeading > p {
+    max-width: 48ch;
+    margin: 24px 0 0;
+    line-height: 1.7;
+}
+
+.sectionHeading > p {
+    color: color-mix(in srgb, var(--bg-primary) 68%, transparent);
+}
+
+.mandateCopy {
+    max-width: 70ch;
+}
+
+.mandateCopy p {
+    margin: 0;
+    font-size: clamp(1.12rem, 2vw, 1.4rem);
+    line-height: 1.75;
+}
+
+.mandateCopy p + p {
+    margin-top: 24px;
+}
+
+.operatingConditions {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: clamp(62px, 8vw, 100px);
+    border-top: 1px solid color-mix(in srgb, var(--bg-primary) 22%, transparent);
+    border-left: 1px solid color-mix(in srgb, var(--bg-primary) 22%, transparent);
+}
+
+.operatingConditions > div {
+    min-width: 0;
+    padding: 20px;
+    border-right: 1px solid color-mix(in srgb, var(--bg-primary) 22%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--bg-primary) 22%, transparent);
+}
+
+.operatingConditions dt {
+    color: color-mix(in srgb, var(--bg-primary) 58%, transparent);
+    font-size: 0.74rem;
+    font-weight: 800;
+}
+
+.operatingConditions dd {
+    margin: 10px 0 0;
+    color: var(--bg-primary);
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.ownershipSection {
+    color: var(--text-primary);
+    background: var(--bg-primary);
+}
+
+.darkSectionHeading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
+    gap: 48px;
+    align-items: end;
+}
+
+.darkSectionHeading > p {
+    color: var(--text-secondary);
+}
+
+.ownershipLedger {
+    margin-top: clamp(54px, 7vw, 84px);
+    border-top: 1px solid var(--border-color);
+}
+
+.ownershipLedger li {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: clamp(26px, 6vw, 90px);
+    align-items: start;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ownershipLedger code {
+    color: var(--primary-color);
+    font-size: 0.76rem;
+    font-weight: 800;
+}
+
+.ownershipLedger p {
+    max-width: 76ch;
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.65;
+}
+
+.specSection {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+}
+
+.specGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid var(--border-color);
+}
+
+.specGrid > section {
+    min-width: 0;
+    padding: clamp(28px, 5vw, 54px);
+}
+
+.specGrid > section + section {
+    border-left: 1px solid var(--border-color);
+}
+
+.specGrid h2 {
+    max-width: 12ch;
+    color: var(--text-primary);
+    font-size: clamp(2.1rem, 4vw, 3.5rem);
+    line-height: 1;
+}
+
+.specList {
+    margin-top: 36px;
+    border-top: 1px solid var(--border-color);
+}
+
+.specList li {
+    position: relative;
+    padding: 18px 0 18px 30px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.specList li::before {
+    position: absolute;
+    top: 19px;
+    left: 0;
+    content: '→';
+    color: var(--primary-color);
+    font-weight: 900;
+}
+
+.compensationSection {
+    color: var(--bg-primary);
+    background: var(--text-primary);
+}
+
+.compensationHeader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
+    gap: 48px;
+    align-items: end;
+}
+
+.compensationHeader h2 {
+    margin: 0;
+    color: var(--bg-primary);
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+}
+
+.compensationHeader p {
+    max-width: 52ch;
+    margin: 0;
+    color: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+    line-height: 1.7;
+}
+
+.compensationGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(52px, 7vw, 80px);
+    border-top: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+    border-left: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+}
+
+.compensationGrid > div {
+    min-width: 0;
+    padding: clamp(22px, 3vw, 34px);
+    border-right: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--bg-primary) 24%, transparent);
+}
+
+.compensationGrid dt {
+    color: color-mix(in srgb, var(--bg-primary) 62%, transparent);
+    font-size: 0.76rem;
+    font-weight: 900;
+}
+
+.compensationGrid dd {
+    display: grid;
+    gap: 8px;
+    margin: 18px 0 0;
+}
+
+.compensationGrid strong {
+    color: var(--bg-primary);
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.compensationGrid span {
+    color: var(--primary-color);
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.compensationGrid small {
+    color: color-mix(in srgb, var(--bg-primary) 58%, transparent);
+    line-height: 1.5;
+}
+
+.evidenceSection {
+    color: var(--bg-primary);
+    background: var(--primary-color);
+}
+
+.evidenceHeader {
+    max-width: 760px;
+}
+
+.evidenceLedger {
+    margin-top: clamp(52px, 7vw, 80px);
+    border-top: 1px solid color-mix(in srgb, var(--bg-primary) 28%, transparent);
+}
+
+.evidenceLedger li {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 14px;
+    padding: 22px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--bg-primary) 28%, transparent);
+}
+
+.evidenceLedger span {
+    color: var(--bg-primary);
+    font-weight: 900;
+}
+
+.evidenceLedger p {
+    max-width: 78ch;
+    margin: 0;
+    color: var(--bg-primary);
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+    line-height: 1.6;
+}
+
+.jobClose {
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+    align-items: flex-end;
+    padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 72px);
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+}
+
+.jobClose > div {
+    max-width: 860px;
+}
+
+.jobClose p {
+    margin: 0 0 18px;
+    color: var(--primary-color);
+    font-weight: 900;
+}
+
+.jobClose h2 {
+    color: var(--text-primary);
+    font-size: clamp(2.5rem, 5vw, 4.8rem);
+    line-height: 1;
+}
+
+.jobClose > a {
+    flex: 0 0 auto;
+}
+
+@media (max-width: 900px) {
+    .mandateGrid,
+    .darkSectionHeading,
+    .compensationHeader {
+        grid-template-columns: 1fr;
+    }
+
+    .operatingConditions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .specGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .specGrid > section + section {
+        border-top: 1px solid var(--border-color);
+        border-left: 0;
+    }
+
+    .compensationGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .jobClose {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .ownershipLedger li {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .operatingConditions {
+        grid-template-columns: 1fr;
+    }
+
+    .jobClose > a {
+        width: 100%;
+    }
+}

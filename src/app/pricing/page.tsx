@@ -18,8 +18,9 @@ interface PricingPlan {
 const pricingPlans: PricingPlan[] = [
   {
     id: 'advisory',
-    name: 'Advisory',
-    description: 'Bring me the Kubernetes or open-source decision before it becomes a six-month programme and a regrettable diagram.',
+    name: 'Plus',
+    description:
+      'Bring the Kubernetes, infra or open-source decision before it becomes a year-long headache and a regrettable diagram or vendor locked-in contract.',
     price: '€100',
     hourlyRate: 100,
     period: '/hour',
@@ -34,13 +35,14 @@ const pricingPlans: PricingPlan[] = [
   },
   {
     id: 'delivery',
-    name: 'Delivery',
-    description: 'I implement the recommendation, teach the team, and leave enough documentation that I do not become permanent infrastructure.',
+    name: 'Pro',
+    description:
+      'Plan, design, implementation and maintenance. Training and enough documentation included. So that Matteo does not become permanent infrastructure.',
     price: '€150',
     hourlyRate: 150,
     period: '/hour',
     features: [
-      'Everything in Advisory',
+      'Everything in Plus',
       'Kubernetes and platform implementation',
       'Mentorship for engineers and technical leaders',
       'Custom training and workshops',
@@ -50,8 +52,9 @@ const pricingPlans: PricingPlan[] = [
   },
   {
     id: 'full-time',
-    name: 'Full-time',
-    description: 'For a company that wants one senior engineer who can move between platforms, software, customers, and AI without opening four roles.',
+    name: 'Max',
+    description:
+      'For enterprises and well funded startups that want the equivalent of a senior/staff engineer who can move with ease between platforms, software, customers, open source and AI without opening too many roles.',
     price: 'Let’s talk',
     period: '',
     recommended: true,
@@ -95,8 +98,15 @@ export default function Pricing() {
     <div className={styles.page}>
       <PageHero
         path="/pricing"
-        title="Full-time first. Consulting when it is a good fit."
-        description="I am mainly looking for a senior full-time role. I still take selected Kubernetes, open-source, mentorship, training, and speaking work."
+        title="Get value immediately. Pay per use."
+        description={
+          <>
+            Most return on investment for permanent deployments.
+            <br />
+            Spot instances available to run: Kubernetes, open-source, mentorship, training,
+            advisory and speaking programs.
+          </>
+        }
         tone="dark"
         actions={
           <a
@@ -121,7 +131,7 @@ export default function Pricing() {
             </div>
             <div>
               <dt>Seat pricing</dt>
-              <dd>Physically impossible</dd>
+              <dd>No seats needed, remote only.</dd>
             </div>
           </dl>
         }
@@ -130,8 +140,8 @@ export default function Pricing() {
       <section className={styles.sectionLight} aria-labelledby="plans-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-          <h2 id="plans-title">Pick the arrangement.</h2>
-          <p>Full-time is the default. Consulting is narrower on purpose.</p>
+            <h2 id="plans-title">Pick your plan</h2>
+            <p>Full-time is the default. Consulting is narrower on purpose.</p>
           </div>
           <div className={styles.pricingGrid}>
             {pricingPlans.map((plan) => {
