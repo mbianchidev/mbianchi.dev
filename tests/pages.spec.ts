@@ -698,6 +698,7 @@ test.describe('Static route experience', () => {
     const snapshot = buildStatusSnapshot(referenceDate);
     await page.clock.install({ time: referenceDate });
     await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
 
     await expect(page.locator('main h1')).toBeVisible();
     await expect(page.locator('[data-status-reference-date]'))
@@ -728,6 +729,11 @@ test.describe('Static route experience', () => {
 
     const incidents = page.locator('[data-status-incident]');
     await expect(incidents).toHaveCount(snapshot.incidents.length);
+    const history = page.locator('[data-status-history]');
+    await expect(history).toHaveJSProperty('open', false);
+    await expect(incidents.first()).toBeHidden();
+    await expect(page.locator('[class*="statusHeroCopy"] > p')).toHaveCount(1);
+    await history.locator(':scope > summary').click();
     for (const incident of snapshot.incidents) {
       const record = page.locator(`[data-incident-instance="${incident.instanceId}"]`);
       await expect(record).toHaveAttribute('data-incident-severity', incident.severity);
@@ -757,10 +763,12 @@ test.describe('Static route experience', () => {
   test('advances the UTC status window without rewriting existing incident dates', async ({ page }) => {
     await page.clock.install({ time: new Date('2026-09-30T23:59:30Z') });
     await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
     const dashboard = page.locator('[data-status-reference-date]');
     await expect(dashboard).toHaveAttribute('data-status-reference-date', '2026-09-30');
 
     const previousSnapshot = buildStatusSnapshot(new Date('2026-09-30T12:00:00Z'));
+    await page.locator('[data-status-history] > summary').click();
     const keptIncident = previousSnapshot.incidents[0];
     const record = page.locator(`[data-incident-instance="${keptIncident.instanceId}"]`);
     await record.locator('summary').click();
@@ -785,11 +793,13 @@ test.describe('Static route experience', () => {
     const snapshot = buildStatusSnapshot(referenceDate);
     await page.clock.install({ time: referenceDate });
     await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
     await expect(page.locator('[data-status-reference-date]'))
       .toHaveAttribute('data-status-reference-date', '2026-09-30');
 
     for (const period of snapshot.periods) {
       await page.locator(`[data-status-period="${period.id}"] a`).click();
+      await expect(page.locator('[data-status-history]')).toHaveJSProperty('open', true);
       const records = page.locator('[data-status-incident]');
       await expect(records).toHaveCount(period.incidents.length);
       expect(await records.evaluateAll((incidents) =>
@@ -816,10 +826,14 @@ test.describe('Static route experience', () => {
     ]) {
       await page.setViewportSize(viewport);
       await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
       await expect(page.locator('[data-status-reference-date]'))
         .toHaveAttribute('data-status-reference-date', '2026-09-30');
 
       const record = page.locator('[data-status-incident]').first();
+      const historySummary = page.locator('[data-status-history] > summary');
+      await historySummary.focus();
+      await page.keyboard.press('Enter');
       await record.locator('summary').focus();
       await page.keyboard.press('Enter');
       await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
@@ -858,10 +872,97 @@ test.describe('Static route experience', () => {
       await expect(page.locator('[data-status-availability]'))
         .toHaveText(`${snapshot.overall.availabilityPercentage.toFixed(3)}%`);
       await expect(page.locator('[data-status-incident]')).toHaveCount(snapshot.incidents.length);
+      await page.locator('[data-status-history] > summary').click();
       const record = page.locator('[data-status-incident]').first();
       await record.locator('summary').click();
       await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
       await expect(page.locator('[data-availability-policy]')).toBeVisible();
+    } finally {
+      await context.close();
+    }
+  });
+
+  test('previews related incidents on timeline hover and keyboard focus', async ({ page }, testInfo) => {
+    const referenceDate = new Date('2026-09-30T12:00:00Z');
+    const snapshot = buildStatusSnapshot(referenceDate);
+    await page.clock.install({ time: referenceDate });
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+    await expect(page.locator('[data-status-reference-date]'))
+      .toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+    const system = snapshot.systems[0];
+    const incidentDays = system.days.filter(({ severity }) => severity !== 'operational');
+    const component = page.locator(`[data-status-component="${system.id}"]`);
+    const timeline = component.locator('[data-status-timeline]');
+    const popover = component.getByRole('tooltip');
+    await component.locator(`[data-uptime-day="${incidentDays[0].date}"]`).hover();
+    await expect(popover).toBeVisible();
+    await expect(popover).toHaveAttribute('data-popover-day', incidentDays[0].date);
+    await expect(popover.locator('[data-day-total-duration]')).toHaveAttribute(
+      'datetime',
+      `PT${incidentDays[0].metrics.criticalMinutes + incidentDays[0].metrics.degradedMinutes}M`
+    );
+    await expect(popover.locator('[data-day-weighted-duration]')).toHaveAttribute(
+      'datetime',
+      `PT${incidentDays[0].metrics.effectiveDowntimeMinutes}M`
+    );
+
+    const startedAt = new Date(`${incidentDays[0].date}T00:00:00Z`).getTime();
+    const related = snapshot.incidents.filter((incident) =>
+      incident.systemIds.includes(system.id)
+      && incident.startedAt < startedAt + 86_400_000
+      && incident.resolvedAt > startedAt
+    );
+    expect(await popover.locator('[data-popover-incident]').evaluateAll((incidents) =>
+      incidents.map((incident) => incident.getAttribute('data-popover-incident'))
+    )).toEqual(related.map(({ instanceId }) => instanceId));
+
+    await popover.hover();
+    await expect(popover).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath('status-hover-popover.png') });
+    await page.keyboard.press('Escape');
+    await expect(popover).toBeHidden();
+    await page.mouse.move(0, 0);
+    await timeline.focus();
+    await expect(popover).toBeVisible();
+    await page.keyboard.press('ArrowRight');
+    await expect(popover).toHaveAttribute('data-popover-day', incidentDays[1].date);
+    await page.keyboard.press('End');
+    await expect(popover).toHaveAttribute('data-popover-day', incidentDays.at(-1)!.date);
+    await page.keyboard.press('Escape');
+    await expect(popover).toBeHidden();
+    await expect(timeline).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(popover).toBeHidden();
+  });
+
+  test('keeps incident previews inside a touch viewport', async ({ browser, baseURL }, testInfo) => {
+    const context = await browser.newContext({
+      baseURL,
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+    });
+    try {
+      const page = await context.newPage();
+      await page.clock.install({ time: new Date('2026-09-30T12:00:00Z') });
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
+      const component = page.locator('[data-status-component]').first();
+      const trigger = component.locator('[data-uptime-day]:not([data-severity="operational"])').first();
+      await trigger.tap();
+      const popover = component.getByRole('tooltip');
+      await expect(popover).toBeVisible();
+      const bounds = await popover.boundingBox();
+      expect(bounds).not.toBeNull();
+      expect(bounds!.x).toBeGreaterThanOrEqual(0);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+      expect(bounds!.y).toBeGreaterThanOrEqual(0);
+      expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(844);
+      await page.screenshot({ path: testInfo.outputPath('status-touch-popover.png') });
+      await page.locator('main h1').tap();
+      await expect(popover).toBeHidden();
     } finally {
       await context.close();
     }

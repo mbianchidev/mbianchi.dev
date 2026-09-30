@@ -1,11 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import {
   statusProbeMessages,
   statusSystems,
-  type SystemSeverity,
 } from '@/data/status'
 import {
   buildStatusSnapshot,
@@ -15,40 +14,10 @@ import {
   type StatusSnapshot,
 } from '@/lib/status'
 import styles from '@/app/inner.module.css'
+import { StatusTimeline } from './StatusTimeline'
+import { dateFormatter, isoDate, minutes, percentage, severityLabels, timeFormatter } from './statusFormatting'
 
 const day = 24 * 60 * 60_000
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-  timeZone: 'UTC',
-})
-const timeFormatter = new Intl.DateTimeFormat('en-US', {
-  hour: '2-digit',
-  minute: '2-digit',
-  hourCycle: 'h23',
-  timeZone: 'UTC',
-})
-const minutesFormatter = new Intl.NumberFormat('en-US', {
-  maximumFractionDigits: 2,
-})
-const severityLabels: Record<SystemSeverity, string> = {
-  operational: 'Operational',
-  degraded: 'Degraded',
-  critical: 'Critical',
-}
-
-function percentage(value: number) {
-  return `${value.toFixed(3)}%`
-}
-
-function minutes(value: number) {
-  return `${minutesFormatter.format(value)} min`
-}
-
-function isoDate(timestamp: number) {
-  return new Date(timestamp).toISOString().slice(0, 10)
-}
 
 interface StatusDashboardProps {
   initialSnapshot: StatusSnapshot
@@ -56,6 +25,7 @@ interface StatusDashboardProps {
 
 export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
   const historyControlId = useId()
+  const historyRef = useRef<HTMLDetailsElement>(null)
   const [snapshot, setSnapshot] = useState(initialSnapshot)
   const [probeIndex, setProbeIndex] = useState(0)
   const [historyIndex, setHistoryIndex] = useState(0)
@@ -114,10 +84,6 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
           <div className={styles.statusHeroCopy}>
             <p>Matteo / Human Platform</p>
             <h1 id="page-title">Service status</h1>
-            <p>
-              A fictional incident history for one real human. The outages are
-              made up. The availability calculation is not.
-            </p>
           </div>
 
           <div className={styles.overallStatus} data-status-overall role="status">
@@ -184,22 +150,7 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
                     Operational
                   </span>
                 </div>
-                <div
-                  className={styles.uptimeTrack}
-                  role="img"
-                  aria-label={`${system.name}: ${percentage(system.metrics.availabilityPercentage)} availability over ${STATUS_WINDOW_DAYS} days. ${minutes(system.metrics.criticalMinutes)} critical and ${minutes(system.metrics.degradedMinutes)} degraded.`}
-                >
-                  {system.days.map((date) => (
-                    <span
-                      key={date.date}
-                      data-uptime-day={date.date}
-                      data-severity={date.severity}
-                      className={styles.uptimeBar}
-                      title={`${dateFormatter.format(new Date(`${date.date}T00:00:00Z`))}: ${severityLabels[date.severity]}. ${minutes(date.metrics.effectiveDowntimeMinutes)} weighted downtime.`}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
+                <StatusTimeline system={system} incidents={snapshot.incidents} />
                 <div className={styles.statusTimelineMeta}>
                   <time dateTime={isoDate(snapshot.windowStart)}>
                     {dateFormatter.format(snapshot.windowStart)}
@@ -291,7 +242,12 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
                     <td>
                       <a
                         href="#incidents-title"
-                        onClick={() => setHistoryIndex(index)}
+                        onClick={() => {
+                          setHistoryIndex(index)
+                          if (historyRef.current) {
+                            historyRef.current.open = true
+                          }
+                        }}
                         aria-label={`Inspect ${period.incidentCount} incidents from ${dateFormatter.format(period.startedAt)} through ${dateFormatter.format(period.endedAt - 1)}`}
                       >
                         {period.incidentCount}
@@ -320,15 +276,20 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
           </div>
         </section>
 
-        <section
+        <details
+          ref={historyRef}
+          data-status-history
           className={`${styles.statusSection} ${styles.statusHistorySection}`}
           aria-labelledby="incidents-title"
         >
-          <div className={styles.statusSectionHeader}>
+          <summary className={`${styles.statusSectionHeader} ${styles.statusHistorySummary}`}>
             <div>
               <h2 id="incidents-title">Incident history</h2>
               <p>What broke, why it broke, and what I actually did about it.</p>
             </div>
+            <span className={styles.incidentToggle} aria-hidden="true" />
+          </summary>
+          <div className={styles.statusHistoryControls}>
             <div className={styles.statusPeriodControl}>
               <label htmlFor={historyControlId}>Incident history period</label>
               <select
@@ -446,7 +407,7 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
               </article>
             </div>
           ))}
-        </section>
+        </details>
 
         <aside
           id="availability-methodology"

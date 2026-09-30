@@ -193,8 +193,12 @@ minutes; spacing guarantees one complete incident and at most two intersecting
 incidents per component window. With the short-incident budget, calculated
 availability stays between 97.5% and 99.8% without clamping percentages. Each
 incident includes impact, cause, recovery updates, resolution, and follow-up.
-The incident counts in the history table open the corresponding period's detailed
-records. The period selector also switches between the three historical windows.
+Incident history is collapsed by default. The incident counts in the history
+table expand the corresponding period's detailed records. The period selector
+also switches between the three historical windows. Hover or tap an incident day
+for its date, duration, weighted downtime, and related incidents. Each timeline
+is one keyboard stop: arrow keys inspect incident days, Home/End jump to the
+first/last, and Escape dismisses the preview.
 
 The initial snapshot is exported as HTML. With JavaScript enabled, the UTC window
 refreshes daily without rewriting historical incident timestamps. The page is
