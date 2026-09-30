@@ -8,7 +8,6 @@ import {
   getSocialImageDefinition,
   withBasePath,
 } from '@/lib/siteMetadata'
-import innerStyles from '@/app/inner.module.css'
 import { BlogArchiveSearch } from './BlogArchiveSearch'
 import styles from './blog.module.css'
 
@@ -67,10 +66,9 @@ interface PostCoverProps {
   post: BlogPostMetadata
   className: string
   sizes: string
-  priority?: boolean
 }
 
-function PostCover({ post, className, sizes, priority = false }: PostCoverProps) {
+function PostCover({ post, className, sizes }: PostCoverProps) {
   const image = getSocialImageDefinition(post.image, post.imageAlt)
 
   if (!image.width || !image.height) {
@@ -85,14 +83,12 @@ function PostCover({ post, className, sizes, priority = false }: PostCoverProps)
       height={image.height}
       className={className}
       sizes={sizes}
-      priority={priority}
     />
   )
 }
 
 export default function BlogPage() {
   const posts = getSortedPostsData()
-  const [featuredPost] = posts
   const categoryCounts = new Map<string, number>()
 
   for (const post of posts) {
@@ -115,56 +111,9 @@ export default function BlogPage() {
         title="Debugging notes."
         description="Some posts go deep. Some stay shallow. Sometimes they are technical too."
         tone="light"
-        actions={
-          featuredPost && (
-            <Link href={`/blog/${featuredPost.slug}`} className={innerStyles.darkButton}>
-              Read the latest post
-              <span aria-hidden="true">↗</span>
-            </Link>
-          )
-        }
       />
 
-      {featuredPost ? (
-        <section className={styles.leadSection} aria-label="Latest blog post">
-          <div className={styles.sectionLabel}>
-            <span>Latest post</span>
-            <span>Post {String(posts.length).padStart(3, '0')}</span>
-          </div>
-          <article className={styles.leadStory}>
-            <div className={styles.leadMarker} aria-hidden="true">
-              <span>Latest</span>
-              <strong>{featuredPost.date.slice(0, 4)}</strong>
-            </div>
-            <div className={styles.leadBody}>
-              <Link
-                href={`/blog/${featuredPost.slug}`}
-                className={styles.leadMedia}
-              >
-                <PostCover
-                  post={featuredPost}
-                  className={styles.coverImage}
-                  sizes="(max-width: 980px) 100vw, 44vw"
-                  priority
-                />
-              </Link>
-              <div className={styles.leadCopy}>
-                <div className={styles.storyMeta}>
-                  <span>{featuredPost.category}</span>
-                  <time dateTime={featuredPost.date}>{formatDate(featuredPost.date)}</time>
-                  <span>{featuredPost.readTime}</span>
-                </div>
-                <h2 id="latest-note">{featuredPost.title}</h2>
-                <p>{makeExcerpt(featuredPost, 250)}</p>
-                <Link href={`/blog/${featuredPost.slug}`}>
-                  Read the latest post
-                  <span aria-hidden="true">↗</span>
-                </Link>
-              </div>
-            </div>
-          </article>
-        </section>
-      ) : (
+      {posts.length === 0 && (
         <section className={styles.emptyState} aria-labelledby="empty-blog">
           <h2 id="empty-blog">No posts yet. That would be awkward.</h2>
           <p>Give me a minute.</p>

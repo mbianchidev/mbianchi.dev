@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 import customersData from '../src/data/customers.json';
-import { careerRoles } from '../src/data/jobs';
+import {
+  careerDepartments,
+  careerLocations,
+  careerRoles,
+} from '../src/data/jobs';
 import { linksPageConfig } from '../src/data/links';
 import projectsData from '../src/data/projects.json';
 import pathRedirects from '../src/data/redirects.json';
@@ -361,6 +365,9 @@ test.describe('Static route experience', () => {
     await page.goto('/blog', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('[data-blog-slug]')).toHaveCount(publishedPosts.length);
+    await expect(
+      page.locator(`main a[href="/blog/${samplePost.slug}/"]`)
+    ).toHaveCount(2);
 
     for (const post of publishedPosts) {
       const archiveRow = page.locator(`[data-blog-slug="${post.slug}"]`);
@@ -754,15 +761,15 @@ test.describe('Static route experience', () => {
     await expect(customerCodes).toHaveCount(visibleCustomers.length);
 
     await page.goto('/careers', { waitUntil: 'domcontentloaded' });
-    const careerRoles = page.locator('[data-career-role]');
-    await expect(careerRoles).toHaveCount(6);
+    const careerRoleRecords = page.locator('[data-career-role]');
+    await expect(careerRoleRecords).toHaveCount(careerRoles.length);
     expect(
-      await careerRoles.evaluateAll((roles) =>
+      await careerRoleRecords.evaluateAll((roles) =>
         roles.map((role) => role.getAttribute('data-career-role'))
       )
     ).toEqual(['platform', 'sre', 'software', 'ai-automation', 'open-source', 'solutions']);
     expect(
-      await careerRoles.locator('[data-career-apply]').evaluateAll((links) =>
+      await careerRoleRecords.locator('[data-career-apply]').evaluateAll((links) =>
         links.map((link) => link.getAttribute('href'))
       )
     ).toEqual([
@@ -773,6 +780,9 @@ test.describe('Static route experience', () => {
       '/job/open-source-community-lead/',
       '/job/solutions-customer-success-architect/',
     ]);
+    await expect(careerRoleRecords.locator('ul')).toHaveCount(0);
+    await expect(page.locator('[data-career-role] > p')).toHaveCount(0);
+    await expect(careerRoleRecords.locator('dl')).toHaveCount(careerRoles.length);
 
     const workPrinciples = page.locator('[data-work-principle]');
     await expect(workPrinciples).toHaveCount(6);
@@ -797,6 +807,41 @@ test.describe('Static route experience', () => {
     expect(deployBox).not.toBeNull();
     expect(deployBox!.y).toBeGreaterThan(headingBox!.y + headingBox!.height);
     expect(Math.abs(deployBox!.x - headingBox!.x)).toBeLessThanOrEqual(1);
+  });
+
+  test('filters careers roles by search, location, and department', async ({ page }) => {
+    await page.goto('/careers', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+
+    const roles = page.locator('[data-career-role]');
+    const visibleRoleIds = () =>
+      roles.evaluateAll((items) =>
+        items
+          .filter((item) => !item.hidden)
+          .map((item) => item.getAttribute('data-career-role'))
+      );
+
+    const location = careerLocations[0];
+    await page.getByLabel('Location').selectOption(location.id);
+    expect(await visibleRoleIds()).toEqual(
+      careerRoles
+        .filter((role) => role.locationId === location.id)
+        .map((role) => role.id)
+    );
+
+    await page.getByLabel('Location').selectOption('all');
+    const department = careerDepartments[0];
+    await page.getByLabel('Department').selectOption(department.id);
+    expect(await visibleRoleIds()).toEqual(
+      careerRoles
+        .filter((role) => role.departmentId === department.id)
+        .map((role) => role.id)
+    );
+
+    await page.getByLabel('Department').selectOption('all');
+    const searchedRole = careerRoles[2];
+    await page.getByRole('searchbox', { name: 'Search roles' }).fill(searchedRole.title);
+    expect(await visibleRoleIds()).toEqual([searchedRole.id]);
   });
 
   test('publishes complete role descriptions from the careers source', async ({ page }) => {

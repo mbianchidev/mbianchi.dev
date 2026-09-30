@@ -16,7 +16,7 @@ export function Footer() {
             <BrandLogo />
           </Link>
           <p>
-            I build platforms, software, and automation. I also work with customers
+            Build platforms, software, and automation. Also work with customers
             and explain things without a 90-slide deck.
           </p>
         </div>

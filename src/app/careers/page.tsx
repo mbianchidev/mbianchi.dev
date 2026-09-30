@@ -1,8 +1,13 @@
 import Link from 'next/link'
 import { PageHero } from '@/components/PageHero'
-import { careerRoles } from '@/data/jobs'
+import {
+  careerDepartments,
+  careerLocations,
+  careerRoles,
+} from '@/data/jobs'
 import { createPageMetadata } from '@/lib/siteMetadata'
 import styles from '@/app/inner.module.css'
+import { CareersSearch } from './CareersSearch'
 
 export const metadata = createPageMetadata({
   title: 'Careers — Matteo',
@@ -66,6 +71,17 @@ const values = [
   },
 ]
 
+const careerListings = careerRoles.map((role) => {
+  const department = careerDepartments.find(({ id }) => id === role.departmentId)
+  const location = careerLocations.find(({ id }) => id === role.locationId)
+
+  if (!department || !location) {
+    throw new Error(`Job "${role.id}" has an invalid department or location`)
+  }
+
+  return { role, department, location }
+})
+
 export default function CareersPage() {
   return (
     <div className={styles.page}>
@@ -87,29 +103,43 @@ export default function CareersPage() {
             <h2 id="roles-title">What are we looking for</h2>
             <p>Roles with a real impact, agency, out-of-the-way managers and low bureaucracy.</p>
           </div>
+          <CareersSearch
+            locations={careerLocations}
+            departments={careerDepartments}
+            total={careerRoles.length}
+          />
           <div className={styles.roleList}>
-            {careerRoles.map((role) => (
+            {careerListings.map(({ role, department, location }) => (
               <article
                 key={role.id}
                 data-career-role={role.id}
+                data-career-search={[
+                  role.title,
+                  department.label,
+                  location.label,
+                ].join(' ').toLowerCase()}
+                data-career-location={location.id}
+                data-career-department={department.id}
                 className={styles.roleRow}
               >
                 <h3>{role.title}</h3>
-                <p>{role.description}</p>
-                <div className={styles.roleMeta}>
-                  <ul className={styles.skillList}>
-                    {role.skills.map((skill) => (
-                      <li key={skill}>{skill}</li>
-                    ))}
-                  </ul>
-                  <Link
-                    href={`/job/${role.slug}`}
-                    className={styles.primaryButton}
-                    data-career-apply
-                  >
-                    Apply
-                  </Link>
-                </div>
+                <dl className={styles.roleDetails}>
+                  <div>
+                    <dt>Department</dt>
+                    <dd>{department.label}</dd>
+                  </div>
+                  <div>
+                    <dt>Location</dt>
+                    <dd>{location.label}</dd>
+                  </div>
+                </dl>
+                <Link
+                  href={`/job/${role.slug}`}
+                  className={styles.primaryButton}
+                  data-career-apply
+                >
+                  Apply
+                </Link>
               </article>
             ))}
           </div>

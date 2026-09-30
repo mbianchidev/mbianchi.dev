@@ -1,11 +1,30 @@
+export const careerLocations = [
+  { id: 'amsterdam-remote', label: 'Amsterdam (remote)' },
+  { id: 'london-remote', label: 'London (remote)' },
+  { id: 'berlin-remote', label: 'Berlin (remote)' },
+  { id: 'barcelona-remote', label: 'Barcelona (Remote)' },
+  { id: 'san-francisco-hybrid', label: 'San Francisco (hybrid)' },
+  { id: 'seattle-hybrid', label: 'Seattle (Hybrid)' },
+] as const
+
+export const careerDepartments = [
+  { id: 'platform-engineering', label: 'Platform Engineering' },
+  { id: 'software-engineering', label: 'Software Engineering' },
+  { id: 'open-source-community', label: 'Open Source & Community' },
+  { id: 'customer-success', label: 'Customer Success' },
+] as const
+
+export type CareerLocationId = (typeof careerLocations)[number]['id']
+export type CareerDepartmentId = (typeof careerDepartments)[number]['id']
+
 export interface CareerRole {
   id: string
   slug: string
   title: string
   description: string
-  skills: string[]
+  locationId: CareerLocationId
+  departmentId: CareerDepartmentId
   level: string
-  scope: string
   compensationBasis: 'Base salary' | 'OTE'
   compensation: CompensationBand[]
   mandate: string[]
@@ -56,9 +75,9 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior/Staff Platform Engineer',
     description:
       'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service people do not need a ticket to use.',
-    skills: ['Platform engineering', 'Kubernetes', 'IaC', 'SRE'],
+    locationId: 'amsterdam-remote',
+    departmentId: 'platform-engineering',
     level: 'Senior / Staff',
-    scope: 'Platform product',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
       '€185k–€250k',
@@ -103,9 +122,9 @@ export const careerRoles: CareerRole[] = [
     title: 'Staff Site Reliability Engineer',
     description:
       'Production reliability, observability, incident response, performance, and automation for systems people depend on.',
-    skills: ['SRE', 'Observability', 'Incident response', 'Performance'],
+    locationId: 'london-remote',
+    departmentId: 'platform-engineering',
     level: 'Staff',
-    scope: 'Reliability systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
       '€180k–€245k',
@@ -150,9 +169,9 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior/Staff Software Engineer',
     description:
       'APIs, services, CLIs, interfaces, automation, and system design in Go, Python, TypeScript, Rust, and React.',
-    skills: ['Go', 'Python', 'TypeScript', 'Rust'],
+    locationId: 'berlin-remote',
+    departmentId: 'software-engineering',
     level: 'Senior / Staff',
-    scope: 'Software systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
       '€195k–€260k',
@@ -197,9 +216,9 @@ export const careerRoles: CareerRole[] = [
     title: 'AI Engineer, Developer Automation',
     description:
       'Agents, assistants, MCP integrations, and automation for jobs people already do. No chatbot looking for a reason to exist.',
-    skills: ['AI agents', 'MCP', 'Automation', 'Evaluation'],
+    locationId: 'barcelona-remote',
+    departmentId: 'software-engineering',
     level: 'Senior / Staff',
-    scope: 'Agentic systems',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
       '€175k–€245k',
@@ -244,9 +263,9 @@ export const careerRoles: CareerRole[] = [
     title: 'Open Source & Community Lead',
     description:
       'Upstream contributions, open-source strategy, technical education, speaking, mentorship, and community work.',
-    skills: ['Open source', 'Speaking', 'Training', 'Community'],
+    locationId: 'san-francisco-hybrid',
+    departmentId: 'open-source-community',
     level: 'Lead / Staff',
-    scope: 'Open source strategy',
     compensationBasis: 'Base salary',
     compensation: createCompensationBands(
       '€165k–€225k',
@@ -291,9 +310,9 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior Solutions Engineer / Customer Success Architect',
     description:
       'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
-    skills: ['Discovery', 'Architecture', 'Demos', 'GTM'],
+    locationId: 'seattle-hybrid',
+    departmentId: 'customer-success',
     level: 'Senior',
-    scope: 'Customer outcomes',
     compensationBasis: 'OTE',
     compensation: createCompensationBands(
       '€180k–€260k',
