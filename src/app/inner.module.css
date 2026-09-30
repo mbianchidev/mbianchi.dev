@@ -1810,15 +1810,17 @@
 }
 
 .overallStatus {
+    --status-current: var(--status-ok);
+
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 18px;
     align-items: center;
     margin-top: clamp(40px, 6vw, 64px);
     padding: 24px 26px;
-    color: var(--status-ok);
-    background: var(--status-ok-soft);
-    border: 1px solid var(--status-ok-border);
+    color: var(--status-current);
+    background: color-mix(in srgb, var(--status-current) 9%, var(--status-surface));
+    border: 1px solid color-mix(in srgb, var(--status-current) 38%, var(--status-border));
     border-radius: 12px;
 }
 
@@ -1828,7 +1830,7 @@
     height: 38px;
     place-items: center;
     color: var(--status-canvas);
-    background: var(--status-ok);
+    background: var(--status-current);
     border-radius: 50%;
     font-size: 1.15rem;
     font-weight: 900;
@@ -1847,7 +1849,7 @@
 
 .overallStatus p {
     margin: 5px 0 0;
-    color: color-mix(in srgb, var(--status-ok) 58%, var(--status-muted));
+    color: color-mix(in srgb, var(--status-current) 58%, var(--status-muted));
     font-size: 0.9rem;
 }
 
@@ -1856,9 +1858,23 @@
     display: inline-flex;
     gap: 8px;
     align-items: center;
-    color: var(--status-ok);
+    color: var(--status-current);
     font-size: 0.78rem;
     font-weight: 900;
+}
+
+.statusComponentState {
+    --status-current: var(--status-ok);
+}
+
+.overallStatus[data-severity='degraded'],
+.statusComponentState[data-severity='degraded'] {
+    --status-current: var(--status-degraded);
+}
+
+.overallStatus[data-severity='critical'],
+.statusComponentState[data-severity='critical'] {
+    --status-current: var(--status-critical);
 }
 
 .overallStatus > strong > span,
@@ -1950,6 +1966,7 @@
 
 .statusSectionHeader > a {
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
     min-height: 44px;
     color: var(--primary-color);
@@ -1986,6 +2003,50 @@
     margin: 5px 0 0;
     color: var(--status-muted);
     font-size: 0.86rem;
+}
+
+.statusCurrentIncident {
+    padding: 24px 28px;
+}
+
+.statusCurrentIncident + .statusCurrentIncident {
+    border-top: 1px solid var(--status-border);
+}
+
+.statusCurrentIncident > p {
+    max-width: 70ch;
+    margin: 18px 0;
+    color: var(--status-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.currentIncidentUpdate {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: 10px 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--status-border);
+}
+
+.currentIncidentUpdate strong {
+    color: var(--status-ink);
+    font-size: 0.85rem;
+}
+
+.currentIncidentUpdate time {
+    color: var(--status-muted);
+    font-size: 0.8rem;
+}
+
+.currentIncidentUpdate p {
+    grid-column: 1 / -1;
+    max-width: 70ch;
+    margin: 0;
+    color: var(--status-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
 }
 
 .uptimeTrack {

@@ -10,7 +10,13 @@ import projectsData from '../src/data/projects.json';
 import pathRedirects from '../src/data/redirects.json';
 import { statusSystems } from '../src/data/status';
 import { getAllPostSlugs, getSortedPostsData, parseBlogDate } from '../src/lib/markdown';
-import { buildStatusSnapshot, STATUS_WINDOW_DAYS } from '../src/lib/status';
+import {
+  buildStatusSnapshot,
+  getIncidentUpdates,
+  getLiveStatus,
+  getScheduledStatusIncidents,
+  STATUS_WINDOW_DAYS,
+} from '../src/lib/status';
 import { profilePortrait, siteConfig } from '../src/lib/siteConfig';
 import {
   createAbsoluteImageUrl,
@@ -22,6 +28,19 @@ import vercelConfig from '../vercel.json';
 const publishedPosts = getSortedPostsData();
 const samplePost = publishedPosts[0]!;
 const visibleCustomers = customersData.companies.filter((company) => company.show);
+
+function activeStatusExample(severity: 'degraded' | 'critical') {
+  const candidates = getScheduledStatusIncidents(new Date('2026-09-30T00:00:00Z'));
+  const incident = candidates.find((candidate) =>
+    candidate.severity === severity
+    && getLiveStatus(new Date(candidate.startedAt + 60_000)).severity === severity
+    && getLiveStatus(new Date(candidate.resolvedAt + 60_000)).severity === 'operational'
+  );
+  if (!incident) {
+    throw new Error(`The mock status catalogue needs an isolated ${severity} example`);
+  }
+  return incident;
+}
 
 const pages = [
   { name: 'homepage', path: '/' },
@@ -758,6 +777,94 @@ test.describe('Static route experience', () => {
     expect(policyBox).not.toBeNull();
     expect(lastIncidentBox).not.toBeNull();
     expect(policyBox!.y).toBeGreaterThanOrEqual(lastIncidentBox!.y + lastIncidentBox!.height);
+  });
+
+  for (const severity of ['degraded', 'critical'] as const) {
+    test(`shows current ${severity} incidents and restores live component statuses`, async ({ page }, testInfo) => {
+      const incident = activeStatusExample(severity);
+      const now = incident.startedAt + 60_000;
+      const current = getLiveStatus(new Date(now));
+      await page.clock.install({ time: new Date(now) });
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      await page.locator('html[data-hydrated="true"]').waitFor();
+      const banner = page.locator('[data-status-overall]');
+      await expect(banner).toHaveAttribute('data-severity', severity);
+      await expect(banner.getByRole('heading')).toBeVisible();
+      const records = page.locator('[data-current-incident]');
+      await expect(records).toHaveCount(current.activeIncidents.length);
+      expect(await records.evaluateAll((items) =>
+        items.map((item) => item.getAttribute('data-current-incident'))
+      )).toEqual(current.activeIncidents.map(({ instanceId }) => instanceId));
+      await expect(page.locator('[data-current-incident-count]'))
+        .toHaveText(`${current.activeIncidents.length} active`);
+
+      const [activeBox, componentsBox] = await Promise.all([
+        page.locator('[data-current-incidents]').boundingBox(),
+        page.locator('[aria-labelledby="systems-title"]').boundingBox(),
+      ]);
+      expect(activeBox).not.toBeNull();
+      expect(componentsBox).not.toBeNull();
+      expect(activeBox!.y).toBeLessThan(componentsBox!.y);
+      await expect(page.locator('[data-current-update="resolved"]')).toHaveCount(0);
+
+      for (const component of current.components) {
+        const badge = page.locator(`[data-status-component-state="${component.id}"]`);
+        await expect(badge).toHaveAttribute('data-severity', component.severity);
+        await expect(badge).toHaveText(
+          component.severity[0].toUpperCase() + component.severity.slice(1)
+        );
+        const expectedColor = {
+          operational: 'rgb(0, 255, 148)',
+          degraded: 'rgb(255, 189, 46)',
+          critical: 'rgb(255, 116, 124)',
+        }[component.severity];
+        await expect(badge).toHaveCSS('color', expectedColor);
+      }
+      for (const active of current.activeIncidents) {
+        const update = getIncidentUpdates(active)
+          .filter(({ timestamp }) => timestamp <= now).at(-1)!;
+        await expect(
+          page.locator(`[data-current-incident="${active.instanceId}"] [data-current-update]`)
+        ).toHaveAttribute('data-current-update', update.id);
+      }
+      const historicalAvailability = await page.locator('[data-status-availability]').textContent();
+      await page.screenshot({ path: testInfo.outputPath(`status-live-${severity}.png`), fullPage: true });
+      await page.clock.fastForward(incident.resolvedAt - now + 60_000);
+      await expect(banner).toHaveAttribute('data-severity', 'operational');
+      await expect(records).toHaveCount(0);
+      await expect(page.locator('[data-current-incidents]')).toBeHidden();
+      await expect(page.locator('[data-status-availability]')).toHaveText(historicalAvailability!);
+      for (const component of current.components) {
+        await expect(page.locator(`[data-status-component-state="${component.id}"]`))
+          .toHaveAttribute('data-severity', 'operational');
+      }
+    });
+  }
+
+  test('keeps current incidents readable at mobile widths', async ({ page }, testInfo) => {
+    await page.clock.install();
+    for (const width of [320, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      for (const severity of ['degraded', 'critical'] as const) {
+        const incident = activeStatusExample(severity);
+        await page.clock.setFixedTime(new Date(incident.startedAt + 60_000));
+        await page.goto('/status', { waitUntil: 'domcontentloaded' });
+        await page.locator('html[data-hydrated="true"]').waitFor();
+        await expect(page.locator('[data-status-overall]'))
+          .toHaveAttribute('data-severity', severity);
+        await expect(page.locator(`[data-current-incident="${incident.instanceId}"]`))
+          .toBeVisible();
+        expect(await page.evaluate(() =>
+          document.documentElement.scrollWidth > window.innerWidth
+        )).toBe(false);
+        if (width === 390) {
+          await page.screenshot({
+            path: testInfo.outputPath(`status-current-mobile-${severity}.png`),
+            fullPage: true,
+          });
+        }
+      }
+    }
   });
 
   test('advances the UTC status window without rewriting existing incident dates', async ({ page }) => {

@@ -9,6 +9,7 @@ import {
 import {
   buildStatusSnapshot,
   getIncidentUpdates,
+  getLiveStatus,
   STATUS_AVAILABILITY_WEIGHTS,
   STATUS_WINDOW_DAYS,
   type StatusSnapshot,
@@ -27,9 +28,40 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
   const historyControlId = useId()
   const historyRef = useRef<HTMLDetailsElement>(null)
   const [snapshot, setSnapshot] = useState(initialSnapshot)
+  const [liveStatus, setLiveStatus] = useState(initialSnapshot.current)
   const [probeIndex, setProbeIndex] = useState(0)
   const [historyIndex, setHistoryIndex] = useState(0)
   const historyPeriod = snapshot.periods[historyIndex]
+  const componentHistory = snapshot.systems.map((system) => {
+    const current = liveStatus.components.find(({ id }) => id === system.id)
+    if (!current) {
+      throw new Error(`Missing live status for component "${system.id}"`)
+    }
+    return { ...system, currentSeverity: current.severity }
+  })
+  const currentIncidents = liveStatus.activeIncidents.map((incident) => {
+    const update = getIncidentUpdates(incident)
+      .filter(({ timestamp }) => timestamp <= liveStatus.checkedAt)
+      .at(-1)
+    if (!update) {
+      throw new Error(`Active incident "${incident.instanceId}" has no current update`)
+    }
+    return { incident, update }
+  })
+  const overallMessage = {
+    operational: {
+      title: 'Everything works.',
+      detail: 'No active incidents.',
+    },
+    degraded: {
+      title: 'Mostly working.',
+      detail: `${currentIncidents.length} active ${currentIncidents.length === 1 ? 'incident' : 'incidents'}.`,
+    },
+    critical: {
+      title: 'Almost nothing works.',
+      detail: 'Aside from our SRE department, they work a lot.',
+    },
+  }[liveStatus.severity]
 
   useEffect(() => {
     let interval: number | undefined
@@ -39,6 +71,7 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
       setSnapshot((previous) =>
         previous.asOf === asOf ? previous : buildStatusSnapshot(now)
       )
+      setLiveStatus(getLiveStatus(now))
     }
     const syncVisibility = () => {
       if (interval !== undefined) {
@@ -65,6 +98,7 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
     <div
       className={`${styles.page} ${styles.statusPage}`}
       data-status-reference-date={isoDate(snapshot.asOf)}
+      data-status-live-checked-at={new Date(liveStatus.checkedAt).toISOString()}
     >
       <section className={styles.statusHero} aria-labelledby="page-title">
         <div className={styles.statusContainer}>
@@ -86,15 +120,22 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
             <h1 id="page-title">Service status</h1>
           </div>
 
-          <div className={styles.overallStatus} data-status-overall role="status">
-            <span className={styles.overallStatusIcon} aria-hidden="true">✓</span>
+          <div
+            className={styles.overallStatus}
+            data-status-overall
+            data-severity={liveStatus.severity}
+            role="status"
+          >
+            <span className={styles.overallStatusIcon} aria-hidden="true">
+              {liveStatus.severity === 'operational' ? '✓' : '!'}
+            </span>
             <div>
-              <h2>Everything works. Even the human.</h2>
-              <p>No active incidents. The history below is less impressive.</p>
+              <h2>{overallMessage.title}</h2>
+              <p>{overallMessage.detail}</p>
             </div>
             <strong>
               <span aria-hidden="true" />
-              Operational
+              {severityLabels[liveStatus.severity]}
             </strong>
           </div>
 
@@ -122,6 +163,47 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
       </section>
 
       <div className={styles.statusContent}>
+        {currentIncidents.length > 0 && (
+          <section
+            className={styles.statusSection}
+            aria-labelledby="current-incidents-title"
+            data-current-incidents
+          >
+            <div className={styles.statusSectionHeader}>
+              <h2 id="current-incidents-title">Current incidents</h2>
+              <span data-current-incident-count>{currentIncidents.length} active</span>
+            </div>
+            {currentIncidents.map(({ incident, update }) => (
+              <article
+                key={incident.instanceId}
+                className={styles.statusCurrentIncident}
+                data-current-incident={incident.instanceId}
+              >
+                <div className={styles.statusComponentHeader}>
+                  <div>
+                    <h3>{incident.title}</h3>
+                    <p>
+                      {statusSystems.filter(({ id }) => incident.systemIds.includes(id))
+                        .map(({ name }) => name).join(' · ')}
+                    </p>
+                  </div>
+                  <span className={styles.statusComponentState} data-severity={incident.severity}>
+                    <span aria-hidden="true" />
+                    {severityLabels[incident.severity]}
+                  </span>
+                </div>
+                <p>{incident.impact}</p>
+                <div className={styles.currentIncidentUpdate} data-current-update={update.id}>
+                  <strong>{update.label}</strong>
+                  <time dateTime={new Date(update.timestamp).toISOString()}>
+                    {timeFormatter.format(update.timestamp)} UTC
+                  </time>
+                  <p>{update.message}</p>
+                </div>
+              </article>
+            ))}
+          </section>
+        )}
         <section className={styles.statusSection} aria-labelledby="systems-title">
           <div className={styles.statusSectionHeader}>
             <div>
@@ -129,12 +211,13 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
               <p>
                 The preceding {STATUS_WINDOW_DAYS} complete UTC days.
                 Degraded and critical time are weighted differently.
+                Live status is checked every minute.
               </p>
             </div>
             <a href="#availability-methodology">How the maths works</a>
           </div>
           <div className={styles.statusBoard}>
-            {snapshot.systems.map((system) => (
+            {componentHistory.map((system) => (
               <article
                 key={system.id}
                 className={styles.statusRow}
@@ -145,9 +228,13 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
                     <h3>{system.name}</h3>
                     <p>{system.detail}</p>
                   </div>
-                  <span className={styles.statusComponentState}>
+                  <span
+                    className={styles.statusComponentState}
+                    data-status-component-state={system.id}
+                    data-severity={system.currentSeverity}
+                  >
                     <span aria-hidden="true" />
-                    Operational
+                    {severityLabels[system.currentSeverity]}
                   </span>
                 </div>
                 <StatusTimeline system={system} incidents={snapshot.incidents} />
@@ -430,7 +517,8 @@ export function StatusDashboard({ initialSnapshot }: StatusDashboardProps) {
           </p>
           <p>
             This is fiction, not real outage telemetry. Dates follow a seeded calendar and stay fixed
-            as the {STATUS_WINDOW_DAYS}-day window moves. The page refreshes at midnight UTC.
+            as the {STATUS_WINDOW_DAYS}-day window moves at midnight UTC.
+            Live status is checked every minute.
             The human still needs breaks.
           </p>
         </aside>

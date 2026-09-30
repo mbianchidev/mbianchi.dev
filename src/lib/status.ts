@@ -72,6 +72,16 @@ export interface StatusPeriod {
   metrics: AvailabilityMetrics
 }
 
+export interface LiveStatus {
+  checkedAt: number
+  severity: SystemSeverity
+  activeIncidents: ScheduledStatusIncident[]
+  components: {
+    id: StatusSystemId
+    severity: SystemSeverity
+  }[]
+}
+
 export interface StatusSnapshot {
   asOf: number
   windowStart: number
@@ -80,6 +90,7 @@ export interface StatusSnapshot {
   systems: StatusSystemHistory[]
   incidents: ScheduledStatusIncident[]
   periods: StatusPeriod[]
+  current: LiveStatus
 }
 
 function utcDayStart(referenceDate: Date) {
@@ -240,6 +251,19 @@ export function getScheduledStatusIncidents(
   )
 }
 
+function validateIncidentInterval(incident: AvailabilityInterval) {
+  if (
+    !Number.isFinite(incident.startedAt)
+    || !Number.isFinite(incident.resolvedAt)
+    || incident.resolvedAt <= incident.startedAt
+  ) {
+    throw new RangeError('Status incidents require valid start and resolution times')
+  }
+  if (incident.severity !== 'critical' && incident.severity !== 'degraded') {
+    throw new RangeError(`Unknown status incident severity: "${incident.severity}"`)
+  }
+}
+
 export function calculateAvailability(
   incidents: readonly AvailabilityInterval[],
   windowStart: number,
@@ -256,16 +280,7 @@ export function calculateAvailability(
   const events: { timestamp: number; severity: IncidentSeverity; change: 1 | -1 }[] = []
 
   for (const incident of incidents) {
-    if (
-      !Number.isFinite(incident.startedAt)
-      || !Number.isFinite(incident.resolvedAt)
-      || incident.resolvedAt <= incident.startedAt
-    ) {
-      throw new RangeError('Availability incidents require valid start and resolution times')
-    }
-    if (incident.severity !== 'critical' && incident.severity !== 'degraded') {
-      throw new RangeError(`Unknown status incident severity: "${incident.severity}"`)
-    }
+    validateIncidentInterval(incident)
 
     const startedAt = Math.max(incident.startedAt, windowStart)
     const resolvedAt = Math.min(incident.resolvedAt, windowEnd)
@@ -369,6 +384,40 @@ function severityFromMetrics(metrics: AvailabilityMetrics): SystemSeverity {
   return metrics.degradedMinutes > 0 ? 'degraded' : 'operational'
 }
 
+function severityFromIncidents(incidents: readonly ScheduledStatusIncident[]): SystemSeverity {
+  if (incidents.some(({ severity }) => severity === 'critical')) {
+    return 'critical'
+  }
+  return incidents.length > 0 ? 'degraded' : 'operational'
+}
+
+export function getLiveStatus(
+  referenceDate: Date,
+  incidents?: readonly ScheduledStatusIncident[]
+): LiveStatus {
+  const today = utcDayStart(referenceDate)
+  const checkedAt = referenceDate.getTime()
+  const scheduled = incidents === undefined
+    ? getScheduledStatusIncidents(new Date(today + day))
+    : incidents
+  const activeIncidents = scheduled.filter((incident) => {
+    validateIncidentInterval(incident)
+    return incident.startedAt <= checkedAt && incident.resolvedAt > checkedAt
+  })
+
+  return {
+    checkedAt,
+    severity: severityFromIncidents(activeIncidents),
+    activeIncidents,
+    components: statusSystems.map(({ id }) => ({
+      id,
+      severity: severityFromIncidents(activeIncidents.filter(({ systemIds }) =>
+        systemIds.includes(id)
+      )),
+    })),
+  }
+}
+
 export function buildStatusSnapshot(referenceDate: Date): StatusSnapshot {
   const asOf = utcDayStart(referenceDate)
   const windowStart = asOf - STATUS_WINDOW_DAYS * day
@@ -417,5 +466,6 @@ export function buildStatusSnapshot(referenceDate: Date): StatusSnapshot {
     systems,
     incidents,
     periods,
+    current: getLiveStatus(referenceDate),
   }
 }

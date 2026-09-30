@@ -4,6 +4,7 @@ import {
   buildStatusSnapshot,
   calculateAvailability,
   getIncidentUpdates,
+  getLiveStatus,
   getScheduledStatusIncidents,
   STATUS_AVAILABILITY_WEIGHTS,
   STATUS_WINDOW_DAYS,
@@ -14,7 +15,106 @@ const minute = 60_000;
 const day = 24 * 60 * minute;
 const origin = Date.UTC(2030, 0, 1);
 
+function mockLiveIncident(
+  id: string,
+  severity: ScheduledStatusIncident['severity'],
+  systemIds: ScheduledStatusIncident['systemIds'],
+  startedAt = origin,
+  resolvedAt = origin + 60 * minute
+): ScheduledStatusIncident {
+  return {
+    id,
+    instanceId: `${id}-0`,
+    title: 'Mock incident',
+    severity,
+    systemIds,
+    durationMinutes: (resolvedAt - startedAt) / minute,
+    startedAt,
+    resolvedAt,
+    summary: 'Mock investigation.',
+    impact: 'Mock impact.',
+    cause: 'Mock cause.',
+    mitigation: 'Mock mitigation.',
+    resolution: 'Mock resolution.',
+    followUp: 'Mock follow-up.',
+  };
+}
+
 test.describe('Status availability model', () => {
+  test('reports Operational when no current incidents are active', () => {
+    const state = getLiveStatus(new Date(origin), []);
+    expect(state.severity).toBe('operational');
+    expect(state.activeIncidents).toHaveLength(0);
+    expect(state.components.map(({ severity }) => severity))
+      .toEqual(statusSystems.map(() => 'operational'));
+  });
+
+  test('shows degraded only on components affected by an active incident', () => {
+    const incident = mockLiveIncident('mock-degraded', 'degraded', [statusSystems[0].id]);
+    const state = getLiveStatus(new Date(origin), [incident]);
+    expect(state.severity).toBe('degraded');
+    expect(state.activeIncidents).toEqual([incident]);
+    expect(state.components.map(({ severity }) => severity))
+      .toEqual(['degraded', 'operational', 'operational', 'operational']);
+  });
+
+  test('gives critical incidents priority and restores components at resolution', () => {
+    const degraded = mockLiveIncident('mock-degraded', 'degraded', [statusSystems[0].id]);
+    const critical = mockLiveIncident(
+      'mock-critical', 'critical', [statusSystems[0].id, statusSystems[1].id],
+      origin + 10 * minute, origin + 30 * minute
+    );
+    const during = getLiveStatus(new Date(origin + 10 * minute), [degraded, critical]);
+    expect(during.severity).toBe('critical');
+    expect(during.activeIncidents).toHaveLength(2);
+    expect(during.components.map(({ severity }) => severity))
+      .toEqual(['critical', 'critical', 'operational', 'operational']);
+
+    const afterCritical = getLiveStatus(new Date(origin + 30 * minute), [degraded, critical]);
+    expect(afterCritical.severity).toBe('degraded');
+    expect(afterCritical.components.map(({ severity }) => severity))
+      .toEqual(['degraded', 'operational', 'operational', 'operational']);
+    const afterAll = getLiveStatus(new Date(origin + 60 * minute), [degraded, critical]);
+    expect(afterAll.severity).toBe('operational');
+    expect(afterAll.activeIncidents).toHaveLength(0);
+  });
+
+  test('does not mark past or future incidents as currently active', () => {
+    const past = mockLiveIncident('mock-past', 'critical', [statusSystems[0].id],
+      origin - 60 * minute, origin);
+    const future = mockLiveIncident('mock-future', 'degraded', [statusSystems[1].id],
+      origin + minute, origin + 60 * minute);
+    const state = getLiveStatus(new Date(origin), [past, future]);
+    expect(state.activeIncidents).toHaveLength(0);
+    expect(state.severity).toBe('operational');
+    expect(() => getLiveStatus(new Date(Number.NaN), [])).toThrow();
+  });
+
+  test('rejects malformed live incident timestamps rather than reporting Operational', () => {
+    const malformed = mockLiveIncident(
+      'mock-invalid', 'critical', [statusSystems[0].id], Number.NaN, origin + minute
+    );
+    expect(() => getLiveStatus(new Date(origin), [malformed])).toThrow();
+    const reversed = mockLiveIncident(
+      'mock-reversed', 'critical', [statusSystems[0].id], origin + minute, origin
+    );
+    expect(() => getLiveStatus(new Date(origin), [reversed])).toThrow();
+  });
+
+  test('uses the seeded current-day schedule without changing the historical window', () => {
+    const date = new Date('2026-09-29T14:45:00Z');
+    const today = getScheduledStatusIncidents(new Date('2026-09-30T00:00:00Z'));
+    const active = today.filter(({ startedAt, resolvedAt }) =>
+      startedAt <= date.getTime() && resolvedAt > date.getTime()
+    );
+    expect(active.length).toBeGreaterThan(0);
+    const snapshot = buildStatusSnapshot(date);
+    expect(snapshot.current).toEqual(getLiveStatus(date));
+    expect(snapshot.current.activeIncidents).toEqual(active);
+    expect(snapshot.windowEnd).toBe(Date.UTC(2026, 8, 29));
+    expect(snapshot.incidents.every(({ startedAt }) => startedAt < snapshot.windowEnd)).toBe(true);
+  });
+
   test('keeps the approved downtime weights explicit', () => {
     expect(STATUS_AVAILABILITY_WEIGHTS).toEqual({
       degraded: 0.5,

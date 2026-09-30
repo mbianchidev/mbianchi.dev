@@ -112,7 +112,7 @@ export function StatusTimeline({ system, incidents }: StatusTimelineProps) {
       popover.showPopover()
     }
     positionPopover()
-  }, [activeDate, activeDay, positionPopover])
+  }, [activeDate, activeDay, positionPopover, system])
 
   useEffect(() => {
     const repositionOnScroll = (event: Event) => {

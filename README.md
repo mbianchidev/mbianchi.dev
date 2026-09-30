@@ -201,8 +201,14 @@ is one keyboard stop: arrow keys inspect incident days, Home/End jump to the
 first/last, and Escape dismisses the preview.
 
 The initial snapshot is exported as HTML. With JavaScript enabled, the UTC window
-refreshes daily without rewriting historical incident timestamps. The page is
-explicitly fictional and does not claim to monitor a real service.
+refreshes daily without rewriting historical incident timestamps. Live component
+badges, the overall banner, and current incident reports update every minute from
+the same seeded schedule. Critical takes priority over degraded. Components return
+to Operational once all their active incidents resolve. Current reports show
+only updates whose timestamps have already occurred. Live incidents do not alter
+the preceding 90 complete UTC days
+used for availability. The page is explicitly fictional and does not claim to
+monitor a real service.
 
 ## 🔗 Configuring `/links`
 
