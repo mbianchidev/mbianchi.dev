@@ -24,6 +24,7 @@ This project is a satirical product launch for Matteo Bianchi: a personal portfo
 - A complete route system for field notes, changelog, open-source work, deployment history, pricing, legal, and support pages
 - Data-driven role descriptions under `/job/[slug]`, sourced from the careers inventory and resume evidence
 - A searchable careers ledger with department and location filters; every role is available in all listed locations
+- A fictional status history with deterministic incident dates, detailed resolutions, and calculated 90-day availability
 - A configurable `/links` endpoint manifest sourced from `src/data/links.ts`
 - Original high-resolution organisation logos with a clean KubeLab monogram fallback throughout Customers
 - Verifiable contribution, speaking, and project benchmarks
@@ -168,11 +169,36 @@ src/
 │   └── WorkInProgress.tsx # Useful route-specific fallback resources
 ├── types/               # TypeScript type definitions
 │   └── index.ts
-├── data/               # JSON data files
+├── data/               # Structured content
 │   ├── customers.json
-│   └── links.ts         # Profile copy and public link configuration
+│   ├── links.ts         # Profile copy and public link configuration
+│   └── status.ts        # Fictional incidents, components, and diagnostic messages
 └── lib/                # Utility functions
 ```
+
+## Status simulation
+
+The incident catalogue lives in `src/data/status.ts`. Keep incident IDs and
+schedule groups stable: they seed the absolute calendar in `src/lib/status.ts`,
+so changing copy does not move existing events. Short human incidents recur on
+independent seeded schedules. Longer component incidents use shuffled catalogues,
+47-65 day spacing, and a 90-day cooldown per incident type. No incident type
+repeats inside a rolling 90-day window.
+
+Availability covers 90 complete UTC days. Critical time counts as 100% downtime;
+degraded time counts as 50%. Overlaps use the worst severity and are counted once.
+Component timelines, overall availability, and three historical 90-day blocks
+use the same calculation. Each component incident contributes 260-350 weighted
+minutes; spacing guarantees one complete incident and at most two intersecting
+incidents per component window. With the short-incident budget, calculated
+availability stays between 97.5% and 99.8% without clamping percentages. Each
+incident includes impact, cause, recovery updates, resolution, and follow-up.
+The incident counts in the history table open the corresponding period's detailed
+records. The period selector also switches between the three historical windows.
+
+The initial snapshot is exported as HTML. With JavaScript enabled, the UTC window
+refreshes daily without rewriting historical incident timestamps. The page is
+explicitly fictional and does not claim to monitor a real service.
 
 ## 🔗 Configuring `/links`
 

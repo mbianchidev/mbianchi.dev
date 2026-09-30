@@ -1728,7 +1728,8 @@
     --status-ok: var(--accent-color);
     --status-ok-soft: color-mix(in srgb, var(--accent-color) 9%, var(--bg-card));
     --status-ok-border: color-mix(in srgb, var(--accent-color) 38%, var(--border-color));
-    --status-maintenance: #ffbd2e;
+    --status-degraded: #ffbd2e;
+    --status-critical: #ff747c;
 
     color: var(--status-ink);
     background: var(--status-canvas);
@@ -1774,6 +1775,7 @@
     display: inline-flex;
     gap: 8px;
     align-items: center;
+    min-height: 44px;
     color: var(--status-ink);
     font-size: 0.86rem;
     font-weight: 800;
@@ -1804,7 +1806,7 @@
     font-size: clamp(3rem, 7vw, 5.4rem);
     font-weight: 400;
     line-height: 0.96;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.04em;
 }
 
 .statusHeroCopy > p:last-child {
@@ -1908,11 +1910,13 @@
 
 .statusContent {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 28px;
     padding: clamp(48px, 7vw, 76px) 20px clamp(76px, 10vw, 120px);
 }
 
 .statusSection {
+    padding: 0;
     overflow: hidden;
     background: var(--status-surface);
     border: 1px solid var(--status-border);
@@ -1952,6 +1956,17 @@
     white-space: nowrap;
 }
 
+.statusSectionHeader > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--primary-color);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
 .statusRow {
     padding: 25px 28px;
 }
@@ -1989,25 +2004,33 @@
     margin-top: 22px;
 }
 
-.uptimeBar,
-.uptimeBarIncident {
+.uptimeBar {
     display: block;
-    min-width: 2px;
+    min-width: 0;
     height: 100%;
+    background: var(--status-ok);
     border-radius: 2px;
 }
 
-.uptimeBar {
-    background: var(--status-ok);
+.uptimeBar[data-severity='degraded'] {
+    background: var(--status-degraded);
 }
 
-.uptimeBarIncident {
-    background: var(--status-maintenance);
+.uptimeBar[data-severity='critical'] {
+    background: var(--status-critical);
+    border-radius: 0;
+    background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 3px,
+        var(--status-canvas) 3px,
+        var(--status-canvas) 4px
+    );
 }
 
 .statusTimelineMeta {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: 14px;
     align-items: center;
     margin-top: 9px;
@@ -2020,12 +2043,13 @@
     font-size: 0.72rem;
 }
 
-.statusTimelineMeta span:last-child {
+.statusTimelineMeta > :last-child {
     text-align: right;
 }
 
 .statusLegend {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     gap: 18px;
     padding: 16px 28px;
@@ -2042,10 +2066,142 @@
     align-items: center;
 }
 
-.statusLegend .uptimeBar,
-.statusLegend .uptimeBarIncident {
+.statusLegend .uptimeBar {
     width: 9px;
     height: 20px;
+}
+
+.statusDiagnostics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 24px;
+    align-items: center;
+    padding: 22px 28px;
+    border-top: 1px solid var(--status-border);
+}
+
+.statusDiagnostics button {
+    flex-shrink: 0;
+    border-color: var(--status-muted);
+}
+
+.statusDiagnostics output {
+    flex: 1 1 280px;
+    color: var(--status-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.availabilityTableScroll {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.availabilityTableScroll:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: -3px;
+}
+
+.availabilityTable {
+    width: 100%;
+    min-width: 780px;
+    border-collapse: collapse;
+    color: var(--status-ink);
+    font-size: 0.83rem;
+    font-variant-numeric: tabular-nums;
+    text-align: left;
+}
+
+.availabilityTable caption {
+    padding: 18px 28px;
+    color: var(--status-muted);
+    font-size: 0.78rem;
+    text-align: left;
+}
+
+.availabilityTable th,
+.availabilityTable td {
+    padding: 18px 20px;
+    border-top: 1px solid var(--status-border);
+    vertical-align: top;
+}
+
+.availabilityTable thead {
+    color: var(--status-muted);
+    background: var(--status-surface-raised);
+}
+
+.availabilityTable th {
+    font-weight: 800;
+}
+
+.availabilityTable tbody th {
+    min-width: 225px;
+}
+
+.availabilityTable tbody a {
+    display: inline-flex;
+    align-items: center;
+    min-width: 44px;
+    min-height: 44px;
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.availabilityTable tbody th > span {
+    display: block;
+    margin-top: 5px;
+    color: var(--status-muted);
+    font-size: 0.72rem;
+    font-weight: 400;
+}
+
+.availabilityTable tfoot {
+    background: var(--status-surface-raised);
+    font-weight: 800;
+}
+
+.statusHistorySection {
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+}
+
+.statusHistorySection .statusSectionHeader {
+    padding-right: 0;
+    padding-left: 0;
+    border-bottom: 0;
+}
+
+.statusHistorySection .incidentDay {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.statusPeriodControl {
+    display: grid;
+    gap: 8px;
+    max-width: 100%;
+}
+
+.statusPeriodControl label {
+    color: var(--status-muted);
+    font-size: 0.75rem;
+}
+
+.statusPeriodControl select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    color: var(--status-ink);
+    color-scheme: dark;
+    background: var(--status-surface);
+    border: 1px solid var(--status-muted);
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.82rem;
 }
 
 .statusNoIncidents {
@@ -2109,6 +2265,18 @@
     gap: 24px;
     align-items: flex-start;
     padding: 22px 24px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.incidentHeader::-webkit-details-marker {
+    display: none;
+}
+
+.statusPage .incidentHeader:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: -4px;
+    box-shadow: none;
 }
 
 .incidentHeader p {
@@ -2127,14 +2295,33 @@
     letter-spacing: -0.015em;
 }
 
-.incidentHeader > span {
-    padding: 5px 8px;
-    color: var(--status-ok);
-    background: var(--status-ok-soft);
-    border: 1px solid var(--status-ok-border);
-    border-radius: 999px;
-    font-size: 0.7rem;
+.incidentSeverity[data-severity='degraded'] {
+    color: var(--status-degraded);
+}
+
+.incidentSeverity[data-severity='critical'] {
+    color: var(--status-critical);
+}
+
+.incidentToggle {
+    display: grid;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    color: var(--status-ink);
+    border: 1px solid var(--status-muted);
+    border-radius: 8px;
+    font-size: 1rem;
     font-weight: 900;
+}
+
+.incidentToggle::after {
+    content: '+';
+}
+
+.incident details[open] .incidentToggle::after {
+    content: '-';
 }
 
 .incidentMeta {
@@ -2142,6 +2329,7 @@
     flex-wrap: wrap;
     gap: 12px 20px;
     padding: 12px 24px;
+    margin: 0;
     color: var(--status-muted);
     background: var(--status-surface-raised);
     border-top: 1px solid var(--status-border);
@@ -2150,9 +2338,68 @@
     font-weight: 800;
 }
 
+.incidentMeta > div {
+    display: grid;
+    flex: 1 1 115px;
+    gap: 5px;
+}
+
+.incidentMeta > div:last-child {
+    flex-basis: 200px;
+}
+
+.incidentMeta dt {
+    color: var(--status-muted);
+    font-size: 0.7rem;
+    font-weight: 400;
+}
+
+.incidentMeta dd {
+    color: var(--status-ink);
+    line-height: 1.5;
+}
+
+.incidentImpact,
+.incidentFollowUp {
+    padding: 22px 24px;
+}
+
+.incidentImpact h4,
+.incidentFollowUp h4 {
+    margin: 0 0 8px;
+    color: var(--status-ink);
+    font-size: 0.85rem;
+}
+
+.incidentImpact p,
+.incidentFollowUp p {
+    max-width: 70ch;
+    margin: 0;
+    color: var(--status-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.incidentFollowUp {
+    border-top: 1px solid var(--status-border);
+}
+
+.incidentFollowUp > a {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 16px;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
 .incidentUpdates {
     margin: 0;
     padding: 0;
+    border-top: 1px solid var(--status-border);
     list-style: none;
 }
 
@@ -2183,6 +2430,49 @@
     color: var(--status-muted);
     font-size: 0.84rem;
     line-height: 1.55;
+}
+
+.statusMethodology {
+    min-width: 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--status-border);
+}
+
+.statusMethodology h2 {
+    margin: 0 0 18px;
+    color: var(--status-ink);
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-align: left;
+}
+
+.statusMethodology p {
+    max-width: 70ch;
+    margin: 14px 0 0;
+    color: var(--status-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
+
+.statusMethodology code {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin-top: 18px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    color: var(--status-ink);
+    background: var(--status-surface);
+    border: 1px solid var(--status-border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.statusMethodology code:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: -3px;
 }
 
 @media (max-width: 980px) {
@@ -2438,6 +2728,10 @@
         grid-template-columns: 1fr;
         gap: 12px;
     }
+
+    .incidentHeader {
+        flex-direction: row;
+    }
 }
 
 @media (max-width: 640px) {
@@ -2473,6 +2767,11 @@
 
     .statusLegend {
         justify-content: flex-start;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .statusDiagnostics {
         padding-right: 20px;
         padding-left: 20px;
     }

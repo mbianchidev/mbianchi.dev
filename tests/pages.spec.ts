@@ -8,7 +8,9 @@ import {
 import { linksPageConfig } from '../src/data/links';
 import projectsData from '../src/data/projects.json';
 import pathRedirects from '../src/data/redirects.json';
+import { statusSystems } from '../src/data/status';
 import { getAllPostSlugs, getSortedPostsData, parseBlogDate } from '../src/lib/markdown';
+import { buildStatusSnapshot, STATUS_WINDOW_DAYS } from '../src/lib/status';
 import { profilePortrait, siteConfig } from '../src/lib/siteConfig';
 import {
   createAbsoluteImageUrl,
@@ -691,14 +693,178 @@ test.describe('Static route experience', () => {
     expect(headers['Content-Security-Policy']).not.toContain("'unsafe-eval'");
   });
 
-  test('reports status uptime and PTO incident', async ({ page }) => {
+  test('reports calculated status history and complete incident resolutions', async ({ page }) => {
+    const referenceDate = new Date('2026-09-30T12:00:00Z');
+    const snapshot = buildStatusSnapshot(referenceDate);
+    await page.clock.install({ time: referenceDate });
     await page.goto('/status', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('main h1')).toBeVisible();
-    await expect(page.locator('[role="status"]')).toBeVisible();
-    await expect(page.locator('main dl > div')).toHaveCount(3);
-    await expect(page.locator('main article time[datetime="PT3M"]')).toBeVisible();
-    await expect(page.locator('[data-uptime-day]')).toHaveCount(360);
+    await expect(page.locator('[data-status-reference-date]'))
+      .toHaveAttribute('data-status-reference-date', '2026-09-30');
+    await expect(page.locator('[data-status-overall]')).toBeVisible();
+    await expect(page.locator('[data-status-summary] > div')).toHaveCount(3);
+    await expect(page.locator('[data-status-availability]'))
+      .toHaveText(`${snapshot.overall.availabilityPercentage.toFixed(3)}%`);
+    await expect(page.locator('[data-uptime-day]'))
+      .toHaveCount(statusSystems.length * STATUS_WINDOW_DAYS);
+
+    for (const system of snapshot.systems) {
+      const component = page.locator(`[data-status-component="${system.id}"]`);
+      await expect(component.locator('[data-component-availability]'))
+        .toContainText(`${system.metrics.availabilityPercentage.toFixed(3)}%`);
+      for (const severity of ['operational', 'degraded', 'critical']) {
+        await expect(component.locator(`[data-uptime-day][data-severity="${severity}"]`))
+          .toHaveCount(system.days.filter((date) => date.severity === severity).length);
+      }
+    }
+
+    await expect(page.locator('[data-status-period]')).toHaveCount(snapshot.periods.length);
+    for (const period of snapshot.periods) {
+      await expect(
+        page.locator(`[data-status-period="${period.id}"] [data-period-availability]`)
+      ).toHaveText(`${period.metrics.availabilityPercentage.toFixed(3)}%`);
+    }
+
+    const incidents = page.locator('[data-status-incident]');
+    await expect(incidents).toHaveCount(snapshot.incidents.length);
+    for (const incident of snapshot.incidents) {
+      const record = page.locator(`[data-incident-instance="${incident.instanceId}"]`);
+      await expect(record).toHaveAttribute('data-incident-severity', incident.severity);
+      await record.locator('summary').click();
+      await expect(record.locator('[data-incident-breakdown]')).toBeVisible();
+      await expect(record.locator('[data-incident-update]')).toHaveCount(4);
+      await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
+      await expect(record.locator('[data-incident-update="resolved"] time'))
+        .toHaveAttribute('datetime', new Date(incident.resolvedAt).toISOString());
+      await expect(record.locator('h4')).toHaveCount(2);
+    }
+
+    const policy = page.locator('[data-availability-policy]');
+    await expect(policy).toHaveAttribute('data-degraded-weight', '0.5');
+    await expect(policy).toHaveAttribute('data-critical-weight', '1');
+    await expect(policy).toContainText('50%');
+    await expect(policy).toContainText('100%');
+    const [policyBox, lastIncidentBox] = await Promise.all([
+      policy.boundingBox(),
+      incidents.last().boundingBox(),
+    ]);
+    expect(policyBox).not.toBeNull();
+    expect(lastIncidentBox).not.toBeNull();
+    expect(policyBox!.y).toBeGreaterThanOrEqual(lastIncidentBox!.y + lastIncidentBox!.height);
+  });
+
+  test('advances the UTC status window without rewriting existing incident dates', async ({ page }) => {
+    await page.clock.install({ time: new Date('2026-09-30T23:59:30Z') });
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    const dashboard = page.locator('[data-status-reference-date]');
+    await expect(dashboard).toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+    const previousSnapshot = buildStatusSnapshot(new Date('2026-09-30T12:00:00Z'));
+    const keptIncident = previousSnapshot.incidents[0];
+    const record = page.locator(`[data-incident-instance="${keptIncident.instanceId}"]`);
+    await record.locator('summary').click();
+    await page.clock.fastForward(60_000);
+    await expect(dashboard).toHaveAttribute('data-status-reference-date', '2026-10-01');
+
+    const nextSnapshot = buildStatusSnapshot(new Date('2026-10-01T12:00:00Z'));
+    const ids = await page.locator('[data-status-incident]').evaluateAll((incidents) =>
+      incidents.map((incident) => incident.getAttribute('data-status-incident'))
+    );
+    expect(ids).toEqual(nextSnapshot.incidents.map(({ id }) => id));
+    expect(new Set(ids).size).toBe(ids.length);
+    await expect(record.locator('details')).toHaveAttribute('open', '');
+    await expect(record.locator('[data-incident-update="resolved"] time'))
+      .toHaveAttribute('datetime', new Date(keptIncident.resolvedAt).toISOString());
+    await expect(page.locator('[data-status-availability]'))
+      .toHaveText(`${nextSnapshot.overall.availabilityPercentage.toFixed(3)}%`);
+  });
+
+  test('opens the incidents behind every historical availability period', async ({ page }) => {
+    const referenceDate = new Date('2026-09-30T12:00:00Z');
+    const snapshot = buildStatusSnapshot(referenceDate);
+    await page.clock.install({ time: referenceDate });
+    await page.goto('/status', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-status-reference-date]'))
+      .toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+    for (const period of snapshot.periods) {
+      await page.locator(`[data-status-period="${period.id}"] a`).click();
+      const records = page.locator('[data-status-incident]');
+      await expect(records).toHaveCount(period.incidents.length);
+      expect(await records.evaluateAll((incidents) =>
+        incidents.map((incident) => incident.getAttribute('data-incident-instance'))
+      )).toEqual(period.incidents.map(({ instanceId }) => instanceId));
+      const incident = period.incidents[0];
+      const record = page.locator(`[data-incident-instance="${incident.instanceId}"]`);
+      await record.locator('summary').click();
+      await expect(record.locator('[data-incident-update="resolved"] time'))
+        .toHaveAttribute('datetime', new Date(incident.resolvedAt).toISOString());
+    }
+
+    await page.getByLabel('Incident history period').selectOption('0');
+    await expect(page.locator('[data-status-incident]')).toHaveCount(snapshot.incidents.length);
+  });
+
+  test('keeps status diagnostics and incident details usable at narrow and wide widths', async ({ page }, testInfo) => {
+    await page.clock.install({ time: new Date('2026-09-30T12:00:00Z') });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const viewport of [
+      { width: 320, height: 780 },
+      { width: 390, height: 844 },
+      { width: 1600, height: 900 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      await expect(page.locator('[data-status-reference-date]'))
+        .toHaveAttribute('data-status-reference-date', '2026-09-30');
+
+      const record = page.locator('[data-status-incident]').first();
+      await record.locator('summary').focus();
+      await page.keyboard.press('Enter');
+      await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
+      await expect(record.locator('summary')).toHaveCSS('outline-style', 'solid');
+
+      const probe = page.locator('[data-status-probe]');
+      await probe.focus();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('[data-status-probe-result]'))
+        .toHaveAttribute('data-probe-step', '1');
+      const reducedDurations = await probe.evaluate((element) =>
+        getComputedStyle(element).transitionDuration.split(',').map(Number.parseFloat)
+      );
+      expect(Math.max(...reducedDurations)).toBeLessThanOrEqual(0.00001);
+      expect(await page.evaluate(() =>
+        document.documentElement.scrollWidth > window.innerWidth
+      )).toBe(false);
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.screenshot({
+        path: testInfo.outputPath(`status-${viewport.width}.png`),
+        fullPage: true,
+      });
+    }
+  });
+
+  test('publishes usable status history without JavaScript', async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
+    try {
+      const page = await context.newPage();
+      await page.goto('/status', { waitUntil: 'domcontentloaded' });
+      const reference = await page.locator('[data-status-reference-date]')
+        .getAttribute('data-status-reference-date');
+      expect(reference).not.toBeNull();
+      const snapshot = buildStatusSnapshot(new Date(`${reference}T12:00:00Z`));
+
+      await expect(page.locator('[data-status-availability]'))
+        .toHaveText(`${snapshot.overall.availabilityPercentage.toFixed(3)}%`);
+      await expect(page.locator('[data-status-incident]')).toHaveCount(snapshot.incidents.length);
+      const record = page.locator('[data-status-incident]').first();
+      await record.locator('summary').click();
+      await expect(record.locator('[data-incident-update="resolved"]')).toBeVisible();
+      await expect(page.locator('[data-availability-policy]')).toBeVisible();
+    } finally {
+      await context.close();
+    }
   });
 
   test('keeps the homepage proof layout balanced', async ({ page }) => {
