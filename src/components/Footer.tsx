@@ -38,24 +38,20 @@ export function Footer() {
           <nav className={styles.footerColumn} aria-label="Resources">
             <h3>Resources</h3>
             <Link href="/blog">Blog</Link>
-            <Link href="/links">Links</Link>
-            <Link href="/documentation">Documentation</Link>
+            <Link href="/docs">docs</Link>
             <Link href="/press">Press</Link>
             <Link href="/support">Support</Link>
+            <a href="mailto:info@mb-consulting.dev">Services</a>
             <Link href="/status">Status</Link>
           </nav>
-          <nav className={styles.footerColumn} aria-label="Contact">
-            <h3>Open a ticket</h3>
+          <nav className={styles.footerColumn} aria-label="Social">
+            <h3>Social</h3>
             <a href="https://github.com/mbianchidev" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
             <a href="https://www.linkedin.com/in/mbianchidev" target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>
-            <a href="https://cal.com/mbianchidev/intro" target="_blank" rel="noopener noreferrer">
-              Start trial
-            </a>
-            <a href="mailto:info@mb-consulting.dev">Services</a>
           </nav>
         </div>
       </div>

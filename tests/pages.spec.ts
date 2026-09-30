@@ -39,7 +39,7 @@ const pages = [
     path: `/job/${role.slug}`,
   })),
   { name: 'pricing', path: '/pricing' },
-  { name: 'documentation', path: '/documentation' },
+  { name: 'docs', path: '/docs' },
   { name: 'press', path: '/press' },
   { name: 'support', path: '/support' },
   { name: 'status', path: '/status' },
@@ -821,13 +821,14 @@ test.describe('Static route experience', () => {
           .map((item) => item.getAttribute('data-career-role'))
       );
 
-    const location = careerLocations[0];
-    await page.getByLabel('Location').selectOption(location.id);
-    expect(await visibleRoleIds()).toEqual(
-      careerRoles
-        .filter((role) => role.locationId === location.id)
-        .map((role) => role.id)
-    );
+    for (const location of careerLocations) {
+      await page.getByLabel('Location').selectOption(location.id);
+      expect(await visibleRoleIds()).toEqual(
+        careerRoles
+          .filter((role) => role.locationIds.includes(location.id))
+          .map((role) => role.id)
+      );
+    }
 
     await page.getByLabel('Location').selectOption('all');
     const department = careerDepartments[0];
@@ -1017,21 +1018,39 @@ test.describe('Static route experience', () => {
     ).toBeVisible();
   });
 
-  test('uses the requested Product and Company footer routes', async ({ page }) => {
+  test('uses the requested footer navigation routes', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 900 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const footerNavigations = page.locator('footer nav');
-    const product = footerNavigations.nth(0);
-    const company = footerNavigations.nth(1);
+    const footer = page.getByRole('contentinfo');
+    const product = footer.getByRole('navigation', { name: 'Product' });
+    const company = footer.getByRole('navigation', { name: 'Company' });
+    const resources = footer.getByRole('navigation', { name: 'Resources' });
+    const social = footer.getByRole('navigation', { name: 'Social' });
     expect(await product.locator('a').evaluateAll((links) =>
       links.map((link) => link.getAttribute('href'))
     )).toEqual(['/#features', '/#integrations', '/pricing/', '/roadmap/']);
     expect(await company.locator('a').evaluateAll((links) =>
       links.map((link) => link.getAttribute('href'))
     )).toEqual(['/open-source/', '/about/', '/careers/', '/customers/']);
+    expect(await resources.locator('a').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href'))
+    )).toEqual([
+      '/blog/',
+      '/docs/',
+      '/press/',
+      '/support/',
+      'mailto:info@mb-consulting.dev',
+      '/status/',
+    ]);
+    expect(await social.locator('a').evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href'))
+    )).toEqual([
+      'https://github.com/mbianchidev',
+      'https://www.linkedin.com/in/mbianchidev',
+    ]);
 
-    for (const navigation of [product, company]) {
+    for (const navigation of [product, company, resources, social]) {
       const positions = await navigation.getByRole('link').evaluateAll((links) =>
         links.map((link) => link.getBoundingClientRect().top)
       );

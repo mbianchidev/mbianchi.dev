@@ -139,7 +139,7 @@ src/
 │   ├── careers/         # Careers page
 │   ├── cookies/         # Cookie policy
 │   ├── customers/       # Customers page
-│   ├── documentation/   # Documentation page
+│   ├── docs/            # Documentation page
 │   ├── press/           # Press page
 │   ├── pricing/         # Pricing page
 │   ├── privacy/         # Privacy page

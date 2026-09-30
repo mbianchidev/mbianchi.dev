@@ -8,7 +8,7 @@ type Props = {
 
 const pageContent = {
   Documentation: {
-    path: '/documentation',
+    path: '/docs',
     title: 'The docs are scattered. Very enterprise.',
     description:
       'There is no single manual. The useful bits are split between source code, blog posts, and the platform roadmap.',
