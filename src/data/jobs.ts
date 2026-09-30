@@ -17,15 +17,12 @@ export const careerDepartments = [
 export type CareerLocationId = (typeof careerLocations)[number]['id']
 export type CareerDepartmentId = (typeof careerDepartments)[number]['id']
 
-export const allCareerLocationIds: readonly CareerLocationId[] =
-  careerLocations.map(({ id }) => id)
-
 export interface CareerRole {
   id: string
   slug: string
   title: string
   description: string
-  locationIds: readonly CareerLocationId[]
+  locationId: CareerLocationId
   departmentId: CareerDepartmentId
   level: string
   compensationBasis: 'Base salary' | 'OTE'
@@ -78,7 +75,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior/Staff Platform Engineer',
     description:
       'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service people do not need a ticket to use.',
-    locationIds: allCareerLocationIds,
+    locationId: 'amsterdam-remote',
     departmentId: 'platform-engineering',
     level: 'Senior / Staff',
     compensationBasis: 'Base salary',
@@ -125,7 +122,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Staff Site Reliability Engineer',
     description:
       'Production reliability, observability, incident response, performance, and automation for systems people depend on.',
-    locationIds: allCareerLocationIds,
+    locationId: 'london-remote',
     departmentId: 'platform-engineering',
     level: 'Staff',
     compensationBasis: 'Base salary',
@@ -172,7 +169,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior/Staff Software Engineer',
     description:
       'APIs, services, CLIs, interfaces, automation, and system design in Go, Python, TypeScript, Rust, and React.',
-    locationIds: allCareerLocationIds,
+    locationId: 'berlin-remote',
     departmentId: 'software-engineering',
     level: 'Senior / Staff',
     compensationBasis: 'Base salary',
@@ -219,7 +216,7 @@ export const careerRoles: CareerRole[] = [
     title: 'AI Engineer, Developer Automation',
     description:
       'Agents, assistants, MCP integrations, and automation for jobs people already do. No chatbot looking for a reason to exist.',
-    locationIds: allCareerLocationIds,
+    locationId: 'barcelona-remote',
     departmentId: 'software-engineering',
     level: 'Senior / Staff',
     compensationBasis: 'Base salary',
@@ -266,7 +263,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Open Source & Community Lead',
     description:
       'Upstream contributions, open-source strategy, technical education, speaking, mentorship, and community work.',
-    locationIds: allCareerLocationIds,
+    locationId: 'san-francisco-hybrid',
     departmentId: 'open-source-community',
     level: 'Lead / Staff',
     compensationBasis: 'Base salary',
@@ -313,7 +310,7 @@ export const careerRoles: CareerRole[] = [
     title: 'Senior Solutions Engineer / Customer Success Architect',
     description:
       'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
-    locationIds: allCareerLocationIds,
+    locationId: 'seattle-hybrid',
     departmentId: 'customer-success',
     level: 'Senior',
     compensationBasis: 'OTE',

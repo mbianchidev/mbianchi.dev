@@ -52,11 +52,9 @@ export default async function JobPage({ params }: JobPageProps) {
   }
 
   const department = careerDepartments.find(({ id }) => id === role.departmentId)
-  const locations = role.locationIds.map((locationId) =>
-    careerLocations.find(({ id }) => id === locationId)
-  )
+  const location = careerLocations.find(({ id }) => id === role.locationId)
 
-  if (!department || locations.some((location) => location === undefined)) {
+  if (!department || !location) {
     throw new Error(`Job "${role.id}" has an invalid department or location`)
   }
 
@@ -101,12 +99,7 @@ export default async function JobPage({ params }: JobPageProps) {
             </div>
             <div>
               <dt>Location</dt>
-              <dd>
-                {locations
-                  .filter((location) => location !== undefined)
-                  .map(({ label }) => label)
-                  .join(' · ')}
-              </dd>
+              <dd>{location.label}</dd>
             </div>
           </dl>
         }

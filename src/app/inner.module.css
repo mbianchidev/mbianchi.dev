@@ -1005,15 +1005,14 @@
 
 .careerSearch {
     margin-bottom: clamp(36px, 5vw, 58px);
-    padding: 20px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    padding: 22px 0 18px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .careerSearchGrid {
     display: grid;
-    grid-template-columns: minmax(240px, 1.35fr) repeat(2, minmax(190px, 0.8fr)) auto;
+    grid-template-columns: minmax(240px, 1.35fr) repeat(2, minmax(190px, 0.8fr));
     gap: 16px;
     align-items: end;
 }
@@ -1035,9 +1034,10 @@
     min-height: 50px;
     padding: 12px 14px;
     color: var(--text-primary);
-    background: var(--bg-primary);
+    color-scheme: dark;
+    background: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 8px;
     font: inherit;
 }
 
@@ -1045,10 +1045,15 @@
     color: var(--text-tertiary);
 }
 
-.careerResultCount {
+.careerSearchStatus {
     display: flex;
+    justify-content: space-between;
+    gap: 20px;
     align-items: center;
-    min-height: 50px;
+    margin-top: 14px;
+}
+
+.careerResultCount {
     color: var(--text-secondary);
     font-size: 0.85rem;
     font-weight: 800;
@@ -1056,7 +1061,7 @@
 }
 
 .careerNoResults {
-    margin: 18px 0 0;
+    margin: 0;
     color: var(--text-secondary);
 }
 

@@ -73,19 +73,13 @@ const values = [
 
 const careerListings = careerRoles.map((role) => {
   const department = careerDepartments.find(({ id }) => id === role.departmentId)
-  const locations = role.locationIds.map((locationId) =>
-    careerLocations.find(({ id }) => id === locationId)
-  )
+  const location = careerLocations.find(({ id }) => id === role.locationId)
 
-  if (!department || locations.some((location) => location === undefined)) {
+  if (!department || !location) {
     throw new Error(`Job "${role.id}" has an invalid department or location`)
   }
 
-  return {
-    role,
-    department,
-    locations: locations.filter((location) => location !== undefined),
-  }
+  return { role, department, location }
 })
 
 export default function CareersPage() {
@@ -115,16 +109,16 @@ export default function CareersPage() {
             total={careerRoles.length}
           />
           <div className={styles.roleList}>
-            {careerListings.map(({ role, department, locations }) => (
+            {careerListings.map(({ role, department, location }) => (
               <article
                 key={role.id}
                 data-career-role={role.id}
                 data-career-search={[
                   role.title,
                   department.label,
-                  ...locations.map(({ label }) => label),
+                  location.label,
                 ].join(' ').toLowerCase()}
-                data-career-locations={locations.map(({ id }) => id).join(' ')}
+                data-career-location={location.id}
                 data-career-department={department.id}
                 className={styles.roleRow}
               >
@@ -136,7 +130,7 @@ export default function CareersPage() {
                   </div>
                   <div>
                     <dt>Location</dt>
-                    <dd>All listed locations</dd>
+                    <dd>{location.label}</dd>
                   </div>
                 </dl>
                 <Link

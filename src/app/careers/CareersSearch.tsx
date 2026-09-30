@@ -40,7 +40,7 @@ export function CareersSearch({
         || (role.dataset.careerSearch ?? '').includes(normalizedQuery)
       const matchesLocation =
         activeLocation === 'all'
-        || (role.dataset.careerLocations ?? '').split(' ').includes(activeLocation)
+        || role.dataset.careerLocation === activeLocation
       const matchesDepartment =
         activeDepartment === 'all'
         || role.dataset.careerDepartment === activeDepartment
@@ -99,6 +99,8 @@ export function CareersSearch({
             ))}
           </select>
         </div>
+      </div>
+      <div className={styles.careerSearchStatus}>
         <output
           className={styles.careerResultCount}
           htmlFor={`${searchId} ${locationId} ${departmentId}`}
@@ -106,10 +108,10 @@ export function CareersSearch({
         >
           {resultCount} {resultCount === 1 ? 'role' : 'roles'}
         </output>
+        <p className={styles.careerNoResults} hidden={resultCount !== 0}>
+          No roles match those filters.
+        </p>
       </div>
-      <p className={styles.careerNoResults} hidden={resultCount !== 0}>
-        No roles match those filters.
-      </p>
     </div>
   )
 }

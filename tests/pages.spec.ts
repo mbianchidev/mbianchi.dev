@@ -825,7 +825,7 @@ test.describe('Static route experience', () => {
       await page.getByLabel('Location').selectOption(location.id);
       expect(await visibleRoleIds()).toEqual(
         careerRoles
-          .filter((role) => role.locationIds.includes(location.id))
+          .filter((role) => role.locationId === location.id)
           .map((role) => role.id)
       );
     }
