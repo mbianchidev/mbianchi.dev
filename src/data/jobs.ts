@@ -2,7 +2,7 @@ export const careerLocations = [
   { id: 'amsterdam-remote', label: 'Amsterdam (remote)' },
   { id: 'london-remote', label: 'London (remote)' },
   { id: 'berlin-remote', label: 'Berlin (remote)' },
-  { id: 'barcelona-remote', label: 'Barcelona (Remote)' },
+  { id: 'barcelona-remote', label: 'Barcelona (remote)' },
   { id: 'san-francisco-hybrid', label: 'San Francisco (hybrid)' },
   { id: 'seattle-hybrid', label: 'Seattle (Hybrid)' },
 ] as const

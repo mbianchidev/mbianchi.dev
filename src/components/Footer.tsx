@@ -38,7 +38,7 @@ export function Footer() {
           <nav className={styles.footerColumn} aria-label="Resources">
             <h3>Resources</h3>
             <Link href="/blog">Blog</Link>
-            <Link href="/docs">docs</Link>
+            <Link href="/docs">Docs</Link>
             <Link href="/press">Press</Link>
             <Link href="/support">Support</Link>
             <a href="mailto:info@mb-consulting.dev">Services</a>

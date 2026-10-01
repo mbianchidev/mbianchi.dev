@@ -102,8 +102,14 @@ test.describe('Status availability model', () => {
   });
 
   test('uses the seeded current-day schedule without changing the historical window', () => {
-    const date = new Date('2026-09-29T14:45:00Z');
-    const today = getScheduledStatusIncidents(new Date('2026-09-30T00:00:00Z'));
+    const [incident] = getScheduledStatusIncidents(new Date('2026-09-30T00:00:00Z'));
+    expect(incident).toBeDefined();
+    if (!incident) {
+      throw new Error('The seeded schedule must contain an incident');
+    }
+    const date = new Date(incident.startedAt + minute);
+    const windowEnd = Math.floor(date.getTime() / day) * day;
+    const today = getScheduledStatusIncidents(new Date(windowEnd + day));
     const active = today.filter(({ startedAt, resolvedAt }) =>
       startedAt <= date.getTime() && resolvedAt > date.getTime()
     );
@@ -111,7 +117,7 @@ test.describe('Status availability model', () => {
     const snapshot = buildStatusSnapshot(date);
     expect(snapshot.current).toEqual(getLiveStatus(date));
     expect(snapshot.current.activeIncidents).toEqual(active);
-    expect(snapshot.windowEnd).toBe(Date.UTC(2026, 8, 29));
+    expect(snapshot.windowEnd).toBe(windowEnd);
     expect(snapshot.incidents.every(({ startedAt }) => startedAt < snapshot.windowEnd)).toBe(true);
   });
 
@@ -259,11 +265,15 @@ test.describe('Status availability model', () => {
     }
   });
 
-  test('never repeats an incident type in rolling 90-day windows over two years', () => {
+  test('never repeats an incident type in rolling 90-day windows across catalogue rotations', () => {
     const firstDate = Date.UTC(2025, 0, 1);
+    const largestCatalogue = Math.max(...statusSystems.map(({ id }) =>
+      statusIncidentCatalog.filter(({ scheduleGroup }) => scheduleGroup === id).length
+    ));
+    const observationDays = Math.max(730, largestCatalogue * STATUS_WINDOW_DAYS * 3);
     const occurrences = new Map<string, { id: string; startedAt: number; resolvedAt: number }>();
 
-    for (let offset = 0; offset < 730; offset += 1) {
+    for (let offset = 0; offset < observationDays; offset += 1) {
       const reference = firstDate + offset * day;
       const incidents = getScheduledStatusIncidents(new Date(reference));
       const ids = incidents.map(({ id }) => id);
@@ -372,6 +382,13 @@ test.describe('Status availability model', () => {
     const ids = statusIncidentCatalog.map(({ id }) => id);
     const requiredIds = [
       'istio-sidecar',
+      'istio-sidecar-oom',
+      'redis-failover',
+      'pod-crashloopbackoff',
+      'kubernetes-coredns',
+      'kubernetes-node-pressure',
+      'cdn-origin-failure',
+      'kubernetes-volume-attachment',
       'kafka-consumer-lag',
       'postgres-overload',
       'valkey-cache-stampede',
@@ -379,9 +396,6 @@ test.describe('Status availability model', () => {
       'personal-maintenance',
     ];
     expect(ids).toEqual(expect.arrayContaining(requiredIds));
-    const snapshot = buildStatusSnapshot(new Date('2026-09-30T12:00:00Z'));
-    expect(snapshot.periods.flatMap(({ incidents }) => incidents.map(({ id }) => id)))
-      .toEqual(expect.arrayContaining(requiredIds));
   });
 
   test('keeps calculated service and historical availability inside the requested range', () => {

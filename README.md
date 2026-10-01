@@ -180,7 +180,11 @@ src/
 
 The incident catalogue lives in `src/data/status.ts`. Keep incident IDs and
 schedule groups stable: they seed the absolute calendar in `src/lib/status.ts`,
-so changing copy does not move existing events. Short human incidents recur on
+so changing copy does not move existing events. Technical scenarios include Istio
+policy and sidecar memory failures, Redis failover, Valkey cache stampedes, CDN
+origin errors, Kubernetes CrashLoopBackOff, blocked CoreDNS traffic, node disk
+pressure, and CSI volume attachment failures. Each uses the existing component
+schedule and includes a full fictional postmortem. Short human incidents recur on
 independent seeded schedules. Longer component incidents use shuffled catalogues,
 47-65 day spacing, and a 90-day cooldown per incident type. No incident type
 repeats inside a rolling 90-day window.
