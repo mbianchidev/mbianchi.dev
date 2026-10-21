@@ -4,7 +4,7 @@
 
 - This is a statically exported personal portfolio built with Next.js 15.5, React 19, and strict TypeScript.
 - The application uses the App Router and deploys to Vercel. `npm run build` writes the static site to `out/`.
-- `PRODUCT.md` defines the product direction, voice, audience, and accessibility goals. Keep `README.md` aligned with setup, architecture, and deployment changes.
+- The design and content system below defines the product direction, voice, audience, and accessibility goals. Keep `README.md` and the [documentation index](docs/README.md) aligned with setup, architecture, and deployment changes.
 - Use Node.js 20 and npm to match `.github/workflows/ci.yml`.
 
 ## Commands
@@ -13,13 +13,14 @@
 | --- | --- |
 | Install exact dependencies | `npm ci` |
 | Start development server | `npm run dev` |
-| Lint and type-check | `npm run lint` |
+| Lint | `npm run lint` |
 | Run Playwright tests | `npm run test:playwright` |
 | Build and validate static export | `npm run build` |
 | Preview the export | `npx serve out` |
 | Regenerate optimized portraits | `npm run images:optimize` |
 
 Playwright starts the development server at `http://localhost:3000` automatically. Install Chromium with `npx playwright install chromium` if it is unavailable locally.
+Next.js checks TypeScript during `npm run build`. See the [development guide](docs/development.md) for CI, deployment, dependency overrides, and troubleshooting, and the [architecture guide](docs/architecture.md) for application scope.
 
 ## Repository map
 
@@ -32,6 +33,7 @@ Playwright starts the development server at `http://localhost:3000` automaticall
 - `tests/pages.spec.ts`: Playwright route, interaction, accessibility, metadata, redirect, and security-header coverage.
 - `scripts/`: Image optimization and static redirect validation.
 - `vercel.json`: Production response headers and Content Security Policy.
+- `docs/`: Development, content, architecture, and status guides; link detailed instructions here instead of expanding the README.
 
 ## Design and content system
 
