@@ -14,8 +14,8 @@ production Next.js server.
 
 ## What is implemented
 
-- **Portfolio and evidence:** a capability manifest, compatibility lab, local
-  technology marks, and an animated logo runway. `/open-source/`, `/customers/`,
+- **Portfolio and evidence:** a capability manifest, local technology marks,
+  and an animated logo runway. `/open-source/`, `/customers/`,
   and `/roadmap/` connect project claims to source code and career history.
 - **Searchable content:** a Markdown blog at `/blog/`, plus department and
   location filters at `/careers/` and data-driven role pages at `/job/[slug]/`.
@@ -193,7 +193,8 @@ Keep `src/data/redirects.json` synchronized with the matching
 are not exported as static HTTP redirects. The exported pages navigate with
 JavaScript and retain a normal destination link without JavaScript.
 
-`npm run build` validates this contract. If a host-level HTTP redirect is
+The Next.js export warning about redirects is expected; `npm run build`
+validates the static fallbacks separately. If a host-level HTTP redirect is
 required, configure it on the hosting platform as well.
 
 ## Status simulation
