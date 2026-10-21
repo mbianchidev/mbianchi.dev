@@ -1,281 +1,108 @@
-# Matteo - Mock Startup Website
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="src/assets/brand/matteo-logo-mono-light.svg">
+  <img src="src/assets/brand/matteo-logo-mono-dark.svg" alt="Matteo human platform logo" width="220">
+</picture>
 
+# Matteo: the human platform
+
+![CI](https://github.com/mbianchidev/mbianchi.dev/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/mbianchidev/mbianchi.dev)
 
-## 🚀 About
+[Website](https://mbianchi.dev) · [Documentation](docs/README.md) ·
+[Issues](https://github.com/mbianchidev/mbianchi.dev/issues) ·
+[Changelog](https://mbianchi.dev/roadmap/)
 
-This project is a satirical product launch for Matteo Bianchi: a personal portfolio disguised as the kind of overconfident startup landing page the tech industry keeps producing. The joke leads; senior engineering across platforms, solutions, software, and AI provides the reveal.
+![The current portfolio homepage, with navigation, the Platform as a Human introduction, portrait, and trial and compatibility actions.](docs/assets/homepage.webp)
 
-"Matteo" serves as the fictional product/platform, but the capabilities and evidence point to a real engineer who connects deep implementation, customer needs, automation, open source, and communication:
+*The current app, captured from its local production export.*
 
-- A product-spec hero built around a real speaking photo
-- An asymmetric capability manifest covering platform engineering, Solutions Engineering, AI automation, and open-source education
-- An interactive compatibility lab with accessible default content
-- A collapsible cloud-native integration manifest with 41 local technology marks
-- A compliance-boundaries ledger covering 12 common regulations, standards, and assurance frameworks without claiming certification
-- The original `main` branch “loved by” logo set plus GitHub, Replit, OpenAI, and Anthropic, upgraded into an accessible animated runway
-- Homepage runway logos are bundled locally and loaded eagerly so marquee motion never reveals unloaded placeholders
-- Responsive AVIF and WebP portrait sources with a JPEG fallback for static-export image delivery
-- Production CSP, browser security headers, and asset caching configured through Vercel
-- Privacy-friendly traffic measurement through Vercel Web Analytics
-- Real-user Core Web Vitals collection through Vercel Speed Insights
-- Plain-language privacy and cookie policies that document the site’s actual Vercel data flows
-- An open-source proof ledger sourced from `src/data/projects.json`
-- A complete route system for field notes, changelog, open-source work, deployment history, pricing, legal, and support pages
-- Data-driven role descriptions under `/job/[slug]`, sourced from the careers inventory and resume evidence
-- A searchable careers ledger with department and location filters; every role is available in all listed locations
-- A fictional status history with deterministic incident dates, detailed resolutions, and calculated 90-day availability
-- A configurable `/links` endpoint manifest sourced from `src/data/links.ts`
-- Original high-resolution organisation logos with a clean KubeLab monogram fallback throughout Customers
-- Verifiable contribution, speaking, and project benchmarks
-- Satirical release notes and direct trial calls to action
+<details>
+<summary>See the compatibility lab</summary>
 
-## 🎯 Purpose
+![The compatibility lab with problem choices and the default compatibility report.](docs/assets/compatibility.webp)
 
-This project was created to:
+</details>
 
-1. Turn a broad senior-engineering profile into a memorable, coherent product narrative
-2. Demonstrate production-grade Next.js component and interaction design
-3. Highlight the formulaic nature of startup marketing without becoming another generic SaaS page
-4. Connect bold claims to measurable career outcomes plus inspectable open-source and community evidence
-5. Show conversion from static HTML/CSS/JS to modern React + Next.js
+A personal portfolio disguised as an overconfident startup launch. The
+"product" is Matteo Bianchi; the engineering work, open-source contributions,
+talks, and delivery history behind it are real.
 
-## 🔍 Key Features
+The site gives hiring teams, collaborators, and curious engineers a way to
+inspect that work. The startup language is parody, not a SaaS product.
 
-- **Responsive design** that works on mobile and desktop
-- **Modern React components** with TypeScript
-- **Interactive compatibility diagnostics** with semantic buttons and live results
-- **Server-side rendering** with Next.js 15
-- **Static-exported route system** with route-specific metadata and useful no-JavaScript defaults
-- **Rich social previews** with canonical Open Graph and large-image Twitter cards backed by a strict local image catalog
-- **CSS Modules** for the homepage, global shell, and shared inner-page system
-- **WCAG-oriented behavior** with keyboard navigation, focus states, and reduced-motion fallbacks
+**Contents:** [Quick start](#quick-start) · [Why Matteo](#why-matteo) ·
+[How it works](#how-it-works) · [Get started](#get-started) ·
+[Features](#features) · [Documentation](#documentation) ·
+[Project policies](#project-policies) · [License](#license)
 
-## 🛠️ Tech Stack
+## Quick start
 
-- **Next.js 15.5** - Patched React framework line with App Router
-- **TypeScript** - Type safety and better developer experience
-- **React 19** - Latest React features and hooks
-- **CSS3 + CSS Modules** - Shared tokens plus isolated homepage, shell, and inner-route systems
-- **Simple Icons** - Local, server-rendered technology marks for the integration manifest
-- **Playwright** - Route, interaction, responsive, and screenshot coverage
-- **ESLint** - Code linting and quality
-
-`package.json` overrides Next.js's pinned PostCSS version with patched PostCSS 8.5.25. Keep the override until the selected Next.js line depends on PostCSS 8.5.10 or newer.
-
-Short-link declarations live in `src/data/redirects.json`. `next.config.js` uses
-them for Next.js redirects, while the matching root pages render the shared
-`ShortLinkPage` component as a static-export fallback.
-
-## 🚦 Getting Started
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Installation
-
-1. Clone this repository
-   ```bash
-   git clone https://github.com/mbianchidev/mbianchi.dev.git
-   cd mbianchi.dev
-   ```
-
-2. Install dependencies
-   ```bash
-   npm install
-   ```
-
-   Reviewed native install scripts are pinned by exact package version in
-   `package.json`. If one of those dependencies changes, npm will require a new
-   explicit review instead of silently running the new script.
-
-3. Run the development server
-   ```bash
-   npm run dev
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Deploying to Vercel
-
-The canonical production site is [https://mbianchi.dev](https://mbianchi.dev).
-GitHub Actions validates the application, while Vercel's Git integration handles
-preview and production deployments.
-
-- Validation workflow: `.github/workflows/ci.yml`
-- Output directory: `out/` (generated by `next build` with `output: 'export'`)
-- Pull requests receive Vercel preview deployments.
-- Pushes to `main` deploy to production.
-- `vercel.json` applies production response headers; Next.js `headers()` is not used because this project is a static export.
-
-Connect the repository to the Vercel project, assign `mbianchi.dev`, and configure
-the domain's DNS records using the values Vercel provides.
-
-Local test of static export:
-
-```
-npm ci
-npm run build
-npx serve out
-```
-
-### Build for Production
+Use **Node.js 20.9+ on the Node 20 line** and **npm** to match CI. Git and
+network access are required for packages and build-time Google Fonts downloads.
+No database, container runtime, API key, or `.env` file is needed.
 
 ```bash
-npm run build
-npx serve out
+git clone https://github.com/mbianchidev/mbianchi.dev.git
+cd mbianchi.dev
+npm ci
+npm run dev
 ```
 
-## 📂 Project Structure
+Open [http://localhost:3000](http://localhost:3000) to see the portfolio.
+Visit `/blog/` for writing or `/pricing/` to try the quote calculator.
 
-```
-src/
-├── app/                 # Next.js App Router pages
-│   ├── layout.tsx       # Root layout component
-│   ├── page.tsx         # Homepage
-│   ├── home.module.css  # Homepage visual system
-│   ├── inner.module.css # Shared inner-page visual system
-│   ├── links/           # Configurable public link manifest
-│   ├── about/           # About page
-│   ├── careers/         # Careers page
-│   ├── cookies/         # Cookie policy
-│   ├── customers/       # Customers page
-│   ├── docs/            # Documentation page
-│   ├── press/           # Press page
-│   ├── pricing/         # Pricing page
-│   ├── privacy/         # Privacy page
-│   ├── redirect/        # Redirect pages
-│   ├── roadmap/         # Changelog page
-│   ├── support/         # Support page
-│   ├── status/          # Status and incident history
-│   ├── terms/           # Terms page
-│   └── globals.css      # Global styles
-├── components/          # Reusable React components
-│   ├── Header.tsx       # Accessible global navigation
-│   ├── Footer.tsx       # Global evidence and contact footer
-│   ├── Hero.tsx         # Human-product launch hero
-│   ├── Capabilities.tsx # Features manifest
-│   ├── CompatibilityLab.tsx # Interactive hiring diagnostic
-│   ├── ProofLedger.tsx  # Open-source evidence
-│   ├── Toolchain.tsx    # Technology compatibility surface
-│   ├── Benchmarks.tsx   # Verifiable field metrics
-│   ├── KnownIssues.tsx  # Closing release notes and CTA
-│   ├── PageHero.tsx     # Shared route hero with tonal variants
-│   ├── CustomersTimeline.tsx # Accessible deployment-history pagination
-│   ├── LegalDocument.tsx # Shared privacy and terms structure
-│   ├── SiteShell.module.css # Header and footer styles
-│   ├── RedirectPage.tsx # Redirect page component
-│   └── WorkInProgress.tsx # Useful route-specific fallback resources
-├── types/               # TypeScript type definitions
-│   └── index.ts
-├── data/               # Structured content
-│   ├── customers.json
-│   ├── links.ts         # Profile copy and public link configuration
-│   └── status.ts        # Fictional incidents, components, and diagnostic messages
-└── lib/                # Utility functions
-```
+## Why Matteo
 
-## Status simulation
+The joke gets attention. Source code, talks, and delivery history back it up.
+The portfolio connects platform engineering, software, customer work, and
+automation without turning them into another corporate resume.
 
-The incident catalogue lives in `src/data/status.ts`. Keep incident IDs and
-schedule groups stable: they seed the absolute calendar in `src/lib/status.ts`,
-so changing copy does not move existing events. Technical scenarios include Istio
-policy and sidecar memory failures, Redis failover, Valkey cache stampedes, CDN
-origin errors, Kubernetes CrashLoopBackOff, blocked CoreDNS traffic, node disk
-pressure, and CSI volume attachment failures. Each uses the existing component
-schedule and includes a full fictional postmortem. Short human incidents recur on
-independent seeded schedules. Longer component incidents use shuffled catalogues,
-47-65 day spacing, and a 90-day cooldown per incident type. No incident type
-repeats inside a rolling 90-day window.
+## How it works
 
-Availability covers 90 complete UTC days. Critical time counts as 100% downtime;
-degraded time counts as 50%. Overlaps use the worst severity and are counted once.
-Component timelines, overall availability, and three historical 90-day blocks
-use the same calculation. Each component incident contributes 260-350 weighted
-minutes; spacing guarantees one complete incident and at most two intersecting
-incidents per component window. With the short-incident budget, calculated
-availability stays between 97.5% and 99.8% without clamping percentages. Each
-incident includes impact, cause, recovery updates, resolution, and follow-up.
-Incident history is collapsed by default. The incident counts in the history
-table expand the corresponding period's detailed records. The period selector
-also switches between the three historical windows. Hover or tap an incident day
-for its date, duration, weighted downtime, and related incidents. Each timeline
-is one keyboard stop: arrow keys inspect incident days, Home/End jump to the
-first/last, and Escape dismisses the preview. Timelines show the 90 complete
-historical days plus a separate live bar for today in UTC. Today's bar includes
-only elapsed downtime, retains earlier resolved incidents, and never shows future
-incidents. It does not change the completed-day availability percentage.
+Next.js 15.5 App Router, React 19, strict TypeScript, and CSS Modules turn local
+Markdown and structured data into pre-rendered HTML. Browser interactions add
+filters, diagnostics, and calculated quotes. Production serves static files,
+not a Next.js server.
 
-The initial snapshot is exported as HTML. With JavaScript enabled, the UTC window
-refreshes daily without rewriting historical incident timestamps. Live component
-badges, the overall banner, and current incident reports update every minute from
-the same seeded schedule. Critical takes priority over degraded. Components return
-to Operational once all their active incidents resolve. Current reports show
-only updates whose timestamps have already occurred. Live incidents do not alter
-the preceding 90 complete UTC days
-used for availability. The page is explicitly fictional and does not claim to
-monitor a real service.
+[Architecture and limitations](docs/architecture.md)
 
-## 🔗 Configuring `/links`
+## Get started
 
-Profile copy and link destinations live in `src/data/links.ts`. To add a link,
-duplicate an item in the `links` array and update its values:
+[Development and commands](docs/development.md) ·
+[Content and configuration](docs/content.md) ·
+[Build and deploy](docs/development.md#static-export-and-deployment)
 
-```ts
-{
-  service: 'Service name',
-  title: 'Visible link title',
-  description: 'One-line description',
-  href: 'https://example.com',
-  icon: 'github',
-}
-```
+## Features
 
-The built-in icon values are `mentor`, `youtube`, and `github`. To add another
-icon, extend `PublicLinkIcon` in `src/data/links.ts` and add its SVG case to
-`LinkIcon` in `src/app/links/page.tsx`.
+- **Inspectable work:** capability and integration manifests, open-source
+  evidence, customer history, and career milestones.
+- **Searchable content:** a Markdown blog, career filters, and data-driven role
+  descriptions.
+- **Interactive tools:** compatibility diagnostics and an accessible
+  rate-by-hours quote calculator.
+- **Shareable pages:** configurable public links, short-link fallbacks, a resume
+  download, social previews, and responsive local images.
+- **Fictional status:** seeded incidents, postmortems, and calculated
+  availability, clearly separate from real monitoring.
 
-Blog posts select one local cover with the required `image` and `imageAlt`
-frontmatter fields. Covers live in `public/images/blog/` and the same image is
-used for social previews and the `/blog` archive. See `content/blog/README.md`
-for the supported paths, catalog keys, and validation rules.
+## Documentation
 
-## 🔧 Available Scripts
+[Documentation index](docs/README.md) ·
+[Development, CI, and deployment](docs/development.md) ·
+[Content, blog, and links](docs/content.md) ·
+[Status simulation](docs/status.md) ·
+[Repository layout and scope](docs/architecture.md)
 
-- `npm run dev` - Clear stale `.next` artifacts and start the development server
-- `npm run blog:images` - Validate blog covers and generate the social image manifest
-- `npm run build` - Build for production
-- `npm run images:optimize` - Regenerate responsive AVIF and WebP portrait variants
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run test:playwright` - Run browser interaction and screenshot coverage
+## Project policies
 
-## 🔄 Migration from Static HTML
+[AI-assisted maintenance](docs/development.md#ai-assisted-maintenance) ·
+[Contributing](CONTRIBUTING.md) ·
+[Agent instructions](AGENTS.md) ·
+[Code of Conduct](CODE_OF_CONDUCT.md) ·
+[Accessibility](ACCESSIBILITY.md) ·
+[Support](SUPPORT.md) ·
+[Security](SECURITY.md)
 
-This project was successfully converted from a static HTML/CSS/JS website to a modern React + Next.js application. Key improvements include:
+## License
 
-- **Component-based architecture** for better maintainability
-- **TypeScript integration** for type safety
-- **React hooks** replacing DOM manipulation
-- **Server-side rendering** for better SEO and performance
-- **Modern development toolchain** with hot reloading
-- **Accessibility improvements** with semantic HTML and ARIA attributes
-
-## 📝 Contribute
-
-Contributions are welcome! See our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## 📄 License
-
-This project is licensed under the terms of the license included in the [LICENSE](LICENSE) file.
-
-## 🙏 Acknowledgments
-
-- Y Combinator startups for the inspiration
-- Modern SaaS companies for their predictable design patterns
-- The tech industry's love for buzzwords and vague promises
-
----
-
-*Disclaimer: This is a parody project created for educational and entertainment purposes. Any similarity to actual startups is coincidental and not intended to mock specific companies.*
+[The Unlicense](LICENSE)

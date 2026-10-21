@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
-import matter from 'gray-matter'
 import { remark } from 'remark'
 import html from 'remark-html'
 import gfm from 'remark-gfm'
+import { parseFrontMatter } from '@/lib/frontMatter'
 import {
   isSocialImageKey,
 } from '@/lib/siteConfig'
@@ -185,7 +185,7 @@ export function getSortedPostsData(): BlogPostMetadata[] {
       const slug = fileName.replace(/\.md$/, '')
       const fullPath = path.join(postsDirectory, fileName)
       const fileContents = fs.readFileSync(fullPath, 'utf8')
-      const matterResult = matter(fileContents)
+      const matterResult = parseFrontMatter(fileContents, fullPath)
 
       return parsePostMetadata(
         fullPath,
@@ -219,7 +219,7 @@ export async function getPostData(slug: string): Promise<BlogPostData | null> {
   }
 
   const fileContents = fs.readFileSync(fullPath, 'utf8')
-  const matterResult = matter(fileContents)
+  const matterResult = parseFrontMatter(fileContents, fullPath)
   const metadata = parsePostMetadata(
     fullPath,
     slug,
