@@ -1,6 +1,6 @@
 const fs = require('node:fs')
 const path = require('node:path')
-const matter = require('gray-matter')
+const { parseFrontMatter } = require('../src/lib/frontMatter')
 const sharp = require('sharp')
 const socialImages = require('../src/data/socialImages.json')
 const {
@@ -36,7 +36,7 @@ async function syncBlogSocialImages() {
   for (const fileName of postFiles) {
     const postFile = path.join(postsDirectory, fileName)
     const slug = fileName.replace(/\.md$/, '')
-    const { data } = matter(fs.readFileSync(postFile, 'utf8'))
+    const { data } = parseFrontMatter(fs.readFileSync(postFile, 'utf8'), postFile)
     const image = data.image
 
     if (typeof image !== 'string' || image.trim() === '') {

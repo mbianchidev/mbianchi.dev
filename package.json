@@ -16,7 +16,8 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "next": "^15.5.26",
+    "js-yaml": "^4.3.2",
+    "next": "^15.5.28",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "rehype-highlight": "^7.0.2",
@@ -32,17 +33,24 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.18.0",
-    "eslint-config-next": "^15.5.26",
-    "sharp": "^0.35.4",
+    "eslint-config-next": "^15.5.28",
+    "fast-glob": "file:scripts/next-lint-glob",
+    "sharp": "^0.35.5",
     "typescript": "^5.7.2"
   },
   "overrides": {
+    "@next/eslint-plugin-next": {
+      "fast-glob": "$fast-glob"
+    },
+    "gray-matter": {
+      "js-yaml": "$js-yaml"
+    },
     "postcss": "8.5.25",
     "sharp": "$sharp"
   },
   "allowScripts": {
     "fsevents@2.3.2": true,
-    "sharp@0.35.4": true,
-    "unrs-resolver@1.11.1": true
+    "sharp@0.35.5": true,
+    "unrs-resolver@1.12.2": true
   }
 }

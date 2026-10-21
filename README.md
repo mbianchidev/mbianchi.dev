@@ -67,6 +67,7 @@ review those entries when updating the corresponding dependencies.
 | `npm run dev` | Regenerate blog image metadata, clear `.next/`, and start development |
 | `npm run blog:images` | Validate local blog covers and generate their social image manifest |
 | `npm run lint` | Run ESLint |
+| `npm audit` | Audit the full dependency tree, including development dependencies |
 | `npm run test:playwright` | Run route, interaction, metadata, responsive, and status tests |
 | `npm run test:screenshots` | Run the same Playwright suite in headed mode |
 | `npm run build` | Generate blog image metadata, build/type-check the static site, and validate exported redirects and the resume PDF |
@@ -151,6 +152,17 @@ values before publishing a fork or mounting the site elsewhere.
 `package.json` overrides Next.js's pinned PostCSS with patched PostCSS 8.5.25.
 Keep that override until the selected Next.js line depends on PostCSS 8.5.10
 or newer.
+
+Two scoped overrides remove legacy dependency chains without changing the
+framework major. The Next lint plugin's `fast-glob` import resolves to a local
+`tinyglobby` adapter in `scripts/next-lint-glob/`. It preserves the plugin's
+`globSync` contract without recursively expanding literal directory patterns.
+Remove that adapter when the upstream plugin no longer needs the vulnerable
+glob chain. `gray-matter` uses `js-yaml` 4 with the explicit engine in
+`src/lib/frontMatter.js`; its default engine calls the removed `safeLoad` API.
+Keep Markdown loading and image generation on that shared helper.
+[Compatibility tests](tests/dependencies.spec.ts) cover metadata parsing and
+the lint plugin's directory-glob behavior.
 
 ### Blog posts
 
