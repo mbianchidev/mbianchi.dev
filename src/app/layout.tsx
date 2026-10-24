@@ -63,7 +63,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${publicSans.variable} ${archivoBlack.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${publicSans.variable} ${archivoBlack.variable}`}
+    >
       <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">
           Skip to main content

@@ -5,25 +5,49 @@
 
 ## Local setup
 
-Use Node.js 20, at least 20.9.0, and npm with the committed
-[`package-lock.json`](../package-lock.json). CI runs Node 20 on Ubuntu; local
-validation also runs on macOS. Other platforms are not covered by that evidence.
+Use Node.js 26.12.1 from [`.nvmrc`](../.nvmrc) and npm with the committed
+[`package-lock.json`](../package-lock.json). CI reads the same version file on
+Ubuntu; local validation also runs on macOS. With nvm installed, run
+`nvm install && nvm use` at the repository root.
 
 Follow the [quick start](../README.md#quick-start). There is no database,
 container runtime, API key, or `.env` requirement for the default setup.
 `next/font/google` downloads fonts during development/build, so those steps need
 network access. The built site self-hosts the resulting font files.
 
-`npm run dev` validates blog images, clears stale `.next/` output, and starts
-Next.js. Stop it before a production build: development, browser tests, and
-builds must not write to the same `.next/` concurrently.
+`npm run dev` validates blog images and starts Next.js. Next.js 16 separates
+development output in `.next/dev/` from production output in `.next/` and uses
+locks to prevent duplicate dev servers or builds in the same checkout. Startup
+no longer deletes the production output or compiler caches.
+`agentRules: false` keeps `next dev` from rewriting the repository-maintained
+[`AGENTS.md`](../AGENTS.md).
+
+### Runtime and framework compatibility
+
+The site uses Next.js 16.4.3 and React/React DOM 19.3.1. Development and production
+builds explicitly use `--webpack` to preserve the existing image pipeline.
+Turbopack currently reports 100px widths for every static AVIF portrait import,
+which breaks the responsive source sets. Keep Webpack until Turbopack supports
+accurate AVIF metadata. Dynamic route parameters already use the required
+asynchronous API, and production remains a static export.
+
+The package engine preserves Next.js's Node.js 20.9.0 minimum rather than
+requiring Node 26 everywhere. Use a maintained Node release. Vercel currently
+offers Node 24.x and 22.x, not Node 26; select 24.x for hosted builds. The broad
+engine range permits that deployment runtime while CI and local development
+use the current stable Node release pinned in `.nvmrc`.
+
+ESLint imports Next.js's native flat configuration. Run `npm run lint`
+explicitly: Next.js 16 no longer runs ESLint during `next build`. The root
+layout opts into Next.js's smooth-scroll handling so client navigation still
+resets the viewport while in-page anchors retain smooth scrolling.
 
 ## Commands
 
 | Command | Purpose |
 | --- | --- |
 | `npm ci` | Install the exact locked dependency tree |
-| `npm run dev` | Generate blog image metadata, clear `.next/`, and start development |
+| `npm run dev` | Generate blog image metadata and start Webpack development |
 | `npm run blog:images` | Validate local blog covers and generate their social image manifest |
 | `npm run lint` | Run ESLint |
 | `npm audit` | Audit the full dependency tree, including development dependencies |
@@ -113,10 +137,11 @@ Native install-script approvals in [`package.json`](../package.json) are
 version-specific; review them when updating the corresponding packages rather
 than enabling every script.
 
-The PostCSS override selects patched PostCSS 8.5.25. Keep it until the selected
-Next.js line depends on PostCSS 8.5.10 or newer.
+The PostCSS override keeps the parser on patched PostCSS 8.5.25 while Next.js
+declares 8.5.23. Review upstream dependencies and current advisories before
+removing it.
 
-Two scoped overrides remove legacy chains without changing the framework major:
+Two scoped overrides retain compatibility with patched dependencies:
 
 - The Next lint plugin's `fast-glob` import resolves to the local `tinyglobby`
   adapter in [`scripts/next-lint-glob/`](../scripts/next-lint-glob/). It preserves
@@ -134,13 +159,14 @@ parsing and the lint plugin's directory-glob behavior.
 
 | Symptom | Check |
 | --- | --- |
-| Missing packages or modules | Select Node 20.9+ and run `npm ci` at the repository root |
+| Missing packages or modules | Select the Node version in `.nvmrc` and run `npm ci` at the repository root |
 | Font download fails | Restore access to Google Fonts and rerun the build |
 | Blog cover validation fails | Check `image`, `imageAlt`, the local file, and the [authoring rules](../content/blog/README.md) |
 | Playwright cannot launch Chromium | Run `npx playwright install chromium`, or the Linux `--with-deps` variant |
-| Stale `.next/` or conflicting output | Stop this checkout's running dev/test process before restarting `npm run dev` |
+| Locked or conflicting output | Stop this checkout's duplicate dev/test or build process before restarting |
 | `next start` rejects the export | Build and serve `out/` with a static host |
 | `/_vercel/` analytics scripts return 404 on a plain static host | Those endpoints come from Vercel, not the exported files; the portfolio still renders without analytics |
+| Image sizing warnings in development | Compliance marks use fixed bounding boxes with `object-fit: contain`; inspect the rendered marks before changing their dimensions |
 
 ## Maintaining screenshots
 

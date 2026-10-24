@@ -5,10 +5,11 @@
 
 ## How it works
 
-The Next.js App Router pre-renders local Markdown posts, structured portfolio
-data, and static routes into `out/`. Shared Server Components provide the initial
-content; client components enhance it with search, filtering, diagnostics,
-pagination, quotes, and simulated status updates.
+Next.js 16.4 App Router and React 19.3 pre-render local Markdown posts, structured
+portfolio data, and static routes into `out/`. Builds retain Webpack for accurate
+static AVIF image metadata. Shared Server Components provide the initial content;
+client components enhance it with search, filtering, diagnostics, pagination,
+quotes, and simulated status updates.
 
 The application was migrated from static HTML/CSS/JavaScript to React and
 Next.js while retaining static hosting and useful no-JavaScript content.
