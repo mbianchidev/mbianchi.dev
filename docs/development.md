@@ -49,6 +49,17 @@ system dependencies, as [CI](../.github/workflows/ci.yml) does. Playwright start
 a development server at `http://localhost:3000` and can reuse an existing one
 outside CI. Avoid running the tests against an unrelated server on that port.
 
+CI keeps the `Lint, test, and build` check on pull requests, including drafts
+and subsequent pushes, and on pushes to `main`. It uses two Playwright workers
+on the public Ubuntu runner and installs only Chromium's headless shell with
+`npx playwright install --with-deps --only-shell chromium`. Headed local tests
+still need the full `npx playwright install chromium` installation. The workflow
+logs CPU and memory capacity alongside the test run.
+
+The workflow pins its setup actions to reviewed release commits. The locked
+install, lint, complete test suite, blog image generation, build/type check,
+and static redirect validation all remain in the same serial job.
+
 Browser coverage currently targets Chromium only. ESLint is not a standalone
 TypeScript check; Next.js checks types during the build. Tests cover routes,
 interaction, metadata, responsive layouts, and status calculations, but are not
