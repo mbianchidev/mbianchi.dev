@@ -1579,10 +1579,11 @@ test.describe('Static route experience', () => {
     await expect(historyLogos).toHaveCount(14);
     await expect(historyImages).toHaveCount(13);
 
-    const loadedWidths = await historyImages.evaluateAll((images) =>
-      images.map((image) => (image as HTMLImageElement).naturalWidth)
-    );
-    expect(loadedWidths.every((width) => width > 0)).toBe(true);
+    await expect
+      .poll(() => historyImages.evaluateAll((images) =>
+        images.every((image) => (image as HTMLImageElement).naturalWidth > 0)
+      ))
+      .toBe(true);
   });
 
   test('renders the branded not-found route', async ({ page }) => {
