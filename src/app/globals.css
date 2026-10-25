@@ -1827,38 +1827,6 @@ footer {
 /* Spacing between role and company badge */
 .timeline-role { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 16px 0 18px; }
 .role-title { font-weight: 700; }
-.company-badge {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    background: var(--bg-secondary);
-    color: var(--dark-gray);
-}
-
-/* Domain-based colors for sectors */
-.company-badge.sector-devtools { background: linear-gradient(135deg, #e3f2fd, #bbdefb); color: #0d47a1; }
-.company-badge.sector-education { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); color: #1b5e20; }
-.company-badge.sector-artificial-intelligence { background: linear-gradient(135deg, #ede7f6, #d1c4e9); color: #4a148c; }
-.company-badge.sector-saas { background: linear-gradient(135deg, #fff3e0, #ffe0b2); color: #e65100; }
-.company-badge.sector-it-services { background: linear-gradient(135deg, #f3e5f5, #e1bee7); color: #6a1b9a; }
-.company-badge.sector-healthcare { background: linear-gradient(135deg, #e0f7fa, #b2ebf2); color: #006064; }
-.company-badge.sector-government-agency { background: linear-gradient(135deg, #edeff3, #dfe3ea); color: #374151; }
-.company-badge.sector-certificate-authority-&-digital-signature { background: linear-gradient(135deg, #fffde7, #fff9c4); color: #827717; }
-.company-badge.sector-insurance { background: linear-gradient(135deg, #e8eaf6, #c5cae9); color: #283593; }
-.company-badge.sector-oil-&-gas { background: linear-gradient(135deg, #fbe9e7, #ffccbc); color: #bf360c; }
-.company-badge.sector-fashion { background: linear-gradient(135deg, #fce4ec, #f8bbd0); color: #ad1457; }
-.company-badge.sector-banking { background: linear-gradient(135deg, #ede7f6, #d1c4e9); color: #4a148c; }
-.company-badge.sector-automotive { background: linear-gradient(135deg, #efebe9, #d7ccc8); color: #4e342e; }
-.company-badge.sector-areospace-&-defense { background: linear-gradient(135deg, #e3f2fd, #bbdefb); color: #0d47a1; }
-.company-badge.sector-news-&-media { background: linear-gradient(135deg, #fff8e1, #ffecb3); color: #ff6f00; }
-.company-badge.sector-internet-service-provider { background: linear-gradient(135deg, #e1f5fe, #b3e5fc); color: #01579b; }
-.company-badge.sector-public-sector { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); color: #4338ca; }
-.company-badge.sector-cooperative { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #0f172a; }
-.company-badge.sector-startup { background: linear-gradient(135deg, #e6fffa, #b2f5ea); color: #065f46; }
-.company-badge.sector-corporate { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); color: #111827; }
-.company-badge.sector-enterprise { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); color: #111827; }
 
 .achievement-badge {
     display: inline-flex;

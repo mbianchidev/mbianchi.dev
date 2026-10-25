@@ -14,6 +14,7 @@ site, not an installable SaaS service.
 ## Work on the source
 
 - [Development setup, commands, and troubleshooting](development.md)
+- [Runtime and framework compatibility](development.md#runtime-and-framework-compatibility)
 - [Checks used by CI](development.md#checks-used-by-ci)
 - [Static export and deployment](development.md#static-export-and-deployment)
 - [Vercel configuration](development.md#vercel)

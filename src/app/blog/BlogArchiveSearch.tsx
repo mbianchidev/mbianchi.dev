@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useState } from 'react'
+import { useId, useState } from 'react'
 import styles from './blog.module.css'
 
 interface TopicFilter {
@@ -20,8 +20,8 @@ export function BlogArchiveSearch({ topics, total }: BlogArchiveSearchProps) {
   const [activeTopic, setActiveTopic] = useState('all')
   const [resultCount, setResultCount] = useState(total)
 
-  useEffect(() => {
-    const normalizedQuery = query.trim().toLowerCase()
+  function filterPosts(nextQuery: string, nextTopic: string) {
+    const normalizedQuery = nextQuery.trim().toLowerCase()
     const rows = [...document.querySelectorAll<HTMLElement>('[data-blog-search]')]
     let visible = 0
 
@@ -30,8 +30,8 @@ export function BlogArchiveSearch({ topics, total }: BlogArchiveSearchProps) {
         normalizedQuery === ''
         || (row.dataset.blogSearch ?? '').includes(normalizedQuery)
       const matchesTopic =
-        activeTopic === 'all'
-        || row.dataset.blogTopic === activeTopic
+        nextTopic === 'all'
+        || row.dataset.blogTopic === nextTopic
       const matches = matchesQuery && matchesTopic
 
       row.hidden = !matches
@@ -40,8 +40,10 @@ export function BlogArchiveSearch({ topics, total }: BlogArchiveSearchProps) {
       }
     }
 
+    setQuery(nextQuery)
+    setActiveTopic(nextTopic)
     setResultCount(visible)
-  }, [activeTopic, query])
+  }
 
   return (
     <div className={styles.searchPanel} role="search">
@@ -55,7 +57,7 @@ export function BlogArchiveSearch({ topics, total }: BlogArchiveSearchProps) {
           value={query}
           placeholder="Search a topic. We probably have an opinion"
           autoComplete="off"
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => filterPosts(event.target.value, activeTopic)}
         />
         <output htmlFor={inputId} aria-live="polite">
           {resultCount} {resultCount === 1 ? 'post' : 'posts'}
@@ -66,7 +68,7 @@ export function BlogArchiveSearch({ topics, total }: BlogArchiveSearchProps) {
           type="button"
           data-blog-topic-filter="all"
           aria-pressed={activeTopic === 'all'}
-          onClick={() => setActiveTopic('all')}
+          onClick={() => filterPosts(query, 'all')}
         >
           All topics
           <span>{total}</span>
@@ -77,7 +79,7 @@ export function BlogArchiveSearch({ topics, total }: BlogArchiveSearchProps) {
             type="button"
             data-blog-topic-filter={topic.id}
             aria-pressed={activeTopic === topic.id}
-            onClick={() => setActiveTopic(topic.id)}
+            onClick={() => filterPosts(query, topic.id)}
           >
             {topic.label}
             <span>{topic.count}</span>

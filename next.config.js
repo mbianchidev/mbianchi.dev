@@ -14,6 +14,7 @@ const nextConfig = {
   basePath,
   poweredByHeader: false,
   reactStrictMode: true,
+  agentRules: false,
   async redirects() {
     return pathRedirects
   },

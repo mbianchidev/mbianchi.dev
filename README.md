@@ -37,7 +37,7 @@ inspect that work. The startup language is parody, not a SaaS product.
 
 ## Quick start
 
-Use **Node.js 20.9+ on the Node 20 line** and **npm** to match CI. Git and
+Use **Node.js 26.12.1** from [`.nvmrc`](.nvmrc) and **npm** to match CI. Git and
 network access are required for packages and build-time Google Fonts downloads.
 No database, container runtime, API key, or `.env` file is needed.
 
@@ -59,7 +59,7 @@ automation without turning them into another corporate resume.
 
 ## How it works
 
-Next.js 15.5 App Router, React 19, strict TypeScript, and CSS Modules turn local
+Next.js 16.4 App Router, React 19.3, strict TypeScript, and CSS Modules turn local
 Markdown and structured data into pre-rendered HTML. Browser interactions add
 filters, diagnostics, and calculated quotes. Production serves static files,
 not a Next.js server.

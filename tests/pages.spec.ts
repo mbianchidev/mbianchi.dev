@@ -618,6 +618,21 @@ test.describe('Static route experience', () => {
     expect(destinations).toEqual(['/#features', '/customers/', '/about/', '/blog/']);
   });
 
+  test('resets scroll on client navigation while preserving smooth anchor scrolling', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('html[data-hydrated="true"]').waitFor();
+    await expect(page.locator('html')).toHaveAttribute('data-scroll-behavior', 'smooth');
+
+    const aboutLink = page.locator('footer a[href="/about/"]');
+    await aboutLink.scrollIntoViewIfNeeded();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    await aboutLink.click();
+
+    await expect(page).toHaveURL(/\/about\/?$/);
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  });
+
   test('presents the About page as an accessible CEO note', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 844 });
     await page.goto('/about', { waitUntil: 'domcontentloaded' });

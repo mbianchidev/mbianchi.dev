@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useState } from 'react'
+import { useId, useState } from 'react'
 import styles from '@/app/inner.module.css'
 
 interface FilterOption {
@@ -27,8 +27,12 @@ export function CareersSearch({
   const [activeDepartment, setActiveDepartment] = useState('all')
   const [resultCount, setResultCount] = useState(total)
 
-  useEffect(() => {
-    const normalizedQuery = query.trim().toLowerCase()
+  function filterRoles(
+    nextQuery: string,
+    nextLocation: string,
+    nextDepartment: string,
+  ) {
+    const normalizedQuery = nextQuery.trim().toLowerCase()
     const roles = [
       ...document.querySelectorAll<HTMLElement>('[data-career-search]'),
     ]
@@ -39,11 +43,11 @@ export function CareersSearch({
         normalizedQuery === ''
         || (role.dataset.careerSearch ?? '').includes(normalizedQuery)
       const matchesLocation =
-        activeLocation === 'all'
-        || (role.dataset.careerLocations ?? '').split(' ').includes(activeLocation)
+        nextLocation === 'all'
+        || (role.dataset.careerLocations ?? '').split(' ').includes(nextLocation)
       const matchesDepartment =
-        activeDepartment === 'all'
-        || role.dataset.careerDepartment === activeDepartment
+        nextDepartment === 'all'
+        || role.dataset.careerDepartment === nextDepartment
       const matches = matchesQuery && matchesLocation && matchesDepartment
 
       role.hidden = !matches
@@ -52,8 +56,11 @@ export function CareersSearch({
       }
     }
 
+    setQuery(nextQuery)
+    setActiveLocation(nextLocation)
+    setActiveDepartment(nextDepartment)
     setResultCount(visible)
-  }, [activeDepartment, activeLocation, query])
+  }
 
   return (
     <div className={styles.careerSearch} role="search">
@@ -66,7 +73,9 @@ export function CareersSearch({
             value={query}
             placeholder="Search jobs"
             autoComplete="off"
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) =>
+              filterRoles(event.target.value, activeLocation, activeDepartment)
+            }
           />
         </div>
         <div className={styles.careerFilterField}>
@@ -74,7 +83,9 @@ export function CareersSearch({
           <select
             id={locationId}
             value={activeLocation}
-            onChange={(event) => setActiveLocation(event.target.value)}
+            onChange={(event) =>
+              filterRoles(query, event.target.value, activeDepartment)
+            }
           >
             <option value="all">All locations</option>
             {locations.map((location) => (
@@ -89,7 +100,9 @@ export function CareersSearch({
           <select
             id={departmentId}
             value={activeDepartment}
-            onChange={(event) => setActiveDepartment(event.target.value)}
+            onChange={(event) =>
+              filterRoles(query, activeLocation, event.target.value)
+            }
           >
             <option value="all">All departments</option>
             {departments.map((department) => (

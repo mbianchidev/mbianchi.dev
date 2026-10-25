@@ -2,10 +2,10 @@
 
 ## Project
 
-- This is a statically exported personal portfolio built with Next.js 15.5, React 19, and strict TypeScript.
+- This is a statically exported personal portfolio built with Next.js 16.4, React 19.3, and strict TypeScript.
 - The application uses the App Router and deploys to Vercel. `npm run build` writes the static site to `out/`.
 - The design and content system below defines the product direction, voice, audience, and accessibility goals. Keep `README.md` and the [documentation index](docs/README.md) aligned with setup, architecture, and deployment changes.
-- Use Node.js 20 and npm to match `.github/workflows/ci.yml`.
+- Use Node.js 26.12.1 from `.nvmrc` and npm to match `.github/workflows/ci.yml`.
 
 ## Commands
 
