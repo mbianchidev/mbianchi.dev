@@ -22,7 +22,7 @@ AI Software factory.
 
 > What is this shit now?
 
-![](assets/agentic-factory.png)
+![](/images/blog/agentic-factory.png)
 
 That's literally what I've been asking myself. That and "does it make sense or should I dismiss it?". 
 Well, if you are reading this blog you already know what my answer was.
@@ -170,7 +170,7 @@ All of this to say that to reap all these time savings gains and benefits organi
 
 If we do everything correctly, we end up with something like this (simplified schema):
 
-![](assets/agentic-factory-schema.png)
+![](/images/blog/agentic-factory-schema.png)
 
 Cute right? That's not even half of the actual complexity of running a company heavily based on software as end-user (what Spotify was before diversifying and become another SaaS vendor) or selling a software as a vendor.
 
