@@ -1,5 +1,5 @@
 ---
-title: "Welcome to Markdown engineering town"
+title: "Welcome to Markdown Engineering town"
 date: "YYYY-MM-DDT09:00:00+02:00"
 author: "Matteo Bianchi"
 category: "AI"
@@ -12,7 +12,7 @@ tags:
   - GitHub Copilot
 ---
 
-# Welcome to Markdown engineering town
+# Welcome to Markdown Engineering town
 
 *Markdown still documents software. Now it also tells agents how to work.*
 

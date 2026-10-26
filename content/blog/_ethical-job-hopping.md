@@ -97,7 +97,7 @@ This does not prove that job hopping always pays. It does make "job hopping neve
 
 ## The one boundary I care about
 
-Very little about changing jobs is unethical by itself. My main exception is a startup.
+Very little about changing jobs is unethical by itself. My main exception is about early stage startups.
 
 If you accept a lot of money and equity, then leave before doing any meaningful work, I consider that unethical. A startup makes a concentrated bet on each hire. One person can own an important part of the company while consuming cash the company cannot casually replace.
 
@@ -139,15 +139,15 @@ I am a big proponent of job hopping, and whatever people say about it, it can be
 How?  
 You go to your current employer and ask for an improvement in your financial conditions or your position in general.  
 
-99 percent will not be given to you, so at that point you move accordingly to change.  
+In 99% of cases it won't be given to you, so at that point you move accordingly to change.  
 
 When you have found the right alternative, you communicate your resignation to your employer with the contractually required notice.  
 
 Do you do this 6 to 12 months after joining the company?  
 
-It doesn't matter when, the important thing is that you have the skills to “hopping” to the next job, that if you wait for a salary review or a spontaneously given raise you are ruined!
+It doesn't matter when, the important thing is that you have the skills to "hop" to the next job, that if you wait for a salary review or a spontaneously given raise you are ruined!
   
 Job hopping is as ethically correct as it is for a company to think about its profit.  
-Why do companies do and workers don't?
+Why do companies can and workers can't?
 
-Then, if the company has any foresight at all, over time it will understand that if it has high turnover it will have to work to hold on to employees through a system of salary adjustment/revision, benefits, and internal career path.
+Then, if the company has any foresight at all, over time it will understand that if it has high turnover they will have to work to hold on to employees through a system of salary adjustment/revision, benefits, and a fair internal career path.
