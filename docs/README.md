@@ -20,6 +20,7 @@ site, not an installable SaaS service.
 - [Vercel configuration](development.md#vercel)
 - [Content and configuration](content.md)
 - [Blog posts](content.md#blog-posts)
+- [Password-gated draft previews](content.md#draft-previews)
 - [Public links](content.md#public-links)
 - [Short links](content.md#short-links)
 

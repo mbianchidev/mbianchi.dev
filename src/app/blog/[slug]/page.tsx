@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { BlogArticle } from '@/components/BlogArticle'
 import { PageHero } from '@/components/PageHero'
 import { getPostData, getAllPostSlugs, parseBlogDate } from '@/lib/markdown'
 import {
@@ -14,16 +15,6 @@ interface BlogPostPageProps {
     slug: string
   }>
 }
-
-const editedAtFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: '2-digit',
-  timeZone: 'UTC',
-  timeZoneName: 'short',
-})
 
 export function generateStaticParams() {
   return getAllPostSlugs().map((slug) => ({ slug }))
@@ -111,23 +102,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         }
       />
 
-      <article className={styles.articleSection}>
-        <div
-          className={styles.prose}
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-        {editedAt ? (
-          <p
-            className={styles.articleEditHistory}
-            aria-label="Article edit history"
-          >
-            Edited at{' '}
-            <time dateTime={editedAt.toISOString()}>
-              {editedAtFormatter.format(editedAt)}
-            </time>
-          </p>
-        ) : null}
-      </article>
+      <BlogArticle content={post.content} editedAt={editedAt} />
 
       <section className={styles.articleFooter} aria-label="Article navigation">
         <div>

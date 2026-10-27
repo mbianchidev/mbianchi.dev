@@ -43,6 +43,10 @@ docs/              Maintainer guides and intentional README screenshots
   endorsement, and the compliance ledger does not claim certification.
 - Static content and routes update through rebuilds. Filtering, quote changes,
   and status refreshes enhance the initial HTML with browser JavaScript.
+- Blog draft previews intentionally render their articles only after a
+  browser-side password check. This is a casual access gate, not authentication;
+  the static payload and public source remain inspectable. See
+  [draft previews](content.md#draft-previews).
 - Browser automation targets Chromium, not every browser or assistive
   technology. See [accessibility guidance](../ACCESSIBILITY.md) for the remaining
   manual verification.

@@ -34,7 +34,7 @@ this is not a general hosting migration switch.
 
 Start from [content/blog/_template.md](../content/blog/_template.md). A Markdown
 filename becomes its `/blog/[slug]/` URL; files prefixed with `_` are drafts or
-templates and are not published.
+templates and stay out of the public archive and sitemap.
 
 Required front matter: `title`, `date`, `author`, `category`, `excerpt`, `image`,
 and `imageAlt`. Use a local cover under `public/images/blog/` or a supported
@@ -47,6 +47,30 @@ optional edit timestamps, tags, supported image formats, and migration rules.
 Markdown is trusted repository-authored content, not an untrusted upload
 interface. The shared YAML parser is described in
 [dependency maintenance](development.md#dependency-maintenance).
+
+### Draft previews
+
+Keep the leading underscore while writing. `_my-post.md` is available at
+`/blog/draft/my-post/` after rebuilding, including for files with unfinished
+publication dates or cover images. Every underscore-prefixed Markdown file has
+a preview, including the template. Previews only require `title` and `excerpt`
+front matter and use the same Markdown renderer and article styles as public
+posts.
+
+Enter the shared password configured in
+[`BlogDraftGate.tsx`](../src/app/blog/draft/BlogDraftGate.tsx) to render the
+article. A reload locks it again. The gate requires JavaScript and stores no
+cookie or browser-storage state.
+
+Draft routes have only a generic preview title and `noindex, nofollow`; they
+generate no post-specific SEO, canonical, social, or structured metadata and no
+social images. They are not linked from the public archive or added to the
+sitemap, and `/blog/_my-post/` does not publish an alternate copy.
+
+This is a convenience gate, not authentication. The password and draft content
+are shipped to the browser in the static export, and the source is public.
+Do not use it for confidential material. Remove the filename's leading
+underscore and complete the required publication front matter to publish.
 
 ## Public links
 

@@ -6,6 +6,9 @@ This directory contains blog posts written in Markdown format. Each blog post is
 
 Each blog post should be named using kebab-case (lowercase with hyphens), which will become the URL slug.
 Files whose names start with `_` are templates or drafts and are never published.
+They have password-gated previews at `/blog/draft/[slug]/`, without the filename's
+leading underscore. See [draft previews](../../docs/content.md#draft-previews)
+for the access gate and its limitations.
 
 Example:
 - File: `my-awesome-post.md`
@@ -16,7 +19,9 @@ leading underscore to publish it.
 
 ## Frontmatter Format
 
-Each blog post must include frontmatter at the top with the following fields:
+Each published blog post must include frontmatter at the top with the following
+fields. Draft previews only require `title` and `excerpt`; unfinished publication
+dates and cover images do not block previewing the Markdown.
 
 ```markdown
 ---
