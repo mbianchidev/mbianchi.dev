@@ -183,6 +183,19 @@ for (const article of articles) {
         image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0
       )
     ), { timeout: 10_000 }).toBe(true);
+    await body.locator('img').evaluateAll(async (images) => {
+      await Promise.all(images.map((image) => {
+        if (!(image instanceof HTMLImageElement)) {
+          throw new Error('Expected an article image');
+        }
+        return image.decode();
+      }));
+    });
+    for (const image of await body.locator('img').all()) {
+      await expect(image).toBeVisible();
+      await expect(image).toHaveCSS('opacity', '1');
+      await expect(image).toHaveCSS('visibility', 'visible');
+    }
 
     const markers = await body.locator('li').evaluateAll((items) =>
       items.map((item) => ({
@@ -217,6 +230,17 @@ for (const article of articles) {
         id: element.id,
         title: element.textContent?.replace(/\s+/g, ' ').trim(),
       })));
+    for (const navigation of await body.getByRole('navigation').all()) {
+      for (const width of [390, 1280]) {
+        await page.setViewportSize({ width, height: 900 });
+        const title = await navigation.getByRole('heading').first().boundingBox();
+        const list = await navigation.getByRole('list').first().boundingBox();
+        if (!title || !list) {
+          throw new Error('The article contents need a visible title and list');
+        }
+        expect(title.y + title.height).toBeLessThanOrEqual(list.y);
+      }
+    }
     const contentsLinks = body.getByRole('navigation').getByRole('link');
     for (const link of await contentsLinks.all()) {
       const fragment = (await link.getAttribute('href'))?.slice(1);

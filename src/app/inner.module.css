@@ -533,6 +533,13 @@
     text-underline-offset: 3px;
 }
 
+.prose :global(nav) {
+    display: block;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
 .prose :global(nav a) {
     color: var(--bg-primary);
 }
