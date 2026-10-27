@@ -104,31 +104,13 @@ are shipped to the browser in the static export, and the source is public.
 Do not use it for confidential material. Remove the filename's leading
 underscore and complete the required publication front matter to publish.
 
-### Corrections and publishing PRs
+### Corrections
 
 Published articles include a **Propose a fix** link to that post's source in
 GitHub's editor. It works without JavaScript. Readers sign in to GitHub and
 propose a change through a branch or fork and pull request. Repository and
 branch destinations are configured in
 [`siteConfig.repository`](../src/lib/siteConfig.ts).
-
-Unlocked draft previews include **Publish draft**, protected by a separate
-shared password in
-[`DraftPublishAction.tsx`](../src/app/blog/draft/DraftPublishAction.tsx).
-**Prepare publishing PR** creates copyable and downloadable Markdown with both
-`date` and `updated` set to the current UTC date at preparation time. Other
-front matter, comments, and the Markdown body are preserved. Reloading or
-closing the publishing controls requires the publishing password again.
-
-Copy or download the prepared Markdown, open the GitHub editor, remove the
-filename's leading underscore, and replace the contents. Review any unfinished
-cover-image or other placeholders, commit to a new branch, and open a pull
-request. Do not commit directly to `main`.
-
-This is deliberately a manual GitHub handoff. The static site has no GitHub
-token or publishing backend, cannot create a PR itself, and never commits,
-publishes, or merges anything automatically. Clipboard failures are reported
-with the download link retained as a fallback.
 
 ## Public links
 

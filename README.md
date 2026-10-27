@@ -77,7 +77,7 @@ not a Next.js server.
 - **Inspectable work:** capability and integration manifests, open-source
   evidence, customer history, and career milestones.
 - **Searchable content:** a Markdown blog with local WebP images, reader-proposed
-  corrections, and password-gated draft publishing preparation, plus career
+  corrections, and password-gated draft previews, plus career
   filters and data-driven role descriptions.
 - **Interactive tools:** compatibility diagnostics and an accessible
   rate-by-hours quote calculator.

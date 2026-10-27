@@ -22,7 +22,7 @@ site, not an installable SaaS service.
 - [Blog posts](content.md#blog-posts)
 - [Local WebP blog images](content.md#blog-images)
 - [Password-gated draft previews](content.md#draft-previews)
-- [Blog corrections and publishing PRs](content.md#corrections-and-publishing-prs)
+- [Blog corrections](content.md#corrections)
 - [Public links](content.md#public-links)
 - [Short links](content.md#short-links)
 

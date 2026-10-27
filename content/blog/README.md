@@ -9,9 +9,8 @@ Files whose names start with `_` are templates or drafts and are never published
 They have password-gated previews at `/blog/draft/[slug]/`, without the filename's
 leading underscore. See [draft previews](../../docs/content.md#draft-previews)
 for the access gate and its limitations.
-Published posts also link to GitHub for corrections. Drafts can prepare a
-publication rename and current dates for a manually created PR; see
-[corrections and publishing PRs](../../docs/content.md#corrections-and-publishing-prs).
+Published posts also link to GitHub for
+[corrections](../../docs/content.md#corrections).
 
 Example:
 - File: `my-awesome-post.md`

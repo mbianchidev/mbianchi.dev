@@ -156,10 +156,9 @@ Two scoped overrides retain compatibility with patched dependencies:
 [`tests/dependencies.spec.ts`](../tests/dependencies.spec.ts) protects metadata
 parsing and the lint plugin's directory-glob behavior.
 
-Draft publication preparation uses `yaml`'s document editor in
-[`src/lib/blogContributions.ts`](../src/lib/blogContributions.ts) to update only
-publication dates while preserving other front matter and comments. Both dates
-are explicitly quoted so the shared `js-yaml` reader keeps them as strings.
+The [blog image importer](../scripts/optimize-blog-images.cjs) uses `yaml`'s
+document editor to locate cover-image values without rewriting the remaining
+front matter or comments.
 
 ## Troubleshooting
 

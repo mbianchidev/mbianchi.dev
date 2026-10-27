@@ -25,8 +25,7 @@ test.describe('Blog draft previews', () => {
       expect(post?.title.trim().length).toBeGreaterThan(0);
       expect(post?.excerpt.trim().length).toBeGreaterThan(0);
       expect(post?.content).toMatch(/<\w+/);
-      expect(post?.source.trim().length).toBeGreaterThan(0);
-      expect(Object.keys(post!)).toEqual(['slug', 'title', 'excerpt', 'content', 'source']);
+      expect(Object.keys(post!)).toEqual(['slug', 'title', 'excerpt', 'content']);
     }
 
     const publishedOnlySlugs = getAllPostSlugs()
@@ -137,6 +136,10 @@ test.describe('Blog draft previews', () => {
       await expect(page.getByRole('main')).toBeFocused();
       await expect(password).toHaveCount(0);
       await expect(page.getByRole('article').locator('p')).not.toHaveCount(0);
+      await expect(page.getByRole('button', { name: 'Publish draft', exact: true }))
+        .toHaveCount(0);
+      await expect(page.getByLabel('Publishing password')).toHaveCount(0);
+      await expect(page.getByRole('link', { name: 'Download Markdown' })).toHaveCount(0);
 
       for (const width of [390, 1280]) {
         await page.setViewportSize({ width, height: 900 });

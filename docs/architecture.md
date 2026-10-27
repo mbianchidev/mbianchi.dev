@@ -47,10 +47,9 @@ docs/              Maintainer guides and intentional README screenshots
   browser-side password check. This is a casual access gate, not authentication;
   the static payload and public source remain inspectable. See
   [draft previews](content.md#draft-previews).
-- Blog correction links and draft publishing preparation hand off to GitHub's
-  editor. Publishing uses a separate browser-side password, prepares the rename
-  and current UTC dates, and leaves branch creation and PR submission to the
-  reader. No GitHub token, server endpoint, automatic commit, or merge is used.
+- Blog correction links open GitHub's editor. Draft previews are read-only;
+  publishing remains a repository change reviewed through a pull request.
+  No GitHub token, publishing endpoint, automatic commit, or merge is used.
 - Browser automation targets Chromium, not every browser or assistive
   technology. See [accessibility guidance](../ACCESSIBILITY.md) for the remaining
   manual verification.

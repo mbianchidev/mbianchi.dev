@@ -41,7 +41,6 @@ export interface BlogDraftData {
   title: string
   excerpt: string
   content: string
-  source: string
 }
 
 function requiredString(
@@ -265,7 +264,6 @@ export async function getDraftPostData(slug: string): Promise<BlogDraftData | nu
     title: requiredString(data, 'title', fileName),
     excerpt: requiredString(data, 'excerpt', fileName),
     content: await renderPostContent(content),
-    source: fileContents,
   }
 }
 
