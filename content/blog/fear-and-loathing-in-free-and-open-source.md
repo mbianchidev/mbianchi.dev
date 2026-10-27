@@ -15,7 +15,7 @@ Think about the amount of indie games built with Unity in the last 10 years, all
 
 The very foundation of software lies in open-source.
 
-![What a wonderful evergreen.](https://miro.medium.com/v2/resize:fit:1400/0*NsNFTKROicAKdw1z.png)
+![What a wonderful evergreen.](/images/blog/body/82d58c11236c62ff262f.webp)
 
 *What a wonderful evergreen.*
 
@@ -42,7 +42,7 @@ Not long ago, HashiCorp changed the Terraform license from MLP to BSL (free and 
 Fortunately enough the community came together to build an awesome open alternative, now officially adopted by the Linux Foundation.\
 A round of applause and a warm welcome to [**OpenTofu**](<https://github.com/opentofu/opentofu>)!
 
-![The logo doesn’t click with me but I’ll learn to love it](https://miro.medium.com/v2/resize:fit:1400/1*vrdKFM860D_jAwRF-aTbCA.jpeg)
+![The logo doesn’t click with me but I’ll learn to love it](/images/blog/body/d22e148f139613409391.webp)
 
 *The logo doesn’t click with me but I’ll learn to love it*
 
@@ -78,7 +78,7 @@ That is unless everything is **governed and steered by a foundation** or at leas
 - **Keeps contributors happy** (and fed);
 - **Fosters competition** and avoids having a company as single point of failure;
 
-![Fear and Loathing in Free and Open-Source](https://miro.medium.com/v2/resize:fit:1400/0*bMRl5H3yMeYHYpcM.jpg)
+![Fear and Loathing in Free and Open-Source](/images/blog/body/426e1d9c8b97fd8926d0.webp)
 
 I recommend that every open-source adopter **avoid relying on a single vendor**, if possible. Instead, **have multiple options ready** or, at the very least, be aware of alternatives in case of licensing or pricing changes.
 

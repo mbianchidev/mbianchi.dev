@@ -11,7 +11,7 @@ readTime: "3 min read"
 
 Netflix’s recent decision to crack down on account sharing by adding an extra fee of 4,99 € for each shared account is a topic that has generated mixed reactions among users, mostly negative.
 
-![A random Netflix logo that will be strike down for copyright issues soon](https://miro.medium.com/v2/resize:fit:1400/0*rwUDfhOwQkaPpJFg.png)
+![A random Netflix logo that will be strike down for copyright issues soon](/images/blog/body/efbc0468d204e3bfb320.webp)
 
 *A random Netflix logo that will be strike down for copyright issues soon*
 

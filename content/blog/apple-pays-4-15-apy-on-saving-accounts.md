@@ -16,7 +16,7 @@ In summary: Apple Card users can now choose to grow their cashback rewards using
 Apparently with no fees, no minimum deposits and no minimum balance requirements, with a maximum of 250.000$ FDIC deposit guaranteed. \
 Users can set up and manage their Savings directly from their Apple Card in Wallet.
 
-![The fancy look of the Apple Card](https://miro.medium.com/v2/resize:fit:1400/0*ibHtNqF8x0dzR-V_)
+![The fancy look of the Apple Card](/images/blog/body/d2a4a268b74fddef4432.webp)
 
 *The fancy look of the Apple Card*
 
@@ -31,7 +31,7 @@ The fund will basically lend money, and when the debtor repay the debt plus the 
 In case something goes wrong, the FDIC covers up to an amount of $250.000, per deposit (or per person? Can one have multiple accounts to split/nullify the risk?)\
 But what kind of limits one has in case of withdrawal? Apparently you have a one-week window to alert Savings of your desired withdrawal before your funds will be available and you can’t withdraw more than 20.000$ in a 7-days rolling period, but there shouldn’t be more than that.
 
-![Wait wait wait wait](https://miro.medium.com/v2/resize:fit:1400/1*c1i8H8rpae4b0KqM9wg6vA.gif)
+![Wait wait wait wait](/images/blog/body/6a44fd8c98cd97d1aa08.webp)
 
 *Wait wait wait wait*
 
@@ -44,7 +44,7 @@ Also the max amount on this account is 250.000$ which is also the max insured am
 Anyway, a distinctive advantage of this new service, not mentioning the usability that is always a strong point of Apple, will be that the Cash Back offered by the Apple card than can be used in the Savings account. \
 Some European fintechs, N26, Revolut or Hype for example, may soon follow in the same model, which for those familiar with the crypto world is nothing new. Binance card anyone?
 
-![Federal Deposit Insurance Corp. Rate Cap](https://miro.medium.com/v2/resize:fit:1400/0*zwg0P6Y7UCxz4CsK)
+![Federal Deposit Insurance Corp. Rate Cap](/images/blog/body/0e0638e9c8d0c7515ae4.webp)
 
 *Federal Deposit Insurance Corp. Rate Cap*
 

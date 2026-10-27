@@ -47,7 +47,7 @@ Your markdown content goes here...
 - **date**: Publication date as `YYYY-MM-DD` or an ISO 8601 timestamp. New drafts default to `09:00:00+02:00`.
 - **author**: Use `Matteo Bianchi` for every post
 - **category**: Post category (e.g., "Cloud Native", "Kubernetes", "Security")
-- **image**: A local image under `public/images/blog/`, referenced from `/images/blog/`, or a built-in image key (`profile` or `brand`)
+- **image**: A local WebP image under `public/images/blog/`, referenced from `/images/blog/`
 - **imageAlt**: Concise alternative text describing the selected social preview image
 - **excerpt**: A short summary (1-2 sentences) displayed on the blog listing page
 
@@ -69,10 +69,12 @@ imageAlt: "Description of the post cover"
 `npm run dev`, `npm run build`, and the Playwright test command validate the
 image and read its dimensions before Next.js starts. The same file appears in
 the `/blog` archive and in the post's Open Graph and Twitter metadata. The
-emitted social URL is absolute and production-safe. Supported formats are AVIF,
-JPEG, PNG, and WebP. Remote URLs and paths outside `public/` are rejected, and
-missing or invalid images fail loudly. Relative repository paths remain
-supported for migrated content and are exported to `public/blog-social-images/`.
+emitted social URL is absolute and production-safe. Published images use WebP.
+Run `npm run blog:images:optimize` to import remote or local source images and
+update their references before starting development or building. It preserves
+GIF animation and leaves local originals for you to remove after checking that
+they are unused. See the [image workflow](../../docs/content.md#blog-images).
+Missing or invalid covers fail loudly.
 
 ## Markdown Support
 
@@ -84,6 +86,15 @@ You can use full Markdown syntax including:
 # Heading 1
 ## Heading 2
 ### Heading 3
+```
+
+For table-of-contents links, give destination headings explicit HTML IDs. The
+renderer preserves these IDs:
+
+```markdown
+[Section title](#section-title)
+
+<h2 id="section-title">Section title</h2>
 ```
 
 ### Text Formatting
@@ -103,7 +114,7 @@ You can use full Markdown syntax including:
 ### Images
 
 ```markdown
-![Alt text](image-url.jpg)
+![Alt text](/images/blog/image-name.webp)
 ```
 
 ### Lists

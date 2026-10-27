@@ -21,7 +21,7 @@ Ok, great.
 Since we, italians, tend to be functionally illiterate (we say “analfabeti funzionali”) — so many IT professionals in my LinkedIn network started to scream and shout about how the Italian State blocked chatGPT. \
 Wrong.
 
-![Italy vs OpenAI: a fact-b(i)ased clarification](https://miro.medium.com/v2/resize:fit:1400/0*YAGiVr78bf7R0uIq.jpg)
+![Italy vs OpenAI: a fact-b(i)ased clarification](/images/blog/body/a9db2633c5ab7f3d309d.webp)
 
 Let’s clarify some of the absolutely sensless ideas I’ve read in the last 10–15 days on my social media:
 

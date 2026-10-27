@@ -37,16 +37,48 @@ filename becomes its `/blog/[slug]/` URL; files prefixed with `_` are drafts or
 templates and stay out of the public archive and sitemap.
 
 Required front matter: `title`, `date`, `author`, `category`, `excerpt`, `image`,
-and `imageAlt`. Use a local cover under `public/images/blog/` or a supported
-catalogue key. The same image appears in the archive and social previews.
-Development, tests, and builds validate covers before Next.js starts; missing
-or invalid images fail the command.
+and `imageAlt`. Use a local WebP cover under `public/images/blog/`.
+The same image appears in the archive and social previews. Development, tests,
+and builds validate published covers before Next.js starts; missing or invalid
+images fail the command.
 
 The [blog authoring guide](../content/blog/README.md) defines date formats,
 optional edit timestamps, tags, supported image formats, and migration rules.
 Markdown is trusted repository-authored content, not an untrusted upload
 interface. The shared YAML parser is described in
 [dependency maintenance](development.md#dependency-maintenance).
+
+### Blog images
+
+Store cover and body images as WebP under `public/images/blog/` and reference
+them from `/images/blog/`. Do not include `/public/` in browser URLs.
+
+After adding a post with remote images or local PNG/JPEG/GIF sources, run:
+
+```bash
+npm run blog:images:optimize
+```
+
+The importer processes published posts and drafts, excluding the authoring
+guide and template examples. It downloads HTTPS image sources, creates local
+WebP assets, and updates only image destinations in Markdown and front matter.
+Shared cover keys are copied into blog-local WebP assets without changing the
+site-wide catalogue.
+
+PNG and GIF conversion is lossless; JPEG conversion uses quality 85. Display
+dimensions, animation content, timing, loops, alt text, captions, and non-image
+content are preserved. Remote images receive stable URL-derived filenames under
+`public/images/blog/body/`; rerunning the command reuses imported assets.
+
+Original local files are not deleted. Check the changed references and remove
+originals only when nothing else uses them. Commit the WebP files with the
+Markdown changes. The importer refuses to overwrite a different destination or
+a post edited while conversion was running.
+
+This is an explicit authoring command, not part of development, testing, or
+build startup. Rendering blog images does not contact the original image hosts.
+The [authoring guide](../content/blog/README.md#headings) also explains explicit
+section IDs for table-of-contents links.
 
 ### Draft previews
 

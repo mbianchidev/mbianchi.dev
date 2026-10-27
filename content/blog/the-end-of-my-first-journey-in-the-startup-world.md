@@ -15,11 +15,11 @@ readTime: "11 min read"
 > **3.** I will talk about some personal stuff too, if you are solely interested in engineering management advice you can skip to the “lessons learned” chapter.\
 > **4.** Opinions are my own.
 
-![The end of my first journey in the startup world](https://miro.medium.com/v2/resize:fit:1400/1*4YZp0PIHASr3IXD7kLOnkQ.png)
+![The end of my first journey in the startup world](/images/blog/body/feef115a1fffdde7a88b.webp)
 
 [Yep, that’s me](<https://www.youtube.com/watch?v=B4LFYs3VpxY>). You probably wonder how did I end up in this situation.
 
-![The end of my first journey in the startup world](https://miro.medium.com/v2/resize:fit:1400/1*x4AqVqM2v2ZsWIeKIgEA-g.png)
+![The end of my first journey in the startup world](/images/blog/body/4c4600634c6d7b7eb827.webp)
 
 This is also me, just 2 months ago. Things looked quite bright but… were they?
 
@@ -82,7 +82,7 @@ She is currently looking for her next engineering adventure and I am sure you wo
 
 This chapter original title was supposed to be “the startup mafia” and I thought is was a bit exaggerated, even taunting if you will. [**Or was it?**](<https://medium.com/@slavasolodkiy_67243/revolut-mafia-is-bigger-than-you-think-936d53ff7e26>)
 
-![A typical startup investor (once founder) consulting with an advisor.](https://miro.medium.com/v2/resize:fit:1400/0*wUnjgZm4plEfd3Jr.jpg)
+![A typical startup investor (once founder) consulting with an advisor.](/images/blog/body/6fff886e9d64dddda25d.webp)
 
 *A typical startup investor (once founder) consulting with an advisor.*
 
@@ -120,7 +120,7 @@ I said what I said, fight me over it.
 
 ### Realization Phase
 
-![Le me going from the “full of hope start” to the “becoming aware” stage](https://miro.medium.com/v2/resize:fit:1400/1*cN0QsDqp6DCaD8pgV8pL5Q.gif)
+![Le me going from the “full of hope start” to the “becoming aware” stage](/images/blog/body/9b3596837fd8f0c2accb.webp)
 
 *Le me going from the “full of hope start” to the “becoming aware” stage*
 
@@ -148,7 +148,7 @@ At least I appreciate that, for the most part, we tried to maintain **open and h
 
 ### Lessons learned
 
-![The end of my first journey in the startup world](https://miro.medium.com/v2/resize:fit:1400/1*pYcyGOw4bDrNeg2sI7Nvuw.gif)
+![The end of my first journey in the startup world](/images/blog/body/889ab55309b863bb2300.webp)
 
 Ten plus one points that I learnt about during this journey, the hard way.
 
@@ -176,7 +176,7 @@ To Aleksander, Antonio, Blagoj, Christel, Daniel, Ivan, Marko, Nuray, Peter and 
 
 **Thanks a lot**.
 
-![That would be me at the Golden Gate Bridge, this July (I was kinda suprised by the fog)](https://miro.medium.com/v2/resize:fit:1400/1*y-fkxHXyuOizov7UJLjmFg.png)
+![That would be me at the Golden Gate Bridge, this July (I was kinda suprised by the fog)](/images/blog/body/db42fb7cb0b70ef44311.webp)
 
 *That would be me at the Golden Gate Bridge, this July (I was kinda suprised by the fog)*
 
@@ -237,11 +237,11 @@ Feel free to [**send me a LinkedIn message**](<http://mb-consulting.dev/li>) if 
 *How can I reach out for mentoring?* \
 [**Here**](<https://mentors.to/mbianchidev>) or just shoot a LinkedIn message, don’t be shy.
 
-![The end of my first journey in the startup world](https://miro.medium.com/v2/resize:fit:1400/1*4vF6v02yCmfZJ23NCcgiSw.png)
+![The end of my first journey in the startup world](/images/blog/body/4cfe756a91a42d144519.webp)
 
 ### The end?
 
-![I just needed a good cover image for the blog](https://miro.medium.com/v2/resize:fit:1400/1*3eJfTWYjshJGmkexRo5bvw.png)
+![I just needed a good cover image for the blog](/images/blog/body/b7cb9ad5d2b14d20d225.webp)
 
 *I just needed a good cover image for the blog*
 

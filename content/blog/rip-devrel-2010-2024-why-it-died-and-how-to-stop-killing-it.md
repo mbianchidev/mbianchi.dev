@@ -19,7 +19,7 @@ Instead, it’s both:
 
 *Yes, I know some people think DevRel was born before 2010 but this blog is not Wikipedia, lol.*
 
-![I’m just a chill guy, explaining DevRel to you](https://cdn-images-1.medium.com/max/739/0*BWKQS2P-f4XuavYe)
+![I’m just a chill guy, explaining DevRel to you](/images/blog/body/af782292dc847a10b77f.webp)
 
 The question is: DevRel is flat-lining, can (or should) we save it?
 
@@ -116,7 +116,7 @@ Hoping that this message arrives at the right people (and companies), saving mon
 So, is DevRel truly dead? Not quite. It’s more like on life support, waiting for companies to stop stepping on the power cable and plugging it out.
 Maybe it’s time to let DevRel rest in peace — or at least stop trying to perform a never ending cardiac massage but without the right budget and mindset.
 
-![[explosions sound]](https://cdn-images-1.medium.com/max/953/0*JaohjP0DiQobBJJ3.png)
+![[explosions sound]](/images/blog/body/756a0a4157427a113ed0.webp)
 
 With this, I suddenly announce that I’m moving slightly away from DevRel for my next role, but worry not — you will still find me (*speaking?*) at conferences.
 

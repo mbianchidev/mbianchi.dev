@@ -61,7 +61,7 @@ The initial idea behind this blog was more like a bullet point list about how te
 
 Rule number one, that I will borrow from punk rock: no room for rockstars.
 
-![](https://cdn-images-1.medium.com/max/440/0*zIiidJENqhyDJnPn)
+![](/images/blog/body/a9d5da183ce830e2d856.webp)
 
 A community exists only because a lot of people have traits in common, there is no need for pack leaders (moderators are welcome though) and gatekeeping is not allowed, exactly like in a punk concert.
 

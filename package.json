@@ -7,6 +7,7 @@
   },
   "scripts": {
     "blog:images": "node scripts/sync-blog-social-images.cjs",
+    "blog:images:optimize": "node scripts/optimize-blog-images.cjs",
     "dev": "npm run blog:images && next dev --webpack",
     "build": "npm run blog:images && next build --webpack && node scripts/validate-static-redirects.cjs",
     "images:optimize": "node scripts/optimize-images.cjs",

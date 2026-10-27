@@ -506,6 +506,22 @@
     padding-left: 24px;
 }
 
+.prose :global(ul) {
+    list-style-type: disc;
+}
+
+.prose :global(ul ul) {
+    list-style-type: circle;
+}
+
+.prose :global(ol) {
+    list-style-type: decimal;
+}
+
+.prose :global(.task-list-item) {
+    list-style-type: none;
+}
+
 .prose :global(li) {
     margin: 9px 0;
 }
@@ -515,6 +531,10 @@
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 3px;
+}
+
+.prose :global(nav a) {
+    color: var(--bg-primary);
 }
 
 .prose :global(blockquote) {

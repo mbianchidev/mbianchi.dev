@@ -13,7 +13,7 @@ Less than a year ago I attended [my first Kubernetes Community Day](</blog/kuber
 
 #### What is this KCD?
 
-![What will probably be the KCD logo for 2024 and on](https://miro.medium.com/v2/resize:fit:1400/1*T3qiXsWC_gEfwbT8LU4lnw.png)
+![What will probably be the KCD logo for 2024 and on](/images/blog/body/4c06e60c99db78ddcac2.webp)
 
 *What will probably be the KCD logo for 2024 and on*
 
@@ -33,14 +33,14 @@ So, how did I start enjoying the community side?
 
 As Sarah Gruneisen said during her wonderful opening keynote: **I stopped compromising on my values**.
 
-![This is part of the beautiful Cloud Native Dutch community, gathered to listen to Sarah’s keynote.](https://miro.medium.com/v2/resize:fit:1400/0*YqTo-TCDfYyQ1w-k)
+![This is part of the beautiful Cloud Native Dutch community, gathered to listen to Sarah’s keynote.](/images/blog/body/f5cdba3d66a61bbcaadc.webp)
 
 *This is part of the beautiful Cloud Native Dutch community, gathered to listen to Sarah’s keynote.*
 
 Since I started freelancing, almost 3 years ago now, I opened myself up to my LinkedIn network, travelled and visited beautiful countries, contributed to open source software, attended meetups and conferences, shared my startup work… In short? \
 **I dove right back into the community side of IT**.
 
-![Welp this is me now :D](https://miro.medium.com/v2/resize:fit:1400/1*1wCnOZotsVELVD5WubbaHg.png)
+![Welp this is me now :D](/images/blog/body/0c250f2816e2c4ed1cea.webp)
 
 *Welp this is me now :D*
 
@@ -68,13 +68,13 @@ Misunderstandings can happen but we overcame them in the best way possible:
 
 Over dinner!
 
-![My experience as KCD organizer](https://miro.medium.com/v2/resize:fit:1400/1*zS_dWOoN-LK6TdGgn2xqBg.jpeg)
+![My experience as KCD organizer](/images/blog/body/c6ddbfc13edb47bcc4ac.webp)
 
 Selecting a venue, sizing the catering in advance, contacting companies and organizing sponsorships, signing contracts, sending invoices, reviewing and accepting CFPs, figuring out backups, building and updating a website, create social media campaigns, printing and delivering stickers to meetups, organizing dinners and calls, handle track changes, coordinating volunteers, craft badges, set up video and audio equipment and boom.
 
 **It’s showtime.**
 
-![Me and my dear friend Carlos at 8:18 AM, awake since 6:something :D](https://miro.medium.com/v2/resize:fit:1400/1*fum4gSR9S2qpIVXFrrusUw.png)
+![Me and my dear friend Carlos at 8:18 AM, awake since 6:something :D](/images/blog/body/adbf2eefafee733c5417.webp)
 
 *Me and my dear friend Carlos at 8:18 AM, awake since 6:something :D*
 
@@ -103,7 +103,7 @@ Of course these kind of events, as an organizer, you end up doing a bit of every
 
 I can’t wait to see the videos from [track one](<https://web.archive.org/web/20240304073517/https://kcdutrecht.nl/schedule/>) too!
 
-![Andrea and Shweta talking about Service Meshes, in room 1, how cool!](https://miro.medium.com/v2/resize:fit:1400/1*8MNPNUqvfn7XU4aQbe2FAg.jpeg)
+![Andrea and Shweta talking about Service Meshes, in room 1, how cool!](/images/blog/body/f0105fc08d1d8d279815.webp)
 
 *Andrea and Shweta talking about Service Meshes, in room 1, how cool!*
 
@@ -113,7 +113,7 @@ Sevi shared a part of her personal journey with us, both on stage during this wo
 
 I found my journey a bit similar to Sevi’s, at least for the part where the community helped and supported me through hard times, asking nothing in return and giving me the world.
 
-![My experience as KCD organizer](https://miro.medium.com/v2/resize:fit:1400/0*VKNQ05gjHE4JHfFy)
+![My experience as KCD organizer](/images/blog/body/52d444a928d4a993569a.webp)
 
 We can do so much with our small acts, being kind to each other and being true to ourselves, to our values.
 
@@ -121,7 +121,7 @@ We can do so much with our small acts, being kind to each other and being true t
 
 Time to wipe our tears of joy, clean up and then drinks!
 
-![Afterdrinks with a mix of speakers, sponsors, attendees and organizers :P](https://miro.medium.com/v2/resize:fit:1400/1*fomMrGG_0a-tpwkgNfu64g.jpeg)
+![Afterdrinks with a mix of speakers, sponsors, attendees and organizers :P](/images/blog/body/57ebfa6d8b627127e2a4.webp)
 
 *Afterdrinks with a mix of speakers, sponsors, attendees and organizers :P*
 
@@ -129,7 +129,7 @@ Thanks to [**our wonderful speakers**](<https://web.archive.org/web/202403040735
 
 Thanks to all the sponsors and people at the booth, the venue staff, the over 400 attendees and last but not least: thanks to this dream time over here.
 
-![This is us! — source: https://twitter.com/cloudnativeams/status/1730623348529402014/photo/1](https://miro.medium.com/v2/resize:fit:1400/0*DZzEq_qeYIO_BBa3)
+![This is us! — source: https://twitter.com/cloudnativeams/status/1730623348529402014/photo/1](/images/blog/body/fc64cde9b10d0c60f8ee.webp)
 
 *This is us! — source: [https://twitter.com/cloudnativeams/status/1730623348529402014/photo/1](<https://twitter.com/cloudnativeams/status/1730623348529402014/photo/1>)*
 
@@ -148,7 +148,7 @@ The coolest thing about these events is that we come together with all our diffe
 
 If you wanna join us, feel free to hop on the [**CNCF Slack**](<https://slack.cncf.io/>) and hit me up, I can help you find your local chapter so you can help organizing events like KCD Utrecht in your city/region/country! ❤
 
-![My experience as KCD organizer](https://miro.medium.com/v2/resize:fit:1400/1*6zGkrPgN46J5SmpJrg42Ag.png)
+![My experience as KCD organizer](/images/blog/body/b6b212e8c094a5955738.webp)
 
 What a ride! \
 This was my last event/meetup for the year and I’m so energized by the outcome. \

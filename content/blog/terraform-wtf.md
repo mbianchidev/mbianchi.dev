@@ -11,7 +11,7 @@ readTime: "2 min read"
 
 On August 10, Hashicorp announced licensing changes to Terraform along with many of their open source products.
 
-![My paint skills >>>> yours](https://miro.medium.com/v2/resize:fit:1400/1*YY1M0poG0ZmJsagTNxVwAA.png)
+![My paint skills >>>> yours](/images/blog/body/168822326d962556db56.webp)
 
 *My paint skills >>>> yours*
 

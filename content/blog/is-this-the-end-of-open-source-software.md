@@ -9,7 +9,7 @@ excerpt: "EU is trying to end OSS with a new law."
 readTime: "3 min read"
 ---
 
-![Evil Corp. (ehm, EU headquarters)](https://miro.medium.com/v2/resize:fit:1400/0*uCuQyT3loGLGrF9e.jpg)
+![Evil Corp. (ehm, EU headquarters)](/images/blog/body/67bb1c214113fb4c40d5.webp)
 
 *Evil Corp. (ehm, EU headquarters)*
 
