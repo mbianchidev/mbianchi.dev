@@ -596,6 +596,13 @@
     max-width: 760px;
 }
 
+.articleFooterActions {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
 .articleFooter p {
     margin: 0 0 12px;
     font-weight: 800;
@@ -2796,6 +2803,11 @@
     .articleFooter {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .articleFooterActions {
+        flex-direction: column;
+        width: 100%;
     }
 
     .featuredRepository {

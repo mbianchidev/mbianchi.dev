@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { BlogArticle } from '@/components/BlogArticle'
 import { PageHero } from '@/components/PageHero'
+import { getBlogEditUrl } from '@/lib/blogContributions'
 import { getPostData, getAllPostSlugs, parseBlogDate } from '@/lib/markdown'
 import {
   createArticleMetadata,
@@ -109,10 +110,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <p>You reached the end.</p>
           <h2>Go back before I start another tangent.</h2>
         </div>
-        <Link href="/blog" className={styles.darkButton}>
-          Browse every post
-          <span aria-hidden="true">↗</span>
-        </Link>
+        <div className={styles.articleFooterActions}>
+          <a
+            href={getBlogEditUrl(post.slug)}
+            className={styles.darkButton}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Propose a fix
+          </a>
+          <Link href="/blog" className={styles.lightButton}>
+            Browse every post
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
       </section>
     </div>
   )

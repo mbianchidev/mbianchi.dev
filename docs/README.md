@@ -21,6 +21,7 @@ site, not an installable SaaS service.
 - [Content and configuration](content.md)
 - [Blog posts](content.md#blog-posts)
 - [Password-gated draft previews](content.md#draft-previews)
+- [Blog corrections and publishing PRs](content.md#corrections-and-publishing-prs)
 - [Public links](content.md#public-links)
 - [Short links](content.md#short-links)
 

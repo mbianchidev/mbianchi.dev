@@ -5,6 +5,7 @@ import { BlogArticle } from '@/components/BlogArticle'
 import { PageHero } from '@/components/PageHero'
 import { getAllDraftSlugs, getDraftPostData } from '@/lib/markdown'
 import { BlogDraftGate } from '../BlogDraftGate'
+import { DraftPublishAction } from '../DraftPublishAction'
 import styles from '@/app/inner.module.css'
 
 interface BlogDraftPageProps {
@@ -51,6 +52,7 @@ export default async function BlogDraftPage({ params }: BlogDraftPageProps) {
           }
         />
         <BlogArticle content={post.content} />
+        <DraftPublishAction slug={post.slug} source={post.source} />
       </div>
     </BlogDraftGate>
   )

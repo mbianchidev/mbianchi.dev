@@ -25,7 +25,8 @@ test.describe('Blog draft previews', () => {
       expect(post?.title.trim().length).toBeGreaterThan(0);
       expect(post?.excerpt.trim().length).toBeGreaterThan(0);
       expect(post?.content).toMatch(/<\w+/);
-      expect(Object.keys(post!)).toEqual(['slug', 'title', 'excerpt', 'content']);
+      expect(post?.source.trim().length).toBeGreaterThan(0);
+      expect(Object.keys(post!)).toEqual(['slug', 'title', 'excerpt', 'content', 'source']);
     }
 
     const publishedOnlySlugs = getAllPostSlugs()
