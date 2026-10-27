@@ -26,7 +26,7 @@ I moved to a new country, set up all the bureaucracy, joined and pivoted a start
 
 I contributed to OSS and generally I coded more:
 
-![Not 1000, but still kinda ok](https://miro.medium.com/v2/resize:fit:1400/1*QYTzAH6ydAk3g7YG0mKlMQ.png)
+![Not 1000, but still kinda ok](/images/blog/body/e391539e8833d0037c91.webp)
 
 *Not 1000, but still kinda ok*
 
@@ -65,7 +65,7 @@ It’s time to take a serious look at [*my last year resolutions*](</blog/new-ye
 
 Overall? I’m quite happy. I’m not complaining too much.
 
-![My 2023 wrapped](https://miro.medium.com/v2/resize:fit:1400/0*xwZhC4ofHF9qHsXS.jpg)
+![My 2023 wrapped](/images/blog/body/7b5200d7b5a75106a594.webp)
 
 ### Todo list for 2024
 
@@ -92,7 +92,7 @@ Overall? I’m quite happy. I’m not complaining too much.
    CONCERTS.** I can’t stay another whole year without going to metal concerts, sorry. I’ll fly to whatever city if I need to.\
    Is this the only way I have fun? Weeeeeell maybe I’ll play some videogames but that’s it, I’m a simple man.
 
-![This is me thinking about 2024](https://miro.medium.com/v2/resize:fit:1400/1*g8mJRkwbS8WeBOzGKs2W3Q.gif)
+![This is me thinking about 2024](/images/blog/body/02abf9c0cb201b49c200.webp)
 
 *This is me thinking about 2024*
 

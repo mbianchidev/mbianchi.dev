@@ -15,7 +15,7 @@ A big shoutout goes to [the organizers](<https://www.meetup.com/dutch-kubernetes
 Both days were so full of interesting talks that I don’t know where to begin. I’ve been able to attend quite a good number of those, while also connecting with a new and vibrant Cloud Native community.\
 I have also teamed up with my CEO, [Peter](<https://www.linkedin.com/in/peter-comstock-3225695/>) to “divide et impera” multiple talks at the same time.
 
-![Le me, testing out a fun game @ the event](https://miro.medium.com/v2/resize:fit:1400/1*jNCsPw7sYwu-Dum1l2WrFg.jpeg)
+![Le me, testing out a fun game @ the event](/images/blog/body/382377e563f652530c6d.webp)
 
 *Le me, testing out a fun game @ the event*
 
@@ -26,7 +26,7 @@ Disclaimer: looooong article.
 
 **Day One**
 
-![Yep, all the photos will be phone format, next time I will flip it I swear!](https://miro.medium.com/v2/resize:fit:1400/1*Sx6ICB9TR7A-6-C9DTgzzw.jpeg)
+![Yep, all the photos will be phone format, next time I will flip it I swear!](/images/blog/body/19cd6854ca9999c91c23.webp)
 
 *Yep, all the photos will be phone format, next time I will flip it I swear!*
 
@@ -36,7 +36,7 @@ Explaining the complexity of the IT industry by using OODA loops (Observe, Orien
 She then digged a bit into the history of the four Industrial Revolutions and this was so beneficial to understand how building developer centric platforms is fundamental in order to really scale companies and leave a mark in the world. \
 Creating a platform for developers will be the next step of my CTOing in KubeLab, sort of a v2.0 that will be coming soon…
 
-![Kubernetes Community Days Experience](https://miro.medium.com/v2/resize:fit:1400/1*LVTYyHbgCWboziQk9eUDCA.jpeg)
+![Kubernetes Community Days Experience](/images/blog/body/6769318c09bbdc4a6c90.webp)
 
 I learnt about the difficulties in the implementation of a gRPC Proxyless Service Mesh architecture thanks to [Gijs Molenaar](<https://www.linkedin.com/in/gijsmolenaar/>), Senior System Engineer @ Spotify. \
 Handling, maintaining and evolving internal tools like Hermes protocol and Nameless DNS service became way too complex even for Spotify too handle.\
@@ -47,7 +47,7 @@ Sounds familiar? KubeLab is there to help with that, feel free to book a quick c
 It was then time for a break! \
 Vegan smoothies were super good, but sadly I never saw them again throughout the conference.
 
-![Kubernetes Community Days Experience](https://miro.medium.com/v2/resize:fit:1400/1*TVWZ1AcWguZwTJvS1nFwQA.jpeg)
+![Kubernetes Community Days Experience](/images/blog/body/47befd58c9dddd8e4267.webp)
 
 [Marcel Claassen](<https://www.linkedin.com/in/marcelclaassen/>), Sales Engineer @ Sysdig shared an awesome product with which I was already aquainted and fan of, as you can see from [my website](<https://www.mb-consulting.dev/>). *p.s. did you know I’m open for mentorship, CV reviews and advisory?* 👀\
 Feel free to [hit me up](<https://www.mb-consulting.dev/contacts?serviceName=other-services>).
@@ -75,7 +75,7 @@ A bit chaotic but I understand that is not easy to handle that amount of people 
 
 After lunch I took a break to see some of the sponsors booths, I also luckily won a LEGO Technic thanks to [Xebia](<https://www.linkedin.com/company/xebia/>)! It will look like a charm on my desk, as soon as I have time to build it.
 
-![Kubernetes Community Days Experience](https://miro.medium.com/v2/resize:fit:1400/1*V8Sq_MnJjMl6PsqdQC8Xng.jpeg)
+![Kubernetes Community Days Experience](/images/blog/body/0f272d19695c3faacdc9.webp)
 
 [Robbin Siepman](<https://www.linkedin.com/in/robbin-siepman-0b183511b/>), Lead Engineer @ IGN Bank, explained how the ING team handled a banking landscape complexity by containerizing and creating self-service platforms for their developers, with security as a priority, as it should (always) be.\
 I was also able to probe more in depth their Quota Autoscaler strategy on production and test environments by interacting with him during the talk. \
@@ -83,12 +83,12 @@ In conclusion I gathered that developers can’t be let free of scaling as much 
 Developer should be focusing on creating scalable software instead of throwing more resources hoping that it will work as it is.\
 The amount of resources saved by simple yet powerful tricks and tools is overwhelming and poses a question on every company that is missing these strategies. Wanna lower your costs? Go cloud and do it well.
 
-![Kubernetes Community Days Experience](https://miro.medium.com/v2/resize:fit:1400/1*PZoUUT03vnZiZxJTJK7nsA.jpeg)
+![Kubernetes Community Days Experience](/images/blog/body/6d840e7d57b54239e35d.webp)
 
 Continuing our journey with [Ara Pulido](<https://www.linkedin.com/in/arapulido/>), Staff Developer Advocate @ Datadog, she explained wonderfully why Ingresses are becoming more and more inefficient and why we should consider [Gateway API](<https://gateway-api.sigs.k8s.io/guides/>) to overcome Ingress API limitations. \
 North/South traffic can be handled easily with Gateway API but instead of having this tool inside our Kubernetes version it’s built as a CRD (CustomResourceDefinition) to enable more flexibility, with just a small overhead. Advocating for this new method of integrating new tools for Kubernetes was really brave and I appreciated that, a lot.
 
-![Kubernetes Community Days Experience](https://miro.medium.com/v2/resize:fit:1400/1*ydyVBfm2N_rrTP6hoGI0pw.jpeg)
+![Kubernetes Community Days Experience](/images/blog/body/d1d9d3f182e8fe01fa9d.webp)
 
 Next for a wonderful talk by [Kristina Devochko](<https://www.linkedin.com/in/krisde/>) where we gathered knowledge about some of some of the risks in the adoption of Kubernetes managed solutions like AKS, EKS, GKE (and more). \
 It is important to know what you are supposed to be responsible of when using a managed service and how can you get the most out of it, never blindly trusting the default configs and designing carefully every component of your cloud infra to avoid security flaws, unexpectedly high costs and a lot of cloud management issues.\
@@ -102,11 +102,11 @@ Science leveraging the cloud. How wonderful is that? We feel that the trust in C
 
 Day two started with a banger
 
-![Kubernetes Community Days Experience](https://miro.medium.com/v2/resize:fit:1400/1*KysKSn-BHBWVUgSjXirPZQ.png)
+![Kubernetes Community Days Experience](/images/blog/body/67bd2c923ad9a78258ab.webp)
 
 [Gijs van der Voort](<https://www.linkedin.com/in/gijsvandervoort/>), Lead SRE & Python ambassador @ Picnic explained how the company migrated its workload from the cloud to on-premise because they had low-latency requirements for their groceries packing warehouses systems but then they decided to go back to the cloud as soon as the conditions were favorable enough for them, once more the cloud proved to be the best choice even in the most though situations. Good job to Picnic and thanks for sharing the importance of a clear roadmap in a cloud journey.
 
-![Kubernetes Community Days Experience](https://miro.medium.com/v2/resize:fit:1400/1*Hb1OAP116iSxqs6E_gh4dQ.jpeg)
+![Kubernetes Community Days Experience](/images/blog/body/69abba9e1da9d358fb20.webp)
 
 We were involved in a fascinating eBPF talk, another big topic of this KCD, by Krisztian Fekete Field Engineer @ Solo.io.\
 He explained the complex eBPF landscape in a simple way by exploring the tools, in a live demo which involved Prometheus metrics being exposed for the sake of better observability of Kubernetes clusters. We were truly fascinated by the power of eBPF, it’s a revolutionary technology that can run sealed programs inside a Linux kernel but without touching code or modules in the kernel itself. How amazing is that?

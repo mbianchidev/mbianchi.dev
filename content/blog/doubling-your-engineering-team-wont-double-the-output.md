@@ -32,7 +32,7 @@ In fact, the output in most cases and after the initial re-assessment period, wi
 
 One of the reasons why doubling the engineering team doesn’t lead to a proportional increase in output is… (drumroll please) the **onboarding** process.
 
-![Doubling your engineering team won’t double the output](https://miro.medium.com/v2/resize:fit:1400/0*N19_H6-wvpUKcwHQ.jpg)
+![Doubling your engineering team won’t double the output](/images/blog/body/0869621a34abba70ebcb.webp)
 
 Each new member of the team needs to get acquainted with the new colleagues, get in touch with the company’s processes/policies, and become familiar with the products they are working on.\
 This process can take a considerable amount of time, and it can take even longer if the company is heavily using custom tools, new technologies or methodologies that the new hires are not familiar with.\
@@ -41,7 +41,7 @@ This is the factor that most influences the output in the first period of your s
 
 Another factor to take into account is: **team building**.
 
-![Doubling your engineering team won’t double the output](https://miro.medium.com/v2/resize:fit:1400/0*HIyOgJVXZb74IYUA.jpg)
+![Doubling your engineering team won’t double the output](/images/blog/body/fd31045b5d5603094ee4.webp)
 
 A cohesive team is more productive than a group of individuals just working together. When the team grows, it can become more challenging to maintain a sense of camaraderie and teamwork. \
 New members may take some time to integrate into the team, and it may take longer for the team to reach optimal performance levels.\
@@ -49,7 +49,7 @@ Finding personalities that fits well together or in an existing team is never ea
 
 There will also be a time where **friction** rises within the team.
 
-![Doubling your engineering team won’t double the output](https://miro.medium.com/v2/resize:fit:1400/0*u7hznCHKGCd3eXk2)
+![Doubling your engineering team won’t double the output](/images/blog/body/4d3658c23f2d705a0dfe.webp)
 
 Even the best teams can experience it; it can happen due to differences in opinions, work styles, communication issues, strict deadlines or project contraints. \
 The more people on the team, the higher the likelihood of friction occurring and when friction levels increase, productivity will surely decrease, therefore the output of your team won’t grow linearly with the number of its members.\
@@ -59,7 +59,7 @@ Creating a sense of shared responsibility/merit, handling conflicts or criticism
 Now a big one (pun intended): **size**.\
 An engineering team with 10 people is too big and should be split in two 5-people teams. I said what I said and you can’t change my mind.
 
-![Doubling your engineering team won’t double the output](https://miro.medium.com/v2/resize:fit:1400/1*mgPkCWPsrLJQJq1cixhy1A.png)
+![Doubling your engineering team won’t double the output](/images/blog/body/53e19e01515fca62d94d.webp)
 
 First of all: engineering managers and team leaders are human beings, uncapable of duplicating. They have to handle 1–1 meetings, a constant research of issues + solutions, coaching, discussions about objectives, priorities and delivery. There is a lot on their plate, help them by sizing your team accordingly.
 

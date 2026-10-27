@@ -7,6 +7,7 @@
   },
   "scripts": {
     "blog:images": "node scripts/sync-blog-social-images.cjs",
+    "blog:images:optimize": "node scripts/optimize-blog-images.cjs",
     "dev": "npm run blog:images && next dev --webpack",
     "build": "npm run blog:images && next build --webpack && node scripts/validate-static-redirects.cjs",
     "images:optimize": "node scripts/optimize-images.cjs",
@@ -28,7 +29,8 @@
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
-    "simple-icons": "^16.33.0"
+    "simple-icons": "^16.33.0",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

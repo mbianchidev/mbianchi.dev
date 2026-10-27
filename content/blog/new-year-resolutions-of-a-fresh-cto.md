@@ -11,7 +11,7 @@ readTime: "6 min read"
 
 Since January, after temporarily pausing my freelancing career, I have a accepted the challenge of becoming the Chief Technology Officer and co-founder of a startup.
 
-![Feels like climbing a mountain to the top and seeing another one in your field of view, damn.](https://miro.medium.com/v2/resize:fit:1400/0*FkQnt1ayZQi6lIR8.jpg)
+![Feels like climbing a mountain to the top and seeing another one in your field of view, damn.](/images/blog/body/73d8f5e20a058c28cbac.webp)
 
 *Feels like climbing a mountain to the top and seeing another one in your field of view, damn.*
 

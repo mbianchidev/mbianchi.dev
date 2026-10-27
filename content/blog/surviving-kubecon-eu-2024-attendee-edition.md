@@ -10,7 +10,7 @@ excerpt: "Just a veeeery quick blog/survival guide that could be useful for new 
 
 Just a veeeery quick blog/survival guide that could be useful for new KubeCon attendees or for experienced ones that still need some hints.
 
-![This is how I’ll look like during the conference by the way :D](https://cdn-images-1.medium.com/max/1024/0*l2Ah_VtgQQ3CLekc.jpg)
+![This is how I’ll look like during the conference by the way :D](/images/blog/body/33dcaec491921d85a98f.webp)
 
 Let’s start:
 

@@ -49,6 +49,7 @@ resets the viewport while in-page anchors retain smooth scrolling.
 | `npm ci` | Install the exact locked dependency tree |
 | `npm run dev` | Generate blog image metadata and start Webpack development |
 | `npm run blog:images` | Validate local blog covers and generate their social image manifest |
+| `npm run blog:images:optimize` | Import blog cover/body images as local WebP, preserving animation and source text |
 | `npm run lint` | Run ESLint |
 | `npm audit` | Audit the full dependency tree, including development dependencies |
 | `npm run test:playwright` | Run route, interaction, metadata, responsive, and status tests |
@@ -154,6 +155,10 @@ Two scoped overrides retain compatibility with patched dependencies:
 
 [`tests/dependencies.spec.ts`](../tests/dependencies.spec.ts) protects metadata
 parsing and the lint plugin's directory-glob behavior.
+
+The [blog image importer](../scripts/optimize-blog-images.cjs) uses `yaml`'s
+document editor to locate cover-image values without rewriting the remaining
+front matter or comments.
 
 ## Troubleshooting
 

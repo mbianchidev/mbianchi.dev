@@ -17,7 +17,7 @@ This round, like in Paris, I had the pleasure to attend and speak at Cloud Nativ
 Connecting the Cloud Native community in a cozier and far more relaxed space (compared to the main thing), the frame was this time a huge coworking space in downtown SLC: Kiln.
 I attended some talks, I connected with a ton of people — roughly 80% of the ones I really wanted see anyway, then gave my talk on day 1, at 2 PM.
 
-![Rejekts kickoff!](https://cdn-images-1.medium.com/max/1024/0*iw04WVXakrfGM4gr)
+![Rejekts kickoff!](/images/blog/body/beedccfe686f6cd102d7.webp)
 
 **My talk**
 
@@ -35,7 +35,7 @@ We also had the very last KCS after-party but that won’t be commented on, what
 Sorry.
 *To start contributing and joining the good parties:* [***slack.k8s.io***](http://slack.k8s.io)
 
-![Platform Engineering Day kickoff!](https://cdn-images-1.medium.com/max/1024/0*nrsUfpDGMV-Mn5P5)
+![Platform Engineering Day kickoff!](/images/blog/body/988d56407c27a42a4e8b.webp)
 
 Day-0 of KubeCon meant mainly Platform Engineering Day for me.
 I attended eagerly every talk and followed closely from the first row — even if we actually had many round table as a set-up, pretty cool!
@@ -43,11 +43,11 @@ There’s a lot of buzz for the Platform Engineering topic within the CNCF and t
 I won’t venture into the content of the talks: no spoiler!
 They are all recorded and you can take a look anytime on the CNCF channel: [**here**](https://www.youtube.com/@cncf/videos).
 
-![Me and Daniel Oh!](https://cdn-images-1.medium.com/max/1024/0*6vnijrcr_M_STIUN)
+![Me and Daniel Oh!](/images/blog/body/73a65ba40d043423c258.webp)
 
 Big news: there’s a new Platform Engineer Associate certification coming soon that will serve the purpose of educating engineers in a formal way about Platform Engineering, there should probably be a new TAG (Technical Advisory Group) dedicated to this topic to facilitate its operations as it currently is a WG (Working Group) under the TAG App Delivery, despite having our very own sub-WGs.
 
-![Certification announcement?!](https://cdn-images-1.medium.com/max/1024/0*RgcPXnLLEJdsleQE)
+![Certification announcement?!](/images/blog/body/dd18ddd50e466708e67f.webp)
 
 Another mini-event organized by the Platform Engineering Working Group has been the Platform Breakfast at the Coupla Coffee, an amazing gathering of early birds that I witnessed only once since I’m lazy.
 Kidding, I just had other breakfasts to attend.
@@ -56,7 +56,7 @@ Kidding, I just had other breakfasts to attend.
 
 Since I was nominated CNCF Ambassador for H2 2024, I attended my first ever gathering with the rest of the team and it felt pretty great, especially since I knew most of them anyway, due to my committments in event organizing, open source and cloud native advocacy.
 
-![All of the CNCF Ambassadors present at KubeCon NA, out of the 231 in total!](https://cdn-images-1.medium.com/max/1024/0*MJ9Y6PqQ6y1iUt2r)
+![All of the CNCF Ambassadors present at KubeCon NA, out of the 231 in total!](/images/blog/body/a808677d46cb87315d2e.webp)
 
 I had the opportunity to discuss with the fellow KCD (Kubernetes Community Days) and CNCG (meetups) organizers during another breakfast event, where we ended up talking about sinergies between Cloud Native Days and other tech events too.
 
@@ -78,21 +78,21 @@ I bought the ticket way in advance as I need(ed?) to find a job, sorry folks! :
 
 I was in more selfies at this KubeCon than in my whole life, lol.
 
-![Some of the CNCF Ambassadors, Mark, me and Kunal](https://cdn-images-1.medium.com/max/1024/0*44SFeuh-nEUgo4Zv)
+![Some of the CNCF Ambassadors, Mark, me and Kunal](/images/blog/body/bd07adcdd461f456c998.webp)
 
-![Me and Steve!](https://cdn-images-1.medium.com/max/1024/0*yQz5vmrkVOTru4qs)
+![Me and Steve!](/images/blog/body/dc704c5a3cc45d100733.webp)
 
 Had amazing food and a night hike too. Proof:
 
-![Tacos, since we don’t get many good ones in Europe](https://cdn-images-1.medium.com/max/1024/1*8AAHmRVdjw6tBXD9NXvizA.jpeg)
+![Tacos, since we don’t get many good ones in Europe](/images/blog/body/20858a62e2b80eae9524.webp)
 
-![The best Mexican place in SLC, or so I say.](https://cdn-images-1.medium.com/max/1024/1*csAgNhc2-ih_MjzXQ1lm_Q.jpeg)
+![The best Mexican place in SLC, or so I say.](/images/blog/body/d8b2a1fc96eca106fff5.webp)
 
-![Lobster Mac & Cheese, hell yeah.](https://cdn-images-1.medium.com/max/1024/1*lawjEzjBPcVPZKKRiZT27g.jpeg)
+![Lobster Mac & Cheese, hell yeah.](/images/blog/body/549be12105ba7b90fed4.webp)
 
-![Pat’s the best barbecue in town or so they say.](https://cdn-images-1.medium.com/max/1024/1*cXEaiB7hQxsISfrS2B7B4w.png)
+![Pat’s the best barbecue in town or so they say.](/images/blog/body/bc00380538523af3abe2.webp)
 
-![A night view on SLC!](https://cdn-images-1.medium.com/max/1024/1*pjpFPzKgoPJE_2MFuBBi3g.png)
+![A night view on SLC!](/images/blog/body/383ad172c3f9787b276b.webp)
 
 Now a little gift for my readers, a code for 40% discount on all LF trainings (usable up to 5 times): **KCNA24WC1EQ-KX5J5**
 

@@ -29,6 +29,9 @@ metadata and on the main blog archive.
 Set editedAt to an ISO 8601 timestamp to show the edit time below the article.
 Optional frontmatter: updated, tags, readTime. Remove any you do not need.
 imageAlt is always required.
+
+Use WebP body images rooted at /images/blog/. Run npm run blog:images:optimize
+to import image sources before publishing. The template examples are excluded.
 -->
 
 # Heading
@@ -52,8 +55,8 @@ const example = 'code block'
 | --- | --- |
 | Table | Cell |
 
-![Local body image from public/images](/images/article-image.jpg)
+![Local body image from public/images/blog](/images/blog/article-image.webp)
 
-![Remote body image](https://example.com/article-image.jpg)
+![Remote source to import before publishing](https://example.com/article-image.webp)
 
 ---

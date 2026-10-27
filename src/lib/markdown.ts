@@ -36,6 +36,13 @@ export interface BlogPostData extends BlogPostMetadata {
   content: string
 }
 
+export interface BlogDraftData {
+  slug: string
+  title: string
+  excerpt: string
+  content: string
+}
+
 function requiredString(
   data: Record<string, unknown>,
   field: string,
@@ -211,13 +218,22 @@ export function getAllPostSlugs(): string[] {
     .map((fileName) => fileName.replace(/\.md$/, ''))
 }
 
+export function getAllDraftSlugs(): string[] {
+  if (!fs.existsSync(postsDirectory)) {
+    return []
+  }
+
+  return fs.readdirSync(postsDirectory)
+    .filter((fileName) => fileName.startsWith('_') && fileName.endsWith('.md'))
+    .map((fileName) => fileName.slice(1, -3))
+}
+
 export async function getPostData(slug: string): Promise<BlogPostData | null> {
-  const fullPath = path.join(postsDirectory, `${slug}.md`)
-  
-  if (!fs.existsSync(fullPath)) {
+  if (!getAllPostSlugs().includes(slug)) {
     return null
   }
 
+  const fullPath = path.join(postsDirectory, `${slug}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const matterResult = parseFrontMatter(fileContents, fullPath)
   const metadata = parsePostMetadata(
@@ -227,19 +243,39 @@ export async function getPostData(slug: string): Promise<BlogPostData | null> {
     matterResult.content
   )
 
+  return {
+    ...metadata,
+    content: await renderPostContent(matterResult.content),
+  }
+}
+
+export async function getDraftPostData(slug: string): Promise<BlogDraftData | null> {
+  if (!getAllDraftSlugs().includes(slug)) {
+    return null
+  }
+
+  const fileName = `_${slug}.md`
+  const fullPath = path.join(postsDirectory, fileName)
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+  const { data, content } = parseFrontMatter(fileContents, fullPath)
+
+  return {
+    slug,
+    title: requiredString(data, 'title', fileName),
+    excerpt: requiredString(data, 'excerpt', fileName),
+    content: await renderPostContent(content),
+  }
+}
+
+async function renderPostContent(content: string): Promise<string> {
   const processedContent = await remark()
     .use(gfm)
     .use(html, { sanitize: false })
-    .process(matterResult.content)
-  
-  const contentHtml = processedContent
+    .process(content)
+
+  return processedContent
     .toString()
     .replace(/<img(?![^>]*\bloading=)([^>]*)>/g, '<img loading="lazy" decoding="async"$1>')
-
-  return {
-    ...metadata,
-    content: contentHtml,
-  }
 }
 
 function calculateReadTime(content: string): string {

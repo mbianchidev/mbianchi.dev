@@ -15,14 +15,14 @@ As they state in the [product website](<https://idx.dev/#introduction>) idx aims
 But… Wait a minute!\
 Copilot is already installable on any VSCode with just an extension.
 
-![Once again my paint skills >>>>> yours.](https://miro.medium.com/v2/resize:fit:1400/1*ZjeEKHuWhWrEqPmNyRqn4g.png)
+![Once again my paint skills >>>>> yours.](/images/blog/body/217cccfad467e2bb48e6.webp)
 
 *Once again my paint skills >>>>> yours.*
 
 Copilot was released in October 2021. \
 Google = Slowpoke?
 
-![I’m really good at memes and Paint 3D, hire me!](https://miro.medium.com/v2/resize:fit:1400/1*OhmUmtAIWuip2va4LJwwOQ.png)
+![I’m really good at memes and Paint 3D, hire me!](/images/blog/body/85b5171d4986926fc81f.webp)
 
 *I’m really good at memes and Paint 3D, hire me!*
 
@@ -32,13 +32,13 @@ It is still unclear wether IDX will be a revolution or the last of [Google’s k
 
 But since I don’t really like to be biased (just pretending to be) I’ve joined the waitlist!
 
-![Cool layout I must say it](https://miro.medium.com/v2/resize:fit:1400/1*j_GgmoZZk-E6VQGbQFlmbA.png)
+![Cool layout I must say it](/images/blog/body/2dad4c9f36737bc5236d.webp)
 
 *Cool layout I must say it*
 
 I’ll let you know if it is worth it once (and if) they let me in.
 
-![IDX a revolution or just a new VSCode re-skin?](https://miro.medium.com/v2/resize:fit:1400/0*PQ2XiupH9SM2J-Zl)
+![IDX a revolution or just a new VSCode re-skin?](/images/blog/body/9b5b7c95993ede2cf81f.webp)
 
 Follow me, hit that green “follow” button! 🟩\
 Comment, share and tag me to discuss.\

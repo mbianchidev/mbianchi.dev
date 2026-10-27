@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { BlogArticle } from '@/components/BlogArticle'
 import { PageHero } from '@/components/PageHero'
+import { getBlogEditUrl } from '@/lib/blogContributions'
 import { getPostData, getAllPostSlugs, parseBlogDate } from '@/lib/markdown'
 import {
   createArticleMetadata,
@@ -14,16 +16,6 @@ interface BlogPostPageProps {
     slug: string
   }>
 }
-
-const editedAtFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: '2-digit',
-  timeZone: 'UTC',
-  timeZoneName: 'short',
-})
 
 export function generateStaticParams() {
   return getAllPostSlugs().map((slug) => ({ slug }))
@@ -111,33 +103,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         }
       />
 
-      <article className={styles.articleSection}>
-        <div
-          className={styles.prose}
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-        {editedAt ? (
-          <p
-            className={styles.articleEditHistory}
-            aria-label="Article edit history"
-          >
-            Edited at{' '}
-            <time dateTime={editedAt.toISOString()}>
-              {editedAtFormatter.format(editedAt)}
-            </time>
-          </p>
-        ) : null}
-      </article>
+      <BlogArticle content={post.content} editedAt={editedAt} />
 
       <section className={styles.articleFooter} aria-label="Article navigation">
         <div>
           <p>You reached the end.</p>
           <h2>Go back before I start another tangent.</h2>
         </div>
-        <Link href="/blog" className={styles.darkButton}>
-          Browse every post
-          <span aria-hidden="true">↗</span>
-        </Link>
+        <div className={styles.articleFooterActions}>
+          <a
+            href={getBlogEditUrl(post.slug)}
+            className={styles.darkButton}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Propose a fix
+          </a>
+          <Link href="/blog" className={styles.lightButton}>
+            Browse every post
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
       </section>
     </div>
   )

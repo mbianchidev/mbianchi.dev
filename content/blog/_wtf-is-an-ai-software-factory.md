@@ -6,7 +6,7 @@ author: "Matteo Bianchi"
 category: "AI"
 excerpt: "Everybody talks about software factories, but what is it really?"
 image: "/images/blog/agentic-factory.webp"
-imageAlt: "A modern Toyota factory, featuring robots"
+imageAlt: "Engines on an automotive factory assembly line"
 tags:
   - AI
 readTime: "12 min read"
@@ -22,7 +22,7 @@ AI Software factory.
 
 > What is this shit now?
 
-![](/public/images/blog/agentic-factory.png)
+![Engines on an automotive factory assembly line](/images/blog/agentic-factory.webp)
 
 That's literally what I've been asking myself. That and "does it make sense or should I dismiss it?". 
 Well, if you are reading this blog you already know what my answer was.
@@ -45,7 +45,36 @@ I mean, don't get me wrong, I currently work at GitHub and the scale of git traf
 
 My point is more around the principles around the SDLC, let's see what the impact is "phase by phase".
 
-## Planning
+<nav aria-labelledby="table-of-contents">
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+- [Planning](#planning)
+- [Requirement analysis](#requirement-analysis)
+- [Design](#design)
+- [Development](#development)
+- [Testing](#testing)
+- [Deployment (in production)](#deployment)
+- [Maintainance](#maintenance)
+- [A factory needs maintenance, too](#factory-maintenance)
+- [Software factory: just marketing or something concrete?](#software-factory)
+  - [Factory components](#factory-components)
+- [Do AI software factories change fundamental software "laws"?](#software-laws)
+  - [Conway law](#conway-law)
+  - [Brook law](#brook-law)
+  - [Goodhart law](#goodhart-law)
+  - [Hofstadter law](#hofstadter-law)
+  - [Hyrum law](#hyrum-law)
+  - [Eagleson law](#eagleson-law)
+  - [Wirth law](#wirth-law)
+  - [Linus law](#linus-law)
+    - [A note on Security](#security)
+  - [Mooer law](#mooer-law)
+- [Conclusion](#conclusion)
+
+</nav>
+
+<h2 id="planning">Planning</h2>
 
 How does a company define goals, scope, timelines and requirements?
 Typically one looks at the current state, gets signals from the market, from existing users, from someone in the team, from the board or leadership and starts planning a software change. Regardless of the kind.
@@ -67,7 +96,7 @@ They end up doing less. Like actually less.
 
 If I had to estimate the time loss it would be quite difficult, so I'll just skip this entirely. If you let AI choose what to build next I have terrible news for you and your software.
 
-## Requirement analysis
+<h2 id="requirement-analysis">Requirement analysis</h2>
 
 Similarly to the planning phase, gathering requirements needs a group of people knowing the current system and having vision for where that system needs to be next. Not the how in this phase, just where.
 
@@ -79,7 +108,7 @@ AI here it's even more useless, outisde of making RFC and other outcome document
 
 I estimate a net -10-15% loss of time if you are leveraging AI for this phase.
 
-## Design
+<h2 id="design">Design</h2>
 
 This is where AI starts to be a tiny bit more useful.
 Take the above planning, requirements (specifications, definitions, whatever your outcome is) and feed it through a frontier model.
@@ -94,7 +123,7 @@ You still need to thoroughly validate the outcomes here, you can't let automatio
 
 All things equal, I generously estimate a 5-10% time savings from leveraging AI for this phase. Which is not bad, but also it's not what companies are trying to sell.
 
-## Development
+<h2 id="development">Development</h2>
 
 AI is at its peak utility here.
 
@@ -116,7 +145,7 @@ And I am not saying that AI can't be used for code development, au contraire. I 
 
 Surprisingly I can estimate a ~5-20% time savings, if you are leveraging AI in the right way, for this phase, which means getting a -20-30% of overhead for a while during adoption but then it picks back up and you can reap the benefits.
 
-## Testing
+<h2 id="testing">Testing</h2>
 
 I actually think testing, both writing unit tests, e2e tests and also using agents to generate user-like traffic for testing purposes is a great way of leveraging the technology.
 
@@ -125,7 +154,7 @@ There are similar risks that carry from writing code as tests are only as good a
 Time saving estimate wildly varies, as in any phase really, but in this phase I feel like it varies more. Safe estimate range? 
 ~10-30% it can really do a lot.
 
-## Deployment (in production)
+<h2 id="deployment">Deployment (in production)</h2>
 
 No.
 
@@ -137,7 +166,7 @@ If agentic deployments will become a thing, they need even more guardrails then 
 
 Repeat after me: deployments (and software) need to be deterministic.
 
-## Maintainance
+<h2 id="maintenance">Maintainance</h2>
 
 Another bit where I genuinely believe agents can pick up quite a bit of work, lifting some weight from engineers.
 
@@ -145,7 +174,7 @@ The lifecycle of a bug can be as fast as: automatically detecting potential bug 
 
 Maintainance is not only bugs, it's also performance
 
-## A factory needs maintenance, too
+<h2 id="factory-maintenance">A factory needs maintenance, too</h2>
 
 I recently gave an agent a very glamorous assignment. Go through my public projects and stop wasting time in GitHub Actions. First show me the complete repository list, then wait for approval. No surprise changes across my repos, thanks.
 
@@ -164,13 +193,13 @@ Also remember that a green check is completely worthless if you got it by removi
 
 The agents did a lot of the implementation, sure. I still had to call which tradeoffs I would accept and I took responsibility for all the changes.
 
-## Software factory: just marketing or something concrete?
+<h2 id="software-factory">Software factory: just marketing or something concrete?</h2>
 
 All of this to say that to reap all these time savings gains and benefits organizations need to build around new ways of doing software but not before having solid foundations to start building from.
 
 If we do everything correctly, we end up with something like this (simplified schema):
 
-![](/public/images/blog/agentic-factory-schema.png)
+![Software factory diagram connecting planning, requirements, coding agents, review, CI/CD and maintenance through approval gates](/images/blog/agentic-factory-schema.webp)
 
 Cute right? That's not even half of the actual complexity of running a company heavily based on software as end-user (what Spotify was before diversifying and become another SaaS vendor) or selling a software as a vendor.
 
@@ -198,7 +227,8 @@ Mintainance (and testing).
 
 We can still find something valuable in the concept of software factories, to think better about how we use agents.
 
-Look at the factory components:
+<h3 id="factory-components">Factory components</h3>
+
 - Factory schema: a map of the assets, categories and relationships - it's not the db schema but it's a good way to give AI an inventory
 - Reference implementation: a good working example of the application - this is the codebase, possibly the target of any "agentic workflow" but reality is closer to the fact that the LLM might have better code in its training set already
 - Architecture guidance and patterns: these are design documents, explaination of why choices were made - this is what AI is currently missing unless instructed, saving artifacts, decisions and why choices are made
@@ -212,31 +242,31 @@ Do not turn your "AI Software Factory" into a slop factory. Use your very human 
 
 Talking about brains, let's see what happens to funamental software laws in the "age of AI".
 
-## Do AI software factories change fundamental software "laws"?
+<h2 id="software-laws">Do AI software factories change fundamental software "laws"?</h2>
 
 I'm gonna analyze a bunch of good ol' software laws here, if and how they changed today with AI.
 
 Spoiler: not a lot.
 
-### Conway law
+<h3 id="conway-law">Conway law</h3>
 
 > "Organizations which design systems (in the broad sense used here) are constrained to produce designs which are copies of the communication structures of these organizations."
 
 I mean, same. Nothing changed here, outside of every organization being more similar to each other if they all resort back to LLMs to handle their structures.
 
-### Brook law
+<h3 id="brook-law">Brook law</h3>
 
 > "Adding manpower to a late software project makes it later" 
 
 Kinda same, but onboarding is now relatively faster so the ramp up time diminishes (just avoid having overconfidence about a system you only analyzed with AI with no other evidence of its functioning please, thanks)
 
-### Goodhart law
+<h3 id="goodhart-law">Goodhart law</h3>
 
 > "When a measure becomes a target, it ceases to be a good measure". 
 
 Which is still true, will always be true, BUT I think agents have this advantage of not really "caring" so as long as the measure is deterministic and you don't give instructions around getting to certain values of that metric, you should be fine. Yes, agents tend to want to please the request and will invent data, information or go out of their way to hack Huggingface if you really tell them to focus on the end goal. Right Mr. Altman? (I think he should be held accountable personally for anything OpenAI hacks by mistake)
 
-### Hofstadter law
+<h3 id="hofstadter-law">Hofstadter law</h3>
 
 > "It always takes longer than you expect, even when you take into account Hofstadter's law".
 
@@ -244,7 +274,7 @@ It's a bit like the previous law, just on deadlines as a specific metric.
 A task expands to take as much space as possible so, up to a certain point, I'm a fan of tight deadlines as long as it's understood that a deadline is a suggestion and whoever delivers the software still has full control and makes the final call. Did AI change this?
 Not really I would say. We are just requested to deliver more things in the same span of time, so if anything quality of deliverables is stedily declining, but deadlines are still suggestions across the industry.
 
-### Hyrum law
+<h3 id="hyrum-law">Hyrum law</h3>
 
 > "With a sufficient number of API users, all observable behaviors of your system will be depended on by somebody".
 
@@ -252,21 +282,21 @@ Use semantic versioning and I mean it. Stop breaking changes on minor and stop m
 Rant aside, this is still true, as soon as you release a new piece of software that gets consumed by users, functionalities will be used and APIs in particular, even in non-orthodox ways, so expect people complaining when you pull out from supporting X or Y feature.
 No significant changes since AI took over.
 
-### Eagleson law
+<h3 id="eagleson-law">Eagleson law</h3>
 
 > "After 6 months you've written code, it might as well be someone else's code". 
 
 So, for me personally this always was about 3 months, short memory, I'm a RAM. With AI? Some people forget in a week if they've read and reviewed the code, most people never read it. And I actually try to read the tests and not the implementation, I admit it.
 With the volumes and velocity at which companies are expecting engineers to ship law is pretty much completely debunked because of AI.
 
-### Wirth law
+<h3 id="wirth-law">Wirth law</h3>
 
 > "Software is getting slower more rapidly than hardwer becomes faster". 
 
 Sure, if we keep using MicroVMs for anything. It's even worse than microservices. Just stop it.
 All and all, I would say this is still true especially since, quantum dreams aside, we are not getting any faster chips than now or at least not considerably faster and most of the chips are anyway reserved to weapons since we are moving towards another dark age of war and none of this matters. Welp, this might be too much, but it feels like it.
 
-### Linus law
+<h3 id="linus-law">Linus law</h3>
 
 > "Given enough eyeballs, all bugs are shallow". 
 
@@ -274,7 +304,7 @@ I would argue this was true and is still true today but AI unlocked a whole new 
 
 The same goes for bug resolution. The "enough eyeballs" is enough tokens now. Could humans also fix those bugs? Most definitely yes. Now, would engineers be able to swarm ALL (most) the bugs in a software at the same time? Eh. Maybe not.
 
-#### A note on Security
+<h4 id="security">A note on Security</h4>
 
 Black October, or so they are calling this month of 2026 after PHP2Shell and a bunch of other vulnerabilities, some discovered by AI, some just human mistakes.
 
@@ -289,7 +319,7 @@ It's only gonna get worse, but it doesn't mean we need to make it worse ourselve
 
 After this violation of trust, let's get back to the last software law I analyzed.
 
-### Mooer law
+<h3 id="mooer-law">Mooer law</h3>
 
 "An information retrieval system will tend not to be used whenever it is more painful and troublesome for a customer to have information than for him not to have it".
 
@@ -300,7 +330,7 @@ That is exactly proving my point. If calculators disappeared tomorrow, it would 
 
 Calculus is a narrow skill, a niche in real life for many people outside of very specific fields of life like personal finance, purchasing real estate or being a software engineer... but it's still important. 
 
-## Conclusion
+<h2 id="conclusion">Conclusion</h2>
 
 Let's be clear: not everything needs to be a factory.
 

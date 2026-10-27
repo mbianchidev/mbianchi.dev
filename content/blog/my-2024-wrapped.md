@@ -13,7 +13,7 @@ My usual odd year-end blog post where I reflect on my year and I’m being publi
 
 So… 2024 has come to an end, one of the most difficult but also beautiful years of my life.
 
-![That’s me, my last talk of the year, the day-1 closing keynote at KCD Denmark](https://cdn-images-1.medium.com/max/1024/1*yyeB5FudpgFQ6_vGHZLSog.jpeg)
+![That’s me, my last talk of the year, the day-1 closing keynote at KCD Denmark](/images/blog/body/3aae8994453bfcb062b6.webp)
 
 I’m still not very used to living in this country (nordics ndr), I quite like the fast and lean bureaucracy though.
 I finally found a way to make music again, a bit with a band and another bit by coaching young metal screamers which is extremely good!
@@ -69,7 +69,7 @@ At least I did see a lot more concerts this year (5) and plan for more next year
 I played quite a bit of MTGA and some other fun game too, my Steam account got finally reactivated after years of inactivity, lol.
 Overall? I’m quite drained, but I’m not complaining too much as the future looks a bit brighter ahead.
 
-![](https://cdn-images-1.medium.com/max/1024/0*mzO-3qLo9Rf2Fl1L.jpg)
+![](/images/blog/body/41125fd9bce517641d83.webp)
 
 ### Todo list for 2025
 

@@ -10,7 +10,7 @@ excerpt: "Kubernetes has had a community-driven release lifecycle since forever 
 
 Kubernetes has had a community-driven release lifecycle since forever now and I took part of it as Comms Shadow for v1.31, here’s how it went and what I have learnt in the process.
 
-![Elli, the release lead doggo, how cute!](https://cdn-images-1.medium.com/max/1024/0*_rzDE8q_SjhOwXrc.png)
+![Elli, the release lead doggo, how cute!](/images/blog/body/6cdbfd613a947a8dc4b9.webp)
 
 ### The Story So Far
 
@@ -103,7 +103,7 @@ Many more people are running ML/AI and datastores on Kubernetes and it makes me 
 
 ### Fun? Facts!
 
-![Me flexing the Falco Graduation shirt!](https://cdn-images-1.medium.com/max/800/0*cVjJespxH9iwy5S-)
+![Me flexing the Falco Graduation shirt!](/images/blog/body/7cfaae9acb7dd7c8ff99.webp)
 
 - I was interviewed due to my participation in the release team by the lovely people at the Dutch Kubernetes Podcast — you can listen to the episode [**here**](https://www.k8spodcast.nl/afleveringen/aflevering-63-kubernetes-v1-31-elli). Thanks again to Ronald and Jan for having me.
 - I was asked to take on the Comms Lead role for v1.32 and I will do my best to fulfill my duties, especially focusing on mentoring my future shadows and find the next Comms Lead.

@@ -19,7 +19,7 @@ Why? Because I believe transparency helps me grow and hold myself accountable.
 Maybe you’ll find something here that resonates with your own journey — or at least feel less alone in yours.
 If not, I don’t care that much, bye.
 
-![Me at the time of writing this.](https://cdn-images-1.medium.com/max/500/1*7qt-BWb6WUX78wtckW59Vg.gif)
+![Me at the time of writing this.](/images/blog/body/5145f407b5ed6884f4ca.webp)
 
 Kidding. Seat down, grab a coffee (or something stronger), and let’s ride this roller coaster of a year together.
 
@@ -29,7 +29,7 @@ I started last year’s blog with this phrase:
 
 > “So… 2024 has come to an end, one of the most difficult but also beautiful years of my life.”
 
-![Kinda how it felt to live my life in 2025.](https://cdn-images-1.medium.com/max/1024/0*hdwymLLxpNY_jHTX.jpg)
+![Kinda how it felt to live my life in 2025.](/images/blog/body/59a66a9cc5a3344f19f2.webp)
 
 Hah. I was mostly wrong.
 
@@ -56,7 +56,7 @@ I’d gladly be a guest on some video/podcast, that would be sick.
 
 The first part of the year was all about adjusting to my job and navigating big tech’s *“bureaucrazy”* (not a typo), plus attending conferences and making a lot of OSS contributions. That work even landed me [**an award from the Kubernetes community**](https://www.kubernetes.dev/community/awards/2025/#release) — getting recognition is pretty cool, but never the reason why I do something.
 
-![Got awarded at KubeCon NA 2025 in Atlanta (I was not there, tho)](https://cdn-images-1.medium.com/max/1024/1*1kpqUb3Jn0nvXVR8BKB-ow.jpeg)
+![Got awarded at KubeCon NA 2025 in Atlanta (I was not there, tho)](/images/blog/body/0b2783d316257c8ca73f.webp)
 
 The second half of the year, I spent grieving my old self after another failed relationship. I could have achieved so much more without that distraction. But more on life lessons later. I also decided to pull back from the OSS world after summer. Zero open source presence. *Niet.*
 
@@ -73,13 +73,13 @@ But first… Let me speak at the same conference of Steve Aoki in 2026.
 Wow.
 This is a true achievement that belongs in my resume.
 
-![It will happen.](https://cdn-images-1.medium.com/max/874/1*sq7ix47s1UZE7zhMHyHxEg.jpeg)
+![It will happen.](/images/blog/body/e075c3d2c0ccff4324f0.webp)
 
 ### Music as my creative outlet
 
 On a brighter note, I created new music this year — from vocal covers to the debut EP of my new band: Devoid of Beauty.
 
-![My guitarist Lorenzo and me, after our 2-days recording session](https://cdn-images-1.medium.com/max/960/0*VunNwkSUJCQmCmwI)
+![My guitarist Lorenzo and me, after our 2-days recording session](/images/blog/body/e321311f776e9aa0653d.webp)
 
 I missed screaming into the microphone, and no one will ever take that away from me again. Not even myself.
 
@@ -103,7 +103,7 @@ Enough with the self-reflection. Let’s see how I did against my resolutions fr
 Ups and downs, especially when Mothership (Microsoft) is involved. But overall, better than many places I’ve been. People are cool; some company policies, a bit less so.
 - **Take some days off ✅**  
 Took 3 weeks off and traveled to Japan! But I had to work on a conference demo and presentation. Ugh.
-![One of the many temples I visited during my time in Japan, foliage was just starting.](https://cdn-images-1.medium.com/max/1024/1*z5t-vQpbjPXegPc8rMlRiw.jpeg)
+![One of the many temples I visited during my time in Japan, foliage was just starting.](/images/blog/body/2815c0bf03e3c62d5e4e.webp)
 
 - **Be at peace with not finding a place to call home ✅**  
 I have a better idea of what I want in 2028, when I’ll leave the Netherlands. Traveling a lot helped.
@@ -144,7 +144,7 @@ Two things I’m truly proud of: I showed up for my loved ones, and I made music
 
 *p.s. First year winning Whamageddon. YAY.*
 
-![Japanaese CDs are sick.](https://cdn-images-1.medium.com/max/1000/0*kCiFFk0s1tSeGJGm.jpg)
+![Japanaese CDs are sick.](/images/blog/body/1c52a43ae94c213900f3.webp)
 
 ### What I want to achieve in 2026
 

@@ -10,7 +10,7 @@ excerpt: "Organizing KubeTrain, attending Cloud Native Rejekts and KubeCon EU, m
 
 Organizing KubeTrain, attending Cloud Native Rejekts and KubeCon EU, meeting a ton of KCD people in Paris last week, has been an amazing experience. So many (community) things to do and so little time!
 
-![From zero to having a panel at KubeCon? ChooChoo KubeTrain!](https://cdn-images-1.medium.com/max/1024/1*xyTAbSAZzOZnYQSLd5XsLw.jpeg)
+![From zero to having a panel at KubeCon? ChooChoo KubeTrain!](/images/blog/body/8921d0a2a8e621423670.webp)
 
 Before we start, I would like to take a moment of your time to reflect about D&I, Diversity and Inclusion. 
 For some companies, entities and people it’s just slogans and filling some report saying that an event had x% of non-male, non-white, non-something attendees.
@@ -32,7 +32,7 @@ I had no idea where to start, no clue about organizing a train ride for a group 
 
 Anyway, some weeks and sweat sessions later, me and the KubeTrain NL team — including [Sevi](https://www.linkedin.com/in/sevikarakulak/) and [Lian ](https://www.linkedin.com/in/lian-li/)— managed to bring our crew to the event and to have a blast of a party as well. YAY!
 
-![My KubeTrain party associados, from left to right Alessandro (CNCF Ambassador), me, Fahd (Google), Carlos (ITQ), Sudesh (freelancer)](https://cdn-images-1.medium.com/max/1024/1*2NvM2yQGGLn56Hln7d4r0g.jpeg)
+![My KubeTrain party associados, from left to right Alessandro (CNCF Ambassador), me, Fahd (Google), Carlos (ITQ), Sudesh (freelancer)](/images/blog/body/669fc6411f917c0130cf.webp)
 
 Stay tuned for [**KubeTrain 2025**](https://kubetrain.io/2025/), it will be even better, pinky promise.
 
@@ -46,9 +46,9 @@ Alessandro was accepted as well, along with many of my rejekted friends.
 
 Some weeks later, here I am, explaining Kubernetes to my grandma on stage:
 
-![Look at the cool colors wtfff — thanks Ale for the pic ❤](https://cdn-images-1.medium.com/max/1024/1*h0tQNqE9T7W0mNk-DeOxZA.jpeg)
+![Look at the cool colors wtfff — thanks Ale for the pic ❤](/images/blog/body/ac3365539b5176fd5bbf.webp)
 
-![This is the most loved slide apparently, lol. Folks, I just used excalidraw, no secrets!](https://cdn-images-1.medium.com/max/1024/0*Cnr02mM4ANDsAyfP)
+![This is the most loved slide apparently, lol. Folks, I just used excalidraw, no secrets!](/images/blog/body/04590250fed15df78dda.webp)
 
 Amazing speaking in an eSport arena, I really loved it.
 
@@ -62,7 +62,7 @@ By the way in case you are interested, here are the slides, they get published, 
 You remember that I didn’t speak at KubeCon, right? 
 Well, I was happy to contribute as part of the committee for the very first OpenTofu day co-located event and at the Community Hosted Event kiosk though.
 
-![From left to right — Andrea (CNCF Ambassador), Marcel (HCS Company), me, Audra (CNCF), Karla (Isovalent), Pavel (2solar), William (SUSE, CNCF Ambassador)](https://cdn-images-1.medium.com/max/1024/0*_O4IFghLTIoOeoFE)
+![From left to right — Andrea (CNCF Ambassador), Marcel (HCS Company), me, Audra (CNCF), Karla (Isovalent), Pavel (2solar), William (SUSE, CNCF Ambassador)](/images/blog/body/13aae47b80e845795171.webp)
 
 KCDs are amazing events and I’m glad I got the chance to meet so many people from different countries and cities organizing our counterpart for their local community.
 See this wonderful video to really understand the spirit of KCD and Cloud Native.
@@ -104,9 +104,9 @@ I will not mention each of you but please reach out if I forgot to do so at the 
 
 Now some more photos just because I have them.
 
-![From left to right: Fernanda (AWS), me, Sevi (Container Solutions), Steve (Freelance), Nikolay (Isovalent)](https://cdn-images-1.medium.com/max/1024/1*eJo78yipO_kmr050T8dfbw.jpeg)
+![From left to right: Fernanda (AWS), me, Sevi (Container Solutions), Steve (Freelance), Nikolay (Isovalent)](/images/blog/body/2bd98f01aa6c47fd496d.webp)
 
-![From left to right: I don’t remember everybody’s name so I won’t mention them, sorry it was a long night lol](https://cdn-images-1.medium.com/max/1024/1*HzMkml2RZMlD58G5CM0nOg.jpeg)
+![From left to right: I don’t remember everybody’s name so I won’t mention them, sorry it was a long night lol](/images/blog/body/492852e0ce4c75a27df3.webp)
 
 You are such a hero reading until now, here’s a 100% free code for any KC-A-S-D something something exam!
 

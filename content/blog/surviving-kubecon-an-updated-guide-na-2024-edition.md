@@ -12,7 +12,7 @@ Another quick blog from my conference survival guide series that could be useful
 
 This could also be a great reminder for experienced attendees that could use a reminder or two.
 
-![This is how I’ll look like after the conference btw, lol](https://cdn-images-1.medium.com/max/1024/0*l2Ah_VtgQQ3CLekc.jpg)
+![This is how I’ll look like after the conference btw, lol](/images/blog/body/33dcaec491921d85a98f.webp)
 
 ### Location specific suggestions
 

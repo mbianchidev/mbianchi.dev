@@ -9,7 +9,7 @@ excerpt: "Breaking news: Scrum is bad."
 readTime: "10 min read"
 ---
 
-![Any developer right before sprint review](https://miro.medium.com/v2/resize:fit:1400/1*pMWHr0hbJKFUxv2gW2veVQ.gif)
+![Any developer right before sprint review](/images/blog/body/3d655f6df150b80ac832.webp)
 
 *Any developer right before sprint review*
 
@@ -36,7 +36,7 @@ I only ask you to **read the whole post** before angrily typing in the comments!
 
 Agile is the opposite of Waterfall, which has been the old school way of crafting software until the ’90s.
 
-![Waterfall as pictured by Agile practitioners: a pile of sh*t](https://miro.medium.com/v2/resize:fit:1400/0*L52A_CynN9DV99GJ.jpg)
+![Waterfall as pictured by Agile practitioners: a pile of sh*t](/images/blog/body/f38b9bc7bc138be14549.webp)
 
 *Waterfall as pictured by Agile practitioners: a pile of sh\*t*
 
@@ -47,7 +47,7 @@ Agile is code-first, Waterfall is doc-first.
 
 I could go on for ages but I will not, you got it.
 
-![Typical agile practitioner working on the same task for 4 sprints in a row.](https://miro.medium.com/v2/resize:fit:1400/0*kVPCweQSIvZ2ihrO.jpg)
+![Typical agile practitioner working on the same task for 4 sprints in a row.](/images/blog/body/2572492767d7a3031aff.webp)
 
 *Typical agile practitioner working on the same task for 4 sprints in a row.*
 
@@ -60,7 +60,7 @@ I would never question the authority held by the people who theorized it, since 
 Scrum’s most fundamental term is: **sprint**.\
 Sprints are basically **pre-defined time-slots** (typically lasting two-weeks). During this amount of time, aside from **development cycles**, the Scrum team is required to follow some **ceremonies**.
 
-![Midsommar, must watch, add it to your list!](https://miro.medium.com/v2/resize:fit:1400/1*aJXuVpNMnnnG96lbodX6Bg.gif)
+![Midsommar, must watch, add it to your list!](/images/blog/body/fe8ade7eab881c5998cb.webp)
 
 *Midsommar, must watch, add it to your list!*
 
@@ -92,7 +92,7 @@ They can be end users, other teams or even another business.
 
 *Scrum master*— should facilitate communication, monitor and track progress, determine and evaluate risks, **educate and coach** the self-managed team about scrum to render it effective.
 
-![Ahhh yes, the famous multitasking productivity of a Scrum Master](https://miro.medium.com/v2/resize:fit:1400/0*s48G9nxzzsqRFpqn)
+![Ahhh yes, the famous multitasking productivity of a Scrum Master](/images/blog/body/d26eccf8edb2ef24ef63.webp)
 
 *Ahhh yes, the famous multitasking productivity of a Scrum Master*
 
@@ -109,7 +109,7 @@ Wanna know why?
 
 You could have guessed it by the highlighted phrases in these last paragraphs, but in practice this is what *really* happens:
 
-![Another Jira ticket? Let’s GOOOOOOOOOO](https://miro.medium.com/v2/resize:fit:1400/0*ylQET8Lr5Kx2B81r.jpeg)
+![Another Jira ticket? Let’s GOOOOOOOOOO](/images/blog/body/71702d9ef020f08b5a14.webp)
 
 *Another Jira ticket? Let’s GOOOOOOOOOO*
 
@@ -122,7 +122,7 @@ Velocity should be useful to understand, based on previous sprints, what is the 
 
 Ok, but why are we not using a [Fibonacci scale](<https://web.archive.org/web/20230327075636/https://en.wikipedia.org/wiki/Fibonacci_scale_(agile)>) again? Or what about a game of [planning poker](<https://www.planningpoker.com/>)?
 
-![Me, after you told me your company uses Fibonacci scales for stories](https://miro.medium.com/v2/resize:fit:1400/1*EpgjsJ3yNNeid99oJQTVtQ.gif)
+![Me, after you told me your company uses Fibonacci scales for stories](/images/blog/body/b130da75b87b20195b24.webp)
 
 *Me, after you told me your company uses Fibonacci scales for stories*
 
@@ -132,7 +132,7 @@ Just give each task a clothing size to simplify its measurement.\
 What a wonderful idea. \
 We simply need to discuss if that is that gRPC API is an L or an M tasks, meanwhile the only L we are getting is the time we lost on picking a method for this **unproductive millimetric measuring**.
 
-![Big L, micromanager!](https://miro.medium.com/v2/resize:fit:1400/1*NlOWwX6SNnvFF4_n_WGFdg.png)
+![Big L, micromanager!](/images/blog/body/e10cf53cd6e7a59903ca.webp)
 
 *Big L, micromanager!*
 
@@ -161,7 +161,7 @@ Product Owner?\
 Service Owner/Manager?\
 Project Manager? Yes, I experienced having a PM in a team running Scrum, don’t ask why, it is very real and I have proof.
 
-![Who you gonna call?](https://miro.medium.com/v2/resize:fit:1400/0*Ljp8OEluNtbuhIQ7)
+![Who you gonna call?](/images/blog/body/cf4508db64ca379fbf12.webp)
 
 *Who you gonna call?*
 
@@ -170,7 +170,7 @@ So much for “self-managed team”, huh?
 
 Imagine you aligned all these people about your issue and now guess the amount of time required for them to figure out their piece of responsibility and provide a solution.
 
-![You, leaving the room without a clue about the solution](https://miro.medium.com/v2/resize:fit:1400/1*X7nn4K1-r0Ny4H51NDIdcQ.gif)
+![You, leaving the room without a clue about the solution](/images/blog/body/8844ebf33ddc643cff62.webp)
 
 *You, leaving the room without a clue about the solution*
 
@@ -182,7 +182,7 @@ Scrum is often seen by management as an elixir of productivity and a cure for an
 
 A slow team can become even slower and believe me, that **burnout chart** will be painful to watch.
 
-![The — ??? now I’m really burnout — chart](https://miro.medium.com/v2/resize:fit:1400/1*cYBrW5TK4CTP_bSnmX5E-g.png)
+![The — ??? now I’m really burnout — chart](/images/blog/body/182db0fbb3b029f8b8ff.webp)
 
 *The — ??? now I’m really burnout — chart*
 

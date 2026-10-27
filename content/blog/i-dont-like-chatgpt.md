@@ -18,13 +18,13 @@ I will introduce the product to potentially unaware readers, briefly analyze the
 I will do my best to explicitly state what is an opinon and what is data, just be aware that I am biased about it. \
 *Yes, I really want to avoid AI-enthusiasts jumping on my throat.*
 
-![This is what would happen if an AI-enthusiast will actually jump on my throat](https://miro.medium.com/v2/resize:fit:1400/0*pa5fX_XSt9xwoiU-.jpg)
+![This is what would happen if an AI-enthusiast will actually jump on my throat](/images/blog/body/c51b01f4022b67190533.webp)
 
 *This is what would happen if an AI-enthusiast will actually jump on my throat*
 
 ### What is this ChatGPT?
 
-![Not self aware. Noted.](https://miro.medium.com/v2/resize:fit:1400/1*LF3bBxjuLGjCPKT-GUSWow.png)
+![Not self aware. Noted.](/images/blog/body/98db687fe79b9496922b.webp)
 
 *Not self aware. Noted.*
 
@@ -32,7 +32,7 @@ Ehm. Really? Ok, I will try to explain it.
 
 ChatGPT is an AI (Artificial Intelligence) web-based product from OpenAI that uses NLP (Natural Language Processing) to generate text based on the input the user gives, its name comes from the fact its interface looks like an instant messaging app and “GPT” is the algorithm that powers the product.
 
-![Interesting(?)](https://miro.medium.com/v2/resize:fit:1400/1*s0nWUyqiXklSBRt5Ms-3Jg.png)
+![Interesting(?)](/images/blog/body/310c2ca260306428f7d8.webp)
 
 *Interesting(?)*
 
@@ -40,7 +40,7 @@ ChatGPT is an AI (Artificial Intelligence) web-based product from OpenAI that us
 
 ### **Discovery**
 
-![Me wondering AI capabilities](https://miro.medium.com/v2/resize:fit:1400/1*aR9gklPPf3SamZjXS6NeWw.gif)
+![Me wondering AI capabilities](/images/blog/body/1e7a75ecc3789580a724.webp)
 
 *Me wondering AI capabilities*
 
@@ -60,7 +60,7 @@ I have confirmed some known issues and found out new ones.
 
 Let’s see the known and declared limits of ChatGPT.
 
-![I like the US speed limit signs but not their regulations on cryptocurrencies](https://miro.medium.com/v2/resize:fit:1400/0*t_OrrPIxjOVqhlic)
+![I like the US speed limit signs but not their regulations on cryptocurrencies](/images/blog/body/34264d01d17b6bbe3b20.webp)
 
 *I like the US speed limit signs but not their regulations on cryptocurrencies*
 
@@ -91,7 +91,7 @@ When many people experience the same issues, there is a pattern.
 People are lazy, myself included.\
 Providing them with a product that looks like an know-it-all Oracle of Delphi, ready to answer to all your answers, providing you with quick solutions to very complex issues is just madness.
 
-![“BuT It’s NOt tHe ToOl, It’S tHe PEopLe”](https://miro.medium.com/v2/resize:fit:1400/1*AAsGGlGn5mbmDfEi8b2DUw.jpeg)
+![“BuT It’s NOt tHe ToOl, It’S tHe PEopLe”](/images/blog/body/a75447f13a2631453aa6.webp)
 
 *“BuT It’s NOt tHe ToOl, It’S tHe PEopLe”*
 

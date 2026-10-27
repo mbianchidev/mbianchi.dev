@@ -6,6 +6,10 @@ export const siteConfig = {
   description:
     'Matteo Bianchi builds developer platforms, ships software, works with customers, automates boring work, and contributes to open source.',
   url: new URL('https://mbianchi.dev'),
+  repository: {
+    url: 'https://github.com/mbianchidev/mbianchi.dev',
+    branch: 'main',
+  },
   locale: 'en_US',
   author: {
     name: 'Matteo Bianchi',

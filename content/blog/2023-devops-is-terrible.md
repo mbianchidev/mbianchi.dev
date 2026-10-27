@@ -9,7 +9,7 @@ excerpt: "My analysis of modern DevOps evolution into Platform Engineering. Just
 readTime: "7 min read"
 ---
 
-![Classic DevOps misspell on a YAML](https://miro.medium.com/v2/resize:fit:1400/0*brehIk8zOOBRsM9n)
+![Classic DevOps misspell on a YAML](/images/blog/body/410a9b105b202e7a9333.webp)
 
 *Classic DevOps misspell on a YAML*
 
@@ -33,7 +33,7 @@ Tell me about it.
 
 From just giving more responsibility of the Operations to Software Engineers to making Ops people aware of the software they were deploying and operating.
 
-![Yep, unfortunately enough Docker doesn’t solve all of your issues.](https://miro.medium.com/v2/resize:fit:1400/0*oRwPuA9cgqWWENu2.jpg)
+![Yep, unfortunately enough Docker doesn’t solve all of your issues.](/images/blog/body/ad2e318cf1ea51978c0f.webp)
 
 *Yep, unfortunately enough Docker doesn’t solve all of your issues.*
 
@@ -55,7 +55,7 @@ On the bright side, if your company has a DevOps/Cloud team your are already one
 Wait a minute, this team handles: databases, networking, security policies, roles, cloud environments, accesses and security too.\
 Most probably through a messy IaC repository, writing poor Terraform code with little if any naming convention, no templating, all carefully handcrafted and repeated throughout your code base.
 
-![Or maybe it is just an illusion](https://miro.medium.com/v2/resize:fit:1400/0*-GmCgKeebCe9AMjW.png)
+![Or maybe it is just an illusion](/images/blog/body/57ded92ab769bf1614dd.webp)
 
 *Or maybe it is just an illusion*
 
@@ -65,7 +65,7 @@ You will soon discover how fast both your Software Engineering team and DevOps p
 
 Keeping everybody on track, aiming towards the same objective is not a walk in the park, even when you managed to break the infamous “silos”.
 
-![The (in)famous silo being broken](https://miro.medium.com/v2/resize:fit:1400/1*jRqLifH66gVRGR4kEsIquw.gif)
+![The (in)famous silo being broken](/images/blog/body/4de9ea4fe19bf27b4808.webp)
 
 *The (in)famous silo being broken*
 
@@ -84,7 +84,7 @@ We end up doing things quick and dirty in order to not get too frustrated and mo
 Sometimes DevOps means copy-pasting the same code for every new instance/cluster/environment. \
 CTRL-C-CTRL-V-as-a-service and nobody really cares about it as long as that fix is done.
 
-![Everybody (but that single repo nobody remembers about) gets a fix](https://miro.medium.com/v2/resize:fit:1400/1*t_xVbJagT3wPzX9e8UHEvA.gif)
+![Everybody (but that single repo nobody remembers about) gets a fix](/images/blog/body/0b091a4f083b6483401e.webp)
 
 *Everybody (but that single repo nobody remembers about) gets a fix*
 
@@ -98,7 +98,7 @@ Software Engineers should not manage policies, roles, keys or be too aware of cl
 
 *These are kinda boring tasks for a SWE and definitely feels like old-fashioned filling paperwork.*
 
-![2023 DevOps is terrible.](https://miro.medium.com/v2/resize:fit:1400/1*ztezWwq4op_JTuag23mPDg.gif)
+![2023 DevOps is terrible.](/images/blog/body/cd9deb15c7499e4ccee6.webp)
 
 In the best case scenario code deployment should be as smooth as pushing on a git repo and everything else, infrastructure included, handled by some auto-magic black box.
 
@@ -111,7 +111,7 @@ The IT industry has lately given its answer on the topic:
 
 [**Platform Engineering**](<https://platformengineering.org/blog/what-is-platform-engineering>).
 
-![Classic Platform Engineering in the first implementaton phase](https://miro.medium.com/v2/resize:fit:1400/1*EdnOhdQ9vIoWMc67tElgDw.gif)
+![Classic Platform Engineering in the first implementaton phase](/images/blog/body/e44117d12876a82e562d.webp)
 
 *Classic Platform Engineering in the first implementaton phase*
 
@@ -146,7 +146,7 @@ No biggie, let you Platform team build something from scratch and from that mome
 
 So what should I do with my DevOps teams? Ditch them?
 
-![Oh no.](https://miro.medium.com/v2/resize:fit:1400/0*kJh3KIPi0cYROfew)
+![Oh no.](/images/blog/body/bf954239bfa9cffca9a6.webp)
 
 *Oh no.*
 
@@ -188,7 +188,7 @@ Summarizing: Platform Engineering? \
 Not terrible. \
 You’ve just been clickbaited again!
 
-![Gotcha.](https://miro.medium.com/v2/resize:fit:1400/0*kR-9cHjlmIWHRjkA.jpg)
+![Gotcha.](/images/blog/body/fe0a3cd35bee9be749ef.webp)
 
 *Gotcha.*
 
