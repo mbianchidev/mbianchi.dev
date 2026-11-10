@@ -32,7 +32,7 @@ export function Footer() {
             <h3>Company</h3>
             <Link href="/open-source">Open source</Link>
             <Link href="/about">About</Link>
-            <Link href="/careers">My next role</Link>
+            <Link href="/careers">Careers</Link>
             <Link href="/customers">Customers</Link>
           </nav>
           <nav className={styles.footerColumn} aria-label="Resources">
