@@ -28,6 +28,24 @@
       ]
     },
     {
+      "source": "/careers/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow, nosnippet"
+        }
+      ]
+    },
+    {
+      "source": "/job/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow, nosnippet"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {

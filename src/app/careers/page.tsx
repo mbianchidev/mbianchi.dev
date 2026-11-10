@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { CareerIntentNotice } from '@/components/CareerIntentNotice'
 import { PageHero } from '@/components/PageHero'
 import {
   careerDepartments,
@@ -10,42 +11,49 @@ import { createPageMetadata } from '@/lib/siteMetadata'
 import styles from '@/app/inner.module.css'
 import { CareersSearch } from './CareersSearch'
 
-export const metadata = createPageMetadata({
-  title: 'Careers — Matteo',
-  description: 'Matteo is looking for a senior or staff engineering role spanning platforms, software, customers, AI automation, and open source.',
-  path: '/careers/',
-})
+export const metadata = {
+  ...createPageMetadata({
+    title: 'My next role | Matteo',
+    description: 'Roles Matteo wants to do next, with preferred responsibilities, locations, and compensation. He is not hiring. These are not job vacancies.',
+    path: '/careers/',
+  }),
+  robots: {
+    index: false,
+    follow: true,
+    nosnippet: true,
+  },
+}
 
 const principles = [
   {
     id: 'have-fun',
     title: 'Have fun',
-    description: 'We have fun first and foremost, with our colleagues, with the managers (sometimes), and we do not believe in strict hierarchies. Karaoke is the go-to activity for offsites.',
+    description: 'I want to enjoy working with my teammates. Less hierarchy, more trust. Karaoke at offsites is a bonus, not a requirement.',
   },
   {
     id: 'start-with-problem',
     title: 'Start with the problem',
-    description: 'Before designing a system, we understand the workflow, the users, the constraints, and what failure costs. We solve the problem that exists, not the one that makes the architecture look clever.',
+    description: 'I start with the workflow, the users, the constraints, and what failure costs. I want to solve the problem that exists, not the one that makes the architecture look clever.',
   },
   {
     id: 'stay-technical',
     title: 'Stay technical',
-    description: 'We stay close to the implementation, inspect the code and systems, and test assumptions against reality. If we cannot get close to the work, the strategy is probably decorative.',
+    description: 'I stay close to the code and systems, and test assumptions against reality. A role that keeps me away from the work is probably the wrong one.',
   },
   {
     id: 'automate-boring',
     title: 'Automate the boring bit',
-    description: 'When work repeats, we map the workflow, remove unnecessary steps, and automate the rest with clear ownership. The third repetition should become a tool, not another calendar event.',
+    description: 'When work repeats, I map the workflow, remove unnecessary steps, and automate the rest with clear ownership. The third repetition should become a tool, not another calendar event.',
   },
   {
     id: 'deliver',
     title: 'Deliver',
-    description: 'We keep shipping high-quality, scalable, and maintainable software. We run extensive tests in CI, consider how to best handle CD and deploy to staging, test, and production, while keeping the loop observable and feeding insights back.',
+    description: 'I want to ship software I can stand behind, with tests, a sensible delivery process, and enough observability to know what happened after deployment.',
   },
   {
     id: 'explain-tradeoff',
     title: 'Explain the trade-off',
-    description: 'We explain cost, risk, time, reversibility, and who owns the outcome. Engineers, leaders, customers, and internal users should understand what they are agreeing to.',
+    description: 'I explain cost, risk, time, reversibility, and who owns the outcome. Engineers, leaders, customers, and internal users should understand what they are agreeing to.',
   },
 ]
 
@@ -81,19 +89,20 @@ export default function CareersPage() {
         path="/careers"
         title={
           <>
-            Looking for a job?
+            I&apos;m looking.
             <br />
-            Yes!
+            Not hiring.
           </>
         }
+        description={<CareerIntentNotice />}
         tone="cyan"
       />
 
       <section className={styles.sectionDark} aria-labelledby="roles-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="roles-title">What are we looking for</h2>
-            <p>Roles with a real impact, agency, out-of-the-way managers and low bureaucracy.</p>
+            <h2 id="roles-title">Roles I&apos;d consider.</h2>
+            <p>I want work with real impact, room to make decisions, managers who trust me, and less bureaucracy.</p>
           </div>
           <CareersSearch
             locations={careerLocations}
@@ -117,11 +126,11 @@ export default function CareersPage() {
                 <h3>{role.title}</h3>
                 <dl className={styles.roleDetails}>
                   <div>
-                    <dt>Department</dt>
+                    <dt>Preferred team</dt>
                     <dd>{department.label}</dd>
                   </div>
                   <div>
-                    <dt>Locations</dt>
+                    <dt>Locations I&apos;d consider</dt>
                     <dd data-career-location-list>
                       {locations.map(({ label }) => label).join(' · ')}
                     </dd>
@@ -130,9 +139,9 @@ export default function CareersPage() {
                 <Link
                   href={`/job/${role.slug}`}
                   className={styles.primaryButton}
-                  data-career-apply
+                  data-career-details
                 >
-                  Apply
+                  See my role preferences
                 </Link>
               </article>
             ))}
@@ -143,7 +152,7 @@ export default function CareersPage() {
       <section className={styles.sectionLight} aria-labelledby="principles-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="principles-title">How we work.</h2>
+            <h2 id="principles-title">How I work.</h2>
           </div>
           <dl className={styles.principleList}>
             {principles.map((principle) => (
@@ -160,8 +169,8 @@ export default function CareersPage() {
         <div className={styles.sectionInner}>
           <div className={styles.valuesHeader}>
             <div>
-              <h2 id="values-title">Our Values</h2>
-              <blockquote>Principles that guide our actions and decisions</blockquote>
+              <h2 id="values-title">What matters to me.</h2>
+              <blockquote>What I look for in a team, and what you can expect from me.</blockquote>
             </div>
             <a
               href="https://github.com/mbianchidev/mbianchidev/blob/master/values-and-mission.md#core-values"
@@ -186,7 +195,7 @@ export default function CareersPage() {
       <section className={styles.careersClose} data-careers-close>
         <div>
           <p>Looks compatible.</p>
-          <h2>Need someone who can leave a customer call and open the repo five minutes later? Let’s talk.</h2>
+          <h2>Hiring someone who can leave a customer call and open the repo five minutes later? Let&apos;s talk.</h2>
         </div>
         <a
           href="https://cal.com/mbianchidev/intro"

@@ -30,6 +30,30 @@ destinations. Root deployment on `mbianchi.dev` is the default. Review those
 values and asset paths before publishing a fork or mounting the site elsewhere;
 this is not a general hosting migration switch.
 
+## Career pages and indexing
+
+`/careers/` and `/job/[slug]/` describe roles Matteo wants to do, not vacancies.
+Keep the candidate notice visible in their initial HTML, use first-person
+language, and link to role preferences rather than inviting applications.
+Compensation bands are Matteo's targets, not salary offers. Do not add
+`JobPosting` structured data.
+
+Both routes publish `noindex, follow, nosnippet` robots metadata and stay out of
+the sitemap. [`vercel.json`](../vercel.json) also sends those directives in an
+`X-Robots-Tag` header for `/careers/:path*` and `/job/:path*`. Other hosts retain
+the exported HTML metadata and should apply equivalent headers.
+
+Keep these routes crawlable in `robots.txt`. Search engines must fetch the pages
+to discover `noindex` and remove previously indexed results, as explained in
+[Google's indexing guidance](https://developers.google.com/search/docs/crawling-indexing/block-indexing).
+The rest of the portfolio remains indexable.
+
+The public [no-scraping policy](https://mbianchi.dev/terms/#no-scraping) forbids
+unauthorized scraping and republication, including job aggregation. The policy
+and crawler directives are not access controls. Noncompliant bots can still
+fetch public pages, and existing search results or third-party copies do not
+disappear immediately.
+
 ## Blog posts
 
 Start from [content/blog/_template.md](../content/blog/_template.md). A Markdown
