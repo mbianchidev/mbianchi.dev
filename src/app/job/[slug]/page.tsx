@@ -5,6 +5,7 @@ import { CareerIntentNotice } from '@/components/CareerIntentNotice'
 import { PageHero } from '@/components/PageHero'
 import {
   careerRoles,
+  careerRoleStatuses,
   getCareerRoleListing,
   getCareerRoleBySlug,
 } from '@/data/jobs'
@@ -34,8 +35,8 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
 
   return {
     ...createPageMetadata({
-      title: `${role.title} | Matteo's next role`,
-      description: `Matteo's preferred work as ${role.title}, including responsibilities and compensation targets. Not a job vacancy.`,
+      title: `${role.title} | Matteo is looking for...`,
+      description: `Matteo is looking for work as ${role.title}, including the responsibilities and compensation targets described here.`,
       path: `/job/${role.slug}/`,
     }),
     robots: {
@@ -63,7 +64,9 @@ export default async function JobPage({ params }: JobPageProps) {
         title={role.title}
         description={
           <>
-            <CareerIntentNotice />
+            <CareerIntentNotice>
+              Matteo is looking for work like this.
+            </CareerIntentNotice>
             <br />
             {role.description}
           </>
@@ -78,7 +81,7 @@ export default async function JobPage({ params }: JobPageProps) {
               data-career-back
             >
               <span aria-hidden="true">←</span>
-              All roles I&apos;d consider
+              Back to roles
             </Link>
             <a
               href="https://cal.com/mbianchidev/intro"
@@ -86,13 +89,19 @@ export default async function JobPage({ params }: JobPageProps) {
               rel="noopener noreferrer"
               className={innerStyles.primaryButton}
             >
-              Talk about hiring me
+              Discuss this role
               <span aria-hidden="true">↗</span>
             </a>
           </>
         }
         aside={
           <dl className={innerStyles.heroSpecs}>
+            <div>
+              <dt>Status</dt>
+              <dd data-career-status={role.status}>
+                {careerRoleStatuses[role.status]}
+              </dd>
+            </div>
             <div>
               <dt>Target level</dt>
               <dd>{role.level}</dd>
@@ -106,7 +115,7 @@ export default async function JobPage({ params }: JobPageProps) {
               <dd>{department.label}</dd>
             </div>
             <div>
-              <dt>Locations I&apos;d consider</dt>
+              <dt>Preferred locations</dt>
               <dd data-job-location-list>
                 {locations.map(({ label }) => label).join(' · ')}
               </dd>
@@ -119,8 +128,8 @@ export default async function JobPage({ params }: JobPageProps) {
         <div className={styles.jobInner}>
           <div className={styles.mandateGrid}>
             <div className={styles.sectionHeading}>
-              <h2 id="mandate-title">The work I want to do.</h2>
-              <p>The kind of remit I&apos;d want, not a vacancy I&apos;m advertising.</p>
+              <h2 id="mandate-title">The work he wants to do.</h2>
+              <p>The kind of remit he has in mind.</p>
             </div>
             <div className={styles.mandateCopy}>
               {role.mandate.map((paragraph) => (
@@ -152,8 +161,8 @@ export default async function JobPage({ params }: JobPageProps) {
       <section className={styles.ownershipSection} aria-labelledby="ownership-title">
         <div className={styles.jobInner}>
           <div className={styles.darkSectionHeading}>
-            <h2 id="ownership-title">What I&apos;d take on.</h2>
-            <p>The responsibilities I&apos;m looking for, not a shopping list of meetings.</p>
+            <h2 id="ownership-title">What he&apos;d take on.</h2>
+            <p>The responsibilities he&apos;s looking for, not a shopping list of meetings.</p>
           </div>
           <ol className={styles.ownershipLedger}>
             {role.responsibilities.map((responsibility, index) => (
@@ -177,7 +186,7 @@ export default async function JobPage({ params }: JobPageProps) {
             </ul>
           </section>
           <section aria-labelledby="success-title">
-            <h2 id="success-title">What I&apos;d aim to change.</h2>
+            <h2 id="success-title">What he&apos;d aim to change.</h2>
             <ul className={styles.specList}>
               {role.success.map((outcome) => (
                 <li key={outcome}>{outcome}</li>
@@ -190,9 +199,9 @@ export default async function JobPage({ params }: JobPageProps) {
       <section className={styles.compensationSection} aria-labelledby="compensation-title">
         <div className={styles.jobInner}>
           <div className={styles.compensationHeader}>
-            <h2 id="compensation-title">My compensation targets.</h2>
+            <h2 id="compensation-title">Compensation targets.</h2>
             <p>
-              These are my targets for this scope, not a salary offer.{' '}
+              These are Matteo&apos;s targets for this scope.{' '}
               {role.compensationBasis === 'OTE'
                 ? 'Ranges are on-target earnings; equity may be additional.'
                 : 'Ranges are base salary; equity and bonus may be additional.'}{' '}
@@ -220,7 +229,7 @@ export default async function JobPage({ params }: JobPageProps) {
       <section className={styles.evidenceSection} aria-labelledby="evidence-title">
         <div className={styles.jobInner}>
           <div className={styles.evidenceHeader}>
-            <h2 id="evidence-title">What I bring.</h2>
+            <h2 id="evidence-title">What he brings.</h2>
           </div>
           <ul className={styles.evidenceLedger}>
             {role.candidateProfile.map((item) => (
@@ -244,7 +253,7 @@ export default async function JobPage({ params }: JobPageProps) {
           rel="noopener noreferrer"
           className={innerStyles.primaryButton}
         >
-          Talk about hiring me
+          Discuss this role
           <span aria-hidden="true">↗</span>
         </a>
       </section>

@@ -5,6 +5,7 @@ import {
   careerDepartments,
   careerLocations,
   careerRoles,
+  careerRoleStatuses,
   getCareerRoleListing,
 } from '@/data/jobs'
 import { createPageMetadata } from '@/lib/siteMetadata'
@@ -13,8 +14,8 @@ import { CareersSearch } from './CareersSearch'
 
 export const metadata = {
   ...createPageMetadata({
-    title: 'My next role | Matteo',
-    description: 'Roles Matteo wants to do next, with preferred responsibilities, locations, and compensation. He is not hiring. These are not job vacancies.',
+    title: 'Matteo is looking for...',
+    description: 'Matteo is looking for senior and staff roles in platform engineering, software, AI automation, customer work, and open source.',
     path: '/careers/',
   }),
   robots: {
@@ -89,20 +90,24 @@ export default function CareersPage() {
         path="/careers"
         title={
           <>
-            I&apos;m looking.
+            Matteo is
             <br />
-            Not hiring.
+            looking for...
           </>
         }
-        description={<CareerIntentNotice />}
+        description={
+          <CareerIntentNotice>
+            Work with real impact, room to make decisions, and a team he likes working with.
+          </CareerIntentNotice>
+        }
         tone="cyan"
       />
 
       <section className={styles.sectionDark} aria-labelledby="roles-title">
         <div className={styles.sectionInner}>
           <div className={styles.sectionIntro}>
-            <h2 id="roles-title">Roles I&apos;d consider.</h2>
-            <p>I want work with real impact, room to make decisions, managers who trust me, and less bureaucracy.</p>
+            <h2 id="roles-title">The roles.</h2>
+            <p>Useful work, managers who trust him, and less bureaucracy.</p>
           </div>
           <CareersSearch
             locations={careerLocations}
@@ -126,11 +131,17 @@ export default function CareersPage() {
                 <h3>{role.title}</h3>
                 <dl className={styles.roleDetails}>
                   <div>
+                    <dt>Status</dt>
+                    <dd data-career-status={role.status}>
+                      {careerRoleStatuses[role.status]}
+                    </dd>
+                  </div>
+                  <div>
                     <dt>Preferred team</dt>
                     <dd>{department.label}</dd>
                   </div>
                   <div>
-                    <dt>Locations I&apos;d consider</dt>
+                    <dt>Preferred locations</dt>
                     <dd data-career-location-list>
                       {locations.map(({ label }) => label).join(' · ')}
                     </dd>
@@ -141,7 +152,7 @@ export default function CareersPage() {
                   className={styles.primaryButton}
                   data-career-details
                 >
-                  See my role preferences
+                  View role
                 </Link>
               </article>
             ))}

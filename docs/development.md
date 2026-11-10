@@ -21,6 +21,8 @@ locks to prevent duplicate dev servers or builds in the same checkout. Startup
 no longer deletes the production output or compiler caches.
 `agentRules: false` keeps `next dev` from rewriting the repository-maintained
 [`AGENTS.md`](../AGENTS.md).
+Development uses Next.js HTTP redirects. Only production phases enable
+`output: 'export'`, with host-level redirects configured separately in Vercel.
 
 ### Runtime and framework compatibility
 
@@ -56,6 +58,7 @@ resets the viewport while in-page anchors retain smooth scrolling.
 | `npm run test:screenshots` | Run the same Playwright suite in headed mode |
 | `npm run build` | Generate blog image metadata, build/type-check, and validate the export |
 | `npm run images:optimize` | Regenerate AVIF/WebP portraits from `public/images/matteo-kcd-denmark.jpg` |
+| `npm run redirects:sync` | Synchronize Vercel HTTP rules after editing the short-link data |
 | `npx serve out` | Preview a completed static export |
 
 ## Checks used by CI
@@ -95,6 +98,18 @@ Keep `.next/`, `out/`, `playwright-report/`, `test-results/`, and
 `tests/screenshots/` out of commits. The README's intentional screenshot lives
 in `docs/assets/`, not the generated test screenshot directory.
 
+### Build cache
+
+CI restores and saves `.next/cache` immediately before the production build.
+The key includes runner OS and architecture, Node version, dependency manifests,
+Next.js and TypeScript configuration, workflow configuration, and source inputs.
+Compatible source-only changes can restore a previous compiler cache.
+
+The npm download cache remains separate, and every run still uses `npm ci`.
+Neither `node_modules` nor completed build output is reused as proof of
+validation. Cache misses are expected on the first run or after toolchain
+changes; the build must still succeed without a cache.
+
 ## Static export and deployment
 
 ```bash
@@ -109,9 +124,10 @@ PDF. Static content changes require a rebuild.
 **Do not use `npm run start`.** It invokes `next start`, which cannot serve an
 `output: 'export'` build. Use a static host instead.
 
-Next.js's export warning about redirects is expected. The build separately
-checks the static [short-link fallback pages](content.md#short-links); configure
-HTTP redirects on the host when those are required.
+Production Next.js configuration does not declare runtime redirects, so static
+builds do not emit unsupported-redirect warnings. The build validates the static
+[short-link fallback pages](content.md#short-links) and checks that the committed
+Vercel HTTP rules match the source data.
 
 ### Vercel
 
@@ -122,7 +138,9 @@ deployments from `main`, then configure the domain and DNS with Vercel's values.
 
 GitHub Actions validates changes; it does not deploy the site.
 [`vercel.json`](../vercel.json) configures the production CSP, browser security
-headers, and asset caching. Other static hosts do not apply that file
+headers, asset caching, and short-link HTTP redirects. Run
+`npm run redirects:sync` after changing the redirect data and commit the updated
+configuration before deployment. Other static hosts do not apply that file
 automatically and need equivalent configuration.
 
 Vercel Web Analytics and Speed Insights are mounted in
@@ -142,7 +160,7 @@ The PostCSS override keeps the parser on patched PostCSS 8.5.25 while Next.js
 declares 8.5.23. Review upstream dependencies and current advisories before
 removing it.
 
-Two scoped overrides retain compatibility with patched dependencies:
+Scoped overrides retain compatibility with patched dependencies:
 
 - The Next lint plugin's `fast-glob` import resolves to the local `tinyglobby`
   adapter in [`scripts/next-lint-glob/`](../scripts/next-lint-glob/). It preserves
@@ -152,9 +170,13 @@ Two scoped overrides retain compatibility with patched dependencies:
   [`src/lib/frontMatter.js`](../src/lib/frontMatter.js). Its default engine calls
   the removed `safeLoad` API. Keep Markdown loading and image generation on the
   shared helper.
+- TypeScript ESLint still requests vulnerable minimatch 10. Its parser's copy
+  uses minimatch 11.0.5 through a scoped override. Keep the typed default-project
+  glob-boundary coverage until upstream adopts a patched version.
 
 [`tests/dependencies.spec.ts`](../tests/dependencies.spec.ts) protects metadata
-parsing and the lint plugin's directory-glob behavior.
+parsing, the lint plugin's directory-glob behavior, and typed-linting glob
+boundaries.
 
 The [blog image importer](../scripts/optimize-blog-images.cjs) uses `yaml`'s
 document editor to locate cover-image values without rewriting the remaining

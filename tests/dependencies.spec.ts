@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { clearCaches, parseAndGenerateServices } from '@typescript-eslint/typescript-estree';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
@@ -114,6 +115,38 @@ test('preserves the Next lint plugin directory-glob contract', ({}, testInfo) =>
         .toEqual(expected);
     }
   } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('preserves typed linting default-project glob boundaries', ({}, testInfo) => {
+  const root = testInfo.outputPath('typed-lint-project');
+  const source = 'export const answer: number = 42;\n';
+  const allowedFile = path.join(root, '.fixture.ts');
+  const excludedFile = path.join(root, 'outside', 'fixture.ts');
+
+  try {
+    fs.mkdirSync(path.join(root, 'src'), { recursive: true });
+    fs.mkdirSync(path.dirname(excludedFile), { recursive: true });
+    fs.writeFileSync(path.join(root, 'src', 'included.ts'), source);
+    fs.writeFileSync(allowedFile, source);
+    fs.writeFileSync(excludedFile, source);
+    fs.writeFileSync(path.join(root, 'tsconfig.json'), JSON.stringify({
+      compilerOptions: { strict: true },
+      include: ['src/**/*.ts'],
+    }));
+
+    const parseFile = (filePath: string) => parseAndGenerateServices(source, {
+      filePath,
+      tsconfigRootDir: root,
+      projectService: { allowDefaultProject: ['*.ts'] },
+    });
+
+    const { services } = parseFile(allowedFile);
+    expect(services.program?.getSourceFile(allowedFile)).toBeDefined();
+    expect(() => parseFile(excludedFile)).toThrow(/not found by the project service/);
+  } finally {
+    clearCaches();
     fs.rmSync(root, { recursive: true, force: true });
   }
 });

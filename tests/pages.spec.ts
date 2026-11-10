@@ -76,12 +76,16 @@ const pages = [
 test.describe('Short links', () => {
   test('redirects every configured path', async ({ request }) => {
     for (const redirect of pathRedirects) {
-      const response = await request.get(`${redirect.source}/`, { maxRedirects: 0 });
       const expectedLocation = redirect.destination.startsWith('http')
         ? new URL(redirect.destination).toString()
         : redirect.destination;
       const expectedStatus = redirect.permanent ? 308 : 307;
 
+      const canonicalResponse = await request.get(redirect.source, { maxRedirects: 0 });
+      expect(canonicalResponse.status(), redirect.source).toBe(308);
+      expect(canonicalResponse.headers().location, redirect.source).toBe(`${redirect.source}/`);
+
+      const response = await request.get(`${redirect.source}/`, { maxRedirects: 0 });
       expect(response.status(), redirect.source).toBe(expectedStatus);
       expect(response.headers().location, redirect.source).toBe(expectedLocation);
     }
@@ -210,6 +214,16 @@ test.describe('Static route experience', () => {
         const notice = page.locator('[data-career-intent="seeking-role"]');
         await expect(notice).toBeVisible();
         await expect(notice.getByRole('link')).toHaveAttribute('href', '/terms/#no-scraping');
+
+        const statuses = page.locator('[data-career-status]');
+        const expectedStatusCount = path === '/careers' ? careerRoles.length : 1;
+        await expect(statuses).toHaveCount(expectedStatusCount);
+        expect(await statuses.evaluateAll((elements) =>
+          elements.map((element) => element.getAttribute('data-career-status'))
+        )).toEqual(Array.from({ length: expectedStatusCount }, () => 'hired'));
+        await expect(statuses).toHaveText(
+          Array.from({ length: expectedStatusCount }, () => 'Hired')
+        );
 
         const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
         expect(structuredData.join('\n')).not.toContain('"JobPosting"');

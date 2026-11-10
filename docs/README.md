@@ -16,6 +16,7 @@ site, not an installable SaaS service.
 - [Development setup, commands, and troubleshooting](development.md)
 - [Runtime and framework compatibility](development.md#runtime-and-framework-compatibility)
 - [Checks used by CI](development.md#checks-used-by-ci)
+- [Build-cache behavior](development.md#build-cache)
 - [Static export and deployment](development.md#static-export-and-deployment)
 - [Vercel configuration](development.md#vercel)
 - [Content and configuration](content.md)

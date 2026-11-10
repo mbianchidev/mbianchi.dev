@@ -17,6 +17,10 @@ export const careerDepartments = [
 export type CareerLocationId = (typeof careerLocations)[number]['id']
 export type CareerDepartmentId = (typeof careerDepartments)[number]['id']
 
+export const careerRoleStatuses = {
+  hired: 'Hired',
+} as const
+
 const allCareerLocationIds: readonly CareerLocationId[] =
   careerLocations.map(({ id }) => id)
 
@@ -24,6 +28,7 @@ export interface CareerRole {
   id: string
   slug: string
   title: string
+  status: keyof typeof careerRoleStatuses
   description: string
   locationIds: readonly CareerLocationId[]
   departmentId: CareerDepartmentId
@@ -96,6 +101,7 @@ export const careerRoles: CareerRole[] = [
     id: 'platform',
     slug: 'platform-engineer',
     title: 'Senior/Staff Platform Engineer',
+    status: 'hired',
     description:
       'Developer platforms, Kubernetes, infrastructure as code, reliability, and self-service people do not need a ticket to use.',
     locationIds: allCareerLocationIds,
@@ -143,6 +149,7 @@ export const careerRoles: CareerRole[] = [
     id: 'sre',
     slug: 'site-reliability-engineer',
     title: 'Staff Site Reliability Engineer',
+    status: 'hired',
     description:
       'Production reliability, observability, incident response, performance, and automation for systems people depend on.',
     locationIds: allCareerLocationIds,
@@ -190,6 +197,7 @@ export const careerRoles: CareerRole[] = [
     id: 'software',
     slug: 'software-engineer',
     title: 'Senior/Staff Software Engineer',
+    status: 'hired',
     description:
       'APIs, services, CLIs, interfaces, automation, and system design in Go, Python, TypeScript, Rust, and React.',
     locationIds: allCareerLocationIds,
@@ -237,6 +245,7 @@ export const careerRoles: CareerRole[] = [
     id: 'ai-automation',
     slug: 'ai-engineer',
     title: 'AI Engineer, Developer Automation',
+    status: 'hired',
     description:
       'Agents, assistants, MCP integrations, and automation for jobs people already do. No chatbot looking for a reason to exist.',
     locationIds: allCareerLocationIds,
@@ -284,6 +293,7 @@ export const careerRoles: CareerRole[] = [
     id: 'open-source',
     slug: 'open-source-community-lead',
     title: 'Open Source & Community Lead',
+    status: 'hired',
     description:
       'Upstream contributions, open-source strategy, technical education, speaking, mentorship, and community work.',
     locationIds: allCareerLocationIds,
@@ -331,6 +341,7 @@ export const careerRoles: CareerRole[] = [
     id: 'solutions',
     slug: 'solutions-customer-success-architect',
     title: 'Senior Solutions Engineer / Customer Success Architect',
+    status: 'hired',
     description:
       'Customer discovery, architecture, demos, proof of value, implementation help, and product feedback with enough detail to be useful.',
     locationIds: allCareerLocationIds,

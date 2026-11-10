@@ -1,9 +1,16 @@
 const fs = require('node:fs')
 const path = require('node:path')
+const { isDeepStrictEqual } = require('node:util')
 const pathRedirects = require('../src/data/redirects.json')
+const vercelConfig = require('../vercel.json')
+const { getVercelRedirects } = require('./sync-vercel-redirects.cjs')
 
 const projectRoot = path.resolve(__dirname, '..')
 const failures = []
+
+if (!isDeepStrictEqual(vercelConfig.redirects, getVercelRedirects())) {
+  failures.push('Vercel short-link rules are out of sync. Run npm run redirects:sync and commit vercel.json.')
+}
 
 for (const redirect of pathRedirects) {
   const routeSource = path.join(
@@ -56,4 +63,4 @@ if (failures.length > 0) {
   process.exit(1)
 }
 
-console.log(`Validated ${pathRedirects.length} exported short links and resume PDF.`)
+console.log(`Validated ${pathRedirects.length} exported short links, their Vercel rules, and resume PDF.`)

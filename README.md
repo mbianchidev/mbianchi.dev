@@ -70,6 +70,7 @@ not a Next.js server.
 
 [Development and commands](docs/development.md) ·
 [Content and configuration](docs/content.md) ·
+[Short-link changes](docs/content.md#short-links) ·
 [Build and deploy](docs/development.md#static-export-and-deployment)
 
 ## Features

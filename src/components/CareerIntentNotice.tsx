@@ -1,11 +1,11 @@
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 import styles from '@/app/inner.module.css'
 
-export function CareerIntentNotice() {
+export function CareerIntentNotice({ children }: { children: ReactNode }) {
   return (
     <span className={styles.careerIntent} data-career-intent="seeking-role">
-      <strong>I&apos;m Matteo. I&apos;m looking for a role, not hiring.</strong>{' '}
-      These are my preferences, not job vacancies.{' '}
+      {children}{' '}
       <Link href="/terms#no-scraping">No scraping or job aggregation.</Link>
     </span>
   )
