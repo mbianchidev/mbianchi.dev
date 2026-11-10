@@ -30,6 +30,33 @@ destinations. Root deployment on `mbianchi.dev` is the default. Review those
 values and asset paths before publishing a fork or mounting the site elsewhere;
 this is not a general hosting migration switch.
 
+## Career pages and indexing
+
+`/careers/` and `/job/[slug]/` describe roles Matteo wants to do, not vacancies.
+Lead with "Matteo is looking for..." and keep the intent and policy link in the
+initial HTML. All current roles have the `hired` status in
+[`src/data/jobs.ts`](../src/data/jobs.ts); both listings and detail pages render
+its shared label. The product parody can be ambiguous, but links lead to role
+details rather than inviting applications.
+Compensation bands are Matteo's targets, not salary offers. Do not add
+`JobPosting` structured data.
+
+Both routes publish `noindex, follow, nosnippet` robots metadata and stay out of
+the sitemap. [`vercel.json`](../vercel.json) also sends those directives in an
+`X-Robots-Tag` header for `/careers/:path*` and `/job/:path*`. Other hosts retain
+the exported HTML metadata and should apply equivalent headers.
+
+Keep these routes crawlable in `robots.txt`. Search engines must fetch the pages
+to discover `noindex` and remove previously indexed results, as explained in
+[Google's indexing guidance](https://developers.google.com/search/docs/crawling-indexing/block-indexing).
+The rest of the portfolio remains indexable.
+
+The public [no-scraping policy](https://mbianchi.dev/terms/#no-scraping) forbids
+unauthorized scraping and republication, including job aggregation. The policy
+and crawler directives are not access controls. Noncompliant bots can still
+fetch public pages, and existing search results or third-party copies do not
+disappear immediately.
+
 ## Blog posts
 
 Start from [content/blog/_template.md](../content/blog/_template.md). A Markdown
@@ -135,10 +162,15 @@ Built-in icons are `mentor`, `youtube`, and `github`. For another icon, extend
 
 Keep [`src/data/redirects.json`](../src/data/redirects.json) synchronized with
 the matching `src/app/<short-link>/page.tsx` pages that render `ShortLinkPage`.
-`next.config.js` uses the declarations during development, but Next.js redirects
-are not exported as static HTTP redirects.
+`next.config.js` uses the declarations only during development. Production
+builds export static pages without unsupported Next.js redirect rules.
+
+After changing the declarations, run `npm run redirects:sync` and commit the
+updated `vercel.json`. This generates host-level 307/308 rules for each path
+with and without its trailing slash. The build rejects stale Vercel rules,
+missing fallback pages, and incorrect exported destinations.
 
 The exported pages navigate with JavaScript and retain a normal destination
-link without JavaScript. The export warning about redirects is expected;
-`npm run build` validates the static fallbacks separately. Configure the hosting
-platform too when a host-level HTTP redirect is required.
+link without JavaScript. Vercel serves the HTTP redirects; other static hosts
+need equivalent routing configuration and can use those fallback pages until
+it is configured.

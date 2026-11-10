@@ -70,6 +70,7 @@ not a Next.js server.
 
 [Development and commands](docs/development.md) ·
 [Content and configuration](docs/content.md) ·
+[Short-link changes](docs/content.md#short-links) ·
 [Build and deploy](docs/development.md#static-export-and-deployment)
 
 ## Features
@@ -78,7 +79,7 @@ not a Next.js server.
   evidence, customer history, and career milestones.
 - **Searchable content:** a Markdown blog with local WebP images, reader-proposed
   corrections, and password-gated draft previews, plus career
-  filters and data-driven role descriptions.
+  filters and data-driven descriptions of roles Matteo wants, not vacancies.
 - **Interactive tools:** compatibility diagnostics and an accessible
   rate-by-hours quote calculator.
 - **Shareable pages:** configurable public links, short-link fallbacks, a resume
@@ -91,6 +92,7 @@ not a Next.js server.
 [Documentation index](docs/README.md) ·
 [Development, CI, and deployment](docs/development.md) ·
 [Content, blog, and links](docs/content.md) ·
+[Career-page indexing policy](docs/content.md#career-pages-and-indexing) ·
 [Status simulation](docs/status.md) ·
 [Repository layout and scope](docs/architecture.md)
 

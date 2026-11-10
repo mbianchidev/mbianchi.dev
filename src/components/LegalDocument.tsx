@@ -3,6 +3,7 @@ import { PageHero } from './PageHero'
 import styles from '@/app/inner.module.css'
 
 interface LegalSection {
+  id?: string
   title: string
   paragraphs: ReactNode[]
 }
@@ -53,7 +54,11 @@ export function LegalDocument({
         <div className={styles.legalDocument}>
           <p className={styles.legalSummary}>{summary}</p>
           {sections.map((section, index) => (
-            <section key={section.title} aria-labelledby={`legal-section-${index + 1}`}>
+            <section
+              key={section.title}
+              id={section.id}
+              aria-labelledby={`legal-section-${index + 1}`}
+            >
               <h2 id={`legal-section-${index + 1}`}>{index + 1}. {section.title}</h2>
               {section.paragraphs.map((paragraph, paragraphIndex) => (
                 <p key={paragraphIndex}>{paragraph}</p>

@@ -11,6 +11,7 @@
     "dev": "npm run blog:images && next dev --webpack",
     "build": "npm run blog:images && next build --webpack && node scripts/validate-static-redirects.cjs",
     "images:optimize": "node scripts/optimize-images.cjs",
+    "redirects:sync": "node scripts/sync-vercel-redirects.cjs",
     "start": "next start",
     "lint": "eslint .",
     "test:playwright": "npm run blog:images && playwright test",
@@ -46,6 +47,9 @@
   "overrides": {
     "@next/eslint-plugin-next": {
       "fast-glob": "$fast-glob"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.5"
     },
     "gray-matter": {
       "js-yaml": "$js-yaml"

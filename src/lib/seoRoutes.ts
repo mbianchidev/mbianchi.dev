@@ -64,7 +64,7 @@ function hasNoIndexMetadata(pageFile: string) {
     return (
       source.includes('shortLinkMetadata')
       || /\brobots\s*:\s*\{[\s\S]{0,500}?\bindex\s*:\s*false\b/.test(source)
-      || /\bnoindex\b/i.test(source)
+      || /\brobots\s*:\s*(['"])[^'"]*\bnoindex\b[^'"]*\1/i.test(source)
     )
   })
 }

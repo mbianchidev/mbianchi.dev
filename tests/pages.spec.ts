@@ -42,6 +42,14 @@ function activeStatusExample(severity: 'degraded' | 'critical') {
   return incident;
 }
 
+const careerPages = [
+  { name: 'careers', path: '/careers' },
+  ...careerRoles.map((role) => ({
+    name: `job-${role.id}`,
+    path: `/job/${role.slug}`,
+  })),
+];
+
 const pages = [
   { name: 'homepage', path: '/' },
   { name: 'links', path: '/links' },
@@ -54,11 +62,7 @@ const pages = [
   { name: 'roadmap', path: '/roadmap' },
   { name: 'open-source', path: '/open-source' },
   { name: 'customers', path: '/customers' },
-  { name: 'careers', path: '/careers' },
-  ...careerRoles.map((role) => ({
-    name: `job-${role.id}`,
-    path: `/job/${role.slug}`,
-  })),
+  ...careerPages,
   { name: 'pricing', path: '/pricing' },
   { name: 'docs', path: '/docs' },
   { name: 'press', path: '/press' },
@@ -72,12 +76,16 @@ const pages = [
 test.describe('Short links', () => {
   test('redirects every configured path', async ({ request }) => {
     for (const redirect of pathRedirects) {
-      const response = await request.get(`${redirect.source}/`, { maxRedirects: 0 });
       const expectedLocation = redirect.destination.startsWith('http')
         ? new URL(redirect.destination).toString()
         : redirect.destination;
       const expectedStatus = redirect.permanent ? 308 : 307;
 
+      const canonicalResponse = await request.get(redirect.source, { maxRedirects: 0 });
+      expect(canonicalResponse.status(), redirect.source).toBe(308);
+      expect(canonicalResponse.headers().location, redirect.source).toBe(`${redirect.source}/`);
+
+      const response = await request.get(`${redirect.source}/`, { maxRedirects: 0 });
       expect(response.status(), redirect.source).toBe(expectedStatus);
       expect(response.headers().location, redirect.source).toBe(expectedLocation);
     }
@@ -144,9 +152,11 @@ test.describe('Static route experience', () => {
     const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
     const expectedUrls = [
       ...new Set([
-        ...pages.map(({ path }) =>
-          new URL(path.endsWith('/') ? path : `${path}/`, 'https://mbianchi.dev').toString()
-        ),
+        ...pages
+          .filter(({ path }) => !careerPages.some((careerPage) => careerPage.path === path))
+          .map(({ path }) =>
+            new URL(path.endsWith('/') ? path : `${path}/`, 'https://mbianchi.dev').toString()
+          ),
         ...publishedPosts.map(({ slug }) => `https://mbianchi.dev/blog/${slug}/`),
       ]),
     ].sort();
@@ -173,6 +183,65 @@ test.describe('Static route experience', () => {
     expect(robots).toContain('Sitemap: https://mbianchi.dev/sitemap.xml');
     expect(robots).toContain('Host: https://mbianchi.dev');
     expect(robots).not.toContain('/_next/');
+    expect(robots).not.toContain('Disallow: /careers');
+    expect(robots).not.toContain('Disallow: /job');
+  });
+
+  test('marks wanted-role pages noindex and explains candidate intent without JavaScript', async ({
+    browser,
+    request,
+  }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      reducedMotion: 'reduce',
+    });
+
+    try {
+      const page = await context.newPage();
+
+      for (const { path } of careerPages) {
+        await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+        const directives = await page.locator('meta[name="robots"]').getAttribute('content');
+        expect(directives?.split(/,\s*/)).toEqual(
+          expect.arrayContaining(['noindex', 'follow', 'nosnippet'])
+        );
+        await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+          'href',
+          new URL(`${path}/`, siteConfig.url).toString()
+        );
+
+        const notice = page.locator('[data-career-intent="seeking-role"]');
+        await expect(notice).toBeVisible();
+        await expect(notice.getByRole('link')).toHaveAttribute('href', '/terms/#no-scraping');
+
+        const statuses = page.locator('[data-career-status]');
+        const expectedStatusCount = path === '/careers' ? careerRoles.length : 1;
+        await expect(statuses).toHaveCount(expectedStatusCount);
+        expect(await statuses.evaluateAll((elements) =>
+          elements.map((element) => element.getAttribute('data-career-status'))
+        )).toEqual(Array.from({ length: expectedStatusCount }, () => 'hired'));
+        await expect(statuses).toHaveText(
+          Array.from({ length: expectedStatusCount }, () => 'Hired')
+        );
+
+        const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
+        expect(structuredData.join('\n')).not.toContain('"JobPosting"');
+      }
+
+      await page.locator('[data-career-intent] a').click();
+      await expect(page.locator('#no-scraping')).toBeVisible();
+
+      for (const path of ['/', '/blog/']) {
+        const response = await request.get(path);
+        expect(response.ok(), path).toBe(true);
+        expect(await response.text(), path).not.toMatch(
+          /<meta name="robots" content="[^"]*\bnoindex\b/
+        );
+      }
+    } finally {
+      await context.close();
+    }
   });
 
   for (const page of pages) {
@@ -727,6 +796,23 @@ test.describe('Static route experience', () => {
     expect(headers['Content-Security-Policy']).not.toContain("'unsafe-eval'");
   });
 
+  test('scopes production noindex headers to wanted-role pages', () => {
+    const indexingRules = vercelConfig.headers.filter(({ headers }) =>
+      headers.some(({ key }) => key.toLowerCase() === 'x-robots-tag')
+    );
+
+    expect(indexingRules.map(({ source }) => source)).toEqual([
+      '/careers/:path*',
+      '/job/:path*',
+    ]);
+    for (const { headers } of indexingRules) {
+      const directives = headers.find(({ key }) => key.toLowerCase() === 'x-robots-tag')!.value;
+      expect(directives.split(/,\s*/)).toEqual(
+        expect.arrayContaining(['noindex', 'follow', 'nosnippet'])
+      );
+    }
+  });
+
   test('reports calculated status history and complete incident resolutions', async ({ page }) => {
     const referenceDate = new Date('2026-09-30T12:00:00Z');
     const snapshot = buildStatusSnapshot(referenceDate);
@@ -1204,19 +1290,12 @@ test.describe('Static route experience', () => {
       await careerRoleRecords.evaluateAll((roles) =>
         roles.map((role) => role.getAttribute('data-career-role'))
       )
-    ).toEqual(['platform', 'sre', 'software', 'ai-automation', 'open-source', 'solutions']);
+    ).toEqual(careerRoles.map(({ id }) => id));
     expect(
-      await careerRoleRecords.locator('[data-career-apply]').evaluateAll((links) =>
+      await careerRoleRecords.locator('[data-career-details]').evaluateAll((links) =>
         links.map((link) => link.getAttribute('href'))
       )
-    ).toEqual([
-      '/job/platform-engineer/',
-      '/job/site-reliability-engineer/',
-      '/job/software-engineer/',
-      '/job/ai-engineer/',
-      '/job/open-source-community-lead/',
-      '/job/solutions-customer-success-architect/',
-    ]);
+    ).toEqual(careerRoles.map(({ slug }) => `/job/${slug}/`));
     await expect(careerRoleRecords.locator('ul')).toHaveCount(0);
     await expect(page.locator('[data-career-role] > p')).toHaveCount(0);
     await expect(careerRoleRecords.locator('dl')).toHaveCount(careerRoles.length);
@@ -1335,7 +1414,7 @@ test.describe('Static route experience', () => {
       await expect(description.locator('[data-job-compensation]')).toHaveCount(
         role.compensation.length
       );
-      await expect(description.getByRole('link', { name: /back to careers/i })).toHaveAttribute(
+      await expect(description.locator('[data-career-back]')).toHaveAttribute(
         'href',
         '/careers/'
       );

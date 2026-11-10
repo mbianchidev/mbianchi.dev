@@ -71,7 +71,7 @@ export function CareersSearch({
             id={searchId}
             type="search"
             value={query}
-            placeholder="Search jobs"
+            placeholder="Search roles"
             autoComplete="off"
             onChange={(event) =>
               filterRoles(event.target.value, activeLocation, activeDepartment)
