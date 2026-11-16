@@ -22,48 +22,40 @@ type IntegrationSubcategoryStyle = CSSProperties & {
   '--integration-span': number
 }
 
+type IntegrationGroupStyle = CSSProperties & {
+  '--group-tiles': number
+}
+
 const markSizeClass: Record<IntegrationMarkSize, string | undefined> = {
   square: undefined,
   wide: styles.integrationMarkWide,
   wordmark: styles.integrationMarkWordmark,
 }
 
-// Keep in sync with the tile and subcategory sizes in home.module.css.
-const tileWidth = 96
-const subcategoryMinWidth = 112
-const halfPanelWidth = 540
+// Matches --integration-columns in home.module.css for the desktop layout.
+const desktopColumns = 8
 
-const estimateRowWidth = (group: IntegrationGroup) =>
-  group.subcategories.reduce(
-    (width, subcategory) =>
-      width + Math.max(subcategory.items.length * tileWidth + 1, subcategoryMinWidth),
-    0
-  )
-
-// Groups that fit on one row in half the panel share a row in pairs; an unpaired one keeps
-// the full width.
-function getCompactGroupIds(groups: IntegrationGroup[]) {
-  const compactIds = new Set<string>()
-  let pending: string | undefined
+// Packs groups, in order, into rows of at most one desktop row of tiles. Larger groups get a
+// row to themselves and wrap their subcategories inside it.
+function getIntegrationRows(groups: IntegrationGroup[]) {
+  const rows: IntegrationGroup[][] = []
+  let rowTiles = desktopColumns
 
   for (const group of groups) {
-    if (estimateRowWidth(group) > halfPanelWidth) {
-      pending = undefined
-      continue
-    }
-
-    if (pending) {
-      compactIds.add(pending).add(group.id)
-      pending = undefined
+    const tiles = countGroupIntegrations(group)
+    if (rowTiles + tiles > desktopColumns) {
+      rows.push([group])
+      rowTiles = tiles
     } else {
-      pending = group.id
+      rows[rows.length - 1]!.push(group)
+      rowTiles += tiles
     }
   }
 
-  return compactIds
+  return rows
 }
 
-const compactGroupIds = getCompactGroupIds(integrationGroups)
+const integrationRows = getIntegrationRows(integrationGroups)
 
 function IntegrationMark({ logo }: { logo: IntegrationLogo }) {
   if (logo.kind === 'image') {
@@ -132,65 +124,65 @@ export function Toolchain() {
           <span>{integrationCount} technologies loaded</span>
         </div>
         <div className={styles.integrationGroups}>
-          {integrationGroups.map((group) => (
-            <details
-              key={group.id}
-              open
-              className={[
-                styles.integrationGroup,
-                compactGroupIds.has(group.id) ? styles.integrationGroupCompact : undefined,
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              data-integration-group={group.id}
-              data-landscape={group.landscape}
-            >
-              <summary className={styles.integrationGroupSummary}>
-                <span className={styles.integrationGroupTitle}>{group.title}</span>
-                <span>{countGroupIntegrations(group)} loaded</span>
-                <span className={styles.integrationDisclosure} aria-hidden="true" />
-              </summary>
-              <div className={styles.integrationLandscape}>
-                {group.subcategories.map((subcategory) => {
-                  const labelId = `integration-${group.id}-${subcategory.id}`
+          {integrationRows.map((row) => (
+            <div key={row[0]!.id} className={styles.integrationRow}>
+              {row.map((group) => (
+                <details
+                  key={group.id}
+                  open
+                  className={styles.integrationGroup}
+                  data-integration-group={group.id}
+                  data-landscape={group.landscape}
+                  style={{ '--group-tiles': countGroupIntegrations(group) } as IntegrationGroupStyle}
+                >
+                  <summary className={styles.integrationGroupSummary}>
+                    <span className={styles.integrationGroupTitle}>{group.title}</span>
+                    <span>{countGroupIntegrations(group)} loaded</span>
+                    <span className={styles.integrationDisclosure} aria-hidden="true" />
+                  </summary>
+                  <div className={styles.integrationLandscape}>
+                    {group.subcategories.map((subcategory) => {
+                      const labelId = `integration-${group.id}-${subcategory.id}`
 
-                  return (
-                    <div
-                      key={subcategory.id}
-                      className={styles.integrationSubcategory}
-                      data-integration-subcategory={subcategory.id}
-                      style={
-                        {
-                          '--integration-span': subcategory.items.length,
-                        } as IntegrationSubcategoryStyle
-                      }
-                    >
-                      <p id={labelId} className={styles.integrationSubcategoryTitle}>
-                        {subcategory.title}
-                      </p>
-                      <ul className={styles.integrationList} aria-labelledby={labelId}>
-                        {subcategory.items.map((item) => (
-                          <li
-                            key={item.id}
-                            data-integration={item.id}
-                            style={
-                              {
-                                '--integration-color': item.logo.color,
-                              } as IntegrationItemStyle
-                            }
-                          >
-                            <IntegrationMark logo={item.logo} />
-                            <span className={styles.integrationName} data-integration-name>
-                              {item.name}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                })}
-              </div>
-            </details>
+                      return (
+                        <div
+                          key={subcategory.id}
+                          className={styles.integrationSubcategory}
+                          data-integration-subcategory={subcategory.id}
+                          style={
+                            {
+                              '--integration-span': subcategory.items.length,
+                            } as IntegrationSubcategoryStyle
+                          }
+                        >
+                          <p id={labelId} className={styles.integrationSubcategoryTitle}>
+                            {subcategory.title}
+                          </p>
+                          <ul className={styles.integrationList} aria-labelledby={labelId}>
+                            {subcategory.items.map((item) => (
+                              <li
+                                key={item.id}
+                                data-integration={item.id}
+                                style={
+                                  {
+                                    '--integration-color': item.logo.color,
+                                  } as IntegrationItemStyle
+                                }
+                              >
+                                <IntegrationMark logo={item.logo} />
+                                <span className={styles.integrationName} data-integration-name>
+                                  {item.name}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </details>
+              ))}
+            </div>
           ))}
         </div>
       </div>

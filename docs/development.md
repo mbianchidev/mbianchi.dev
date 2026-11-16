@@ -26,7 +26,7 @@ Development uses Next.js HTTP redirects. Only production phases enable
 
 ### Runtime and framework compatibility
 
-The site uses Next.js 16.4.3 and React/React DOM 19.3.1. Development and production
+The site uses Next.js 16.4.6 and React/React DOM 19.3.1. Development and production
 builds explicitly use `--webpack` to preserve the existing image pipeline.
 Turbopack currently reports 100px widths for every static AVIF portrait import,
 which breaks the responsive source sets. Keep Webpack until Turbopack supports
