@@ -936,9 +936,9 @@
 
 .integrationSubcategory {
     display: flex;
-    flex: var(--integration-span) 1 calc(var(--integration-span) * 96px);
+    flex: var(--integration-span) 1 calc(var(--integration-span) * 96px + 1px);
     flex-direction: column;
-    min-width: min(100%, 132px);
+    min-width: min(100%, 112px);
     overflow: hidden;
     border-right: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);

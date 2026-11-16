@@ -231,7 +231,14 @@ export const integrationGroups: IntegrationGroup[] = [
         title: 'Scheduling & Orchestration',
         items: [
           { id: 'kubernetes', name: 'Kubernetes', logo: simpleLogo(siKubernetes) },
+        ],
+      },
+      {
+        id: 'autoscaling',
+        title: 'Autoscaling',
+        items: [
           { id: 'keda', name: 'KEDA', logo: assetLogo(kedaLogo, '#326DE6') },
+          { id: 'karpenter', name: 'Karpenter', logo: imageLogo(karpenterLogo, '#326DE6') },
         ],
       },
       {
@@ -354,13 +361,6 @@ export const integrationGroups: IntegrationGroup[] = [
           { id: 'dynatrace', name: 'Dynatrace', logo: simpleLogo(siDynatrace) },
           { id: 'new-relic', name: 'New Relic', logo: simpleLogo(siNewrelic) },
           { id: 'splunk', name: 'Splunk', logo: simpleLogo(siSplunk, { size: 'wordmark', viewBox: '0 8.44 24 7.12' }) },
-        ],
-      },
-      {
-        id: 'continuous-optimization',
-        title: 'Continuous Optimization',
-        items: [
-          { id: 'karpenter', name: 'Karpenter', logo: imageLogo(karpenterLogo, '#326DE6') },
         ],
       },
     ],

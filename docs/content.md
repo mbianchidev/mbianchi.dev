@@ -69,8 +69,9 @@ The homepage integration panel reads
 [`src/data/integrations.ts`](../src/data/integrations.ts). Cloud-native tools
 use the category and subcategory names from the
 [CNCF landscape](https://landscape.cncf.io/). Platform engineering, SRE, and AI
-tools belong in the **Dev Platform**, **SRE**, and **AI** groups, even when the
-landscape files them elsewhere. Everything else belongs in **Beyond the
+tools belong in the **Dev Platform**, **SRE**, and **AI** groups, and autoscalers
+belong in **Orchestration & Management › Autoscaling**, even when the landscape
+files them elsewhere. Everything else belongs in **Beyond the
 landscape**. List each technology once. Each tile shows only a name and a mark,
 so do not copy other landscape metadata into the inventory.
 

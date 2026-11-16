@@ -28,15 +28,26 @@ const markSizeClass: Record<IntegrationMarkSize, string | undefined> = {
   wordmark: styles.integrationMarkWordmark,
 }
 
-const compactGroupSize = 5
+// Keep in sync with the tile and subcategory sizes in home.module.css.
+const tileWidth = 96
+const subcategoryMinWidth = 112
+const halfPanelWidth = 540
 
-// Small categories share a row in pairs; an unpaired one keeps the full width.
+const estimateRowWidth = (group: IntegrationGroup) =>
+  group.subcategories.reduce(
+    (width, subcategory) =>
+      width + Math.max(subcategory.items.length * tileWidth + 1, subcategoryMinWidth),
+    0
+  )
+
+// Groups that fit on one row in half the panel share a row in pairs; an unpaired one keeps
+// the full width.
 function getCompactGroupIds(groups: IntegrationGroup[]) {
   const compactIds = new Set<string>()
   let pending: string | undefined
 
   for (const group of groups) {
-    if (countGroupIntegrations(group) > compactGroupSize) {
+    if (estimateRowWidth(group) > halfPanelWidth) {
       pending = undefined
       continue
     }
