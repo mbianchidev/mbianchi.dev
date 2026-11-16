@@ -8,7 +8,6 @@ import cniLogo from '@/assets/integrations/cni.svg'
 import crossplaneLogo from '@/assets/integrations/crossplane.svg'
 import csharpLogo from '@/assets/integrations/csharp.svg'
 import foremanLogo from '@/assets/integrations/foreman.svg'
-import humanitecLogo from '@/assets/integrations/humanitec.svg'
 import karpenterLogo from '@/assets/integrations/karpenter.png'
 import kedaLogo from '@/assets/integrations/keda.svg'
 import kubeVirtLogo from '@/assets/integrations/kubevirt.svg'
@@ -383,7 +382,6 @@ export const integrationGroups: IntegrationGroup[] = [
         title: 'Platform orchestration',
         items: [
           { id: 'crossplane', name: 'Crossplane', logo: assetLogo(crossplaneLogo, '#F3807B') },
-          { id: 'humanitec', name: 'Humanitec', logo: assetLogo(humanitecLogo, '#2C2A6B') },
         ],
       },
       {
