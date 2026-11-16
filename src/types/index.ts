@@ -9,6 +9,7 @@ export interface Company {
   story: string;
   year: string;
   show: boolean;
+  logoLabel?: string;
   achievements: Achievement[];
 }
 

@@ -57,6 +57,31 @@ and crawler directives are not access controls. Noncompliant bots can still
 fetch public pages, and existing search results or third-party copies do not
 disappear immediately.
 
+## Customers and integrations
+
+Add customer history entries to
+[`src/data/customers.json`](../src/data/customers.json) with a unique `code`.
+Map that code in [`src/data/customerLogos.ts`](../src/data/customerLogos.ts) to
+a local 360×160 transparent WebP in `src/assets/customer-logos/`. Entries
+without a mapped logo fall back to their initials.
+
+The homepage integration panel reads
+[`src/data/integrations.ts`](../src/data/integrations.ts). Cloud-native tools
+use the category and subcategory names from the
+[CNCF landscape](https://landscape.cncf.io/). Platform engineering, SRE, and AI
+tools belong in the **Dev Platform**, **SRE**, and **AI** groups, and autoscalers
+belong in **Orchestration & Management › Autoscaling**, even when the landscape
+files them elsewhere. Everything else belongs in **Beyond the
+landscape**. List each technology once. Each tile shows only a name and a mark,
+so do not copy other landscape metadata into the inventory.
+
+Prefer a [Simple Icons](https://simpleicons.org/) mark. When Simple Icons lacks
+the brand, as with Microsoft products such as Azure, add a single-mark SVG to
+`src/assets/integrations/`. Never substitute a parent company's logo for a
+product. Marks render as one-colour masks, so crop wordmarks and other padded
+artwork to their visible bounds. Dark brand colours fall back to white on hover
+automatically.
+
 ## Blog posts
 
 Start from [content/blog/_template.md](../content/blog/_template.md). A Markdown
