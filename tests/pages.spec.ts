@@ -527,17 +527,15 @@ test.describe('Static route experience', () => {
     expect(logoState.every(({ alt, width }) => Boolean(alt?.trim()) && width > 0)).toBe(true);
   });
 
-  test('renders the complete cloud-native integration inventory with local marks', async ({ page }) => {
+  test('renders the CNCF-aligned integration landscape with distinct, readable marks', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const section = page.locator('section#integrations');
-    const panel = section.locator('[data-integration-panel]');
+    const panel = page.locator('section#integrations [data-integration-panel]');
     const groups = panel.locator('[data-integration-group]');
     const integrations = panel.locator('[data-integration]');
     const declaredCount = Number(await panel.getAttribute('data-integration-count'));
 
     await expect(panel).toBeVisible();
-    await expect(groups).toHaveCount(4);
     await expect(integrations).toHaveCount(declaredCount);
     expect(declaredCount).toBeGreaterThanOrEqual(30);
     expect(
@@ -546,47 +544,87 @@ test.describe('Static route experience', () => {
       )
     ).toBe(true);
 
+    const landscapeOrder = await groups.evaluateAll((items) =>
+      items.map((item) => item.getAttribute('data-landscape'))
+    );
+    expect(landscapeOrder.indexOf('false')).toBeGreaterThan(0);
+    expect(landscapeOrder.slice(landscapeOrder.indexOf('false'))).not.toContain('true');
+
     const firstGroup = groups.first();
     await firstGroup.locator('summary').click();
     await expect(firstGroup).toHaveJSProperty('open', false);
     await firstGroup.locator('summary').click();
     await expect(firstGroup).toHaveJSProperty('open', true);
 
-    const integrationState = await integrations.evaluateAll((items) =>
-      items.map((item) => ({
-        name: item.getAttribute('data-integration'),
-        logoCount: item.querySelectorAll('[data-integration-logo]').length,
-      }))
+    const subcategoryLabels = await panel.locator('[data-integration-subcategory] ul').evaluateAll((lists) =>
+      lists.map((list) => document.getElementById(list.getAttribute('aria-labelledby') ?? '')?.textContent?.trim())
     );
+    expect(subcategoryLabels.length).toBeGreaterThan(0);
+    expect(subcategoryLabels.every(Boolean)).toBe(true);
 
-    expect(new Set(integrationState.map(({ name }) => name)).size).toBe(declaredCount);
+    const integrationState = await integrations.evaluateAll((items) => {
+      const panelElement = items[0]!.closest('[data-integration-panel]')!;
+      const luminance = (color: string) => {
+        const [red, green, blue] = color.match(/\d+(\.\d+)?/g)!.slice(0, 3).map((value) => {
+          const channel = Number(value) / 255;
+          return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+        });
+        return 0.2126 * red! + 0.7152 * green! + 0.0722 * blue!;
+      };
+      const resolveColor = (value: string) => {
+        const probe = document.createElement('span');
+        probe.style.color = value;
+        panelElement.append(probe);
+        const resolved = getComputedStyle(probe).color;
+        probe.remove();
+        return resolved;
+      };
+      const background = luminance(getComputedStyle(panelElement).backgroundColor);
+
+      return items.map((item) => {
+        const marks = item.querySelectorAll<HTMLElement | SVGElement>('[data-integration-logo]');
+        const mark = marks[0];
+        const signature = mark instanceof HTMLImageElement
+          ? mark.currentSrc || mark.src
+          : mark instanceof SVGElement
+            ? `${mark.getAttribute('viewBox')} ${mark.querySelector('path')?.getAttribute('d')}`
+            : getComputedStyle(mark!).getPropertyValue('--integration-mask');
+        const hover = luminance(resolveColor(getComputedStyle(item).getPropertyValue('--integration-color').trim()));
+        const name = item.querySelector<HTMLElement>('[data-integration-name]');
+
+        return {
+          id: item.getAttribute('data-integration'),
+          name: name?.textContent?.trim() ?? '',
+          nameVisible: Boolean(name && name.getBoundingClientRect().width > 0),
+          logoCount: marks.length,
+          signature,
+          contrast: (Math.max(hover, background) + 0.05) / (Math.min(hover, background) + 0.05),
+        };
+      });
+    });
+
+    expect(new Set(integrationState.map(({ id }) => id)).size).toBe(declaredCount);
+    expect(new Set(integrationState.map(({ signature }) => signature)).size).toBe(declaredCount);
     expect(
-      integrationState.every(({ name, logoCount }) => Boolean(name?.trim()) && logoCount === 1)
+      integrationState.every(({ name, nameVisible, logoCount }) => Boolean(name) && nameVisible && logoCount === 1)
     ).toBe(true);
+    expect(integrationState.filter(({ contrast }) => contrast < 3)).toEqual([]);
 
-    const awsIntegration = panel.locator('[data-integration="AWS"]');
-    const awsTooltip = awsIntegration.locator('[aria-hidden="true"]').last();
-    await expect(awsIntegration).toHaveAttribute('aria-label', 'AWS');
-    await expect(awsIntegration).toHaveAttribute('title', 'AWS');
-    await expect(awsTooltip).toHaveCSS('opacity', '0');
-    await awsIntegration.hover();
-    await expect(awsTooltip).toHaveCSS('opacity', '1');
+    const groupTops = async () =>
+      groups.evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
+    const panelOverflows = async () =>
+      panel.evaluate((element) => element.scrollWidth > element.clientWidth + 1);
 
-    const desktopLayout = await panel.evaluate((element) => ({
-      columns: getComputedStyle(element.querySelector('ul')!).gridTemplateColumns.split(' ').length,
-      overflows: element.scrollWidth > element.clientWidth + 1,
-    }));
-    expect(desktopLayout).toEqual({ columns: 4, overflows: false });
+    const desktopTops = await groupTops();
+    expect(new Set(desktopTops).size).toBeLessThan(desktopTops.length);
+    expect(await panelOverflows()).toBe(false);
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload({ waitUntil: 'domcontentloaded' });
 
-    const mobilePanel = page.locator('[data-integration-panel]');
-    const mobileLayout = await mobilePanel.evaluate((element) => ({
-      columns: getComputedStyle(element.querySelector('ul')!).gridTemplateColumns.split(' ').length,
-      overflows: element.scrollWidth > element.clientWidth + 1,
-    }));
-    expect(mobileLayout).toEqual({ columns: 1, overflows: false });
+    const mobileTops = await groupTops();
+    expect(new Set(mobileTops).size).toBe(mobileTops.length);
+    expect(await panelOverflows()).toBe(false);
   });
 
   test('renders compliance boundaries without claiming certification', async ({ page }) => {
@@ -1665,8 +1703,8 @@ test.describe('Static route experience', () => {
     const historyImages = historyLogos.locator('img');
     await expect(historyEntries).toHaveCount(7);
     await expect(historyLogos).toHaveCount(7);
-    await expect(historyImages).toHaveCount(6);
-    await expect(page.locator('[data-customer-logo="ING"] img')).toBeVisible();
+    await expect(historyImages).toHaveCount(7);
+    await expect(page.locator(`[data-customer-logo="${visibleCustomers[0]!.code}"] img`)).toBeVisible();
 
     await page.locator('[data-load-more-customers]').click();
     await expect(historyEntries).toHaveCount(14);

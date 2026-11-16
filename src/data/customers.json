@@ -95,6 +95,45 @@
       ]
     },
     {
+      "code": "TGS",
+      "companyName": "Tegus (AlphaSense)",
+      "countryFlag": "🇺🇸",
+      "companyType": "Enterprise",
+      "companySector": "Expert Network",
+      "companyUrl": "https://www.alpha-sense.com/",
+      "role": "Expert Network Consultant",
+      "story": "I take expert calls for investors and research teams on developer tools, AI coding assistants, and cloud-native platforms. They get opinions from someone who actually ships this stuff. Nobody gets confidential information.",
+      "year": "2026-now",
+      "show": true,
+      "achievements": []
+    },
+    {
+      "code": "SMK",
+      "companyName": "Simon-Kucher",
+      "countryFlag": "🇩🇪",
+      "companyType": "Enterprise",
+      "companySector": "Strategy & Pricing Consulting",
+      "companyUrl": "https://www.simon-kucher.com/",
+      "role": "Technology Expert Advisor",
+      "story": "I give Simon-Kucher's consultants a practitioner's view of the developer-tools and cloud market: what engineers adopt, what they ignore, and what they will actually pay for.",
+      "year": "2026-now",
+      "show": true,
+      "achievements": []
+    },
+    {
+      "code": "GLG",
+      "companyName": "GLG (Gerson Lehrman Group)",
+      "countryFlag": "🇺🇸",
+      "companyType": "Enterprise",
+      "companySector": "Expert Network",
+      "companyUrl": "https://glginsights.com/",
+      "role": "Network Member, Technology Expert",
+      "story": "GLG clients call me when they want an engineer's take on DevOps, platform engineering, and AI developer tools before they commit to a decision. The opinions are mine. The client names stay with GLG.",
+      "year": "2026-now",
+      "show": true,
+      "achievements": []
+    },
+    {
       "code": "OMN",
       "companyName": "Omnistrate",
       "countryFlag": "🇺🇸",
