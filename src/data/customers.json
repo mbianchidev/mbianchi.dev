@@ -1,44 +1,17 @@
 {
   "companies": [
     {
-      "code": "GHB",
-      "companyName": "GitHub (Microsoft)",
-      "countryFlag": "🇺🇸",
-      "companyType": "Enterprise",
-      "companySector": "DevTools",
-      "companyUrl": "https://github.com/",
-      "role": "Solutions Engineer Corporate, EMEA",
-      "story": "I help GitHub's corporate customers adopt the platform, ship secure software, and make sense of GitHub Copilot, GitHub Advanced Security, and GitHub Enterprise.",
-      "year": "2024-now",
+      "code": "TBA",
+      "companyName": "To Be Announced",
+      "countryFlag": "🤫",
+      "companyType": "Stealth",
+      "companySector": "Classified",
+      "companyUrl": "",
+      "role": "Classified",
+      "story": "New company, new role, new NDA. I cannot say more yet, and yes, it is killing me. Check back in 2027.",
+      "year": "2027-now",
       "show": true,
-      "achievements": [
-        {
-          "type": "list",
-          "items": [
-            {
-              "text": "FY2026 President's Club"
-            },
-            {
-              "text": "Built an OpenClaw-like assistant"
-            },
-            {
-              "text": "Represented GitHub at 5+ international events"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "code": "MSFT",
-      "companyName": "Microsoft",
-      "countryFlag": "🇺🇸",
-      "companyType": "Enterprise",
-      "companySector": "Technology",
-      "companyUrl": "https://www.microsoft.com/",
-      "role": "GitHub Platform Enablement",
-      "story": "Supported engagements with strategic customers (e.g. the UN) and enabled Microsoft SEs on GitHub as a platform.",
-      "year": "2024-now",
-      "show": true,
+      "logoLabel": "???",
       "achievements": []
     },
     {
@@ -49,7 +22,7 @@
       "companySector": "DevTools",
       "companyUrl": "https://mb-consulting.dev",
       "role": "Founder & Cloud Native Officer",
-      "story": "Through SyncTune, I advise and train teams on Kubernetes, DevOps, platform engineering, and cloud infrastructure. I have also worked as a fractional CTO for early-stage companies in developer tools, AI, healthcare, and fashion.",
+      "story": "Through SyncTune, I advise and train teams on Kubernetes, DevOps, platform engineering, and cloud infrastructure. I have also worked as a fractional CTO for early-stage companies in developer tools, AI, healthcare, and fashion. SyncTune also ships its own work under a few brands: SyncTune Open for open source, SyncTune Music for the music industry, SyncTune Gaming for games worth playing, SyncTune Edu for learning tech, SyncTune Finance for money software, and SyncTune Consulting for customer work. Yes, it is a lot of hats.",
       "year": "2021-now",
       "show": true,
       "achievements": [
@@ -67,28 +40,6 @@
             },
             {
               "text": "Published 10+ blogs"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "code": "MNTCRS",
-      "companyName": "MentorCruise",
-      "countryFlag": "🇺🇸",
-      "companyType": "Startup",
-      "companySector": "Education",
-      "companyUrl": "https://mb-consulting.dev/mentor",
-      "role": "Software Engineering & Career Mentor",
-      "story": "I started mentoring on MentorCruise in 2023. I help engineers with career decisions, technical growth, interviews, and whatever hard problem is currently blocking them.",
-      "year": "2023-now",
-      "show": true,
-      "achievements": [
-        {
-          "type": "list",
-          "items": [
-            {
-              "text": "100% 5-star rating from mentees"
             }
           ]
         }
@@ -130,6 +81,69 @@
       "role": "Network Member, Technology Expert",
       "story": "GLG clients call me when they want an engineer's take on DevOps, platform engineering, and AI developer tools before they commit to a decision. The opinions are mine. The client names stay with GLG.",
       "year": "2026-now",
+      "show": true,
+      "achievements": []
+    },
+    {
+      "code": "MNTCRS",
+      "companyName": "MentorCruise",
+      "countryFlag": "🇺🇸",
+      "companyType": "Startup",
+      "companySector": "Education",
+      "companyUrl": "https://mb-consulting.dev/mentor",
+      "role": "Software Engineering & Career Mentor",
+      "story": "I started mentoring on MentorCruise in 2023. I help engineers with career decisions, technical growth, interviews, and whatever hard problem is currently blocking them.",
+      "year": "2023-now",
+      "show": true,
+      "achievements": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "text": "100% 5-star rating from mentees"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "GHB",
+      "companyName": "GitHub (Microsoft)",
+      "countryFlag": "🇺🇸",
+      "companyType": "Enterprise",
+      "companySector": "DevTools",
+      "companyUrl": "https://github.com/",
+      "role": "Solutions Engineer Corporate, EMEA",
+      "story": "I help GitHub's corporate customers adopt the platform, ship secure software, and make sense of GitHub Copilot, GitHub Advanced Security, and GitHub Enterprise.",
+      "year": "2024-2026",
+      "show": true,
+      "achievements": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "text": "FY2026 President's Club"
+            },
+            {
+              "text": "Built an OpenClaw-like assistant"
+            },
+            {
+              "text": "Represented GitHub at 5+ international events"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "MSFT",
+      "companyName": "Microsoft",
+      "countryFlag": "🇺🇸",
+      "companyType": "Enterprise",
+      "companySector": "Technology",
+      "companyUrl": "https://www.microsoft.com/",
+      "role": "GitHub Platform Enablement",
+      "story": "Supported engagements with strategic customers (e.g. the UN) and enabled Microsoft SEs on GitHub as a platform.",
+      "year": "2024-2026",
       "show": true,
       "achievements": []
     },
@@ -198,7 +212,8 @@
             }
           ]
         }
-      ]
+      ],
+      "logoLabel": "KubeLab"
     },
     {
       "code": "ZEF",

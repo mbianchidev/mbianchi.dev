@@ -13,8 +13,8 @@ interface CustomersTimelineProps {
 const PAGE_SIZE = 7
 
 function getFallbackLabel(company: Company) {
-  if (company.code === 'KLB') {
-    return 'KubeLab'
+  if (company.logoLabel) {
+    return company.logoLabel
   }
 
   return company.companyName

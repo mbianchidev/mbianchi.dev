@@ -1704,13 +1704,13 @@ test.describe('Static route experience', () => {
     const historyImages = historyLogos.locator('img');
     await expect(historyEntries).toHaveCount(7);
     await expect(historyLogos).toHaveCount(7);
-    await expect(historyImages).toHaveCount(7);
-    await expect(page.locator(`[data-customer-logo="${visibleCustomers[0]!.code}"] img`)).toBeVisible();
+    await expect(historyImages).toHaveCount(6);
+    await expect(historyImages.first()).toBeVisible();
 
     await page.locator('[data-load-more-customers]').click();
     await expect(historyEntries).toHaveCount(14);
     await expect(historyLogos).toHaveCount(14);
-    await expect(historyImages).toHaveCount(13);
+    await expect(historyImages).toHaveCount(12);
 
     await expect
       .poll(() => historyImages.evaluateAll((images) =>
