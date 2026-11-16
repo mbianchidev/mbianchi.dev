@@ -7,7 +7,9 @@ import cloudNativePgLogo from '@/assets/integrations/cloudnativepg.svg'
 import cniLogo from '@/assets/integrations/cni.svg'
 import crossplaneLogo from '@/assets/integrations/crossplane.svg'
 import csharpLogo from '@/assets/integrations/csharp.svg'
+import eksLogo from '@/assets/integrations/eks.svg'
 import foremanLogo from '@/assets/integrations/foreman.svg'
+import gkeLogo from '@/assets/integrations/gke.svg'
 import karpenterLogo from '@/assets/integrations/karpenter.png'
 import kedaLogo from '@/assets/integrations/keda.svg'
 import kubeVirtLogo from '@/assets/integrations/kubevirt.svg'
@@ -16,6 +18,7 @@ import oracleLogo from '@/assets/integrations/oracle.svg'
 import portLogo from '@/assets/integrations/port.svg'
 import salesforceLogo from '@/assets/integrations/salesforce.svg'
 import vsphereLogo from '@/assets/integrations/vmware-vsphere.svg'
+import { readableBrandColor } from '@/lib/brandColor'
 import type { StaticImageData } from 'next/image'
 import {
   siAngular,
@@ -118,29 +121,6 @@ export interface IntegrationGroup {
   subcategories: IntegrationSubcategory[]
 }
 
-const panelBackground = '#0A0A0B'
-const fallbackColor = '#FFFFFF'
-const minimumContrast = 3
-
-function relativeLuminance(hex: string) {
-  const channels = hex
-    .replace('#', '')
-    .match(/.{2}/g)!
-    .map((channel) => {
-      const value = parseInt(channel, 16) / 255
-      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
-    })
-
-  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
-}
-
-// Brand colours that disappear on the dark panel fall back to Signal White on hover.
-function readableColor(hex: string) {
-  const lighter = Math.max(relativeLuminance(hex), relativeLuminance(panelBackground))
-  const darker = Math.min(relativeLuminance(hex), relativeLuminance(panelBackground))
-  return (lighter + 0.05) / (darker + 0.05) >= minimumContrast ? hex : fallbackColor
-}
-
 interface SimpleLogoOptions {
   color?: string
   size?: IntegrationMarkSize
@@ -154,7 +134,7 @@ const simpleLogo = (
 ): IntegrationLogo => ({
   kind: 'simple',
   icon,
-  color: readableColor(color),
+  color: readableBrandColor(color),
   size,
   viewBox,
 })
@@ -166,14 +146,14 @@ const assetLogo = (
 ): IntegrationLogo => ({
   kind: 'asset',
   src,
-  color: readableColor(color),
+  color: readableBrandColor(color),
   size,
 })
 
 const imageLogo = (src: StaticImageData, color: string): IntegrationLogo => ({
   kind: 'image',
   src,
-  color: readableColor(color),
+  color: readableBrandColor(color),
 })
 
 // Cloud-native groups follow the CNCF landscape (landscape.cncf.io) categories; functional
@@ -322,6 +302,8 @@ export const integrationGroups: IntegrationGroup[] = [
         title: 'Certified Kubernetes - Hosted',
         items: [
           { id: 'aks', name: 'Azure Kubernetes Service', logo: assetLogo(aksLogo, '#814B99') },
+          { id: 'eks', name: 'Amazon EKS', logo: assetLogo(eksLogo, '#FF9900') },
+          { id: 'gke', name: 'Google Kubernetes Engine', logo: assetLogo(gkeLogo, '#4285F4') },
         ],
       },
     ],
@@ -353,7 +335,7 @@ export const integrationGroups: IntegrationGroup[] = [
           {
             id: 'opentelemetry',
             name: 'OpenTelemetry',
-            logo: simpleLogo(siOpentelemetry),
+            logo: simpleLogo(siOpentelemetry, { color: '#425CC7' }),
           },
           { id: 'grafana', name: 'Grafana', logo: simpleLogo(siGrafana) },
           { id: 'datadog', name: 'Datadog', logo: simpleLogo(siDatadog) },
@@ -403,7 +385,7 @@ export const integrationGroups: IntegrationGroup[] = [
         title: 'Incident response & on-call',
         items: [
           { id: 'pagerduty', name: 'PagerDuty', logo: simpleLogo(siPagerduty) },
-          { id: 'opsgenie', name: 'Opsgenie', logo: simpleLogo(siOpsgenie) },
+          { id: 'opsgenie', name: 'Opsgenie', logo: simpleLogo(siOpsgenie, { color: '#2684FF' }) },
         ],
       },
     ],
@@ -489,7 +471,7 @@ export const integrationGroups: IntegrationGroup[] = [
           { id: 'nodejs', name: 'Node.js', logo: simpleLogo(siNodedotjs) },
           { id: 'react', name: 'React', logo: simpleLogo(siReact) },
           { id: 'nextjs', name: 'Next.js', logo: simpleLogo(siNextdotjs) },
-          { id: 'angular', name: 'Angular', logo: simpleLogo(siAngular) },
+          { id: 'angular', name: 'Angular', logo: simpleLogo(siAngular, { color: '#DD0031' }) },
           { id: 'spring', name: 'Spring', logo: simpleLogo(siSpring) },
           { id: 'quarkus', name: 'Quarkus', logo: simpleLogo(siQuarkus) },
           { id: 'dotnet', name: '.NET', logo: simpleLogo(siDotnet, { size: 'wide', viewBox: '0 7.53 24 8.94' }) },

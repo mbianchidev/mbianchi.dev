@@ -22,7 +22,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.3.2",
-    "next": "^16.4.3",
+    "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "rehype-highlight": "^7.0.2",
@@ -39,7 +39,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.18.0",
-    "eslint-config-next": "^16.4.3",
+    "eslint-config-next": "^16.4.6",
     "fast-glob": "file:scripts/next-lint-glob",
     "sharp": "^0.35.5",
     "typescript": "^5.7.2"

@@ -17,6 +17,7 @@ import {
   getScheduledStatusIncidents,
   STATUS_WINDOW_DAYS,
 } from '../src/lib/status';
+import { contrastRatio, hoverBackground, minimumBrandContrast, readableBrandColor } from '../src/lib/brandColor';
 import { profilePortrait, siteConfig } from '../src/lib/siteConfig';
 import {
   createAbsoluteImageUrl,
@@ -579,7 +580,9 @@ test.describe('Static route experience', () => {
         probe.remove();
         return resolved;
       };
-      const background = luminance(getComputedStyle(panelElement).backgroundColor);
+      const background = luminance(
+        resolveColor(getComputedStyle(document.documentElement).getPropertyValue('--bg-elevated').trim())
+      );
 
       return items.map((item) => {
         const marks = item.querySelectorAll<HTMLElement | SVGElement>('[data-integration-logo]');
@@ -615,10 +618,34 @@ test.describe('Static route experience', () => {
       groups.evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
     const panelOverflows = async () =>
       panel.evaluate((element) => element.scrollWidth > element.clientWidth + 1);
+    const gridAlignment = async () =>
+      panel.evaluate((element) => {
+        const heights = (selector: string) =>
+          new Set([...element.querySelectorAll(selector)].map((node) => Math.round(node.getBoundingClientRect().height))).size;
+        const rows = new Map<number, number[]>();
+        for (const tile of element.querySelectorAll('[data-integration]')) {
+          const box = tile.getBoundingClientRect();
+          const top = Math.round(box.top);
+          rows.set(top, [...(rows.get(top) ?? []), box.width]);
+        }
+
+        return {
+          titleHeights: heights('[data-integration-subcategory] > p'),
+          tileHeights: heights('[data-integration]'),
+          widestRowSpread: Math.max(...[...rows.values()].map((widths) => Math.max(...widths) - Math.min(...widths))),
+        };
+      });
+    const expectAlignedGrid = async () => {
+      const alignment = await gridAlignment();
+      expect(alignment.titleHeights).toBe(1);
+      expect(alignment.tileHeights).toBe(1);
+      expect(alignment.widestRowSpread).toBeLessThanOrEqual(1.5);
+    };
 
     const desktopTops = await groupTops();
     expect(new Set(desktopTops).size).toBeLessThan(desktopTops.length);
     expect(await panelOverflows()).toBe(false);
+    await expectAlignedGrid();
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload({ waitUntil: 'domcontentloaded' });
@@ -626,6 +653,22 @@ test.describe('Static route experience', () => {
     const mobileTops = await groupTops();
     expect(new Set(mobileTops).size).toBe(mobileTops.length);
     expect(await panelOverflows()).toBe(false);
+    await expectAlignedGrid();
+  });
+
+  test('keeps dark integration brand colours recognisable on the hover surface', () => {
+    const darkBrand = readableBrandColor('#632CA6');
+    expect(darkBrand).not.toBe('#FFFFFF');
+    expect(contrastRatio(darkBrand, hoverBackground)).toBeGreaterThanOrEqual(minimumBrandContrast);
+
+    const [hue, saturated] = [darkBrand, '#632CA6'].map((hex) => {
+      const [red, green, blue] = [1, 3, 5].map((offset) => parseInt(hex.slice(offset, offset + 2), 16));
+      return Math.atan2(Math.sqrt(3) * (green! - blue!), 2 * red! - green! - blue!);
+    });
+    expect(Math.abs(hue! - saturated!)).toBeLessThan(0.05);
+
+    expect(readableBrandColor('#181717')).toBe('#FFFFFF');
+    expect(readableBrandColor('#FF9900')).toBe('#FF9900');
   });
 
   test('renders compliance boundaries without claiming certification', async ({ page }) => {

@@ -79,8 +79,19 @@ Prefer a [Simple Icons](https://simpleicons.org/) mark. When Simple Icons lacks
 the brand, as with Microsoft products such as Azure, add a single-mark SVG to
 `src/assets/integrations/`. Never substitute a parent company's logo for a
 product. Marks render as one-colour masks, so crop wordmarks and other padded
-artwork to their visible bounds. Dark brand colours fall back to white on hover
-automatically.
+artwork to their visible bounds.
+
+Each mark shows its brand colour on hover.
+[`src/lib/brandColor.ts`](../src/lib/brandColor.ts) lightens dark brand colours
+without changing their hue until they reach 3:1 contrast on the hovered tile.
+Only black or grey brands become white. When Simple Icons records a brand as
+black but the logo has a real colour, as with OpenTelemetry, pass that colour
+explicitly.
+
+The panel packs groups, in order, into rows of up to eight tiles. Groups in a row
+are sized by tile count, so every tile in a row has the same width. Subcategory
+titles reserve the same height. Narrow screens stack groups on a fixed
+three- or four-column grid.
 
 ## Blog posts
 
