@@ -604,6 +604,7 @@ test.describe('Static route experience', () => {
     });
 
     expect(new Set(integrationState.map(({ id }) => id)).size).toBe(declaredCount);
+    expect(new Set(integrationState.map(({ name }) => name.toLowerCase())).size).toBe(declaredCount);
     expect(new Set(integrationState.map(({ signature }) => signature)).size).toBe(declaredCount);
     expect(
       integrationState.every(({ name, nameVisible, logoCount }) => Boolean(name) && nameVisible && logoCount === 1)

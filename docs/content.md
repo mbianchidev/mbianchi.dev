@@ -68,9 +68,11 @@ without a mapped logo fall back to their initials.
 The homepage integration panel reads
 [`src/data/integrations.ts`](../src/data/integrations.ts). Cloud-native tools
 use the category and subcategory names from the
-[CNCF landscape](https://landscape.cncf.io/); everything else belongs in
-**Beyond the landscape**. Each tile shows only a name and a mark, so do not copy
-other landscape metadata into the inventory.
+[CNCF landscape](https://landscape.cncf.io/). Platform engineering, SRE, and AI
+tools belong in the **Dev Platform**, **SRE**, and **AI** groups, even when the
+landscape files them elsewhere. Everything else belongs in **Beyond the
+landscape**. List each technology once. Each tile shows only a name and a mark,
+so do not copy other landscape metadata into the inventory.
 
 Prefer a [Simple Icons](https://simpleicons.org/) mark. When Simple Icons lacks
 the brand, as with Microsoft products such as Azure, add a single-mark SVG to

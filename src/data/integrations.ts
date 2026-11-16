@@ -5,20 +5,26 @@ import azureDevOpsLogo from '@/assets/integrations/azure-devops.svg'
 import azureLogo from '@/assets/integrations/azure.svg'
 import cloudNativePgLogo from '@/assets/integrations/cloudnativepg.svg'
 import cniLogo from '@/assets/integrations/cni.svg'
+import crossplaneLogo from '@/assets/integrations/crossplane.svg'
 import csharpLogo from '@/assets/integrations/csharp.svg'
 import foremanLogo from '@/assets/integrations/foreman.svg'
+import humanitecLogo from '@/assets/integrations/humanitec.svg'
 import karpenterLogo from '@/assets/integrations/karpenter.png'
 import kedaLogo from '@/assets/integrations/keda.svg'
 import kubeVirtLogo from '@/assets/integrations/kubevirt.svg'
+import openAiLogo from '@/assets/integrations/openai.svg'
 import oracleLogo from '@/assets/integrations/oracle.svg'
+import portLogo from '@/assets/integrations/port.svg'
 import salesforceLogo from '@/assets/integrations/salesforce.svg'
 import vsphereLogo from '@/assets/integrations/vmware-vsphere.svg'
 import type { StaticImageData } from 'next/image'
 import {
   siAngular,
   siAnsible,
+  siAnthropic,
   siApachekafka,
   siArgo,
+  siBackstage,
   siCilium,
   siContainerd,
   siCplusplus,
@@ -47,9 +53,11 @@ import {
   siNewrelic,
   siNextdotjs,
   siNodedotjs,
+  siOpencode,
   siOpenjdk,
   siOpentelemetry,
   siOpentofu,
+  siOpsgenie,
   siPagerduty,
   siPhp,
   siPrometheus,
@@ -169,7 +177,8 @@ const imageLogo = (src: StaticImageData, color: string): IntegrationLogo => ({
   color: readableColor(color),
 })
 
-// Cloud-native groups follow the CNCF landscape (landscape.cncf.io) categories.
+// Cloud-native groups follow the CNCF landscape (landscape.cncf.io) categories; functional
+// groups such as Dev Platform and SRE take precedence for the tools they list.
 export const integrationGroups: IntegrationGroup[] = [
   {
     id: 'provisioning',
@@ -357,6 +366,85 @@ export const integrationGroups: IntegrationGroup[] = [
     ],
   },
   {
+    id: 'dev-platform',
+    title: 'Dev Platform',
+    landscape: false,
+    subcategories: [
+      {
+        id: 'developer-portals',
+        title: 'Developer portals',
+        items: [
+          { id: 'port', name: 'Port', logo: assetLogo(portLogo, '#FFFFFF') },
+          { id: 'backstage', name: 'Backstage', logo: simpleLogo(siBackstage) },
+        ],
+      },
+      {
+        id: 'platform-orchestration',
+        title: 'Platform orchestration',
+        items: [
+          { id: 'crossplane', name: 'Crossplane', logo: assetLogo(crossplaneLogo, '#F3807B') },
+          { id: 'humanitec', name: 'Humanitec', logo: assetLogo(humanitecLogo, '#2C2A6B') },
+        ],
+      },
+      {
+        id: 'code-collaboration',
+        title: 'Code & collaboration',
+        items: [
+          { id: 'github', name: 'GitHub', logo: simpleLogo(siGithub) },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'sre',
+    title: 'SRE',
+    landscape: false,
+    subcategories: [
+      {
+        id: 'incident-response-on-call',
+        title: 'Incident response & on-call',
+        items: [
+          { id: 'pagerduty', name: 'PagerDuty', logo: simpleLogo(siPagerduty) },
+          { id: 'opsgenie', name: 'Opsgenie', logo: simpleLogo(siOpsgenie) },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'ai',
+    title: 'AI',
+    landscape: false,
+    subcategories: [
+      {
+        id: 'coding-agents',
+        title: 'Coding agents',
+        items: [
+          { id: 'github-copilot', name: 'GitHub Copilot', logo: simpleLogo(siGithubcopilot) },
+          { id: 'opencode', name: 'OpenCode', logo: simpleLogo(siOpencode) },
+        ],
+      },
+      {
+        id: 'model-providers',
+        title: 'Model providers',
+        items: [
+          { id: 'openai', name: 'OpenAI', logo: assetLogo(openAiLogo, '#FFFFFF') },
+          { id: 'anthropic', name: 'Anthropic', logo: simpleLogo(siAnthropic) },
+        ],
+      },
+      {
+        id: 'agent-protocols',
+        title: 'Agent protocols',
+        items: [
+          {
+            id: 'model-context-protocol',
+            name: 'Model Context Protocol',
+            logo: simpleLogo(siModelcontextprotocol),
+          },
+        ],
+      },
+    ],
+  },
+  {
     id: 'beyond-the-landscape',
     title: 'Beyond the landscape',
     landscape: false,
@@ -369,20 +457,6 @@ export const integrationGroups: IntegrationGroup[] = [
           { id: 'azure', name: 'Microsoft Azure', logo: assetLogo(azureLogo, '#0089D6') },
           { id: 'google-cloud', name: 'Google Cloud', logo: simpleLogo(siGooglecloud) },
           { id: 'linux', name: 'Linux', logo: simpleLogo(siLinux) },
-        ],
-      },
-      {
-        id: 'developer-platform-ai',
-        title: 'Developer platform, AI & on-call',
-        items: [
-          { id: 'github', name: 'GitHub', logo: simpleLogo(siGithub) },
-          { id: 'github-copilot', name: 'GitHub Copilot', logo: simpleLogo(siGithubcopilot) },
-          {
-            id: 'model-context-protocol',
-            name: 'Model Context Protocol',
-            logo: simpleLogo(siModelcontextprotocol),
-          },
-          { id: 'pagerduty', name: 'PagerDuty', logo: simpleLogo(siPagerduty) },
         ],
       },
       {

@@ -28,15 +28,15 @@ const markSizeClass: Record<IntegrationMarkSize, string | undefined> = {
   wordmark: styles.integrationMarkWordmark,
 }
 
-const compactGroupSize = 4
+const compactGroupSize = 5
 
-// Small landscape categories share a row in pairs; an unpaired one keeps the full width.
+// Small categories share a row in pairs; an unpaired one keeps the full width.
 function getCompactGroupIds(groups: IntegrationGroup[]) {
   const compactIds = new Set<string>()
   let pending: string | undefined
 
   for (const group of groups) {
-    if (!group.landscape || countGroupIntegrations(group) > compactGroupSize) {
+    if (countGroupIntegrations(group) > compactGroupSize) {
       pending = undefined
       continue
     }
@@ -106,8 +106,9 @@ export function Toolchain() {
       <div className={styles.toolchainLead}>
         <h2 id="toolchain-title">Integrations available</h2>
         <p>
-          Sorted the way the CNCF landscape sorts them, because I have stared at that map for
-          years. Everything it does not cover ships at the bottom.
+          Cloud-native tools follow the CNCF landscape, because I have stared at that map for
+          years. Platform, SRE, and AI tools get their own shelves. Everything else ships at the
+          bottom.
         </p>
       </div>
       <div
